@@ -1,14 +1,16 @@
-import { QueryProvider, AppRouterProvider } from './providers';
+import { QueryProvider, AppRouterProvider, AppThemeProvider } from './providers';
 import { GlobalStyle } from './styles';
 
 function App() {
 
   return (
     <>
-      <QueryProvider>
-        <GlobalStyle />
-        <AppRouterProvider />
-      </QueryProvider>
+      <AppThemeProvider>
+        <QueryProvider>
+          <GlobalStyle />
+          <AppRouterProvider />
+        </QueryProvider>
+      </AppThemeProvider>
     </>
   );
 }
