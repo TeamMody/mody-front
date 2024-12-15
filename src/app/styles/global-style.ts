@@ -1,5 +1,5 @@
-import reset from "styled-reset";
-import { createGlobalStyle } from "styled-components";
+import reset from 'styled-reset';
+import { createGlobalStyle } from 'styled-components';
 
 
 export const GlobalStyle = createGlobalStyle`
@@ -36,13 +36,13 @@ export const GlobalStyle = createGlobalStyle`
 
   html, body {
     overflow-x: hidden;
-    
+
   }
 
   ::-webkit-scrollbar {
     display: none;
   }
-  
+
   #root, body, html {
     margin: 0 auto;
     padding: 0;

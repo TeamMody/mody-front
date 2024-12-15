@@ -18,8 +18,9 @@ a {
   color: #00ff99;
   text-decoration: inherit;
 }
+
 a:hover {
-  color:#00ff99;
+  color: #00ff99;
 }
 
 body {
@@ -28,6 +29,7 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  max-width: 440px;
 }
 
 h1 {
@@ -46,9 +48,11 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
 button:hover {
   border-color: #00ff99
 }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;

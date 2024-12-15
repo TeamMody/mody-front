@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const HomePage = () => {
   return (
@@ -7,7 +7,7 @@ export const HomePage = () => {
       <button>안녕</button>
     </Wrapper>
   );
-}
+};
 
 const Wrapper = styled.div`
   display: flex;
