@@ -18,6 +18,7 @@ export const colors: ColorsTypes = {
   gray400: '#999999',
   gray300: '#b3b3b3',
   gray200: '#cccccc',
+  gray150: '#dbdbdb',
   gray100: '#e6e6e6',
   gray50: '#ffffff',
 };
