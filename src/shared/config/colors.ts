@@ -11,6 +11,7 @@ export const colors: ColorsTypes = {
   green200: '#99ffd6',
   green100: '#ccffeb',
   gray900: '#000000',
+  gray850: '#262626',
   gray800: '#333333',
   gray700: '#4d4d4d',
   gray600: '#666666',
