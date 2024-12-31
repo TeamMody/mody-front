@@ -1,10 +1,15 @@
 import styled from 'styled-components';
 import BottomNavigation from '../../../shared/ui/BottomNavigation.tsx';
+import AppBar from '../../../shared/ui/AppBar.tsx';
+import logo from '../../../shared/assets/icon/ic-logo.svg';
+import { HeaderAction } from '../../../shared/types';
 
 export const HomePage = () => {
+  const leftHeaderAction: HeaderAction = { icon: logo, onClick: () => console.log('') };
+
   return (
     <Wrapper>
-      <h1>fdasdsafdfsa</h1>
+      <AppBar leftHeaderAction={leftHeaderAction} />
       <button>안녕</button>
       <BottomNavigation />
     </Wrapper>
