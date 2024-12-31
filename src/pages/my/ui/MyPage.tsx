@@ -1,10 +1,21 @@
 import styled from 'styled-components';
 import BottomNavigation from '../../../shared/ui/BottomNavigation.tsx';
+import AppBar from '../../../shared/ui/AppBar.tsx';
+import { HeaderAction } from '../../../shared/types';
+import logo from '../../../shared/assets/icon/ic-logo.svg';
+import plus from '../../../shared/assets/icon/ic-plus.svg';
+import hamburger from '../../../shared/assets/icon/ic-hamburger.svg';
 
 export const MyPage = () => {
+  const leftHeaderAction: HeaderAction = { icon: logo, onClick: () => console.log('') };
+  const rightHeaderActionArr: HeaderAction[] = [
+    { icon: plus, onClick: () => console.log('') },
+    { icon: hamburger, onClick: () => console.log('') },
+  ];
+
   return (
     <Wrapper>
-      <h1>MyPage</h1>
+      <AppBar leftHeaderAction={leftHeaderAction} rightHeaderActionArr={rightHeaderActionArr} />
       <BottomNavigation />
     </Wrapper>
   );
