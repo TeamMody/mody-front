@@ -29,7 +29,8 @@
       "@home/*": ["pages/home/*"],
       "@my/*": ["pages/my/*"],
       "@onboarding/*": ["pages/onboarding/*"],
-      "@post/*": ["pages/post/*"]
+      "@post/*": ["pages/post/*"],
+      "@icon/*": ["shared/assets/icon/*"]
     }
   },
   "include": ["src"]
