@@ -11,19 +11,19 @@ export const router = createBrowserRouter([
     element: <RootLayout />,
     children: [
       {
-        path: '/home',
+        path: 'home',
         element: <HomePage />,
       },
       {
-        path: '/post',
+        path: 'post',
         element: <PostPage />,
       },
       {
-        path: '/my',
+        path: 'my',
         element: <MyPage />,
       },
       {
-        path: '/onboarding',
+        path: 'onboarding',
         element: <OnboardingPage />,
       },
     ],
