@@ -10,6 +10,7 @@ import { MiddleTabBar } from '../components/MiddleTabBar.tsx';
 import IcHexagon from '../../../shared/assets/icon/ic-hexagon.tsx';
 import IcGrid from '../../../shared/assets/icon/ic-grid.tsx';
 import IcHeart from '../../../shared/assets/icon/ic-heart.tsx';
+import RenderTabContent from '../components/RenderTabContent.tsx';
 
 export const MyPage = () => {
   const leftHeaderAction: HeaderAction = { icon: logo, onClick: () => console.log('') };
@@ -33,7 +34,7 @@ export const MyPage = () => {
       {/* 중앙 탭바 */}
       <MiddleTabBar tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />
       {/* 하단 내용 */}
-      <div style={{ height: '100px' }}>하단 내용</div>
+      <RenderTabContent activeTab={activeTab} />
       <BottomNavigation />
     </Wrapper>
   );
