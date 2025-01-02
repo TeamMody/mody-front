@@ -4,7 +4,7 @@ import { HeaderAction } from '../../../shared/types';
 import logo from '../../../shared/assets/icon/ic-logo.svg';
 import plus from '../../../shared/assets/icon/ic-plus.svg';
 import hamburger from '../../../shared/assets/icon/ic-hamburger.svg';
-
+import { ProfileHeader } from '../components/ProfileHeader.tsx';
 export const MyPage = () => {
   const leftHeaderAction: HeaderAction = { icon: logo, onClick: () => console.log('') };
   const rightHeaderActionArr: HeaderAction[] = [
