@@ -17,7 +17,7 @@ export const MyPage = () => {
     { icon: plus, onClick: () => console.log('') },
     { icon: hamburger, onClick: () => console.log('') },
   ];
-  const [activeTab, setActiveTab] = useState<string>('home');
+  const [activeTab, setActiveTab] = useState<string>('recommend');
 
   const tabs = [
     { id: 'recommend', icon: IcHexagon, label: '추천 결과' },
@@ -29,11 +29,11 @@ export const MyPage = () => {
     <Wrapper>
       <AppBar leftHeaderAction={leftHeaderAction} rightHeaderActionArr={rightHeaderActionArr} />
       {/* 상단 내용 임의 설정 */}
-      <div style={{ height: '300px' }}>프로필</div>
+      <div style={{ height: '200px' }}>프로필</div>
       {/* 중앙 탭바 */}
       <MiddleTabBar tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />
       {/* 하단 내용 */}
-      <div style={{ height: '100%' }}>하단 내용</div>
+      <div style={{ height: '100px' }}>하단 내용</div>
       <BottomNavigation />
     </Wrapper>
   );
