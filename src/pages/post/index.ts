@@ -1,1 +1,1 @@
-export { PostPage } from './ui/PostPage';
+export { PostPage } from '@post/ui/PostPage';
