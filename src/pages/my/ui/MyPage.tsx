@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import BottomNavigation from '../../../shared/ui/BottomNavigation.tsx';
 import AppBar from '../../../shared/ui/AppBar.tsx';
 import { HeaderAction } from '../../../shared/types';
 import logo from '../../../shared/assets/icon/ic-logo.svg';
@@ -14,20 +13,8 @@ export const MyPage = () => {
   ];
 
   return (
-    <Wrapper>
+    <>
       <AppBar leftHeaderAction={leftHeaderAction} rightHeaderActionArr={rightHeaderActionArr} />
-      <BottomNavigation />
-    </Wrapper>
+    </>
   );
 };
-
-
-const Wrapper = styled.div`
-  display: flex;;
-  flex-direction: column;
-  width: 100vw;
-  max-width: 440px;
-  height: 100vh;
-
-  background-color: ${({ theme }) => theme.colors.gray900};
-`;
