@@ -1,15 +1,15 @@
-import styled from 'styled-components';
-import AppBar from '../../../shared/ui/AppBar.tsx';
-import { HeaderAction } from '../../../shared/types';
-import logo from '../../../shared/assets/icon/ic-logo.svg';
-import plus from '../../../shared/assets/icon/ic-plus.svg';
-import hamburger from '../../../shared/assets/icon/ic-hamburger.svg';
+import AppBar from '@shared/ui/AppBar.tsx';
+import { HeaderAction } from '@shared/types';
+import logo from '@shared/assets/icon/ic-logo.svg';
+import plus from '@shared/assets/icon/ic-plus.svg';
+import hamburger from '@shared/assets/icon/ic-hamburger.svg';
 import { useState } from 'react';
-import { MiddleTabBar } from '../components/MiddleTabBar.tsx';
-import IcHexagon from '../../../shared/assets/icon/ic-hexagon.tsx';
-import IcGrid from '../../../shared/assets/icon/ic-grid.tsx';
-import IcHeart from '../../../shared/assets/icon/ic-heart.tsx';
+import IcHexagon from '@shared/assets/icon/ic-hexagon.tsx';
+import IcGrid from '@shared/assets/icon/ic-grid.tsx';
+import IcHeart from '@shared/assets/icon/ic-heart.tsx';
 import RenderTabContent from '../components/RenderTabContent.tsx';
+import BottomNavigation from '@shared/ui/BottomNavigation.tsx';
+import { MiddleTabBar } from '../components/MiddleTabBar.tsx';
 
 export const MyPage = () => {
   const leftHeaderAction: HeaderAction = { icon: logo, onClick: () => console.log('') };

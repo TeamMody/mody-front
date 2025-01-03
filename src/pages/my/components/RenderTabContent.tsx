@@ -1,7 +1,7 @@
 import LikedPosts from './LikedPosts';
 import MyPosts from './MyPosts';
-import RecommendResults from './RecommendResults';
 import styled from 'styled-components';
+import RecommendResults from './RecommendResults';
 
 const RenderTabContent = ({ activeTab }: { activeTab: string }) => {
   return (

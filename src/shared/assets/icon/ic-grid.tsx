@@ -1,5 +1,5 @@
-import { theme } from '../../config';
-import { ActiveProps } from '../../types';
+import { theme } from '@app/styles';
+import { ActiveProps } from '@shared/types';
 
 const IcGrid = ({ $active }: ActiveProps) => {
   const strokeColor = $active ? theme.colors.green500 : 'white';
