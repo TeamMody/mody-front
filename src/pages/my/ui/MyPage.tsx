@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import BottomNavigation from '../../../shared/ui/BottomNavigation.tsx';
 import AppBar from '../../../shared/ui/AppBar.tsx';
 import { HeaderAction } from '../../../shared/types';
 import logo from '../../../shared/assets/icon/ic-logo.svg';
