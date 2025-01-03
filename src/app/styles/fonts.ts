@@ -1,4 +1,4 @@
-import { FontsTypes } from '../types';
+import { FontsTypes } from '@shared/types';
 
 const createFontStyle = (family: string, weight: number, size: number, lineHeight: number) => `
   font-family: "${family}";
@@ -7,7 +7,6 @@ const createFontStyle = (family: string, weight: number, size: number, lineHeigh
   line-height: ${lineHeight}px;
   letter-spacing: 0%;
 `;
-
 
 export const fonts: FontsTypes = {
   heading_bold_24px: createFontStyle('Pretendard', 700, 24, 34),
