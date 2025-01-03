@@ -18,7 +18,7 @@ export function MiddleTabBar({ tabs, activeTab, onTabChange }: TabBarProps) {
           </Tab>
         ))}
       </TabBarWrapper>
-      <SlideIndicator activeTab={activeTab} />
+      <SlideIndicator activeTabIndex={tabs.findIndex((tab) => tab.id === activeTab)} />
     </Wrapper>
   );
 }
@@ -32,13 +32,14 @@ const Wrapper = styled.div`
 
 const TabBarWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
-  padding: 0px 70px;
+  padding: 0 3%;
   height: 55px;
   align-items: center;
   background-color: ${({ theme }) => theme.colors.gray700};
 `;
 
 const Tab = styled.div`
+  flex: 1;
+  text-align: center;
   cursor: pointer;
 `;
