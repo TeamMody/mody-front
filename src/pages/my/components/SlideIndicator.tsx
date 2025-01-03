@@ -1,29 +1,13 @@
 import styled from 'styled-components';
 
-interface SlideIndicatorProps {
-  activeTab: string;
-}
-
-const SlideIndicator = ({ activeTab }: SlideIndicatorProps) => {
-  return <IndicatorWrapper $activeTab={activeTab} />;
+const SlideIndicator = ({ activeTabIndex }: { activeTabIndex: number }) => {
+  return <IndicatorWrapper $activeTabIndex={activeTabIndex} />;
 };
-
-const IndicatorWrapper = styled.div<{ $activeTab: string }>`
+const IndicatorWrapper = styled.div<{ $activeTabIndex: number }>`
   position: absolute;
   bottom: 0;
-  left: ${({ $activeTab }) => {
-    switch ($activeTab) {
-      case 'recommend':
-        return '12.5%';
-      case 'post':
-        return '44%';
-      case 'like':
-        return '75.5%';
-      default:
-        return '0';
-    }
-  }};
-  width: 55px;
+  left: ${({ $activeTabIndex }) => `calc(${$activeTabIndex * 31.5 + 11.5}%)`};
+  width: 14%;
   height: 3px;
   background-color: ${({ theme }) => theme.colors.green500};
   transition: left 0.3s ease-out;
