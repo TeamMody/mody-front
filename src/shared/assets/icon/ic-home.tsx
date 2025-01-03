@@ -1,4 +1,4 @@
-import { theme } from '../../config';
+import { theme } from '@app/styles';
 import { ActiveProps } from '../../types';
 
 const IcHome = ({ $active }: ActiveProps) => {

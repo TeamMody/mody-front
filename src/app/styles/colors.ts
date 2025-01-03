@@ -1,4 +1,4 @@
-import { ColorsTypes } from '../types';
+import { ColorsTypes } from '@shared/types';
 
 export const colors: ColorsTypes = {
   green900: '#00331f',
