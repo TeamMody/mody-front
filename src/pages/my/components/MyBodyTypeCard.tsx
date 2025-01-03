@@ -1,4 +1,4 @@
-import { IcRightArrow } from '../../../shared/assets/icon/ic-right-arrow';
+import { IcRightArrow } from '@shared/assets/icon/ic-right-arrow';
 import styled from 'styled-components';
 export const MyBodyTypeCard = () => {
   return (
@@ -13,11 +13,8 @@ export const MyBodyTypeCard = () => {
 };
 
 const Container = styled.div`
-  width: 349px;
-  height: 68px;
-  margin-top: 16px;
-  margin-right: auto;
-  margin-left: auto;
+  width: calc(100% - 41px);
+  margin: 16px 20px 0px 21px;
   display: flex;
   justify-content: space-between;
   align-items: center;

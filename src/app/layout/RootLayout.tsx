@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router';
-import BottomNavigation from '@shared/ui/BottomNavigation.tsx';
+import BottomNavigation from '@shared/ui/BottomNavigation';
 import styled from 'styled-components';
 
 export default function RootLayout() {
