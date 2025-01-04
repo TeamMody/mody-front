@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import BottomNavigation from '../../../shared/ui/BottomNavigation.tsx';
-import AppBar from '../../../shared/ui/AppBar.tsx';
-import { HeaderAction } from '../../../shared/types';
-import logo from '../../../shared/assets/icon/ic-logo.svg';
-import plus from '../../../shared/assets/icon/ic-plus.svg';
-import hamburger from '../../../shared/assets/icon/ic-hamburger.svg';
+import AppBar from '@shared/ui/AppBar.tsx';
+import { HeaderAction } from '@shared/types';
+import logo from '@shared/assets/icon/ic-logo.svg';
+import plus from '@shared/assets/icon/ic-plus.svg';
+import hamburger from '@shared/assets/icon/ic-hamburger.svg';
+import { MyBodyTypeCard } from '../components/MyBodyTypeCard';
+import BottomNavigation from '@shared/ui/BottomNavigation.tsx';
 import { Modal } from '../components/modal/Modal.tsx';
 export const MyPage = () => {
   const leftHeaderAction: HeaderAction = { icon: logo, onClick: () => console.log('') };
@@ -23,6 +24,7 @@ export const MyPage = () => {
       <Modal isOpened={isModalOpen} onClose={handleClose}>
         <div>하이</div>
       </Modal>
+      <MyBodyTypeCard />
       <BottomNavigation />
     </Wrapper>
   );

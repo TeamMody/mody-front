@@ -1,7 +1,6 @@
 import reset from 'styled-reset';
 import { createGlobalStyle } from 'styled-components';
 
-
 export const GlobalStyle = createGlobalStyle`
   ${reset}
   a {
@@ -10,6 +9,9 @@ export const GlobalStyle = createGlobalStyle`
 
   * {
     box-sizing: border-box;
+    -webkit-tap-highlight-color:rgba(255,255,255,0);
+    -webkit-touch-callout:none;
+    user-select:none;
   }
 
   button {
