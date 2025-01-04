@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router';
-import BottomNavigation from '@shared/ui/BottomNavigation.tsx';
+import BottomNavigation from '@shared/ui/BottomNavigation';
 import styled from 'styled-components';
 
 export default function RootLayout() {
@@ -15,7 +15,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   width: 100vw;
   max-width: 440px;
-  height: 100%;
+  height: 100vh;
   padding-top: env(safe-area-inset-top);
   padding-bottom: env(safe-area-inset-bottom);
   padding-left: env(safe-area-inset-left);
