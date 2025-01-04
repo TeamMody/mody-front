@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 interface UserImg {
-  img: string;
+  img: string | undefined;
   width: string;
   height: string;
 }

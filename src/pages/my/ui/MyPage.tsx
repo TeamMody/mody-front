@@ -15,6 +15,7 @@ export const MyPage = () => {
   return (
     <>
       <AppBar leftHeaderAction={leftHeaderAction} rightHeaderActionArr={rightHeaderActionArr} />
+      <ProfileHeader />
     </>
   );
 };
