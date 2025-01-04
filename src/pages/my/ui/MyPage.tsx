@@ -6,6 +6,7 @@ import plus from '@shared/assets/icon/ic-plus.svg';
 import hamburger from '@shared/assets/icon/ic-hamburger.svg';
 import { MyBodyTypeCard } from '../components/MyBodyTypeCard';
 import BottomNavigation from '@shared/ui/BottomNavigation.tsx';
+import { ProfileHeader } from '../components/ProfileHeader';
 export const MyPage = () => {
   const leftHeaderAction: HeaderAction = { icon: logo, onClick: () => console.log('') };
   const rightHeaderActionArr: HeaderAction[] = [
@@ -16,6 +17,7 @@ export const MyPage = () => {
   return (
     <Wrapper>
       <AppBar leftHeaderAction={leftHeaderAction} rightHeaderActionArr={rightHeaderActionArr} />
+      <ProfileHeader />
       <MyBodyTypeCard />
       <BottomNavigation />
     </Wrapper>
