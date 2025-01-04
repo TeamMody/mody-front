@@ -13,8 +13,8 @@ const BottomNavigation = () => {
   return (
     <Wrapper>
       <Container>
-        <BottomLink to="/home" $active={isActiveState('/home')}>
-          <IcHome $active={isActiveState('/home')} />
+        <BottomLink to="/" $active={isActiveState('/')}>
+          <IcHome $active={isActiveState('/')} />
           홈
         </BottomLink>
         <BottomLink to="/post" $active={isActiveState('/post')}>
@@ -35,6 +35,7 @@ export default BottomNavigation;
 const Wrapper = styled.nav`
   position: fixed;
   bottom: 0;
+  height: 7vh;
   width: 100vw;
   max-width: 440px;
 `;
