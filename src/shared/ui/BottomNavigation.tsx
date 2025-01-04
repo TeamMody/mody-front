@@ -1,9 +1,9 @@
 import { Link, useLocation } from 'react-router';
 import styled from 'styled-components';
-import IcHome from '../assets/icon/ic-home.tsx';
-import IcInbox from '../assets/icon/ic-inbox.tsx';
-import IcUser from '../assets/icon/ic-user.tsx';
-import { ActiveProps } from '../types';
+import IcHome from '@shared/assets/icon/ic-home.tsx';
+import IcInbox from '@shared/assets/icon/ic-inbox.tsx';
+import IcUser from '@shared/assets/icon/ic-user';
+import { ActiveProps } from '@shared/types';
 
 const BottomNavigation = () => {
   const location = useLocation();
@@ -14,16 +14,14 @@ const BottomNavigation = () => {
     <Wrapper>
       <Container>
         <BottomLink to="/home" $active={isActiveState('/home')}>
-          <IcHome $active={isActiveState('/home')} />
-          홈
+          <IcHome $active={isActiveState('/home')} />홈
         </BottomLink>
         <BottomLink to="/post" $active={isActiveState('/post')}>
           <IcInbox $active={isActiveState('/post')} />
           비슷
         </BottomLink>
         <BottomLink to="/my" $active={isActiveState('/my')}>
-          <IcUser $active={isActiveState('/my')} />
-          내 정보
+          <IcUser $active={isActiveState('/my')} />내 정보
         </BottomLink>
       </Container>
     </Wrapper>
@@ -53,11 +51,11 @@ const BottomLink = styled(Link)<ActiveProps>`
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  color: ${({ theme, $active }) => $active ? theme.colors.green500 : 'white'};
+  color: ${({ theme, $active }) => ($active ? theme.colors.green500 : 'white')};
   text-decoration: none;
   font: ${({ theme }) => theme.fonts.caption_medium_14px};
-  
+
   &:hover {
-    color: ${({ theme, $active }) => $active ? theme.colors.green500 : 'white'};
+    color: ${({ theme, $active }) => ($active ? theme.colors.green500 : 'white')};
   }
 `;

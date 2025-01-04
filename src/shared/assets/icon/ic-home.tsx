@@ -1,5 +1,5 @@
 import { theme } from '@app/styles';
-import { ActiveProps } from '../../types';
+import { ActiveProps } from '@shared/types';
 
 const IcHome = ({ $active }: ActiveProps) => {
   return (
