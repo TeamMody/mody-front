@@ -17,13 +17,14 @@ export const MyBodyTypeCard = () => {
         </button>
       </Container>
       {/* 종류 1번 modal */}
-      <ConfirmationModal
+      {/* <ConfirmationModal
         isOpened={modalState}
         content="스타일을 추천 받으러 가볼까요?"
         btnText="스타일 추천 받기"
         img=""
         onClose={() => setModalState(false)}
-      />
+      /> */}
+
       {/* 종류 1번 modal */}
       <RecommendationModal
         isOpened={modalState}
