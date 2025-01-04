@@ -1,5 +1,6 @@
 import { createBrowserRouter } from 'react-router';
-import { RootLayout } from '../layout';
+
+import { RootLayout } from '@app/layout';
 import { HomePage } from '@pages/home';
 import { PostPage } from '@pages/post';
 import { MyPage } from '@pages/my';
@@ -12,6 +13,10 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
+        element: <HomePage />,
+      },
+      {
+        path: 'home',
         element: <HomePage />,
       },
       {
