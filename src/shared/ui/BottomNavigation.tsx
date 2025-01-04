@@ -35,7 +35,7 @@ export default BottomNavigation;
 const Wrapper = styled.nav`
   position: fixed;
   bottom: 0;
-  height: 7vh;
+  height: 9vh;
   width: 100vw;
   max-width: 440px;
 `;
