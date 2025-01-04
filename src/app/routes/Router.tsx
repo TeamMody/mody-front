@@ -1,4 +1,5 @@
 import { createBrowserRouter } from 'react-router';
+
 import { RootLayout } from '@app/layout';
 import { HomePage } from '@pages/home';
 import { PostPage } from '@pages/post';
