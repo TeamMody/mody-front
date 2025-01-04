@@ -1,15 +1,12 @@
 import { useRef, useEffect } from 'react';
-import { IcCancel } from '@shared/assets/icon/ic-cancel';
 import styled from 'styled-components';
 interface ModalProps {
   isOpened: boolean;
   onClose: () => void;
-  img: string | undefined;
-  content: '내 체형을 분석하러 가볼까요?' | '스타일을 추천 받으러 가볼까요?';
-  btnText: '체형 분석하기' | '스타일 추천 받기';
+  content: '이 게시글을 삭제할까요?' | '로그아웃을 진행할까요?' | '회원탈퇴를 진행할까요?';
 }
 
-export const ConfirmationModal = ({ isOpened, img, content, btnText, onClose }: ModalProps) => {
+export const ConfirmationModal = ({ isOpened, content, onClose }: ModalProps) => {
   if (!isOpened) return null;
   const ModalRef = useRef<HTMLDialogElement>(null);
 
@@ -18,11 +15,11 @@ export const ConfirmationModal = ({ isOpened, img, content, btnText, onClose }: 
     if (dialog) {
       if (isOpened) {
         if (!dialog.open) {
-          dialog.showModal(); // 모달 열기
+          dialog.showModal();
         }
       } else {
         if (dialog.open) {
-          dialog.close(); // 모달 닫기
+          dialog.close();
         }
       }
     }
@@ -37,13 +34,10 @@ export const ConfirmationModal = ({ isOpened, img, content, btnText, onClose }: 
   return (
     <Wrapper ref={ModalRef}>
       <Container>
-        <CancelButton onClick={handleClose}>
-          <IcCancel />
-        </CancelButton>
+        <div>{content}</div>
         <div>
-          <img src={img} />
-          <div>{content}</div>
-          <button>{btnText}</button>
+          <button onClick={handleClose}>아니요</button>
+          <button onClick={handleClose}>예</button>
         </div>
       </Container>
     </Wrapper>
@@ -52,50 +46,47 @@ export const ConfirmationModal = ({ isOpened, img, content, btnText, onClose }: 
 
 const Wrapper = styled.dialog`
   all: unset;
-  background-color: rgba(0, 0, 0, 0.5);
   width: 100vw;
   height: 100vh;
   margin: 0px;
   padding: 0px;
 `;
 const Container = styled.div`
-  height: 47.39vh;
-  width: 100vw;
+  height: 28.791vh;
+  width: 87.179vw;
   background-color: ${({ theme }) => theme.colors.gray800};
-  border-radius: 30px 30px 0px 0px;
-  position: fixed;
-  bottom: 0%;
+  border-radius: 20px;
+  position: relative;
+  top: calc(50% - 14vh);
+  margin: auto;
   display: flex;
   flex-direction: column;
-  padding: 3.081vh 5.13vw 4.028vh 5.13vw;
+  padding: 0vh 2.564vw 1.161vh 2.564vw;
 
-  & > div:nth-child(2) {
+  & > div:nth-child(1) {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 3vh;
+    margin-top: 9.123vh;
+    font-size: ${({ theme }) => theme.fonts.heading_bold_18px};
   }
 
-  & > div:nth-child(2) > img:nth-child(1) {
-    width: 16.469vh;
-    height: 35.641vw;
-    border: 2px solid black;
-    border-radius: 50%;
-  }
-  & > div:nth-child(2) > div:nth-child(2) {
-    font-size: ${({ theme }) => theme.fonts.heading_bold_24px};
-    margin-top: 3vh;
-  }
-  & > div:nth-child(2) > button:nth-child(3) {
+  & > div:nth-child(2) {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 9.123vh;
     width: 100%;
-    height: 56px;
-    font-size: ${({ theme }) => theme.fonts.button_medium_16px};
-    background-color: ${({ theme }) => theme.colors.green500};
-    margin-top: 3vh;
   }
-`;
-
-const CancelButton = styled.button`
-  display: flex;
-  justify-content: flex-end;
+  & > div:nth-child(2) > button:nth-child(1) {
+    width: 38.462vw;
+    height: 5.213vh;
+    font-size: ${({ theme }) => theme.fonts.body_medium_16px};
+    background-color: ${({ theme }) => theme.colors.green500};
+  }
+  & > div:nth-child(2) > button:nth-child(2) {
+    width: 38.462vw;
+    height: 5.213vh;
+    font-size: ${({ theme }) => theme.fonts.body_medium_16px};
+    background-color: ${({ theme }) => theme.colors.gray300};
+  }
 `;
