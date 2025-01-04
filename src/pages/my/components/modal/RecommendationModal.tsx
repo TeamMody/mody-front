@@ -18,11 +18,11 @@ export const RecommendationModal = ({ isOpened, img, content, btnText, onClose }
     if (dialog) {
       if (isOpened) {
         if (!dialog.open) {
-          dialog.showModal(); // 모달 열기
+          dialog.showModal();
         }
       } else {
         if (dialog.open) {
-          dialog.close(); // 모달 닫기
+          dialog.close();
         }
       }
     }
