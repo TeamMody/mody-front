@@ -25,6 +25,6 @@ const RenderTabContent = ({ activeTab }: { activeTab: string }) => {
 export default RenderTabContent;
 
 const Wrapper = styled.div`
-  height: 70vh;
   overflow-y: auto;
+  padding-bottom: 100px;
 `;
