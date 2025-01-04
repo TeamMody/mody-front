@@ -4,12 +4,13 @@ interface BannerProps {
   id: number;
   type: string;
   title: string;
+  imageUrl: string;
   isFocused?: boolean;
 }
 
-const Banner = ({ id, type, title, isFocused }: BannerProps) => {
+const Banner = ({ id, type, title, imageUrl, isFocused }: BannerProps) => {
   return (
-    <BannerContainer onClick={() => console.log(id)} style={{ transform: `scale(${isFocused ? 1 : 0.95})` }}>
+    <BannerContainer $imageUrl={imageUrl} onClick={() => console.log(id)} style={{ transform: `scale(${isFocused ? 1 : 0.95})` }}>
       <Type>{type}</Type>
       <Title>{title}</Title>
     </BannerContainer>
@@ -18,7 +19,7 @@ const Banner = ({ id, type, title, isFocused }: BannerProps) => {
 
 export default Banner;
 
-const BannerContainer = styled.div`
+const BannerContainer = styled.div<{ $imageUrl: string }>`
   flex: 0 0 auto;
   display: flex;
   flex-direction: column;
@@ -28,7 +29,7 @@ const BannerContainer = styled.div`
   border: none;
   border-radius: 15px;
   padding: 14px 17px;
-  background-color: #00ff99;
+  background-image: url(${({ $imageUrl }) => $imageUrl});
   background-repeat: no-repeat;
   background-size: cover;
   gap: 8px;
