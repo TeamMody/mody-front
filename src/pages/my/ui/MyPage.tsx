@@ -4,9 +4,9 @@ import { HeaderAction } from '@shared/types';
 import logo from '@shared/assets/icon/ic-logo.svg';
 import plus from '@shared/assets/icon/ic-plus.svg';
 import hamburger from '@shared/assets/icon/ic-hamburger.svg';
-import { MyBodyTypeCard } from '../components/MyBodyTypeCard';
+import { MyBodyTypeCard } from '@pages/my/components/MyBodyTypeCard';
 import BottomNavigation from '@shared/ui/BottomNavigation.tsx';
-import { ProfileHeader } from '../components/ProfileHeader';
+import { ProfileHeader } from '@pages/my/components/ProfileHeader';
 export const MyPage = () => {
   const leftHeaderAction: HeaderAction = { icon: logo, onClick: () => console.log('') };
   const rightHeaderActionArr: HeaderAction[] = [

@@ -1,4 +1,4 @@
-import JungHwiJune from '../mocks/JungHwiJune.png';
+import JungHwiJune from '@pages/my/features/mocks/JungHwiJune.png';
 
 interface UserInfo {
   img?: string | undefined;

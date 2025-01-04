@@ -1,7 +1,6 @@
-import React from 'react';
 import styled from 'styled-components';
-import { UserInfo } from '../features/mocks/userInfo';
-import { UserImg } from './UserImg';
+import { UserInfo } from '@pages/my/features/mocks/userInfo';
+import { UserImg } from '@pages/my/components/UserImg';
 import { IcEmptyProfile } from '@shared/assets/icon/ic-emptyProfileIcon';
 export const ProfileHeader = () => {
   const renderLikes = () => {
