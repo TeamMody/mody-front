@@ -5,25 +5,19 @@ import { HeaderAction } from '@shared/types';
 import logo from '@shared/assets/icon/ic-logo.svg';
 import plus from '@shared/assets/icon/ic-plus.svg';
 import hamburger from '@shared/assets/icon/ic-hamburger.svg';
-import { MyBodyTypeCard } from '../components/MyBodyTypeCard';
-import BottomNavigation from '@shared/ui/BottomNavigation.tsx';
-import { Modal } from '../components/modal/Modal.tsx';
+import { MyBodyTypeCard } from '@pages/my/components/MyBodyTypeCard';
+import BottomNavigation from '@shared/ui/BottomNavigation';
+
 export const MyPage = () => {
   const leftHeaderAction: HeaderAction = { icon: logo, onClick: () => console.log('') };
   const rightHeaderActionArr: HeaderAction[] = [
     { icon: plus, onClick: () => console.log('') },
     { icon: hamburger, onClick: () => console.log('') },
   ];
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const handleOpen = () => setIsModalOpen(true);
-  const handleClose = () => setIsModalOpen(false);
+
   return (
     <Wrapper>
       <AppBar leftHeaderAction={leftHeaderAction} rightHeaderActionArr={rightHeaderActionArr} />
-      <button onClick={handleOpen}>모달 열기</button>
-      <Modal isOpened={isModalOpen} onClose={handleClose}>
-        <div>하이</div>
-      </Modal>
       <MyBodyTypeCard />
       <BottomNavigation />
     </Wrapper>
