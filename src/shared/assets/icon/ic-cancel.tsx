@@ -18,6 +18,3 @@ export const IcCancel = () => {
     </svg>
   );
 };
-
-//{ onClick }: { onClick: () => void }
-// onClick={onClick}

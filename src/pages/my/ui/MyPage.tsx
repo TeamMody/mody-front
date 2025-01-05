@@ -31,8 +31,6 @@ export const MyPage = () => {
     <Wrapper>
       <AppBar leftHeaderAction={leftHeaderAction} rightHeaderActionArr={rightHeaderActionArr} />
       <MyBodyTypeCard />
-      {/* 상단 내용 임의 설정 */}
-      <div style={{ height: '20%' }}>프로필</div>
       {/* 중앙 탭바 */}
       <MiddleTabBar tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />
       {/* 하단 내용 */}
