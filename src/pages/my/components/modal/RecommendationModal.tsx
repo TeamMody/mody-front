@@ -1,3 +1,4 @@
+import React from 'react';
 import { useRef, useEffect } from 'react';
 import { IcCancel } from '@shared/assets/icon/ic-cancel';
 import styled from 'styled-components';
@@ -41,7 +42,7 @@ export const RecommendationModal = ({ isOpened, img, content, btnText, onClose }
           <IcCancel />
         </CancelButton>
         <div>
-          <img src={img} />
+          <img src={img} alt="이미지 없음" />
           <div>{content}</div>
           <button>{btnText}</button>
         </div>
@@ -77,8 +78,8 @@ const Container = styled.div`
   }
 
   & > div:nth-child(2) > img:nth-child(1) {
-    width: 16.469vh;
-    height: 35.641vw;
+    aspect-ratio: 1 / 1;
+    width: 35.641vw;
     border: 2px solid black;
     border-radius: 50%;
   }

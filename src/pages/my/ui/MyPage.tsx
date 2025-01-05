@@ -10,8 +10,8 @@ import IcGrid from '@shared/assets/icon/ic-grid.tsx';
 import IcHeart from '@shared/assets/icon/ic-heart.tsx';
 import RenderTabContent from '@pages/my/components/RenderTabContent.tsx';
 import BottomNavigation from '@shared/ui/BottomNavigation';
-import { MyBodyTypeCard } from '../components/MyBodyTypeCard';
-import { MiddleTabBar } from '../components/MiddleTabBar.tsx';
+import { MyBodyTypeCard } from '@pages/my/components/MyBodyTypeCard';
+import { MiddleTabBar } from '@pages/my/components/MiddleTabBar.tsx';
 
 export const MyPage = () => {
   const leftHeaderAction: HeaderAction = { icon: logo, onClick: () => console.log('') };
