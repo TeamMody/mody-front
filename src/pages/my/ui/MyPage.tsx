@@ -47,7 +47,6 @@ const Wrapper = styled.div`
   flex-direction: column;
   width: 100vw;
   max-width: 440px;
-  height: 100vh;
-
+  height: 91vh; //내비게이션바 높이만큼 빼줌
   background-color: ${({ theme }) => theme.colors.gray900};
 `;
