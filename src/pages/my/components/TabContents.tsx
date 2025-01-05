@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Post from './Post';
 import { useEffect, useRef } from 'react';
+import NoPosts from './NoPosts';
 
 interface TabContentsProps {
   img: string;
@@ -17,12 +18,17 @@ const TabContents = ({ img, divide, activeTab }: TabContentsProps) => {
       tabWrapperRef.current.scrollTop = 0;
     }
   }, [activeTab]);
-  return (
+
+  return img ? (
+    //게시글이 있을 때
     <TabContentsWrapper ref={tabWrapperRef} $divide={divide}>
       {Array.from({ length: 10 }).map((_, i) => (
         <Post key={i} img={img} />
       ))}
     </TabContentsWrapper>
+  ) : (
+    //게시글이 없을 때
+    <NoPosts activeTab={activeTab} />
   );
 };
 
