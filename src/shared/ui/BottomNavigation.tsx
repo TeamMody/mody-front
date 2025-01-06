@@ -13,17 +13,15 @@ const BottomNavigation = () => {
   return (
     <Wrapper>
       <Container>
-        <BottomLink to="/home" $active={isActiveState('/home')}>
-          <IcHome $active={isActiveState('/home')} />
-          홈
+        <BottomLink to="/" $active={isActiveState('/home')}>
+          <IcHome $active={isActiveState('/home')} />홈
         </BottomLink>
         <BottomLink to="/post" $active={isActiveState('/post')}>
           <IcInbox $active={isActiveState('/post')} />
           비슷
         </BottomLink>
         <BottomLink to="/my" $active={isActiveState('/my')}>
-          <IcUser $active={isActiveState('/my')} />
-          내 정보
+          <IcUser $active={isActiveState('/my')} />내 정보
         </BottomLink>
       </Container>
     </Wrapper>
@@ -53,11 +51,11 @@ const BottomLink = styled(Link)<ActiveProps>`
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  color: ${({ theme, $active }) => $active ? theme.colors.green500 : 'white'};
+  color: ${({ theme, $active }) => ($active ? theme.colors.green500 : 'white')};
   text-decoration: none;
   font: ${({ theme }) => theme.fonts.caption_medium_14px};
-  
+
   &:hover {
-    color: ${({ theme, $active }) => $active ? theme.colors.green500 : 'white'};
+    color: ${({ theme, $active }) => ($active ? theme.colors.green500 : 'white')};
   }
 `;
