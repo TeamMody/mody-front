@@ -18,33 +18,41 @@ interface PostPropsType {
 
 const Post = ({ data }: PostPropsType) => {
   const [imgIdx, setImgIdx] = useState<number>(0);
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
   return (
     <PostContainer bgImage={data.images[imgIdx]}>
       <ProgressBar length={data.images.length} curIdx={imgIdx}></ProgressBar>
-      <InfoContainer>
+      <InfoContainer isExpanded={isExpanded} onClick={() => setIsExpanded((prev) => !prev)}>
         <UserInfo>
           <span className="user-name">{data.name}</span>
           <span className="user-type">{data.type}</span>
+          {isExpanded && <IconBox data={data} />}
         </UserInfo>
         <DescriptionContainer>
-          <p className="description">
+          <p className={`description ${isExpanded ? 'expanded' : ''}`}>
             {data.description}
-            <span className="more-btn">더보기</span>
+            <span className="more-btn">{isExpanded ? '접기' : '더보기'}</span>
           </p>
-          <IconContainer>
-            <div className="heart">
-              {/* onClick event 설정 */}
-              {data.isLiked ? <FullHeart /> : <Heart />}
-              <span>{data.likeCount}</span>
-            </div>
-            <div className="more-vertical">
-              {/* onClick event 설정 */}
-              <MoreVertical />
-            </div>
-          </IconContainer>
+          {!isExpanded && <IconBox data={data} />}
         </DescriptionContainer>
       </InfoContainer>
     </PostContainer>
+  );
+};
+
+const IconBox = ({ data }: PostPropsType) => {
+  return (
+    <IconContainer>
+      <div className="heart">
+        {/* onClick event 설정 */}
+        {data.isLiked ? <FullHeart /> : <Heart />}
+        <span>{data.likeCount}</span>
+      </div>
+      <div className="more-vertical">
+        {/* onClick event 설정 */}
+        <MoreVertical />
+      </div>
+    </IconContainer>
   );
 };
 
@@ -61,7 +69,7 @@ const PostContainer = styled.div<{ bgImage: string }>`
   border-radius: 10px;
 `;
 
-const InfoContainer = styled.div`
+const InfoContainer = styled.div<{ isExpanded: boolean }>`
   padding: 0px 15px 24px 15px;
   background-color: transparent;
 
@@ -71,7 +79,7 @@ const InfoContainer = styled.div`
   flex-direction: column;
   gap: 20px;
   width: 100%;
-  height: 20%;
+  height: ${({ isExpanded }) => (isExpanded ? '50%' : '20%')};
 `;
 
 const UserInfo = styled.div`
@@ -103,6 +111,12 @@ const DescriptionContainer = styled.div`
     overflow: hidden;
     text-overflow: ellipsis;
     word-break: break-word;
+    transition: height 1s ease; /* 부드러운 전환 효과 */
+
+    &.expanded {
+      height: auto; /* 확장 시 높이 자동 */
+      -webkit-line-clamp: unset; /* 줄 수 제한 해제 */
+    }
 
     .more-btn {
       position: absolute;
