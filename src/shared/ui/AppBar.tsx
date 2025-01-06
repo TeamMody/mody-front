@@ -50,6 +50,7 @@ const Wrapper = styled.header`
   img {
     flex-shrink: 0;
   }
+
   p {
     position: absolute;
     left: 50%;
@@ -59,5 +60,10 @@ const Wrapper = styled.header`
     font-weight: bold;
     margin: 0;
     text-align: center;
+  }
+
+  div {
+    display: flex;
+    gap: 24px;
   }
 `;
