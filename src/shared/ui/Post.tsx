@@ -45,7 +45,7 @@ const IconBox = ({ data }: PostPropsType) => {
     <IconContainer>
       <div className="heart">
         {/* onClick event 설정 */}
-        {data.isLiked ? <FullHeart /> : <Heart />}
+        {data.isLiked ? <FullHeart onClick={() => console.log('clicked')} /> : <Heart />}
         <span>{data.likeCount}</span>
       </div>
       <div className="more-vertical">
