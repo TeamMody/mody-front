@@ -27,9 +27,9 @@ export const SettingModal = ({ isOpened, onClose }: SettingModalProps) => {
     <AnimatePresence>
       {isOpened && (
         <Container
-          initial={{ x: '100%' }} // 시작 위치
-          animate={{ x: '0%' }} // 상태에 따라 위치 변경
-          exit={{ x: '100%' }} // 종료 위치
+          initial={{ x: '100%' }}
+          animate={{ x: '0%' }}
+          exit={{ x: '100%' }}
           transition={{ duration: 0.5, ease: 'easeOut' }}
         >
           <TopBox>

@@ -22,9 +22,9 @@ export const RecommendationModal = ({ isOpened, img, content, btnText, onClose }
     <AnimatePresence>
       {isOpened && (
         <Wrapper
-          initial={{ y: '100%' }} // 시작 위치
-          animate={{ y: '0%' }} // 상태에 따라 위치 변경
-          exit={{ y: '100%' }} // 종료 위치
+          initial={{ y: '100%' }}
+          animate={{ y: '0%' }}
+          exit={{ y: '100%' }}
           transition={{ duration: 0.5, ease: 'easeOut' }}
         >
           <Container>
