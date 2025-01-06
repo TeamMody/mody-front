@@ -3,6 +3,7 @@ import ProgressBar from '@shared/ui/ProgressBar';
 import { useState } from 'react';
 import Heart from '@shared/assets/icon/ic-heart.svg?react';
 import MoreVertical from '@shared/assets/icon/ic-more-vertical.svg?react';
+import FullHeart from '@shared/assets/icon/ic-full-heart.svg?react';
 
 interface PostPropsType {
   data: {
@@ -32,11 +33,13 @@ const Post = ({ data }: PostPropsType) => {
           </p>
           <IconContainer>
             <div className="heart">
-              <Heart></Heart>
+              {/* onClick event 설정 */}
+              {data.isLiked ? <FullHeart /> : <Heart />}
               <span>{data.likeCount}</span>
             </div>
             <div className="more-vertical">
-              <MoreVertical></MoreVertical>
+              {/* onClick event 설정 */}
+              <MoreVertical />
             </div>
           </IconContainer>
         </DescriptionContainer>
