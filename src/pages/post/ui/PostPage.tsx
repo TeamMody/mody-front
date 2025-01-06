@@ -3,8 +3,8 @@ import AppBar from '@shared/ui/AppBar.tsx';
 import logo from '@shared/assets/icon/ic-logo.svg';
 import plus from '@shared/assets/icon/ic-plus.svg';
 import Post from '@shared/ui/Post.tsx';
-import TempImg1 from '@shared/assets/images/tempImg1.jpg';
-import TempImg2 from '@shared/assets/images/tempImg2.jpg';
+import TempImg1 from '@post/images/tempImg1.jpg';
+import TempImg2 from '@post/images/tempImg2.jpg';
 
 interface PostPropsType {
   images: string[];
@@ -41,7 +41,7 @@ export const PostPage = () => {
 
 const Main = styled.main`
   width: 100%;
-  height: 79%;
+  height: 91vh;
   border: 1px solid green;
   padding: 16px 20px;
 `;
