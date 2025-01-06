@@ -1,14 +1,37 @@
 import { IcRightArrow } from '@shared/assets/icon/ic-right-arrow';
+import { ConfirmationModal } from '@pages/my/components/modal/ConfirmationModal';
+import { RecommendationModal } from '@pages/my/components/modal/RecommendationModal';
 import styled from 'styled-components';
+import { useState } from 'react';
 export const MyBodyTypeCard = () => {
+  const [modalState, setModalState] = useState<boolean>(false);
   return (
-    <Container>
-      <MyBodyType>
-        <span>나의 체형 타입은?</span>
-        <span>나의 체형 진단 받으러 가기</span>
-      </MyBodyType>
-      <IcRightArrow />
-    </Container>
+    <>
+      <Container>
+        <MyBodyType>
+          <span>나의 체형 타입은?</span>
+          <span>나의 체형 진단 받으러 가기</span>
+        </MyBodyType>
+        <button onClick={() => setModalState(true)}>
+          <IcRightArrow />
+        </button>
+      </Container>
+      {/* 종류 1번 modal */}
+      <RecommendationModal
+        isOpened={modalState}
+        content="스타일을 추천 받으러 가볼까요?"
+        btnText="스타일 추천 받기"
+        img=""
+        onClose={() => setModalState(false)}
+      />
+
+      {/* 종류 2번 modal */}
+      {/* <ConfirmationModal
+        isOpened={modalState}
+        content="이 게시글을 삭제할까요?"
+        onClose={() => setModalState(false)}
+      /> */}
+    </>
   );
 };
 
