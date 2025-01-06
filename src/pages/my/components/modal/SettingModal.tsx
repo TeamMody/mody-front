@@ -70,7 +70,7 @@ const Container = styled(motion.div)`
   position: absolute;
   max-width: 440px;
   width: 100vw;
-  height: 92.3%;
+  height: 100vh;
   z-index: 1000;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 `;
@@ -82,7 +82,6 @@ const TopBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid red;
   background: linear-gradient(to bottom, #121212, #262626);
 
   & > button:nth-child(1) {
