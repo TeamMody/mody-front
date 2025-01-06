@@ -5,4 +5,4 @@ export interface ActiveProps {
 export type HeaderAction = {
   icon: string;
   onClick?: () => void;
-}
+};

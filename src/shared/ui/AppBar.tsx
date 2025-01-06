@@ -50,7 +50,6 @@ const Wrapper = styled.header`
   img {
     flex-shrink: 0;
   }
-
   p {
     position: absolute;
     left: 50%;

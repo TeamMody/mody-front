@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import AppBar from '@shared/ui/AppBar.tsx';
 import { HeaderAction } from '@shared/types';
@@ -12,12 +12,29 @@ import RenderTabContent from '@pages/my/components/RenderTabContent.tsx';
 import BottomNavigation from '@shared/ui/BottomNavigation';
 import { MyBodyTypeCard } from '@pages/my/components/MyBodyTypeCard';
 import { MiddleTabBar } from '@pages/my/components/MiddleTabBar.tsx';
-
+import { SettingModal } from '@pages/my/components/modal/SettingModal';
+import { AnimatePresence, motion } from 'framer-motion';
 export const MyPage = () => {
+  const [modalState, setModalState] = useState<boolean>(false);
+  const openModal = () => {
+    console.log('openModal 호출됨');
+    setModalState(true);
+  };
+  const closeModal = () => {
+    console.log('상태업데이트');
+    setModalState(false);
+  };
+  useEffect(() => {
+    console.log('modalState in parent:', modalState);
+  }, [modalState]);
+
   const leftHeaderAction: HeaderAction = { icon: logo, onClick: () => console.log('') };
   const rightHeaderActionArr: HeaderAction[] = [
     { icon: plus, onClick: () => console.log('') },
-    { icon: hamburger, onClick: () => console.log('') },
+    {
+      icon: hamburger,
+      onClick: openModal,
+    },
   ];
   const [activeTab, setActiveTab] = useState<string>('recommend');
 
@@ -30,6 +47,7 @@ export const MyPage = () => {
   return (
     <Wrapper>
       <AppBar leftHeaderAction={leftHeaderAction} rightHeaderActionArr={rightHeaderActionArr} />
+      <SettingModal isOpened={modalState} onClose={closeModal} />
       <MyBodyTypeCard />
       {/* 중앙 탭바 */}
       <MiddleTabBar tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />
@@ -41,11 +59,11 @@ export const MyPage = () => {
 };
 
 const Wrapper = styled.div`
+  position: absolute;
   display: flex;
   flex-direction: column;
   width: 100vw;
   max-width: 440px;
   height: 100vh;
-
   background-color: ${({ theme }) => theme.colors.gray900};
 `;
