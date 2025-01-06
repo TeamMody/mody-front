@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { HeaderAction } from '../types';
+import { HeaderAction } from '@shared/types';
 
 interface AppBarProps {
   title?: string;
@@ -12,11 +12,22 @@ const AppBar = ({ title, leftHeaderAction, rightHeaderActionArr }: AppBarProps) 
 
   return (
     <Wrapper>
-      <img src={icon} onClick={onClick ? onClick : undefined} style={{ background: 'none' }} alt="left-icon" />
+      <img
+        src={icon}
+        onClick={onClick ? onClick : undefined}
+        style={{ background: 'none' }}
+        alt="left-icon"
+      />
       <p>{title}</p>
       <div>
         {rightHeaderActionArr?.map((action, index) => (
-          <img key={index} src={action.icon} onClick={action.onClick} style={{ background: 'none' }} alt="right-icon" />
+          <img
+            key={index}
+            src={action.icon}
+            onClick={action.onClick}
+            style={{ background: 'none' }}
+            alt="right-icon"
+          />
         ))}
       </div>
     </Wrapper>
