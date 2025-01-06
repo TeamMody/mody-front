@@ -31,7 +31,6 @@ export const PostPage = () => {
   return (
     <>
       <AppBar leftHeaderAction={leftHeaderAction} rightHeaderActionArr={rightHeaderActionArr} />
-
       <Main>
         <Post data={mockData} />
       </Main>
@@ -41,7 +40,6 @@ export const PostPage = () => {
 
 const Main = styled.main`
   width: 100%;
-  height: 91vh;
-  border: 1px solid green;
+  height: calc(100vh - 9vh - 64px);
   padding: 16px 20px;
 `;

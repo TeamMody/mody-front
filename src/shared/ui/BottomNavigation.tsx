@@ -1,9 +1,9 @@
 import { Link, useLocation } from 'react-router';
 import styled from 'styled-components';
-import IcHome from '../assets/icon/ic-home.tsx';
-import IcInbox from '../assets/icon/ic-inbox.tsx';
-import IcUser from '../assets/icon/ic-user.tsx';
-import { ActiveProps } from '../types';
+import IcHome from '@shared/assets/icon/ic-home.tsx';
+import IcInbox from '@shared/assets/icon/ic-inbox.tsx';
+import IcUser from '@shared/assets/icon/ic-user';
+import { ActiveProps } from '@shared/types';
 
 const BottomNavigation = () => {
   const location = useLocation();
@@ -13,8 +13,8 @@ const BottomNavigation = () => {
   return (
     <Wrapper>
       <Container>
-        <BottomLink to="/" $active={isActiveState('/home')}>
-          <IcHome $active={isActiveState('/home')} />홈
+        <BottomLink to="/" $active={isActiveState('/')}>
+          <IcHome $active={isActiveState('/')} />홈
         </BottomLink>
         <BottomLink to="/post" $active={isActiveState('/post')}>
           <IcInbox $active={isActiveState('/post')} />
@@ -33,6 +33,7 @@ export default BottomNavigation;
 const Wrapper = styled.nav`
   position: fixed;
   bottom: 0;
+  height: 9vh;
   width: 100vw;
   max-width: 440px;
 `;

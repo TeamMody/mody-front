@@ -59,7 +59,6 @@ const IconBox = ({ data }: PostPropsType) => {
 const PostContainer = styled.div<{ bgImage: string }>`
   width: 100%;
   height: 100%;
-  border: 1px solid white;
   position: relative;
   background-color: ${({ theme }) => theme.colors.gray600};
   background-image: url(${({ bgImage }) => bgImage});
@@ -79,7 +78,7 @@ const InfoContainer = styled.div<{ isExpanded: boolean }>`
   flex-direction: column;
   gap: 20px;
   width: 100%;
-  height: ${({ isExpanded }) => (isExpanded ? '50%' : '20%')};
+  height: ${({ isExpanded }) => (isExpanded ? '40%' : '20%')};
 `;
 
 const UserInfo = styled.div`
@@ -116,6 +115,7 @@ const DescriptionContainer = styled.div`
     &.expanded {
       height: auto; /* 확장 시 높이 자동 */
       -webkit-line-clamp: unset; /* 줄 수 제한 해제 */
+      width: 100%;
     }
 
     .more-btn {
