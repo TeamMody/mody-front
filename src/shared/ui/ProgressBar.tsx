@@ -7,7 +7,6 @@ interface ProgressBarPropsType {
 
 const ProgressBar = ({ length, curIdx }: ProgressBarPropsType) => {
   const circleArr = Array.from({ length });
-  console.log(circleArr);
   return (
     <Container>
       {circleArr.map((_, idx) => (
