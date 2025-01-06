@@ -19,7 +19,6 @@ export const SettingModal = ({ isOpened, onClose }: SettingModalProps) => {
   };
 
   const handleClose = () => {
-    console.log('handleClose 호출됨');
     if (onClose) onClose();
   };
 
