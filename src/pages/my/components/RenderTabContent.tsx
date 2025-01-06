@@ -1,19 +1,19 @@
-import LikedPosts from './LikedPosts';
-import MyPosts from './MyPosts';
 import styled from 'styled-components';
-import RecommendResults from './RecommendResults';
-
+import ImgBannerBodyType from '@shared/assets/img/img-banner-body-type.png';
+import ImgBannerItem from '@shared/assets/img/img-banner-item.png';
+import ImgBannerStyle from '@shared/assets/img/img-banner-style.png';
+import TabContents from './TabContents';
 const RenderTabContent = ({ activeTab }: { activeTab: string }) => {
   return (
     <Wrapper>
       {(() => {
         switch (activeTab) {
           case 'recommend':
-            return <RecommendResults />;
+            return <TabContents img={ImgBannerBodyType} divide={3} activeTab={activeTab} />;
           case 'post':
-            return <MyPosts />;
+            return <TabContents img={ImgBannerItem} divide={2} activeTab={activeTab} />;
           case 'like':
-            return <LikedPosts />;
+            return <TabContents img={ImgBannerStyle} divide={2} activeTab={activeTab} />;
           default:
             return null;
         }
@@ -25,6 +25,7 @@ const RenderTabContent = ({ activeTab }: { activeTab: string }) => {
 export default RenderTabContent;
 
 const Wrapper = styled.div`
+  flex: 1;
+  height: 100%;
   overflow-y: auto;
-  padding-bottom: 100px;
 `;
