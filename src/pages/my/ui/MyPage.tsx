@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import AppBar from '@shared/ui/AppBar.tsx';
 import { HeaderAction } from '@shared/types';
@@ -9,24 +9,17 @@ import IcHexagon from '@shared/assets/icon/ic-hexagon.tsx';
 import IcGrid from '@shared/assets/icon/ic-grid.tsx';
 import IcHeart from '@shared/assets/icon/ic-heart.tsx';
 import RenderTabContent from '@pages/my/components/RenderTabContent.tsx';
-import BottomNavigation from '@shared/ui/BottomNavigation';
 import { MyBodyTypeCard } from '@pages/my/components/MyBodyTypeCard';
 import { MiddleTabBar } from '@pages/my/components/MiddleTabBar.tsx';
 import { SettingModal } from '@pages/my/components/modal/SettingModal';
-import { AnimatePresence, motion } from 'framer-motion';
 export const MyPage = () => {
   const [modalState, setModalState] = useState<boolean>(false);
   const openModal = () => {
-    console.log('openModal 호출됨');
     setModalState(true);
   };
   const closeModal = () => {
-    console.log('상태업데이트');
     setModalState(false);
   };
-  useEffect(() => {
-    console.log('modalState in parent:', modalState);
-  }, [modalState]);
 
   const leftHeaderAction: HeaderAction = { icon: logo, onClick: () => console.log('') };
   const rightHeaderActionArr: HeaderAction[] = [
@@ -53,7 +46,6 @@ export const MyPage = () => {
       <MiddleTabBar tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />
       {/* 하단 내용 */}
       <RenderTabContent activeTab={activeTab} />
-      <BottomNavigation />
     </Wrapper>
   );
 };

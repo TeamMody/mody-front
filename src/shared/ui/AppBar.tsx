@@ -60,9 +60,4 @@ const Wrapper = styled.header`
     margin: 0;
     text-align: center;
   }
-
-  div {
-    display: flex;
-    gap: 24px;
-  }
 `;

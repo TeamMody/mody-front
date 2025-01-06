@@ -1,7 +1,7 @@
 import { IcLeftArrow } from '@shared/assets/icon/ic-left-arrow';
 import CustomDivider from '@shared/ui/CustomDivider';
 import styled from 'styled-components';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { ConfirmationModal } from '@pages/my/components/modal/ConfirmationModal';
 import { AnimatePresence, motion } from 'framer-motion';
 interface SettingModalProps {
@@ -10,10 +10,6 @@ interface SettingModalProps {
 }
 
 export const SettingModal = ({ isOpened, onClose }: SettingModalProps) => {
-  useEffect(() => {
-    console.log('isOpened in SettingModal:', isOpened);
-  }, [isOpened]);
-  // if (!isOpened) return null;
   const [modalState2, setModalState2] = useState<string | null>(null);
   const openModal = (modalName: string) => {
     setModalState2(modalName);
@@ -26,7 +22,6 @@ export const SettingModal = ({ isOpened, onClose }: SettingModalProps) => {
     console.log('handleClose 호출됨');
     if (onClose) onClose();
   };
-  console.log(isOpened);
 
   return (
     <AnimatePresence>
