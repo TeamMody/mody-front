@@ -1,16 +1,23 @@
 import styled from 'styled-components';
+import { useNavigate } from 'react-router';
 
 interface BannerProps {
-  id: number;
   type: string;
   title: string;
   imageUrl: string;
   isFocused?: boolean;
 }
 
-const Banner = ({ id, type, title, imageUrl, isFocused }: BannerProps) => {
+const Banner = ({ type, title, imageUrl, isFocused }: BannerProps) => {
+  const navigate = useNavigate();
+  const path = type === '체형 타입' ? '/body-survey' : '/';
+
   return (
-    <BannerContainer $imageUrl={imageUrl} onClick={() => console.log(id)} style={{ transform: `scale(${isFocused ? 1 : 0.95})` }}>
+    <BannerContainer
+      $imageUrl={imageUrl}
+      onClick={() => navigate(path)}
+      style={{ transform: `scale(${isFocused ? 1 : 0.95})` }}
+    >
       <Type>{type}</Type>
       <Title>{title}</Title>
     </BannerContainer>
