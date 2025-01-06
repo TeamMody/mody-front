@@ -42,7 +42,7 @@ const Wrapper = styled.header`
   position: relative;
   width: 100vw;
   max-width: 440px;
-  height: 64px;
+  min-height: 7.5vh;
   align-items: center;
   padding: 0 20px;
   background: linear-gradient(to bottom, #121212, #262626);
