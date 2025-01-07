@@ -11,6 +11,7 @@ import IcHeart from '@shared/assets/icon/ic-heart.tsx';
 import RenderTabContent from '@pages/my/components/RenderTabContent.tsx';
 import { MyBodyTypeCard } from '@pages/my/components/MyBodyTypeCard';
 import { MiddleTabBar } from '@pages/my/components/MiddleTabBar.tsx';
+import { ProfileHeader } from '@pages/my/components/ProfileHeader';
 import { SettingModal } from '@pages/my/components/modal/SettingModal';
 export const MyPage = () => {
   const [modalState, setModalState] = useState<boolean>(false);
@@ -40,6 +41,7 @@ export const MyPage = () => {
   return (
     <Wrapper>
       <AppBar leftHeaderAction={leftHeaderAction} rightHeaderActionArr={rightHeaderActionArr} />
+      <ProfileHeader />
       <SettingModal isOpened={modalState} onClose={closeModal} />
       <MyBodyTypeCard />
       {/* 중앙 탭바 */}
