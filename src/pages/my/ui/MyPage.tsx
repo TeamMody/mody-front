@@ -9,10 +9,9 @@ import IcHexagon from '@shared/assets/icon/ic-hexagon.tsx';
 import IcGrid from '@shared/assets/icon/ic-grid.tsx';
 import IcHeart from '@shared/assets/icon/ic-heart.tsx';
 import RenderTabContent from '@pages/my/components/RenderTabContent.tsx';
-import BottomNavigation from '@shared/ui/BottomNavigation';
 import { MyBodyTypeCard } from '@pages/my/components/MyBodyTypeCard';
 import { MiddleTabBar } from '@pages/my/components/MiddleTabBar.tsx';
-
+import { ProfileHeader } from '@pages/my/components/ProfileHeader';
 export const MyPage = () => {
   const leftHeaderAction: HeaderAction = { icon: logo, onClick: () => console.log('') };
   const rightHeaderActionArr: HeaderAction[] = [
@@ -30,12 +29,12 @@ export const MyPage = () => {
   return (
     <Wrapper>
       <AppBar leftHeaderAction={leftHeaderAction} rightHeaderActionArr={rightHeaderActionArr} />
+      <ProfileHeader />
       <MyBodyTypeCard />
       {/* 중앙 탭바 */}
       <MiddleTabBar tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />
       {/* 하단 내용 */}
       <RenderTabContent activeTab={activeTab} />
-      <BottomNavigation />
     </Wrapper>
   );
 };
