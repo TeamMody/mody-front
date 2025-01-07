@@ -1,12 +1,20 @@
 import styled from 'styled-components';
+import { useAnswersStore } from '@home/feature/store/useAnswersStore.ts';
 
 interface AnswerProps {
   answer: string;
+  index: number;
 }
 
-const Answer = ({ answer }: AnswerProps) => {
+const Answer = ({ answer, index }: AnswerProps) => {
+  const { setMyAnswer } = useAnswersStore();
+
+  const handleClick = () => {
+    setMyAnswer(index, answer);
+  }
+
   return (
-    <AnswerContainer>
+    <AnswerContainer onClick={handleClick}>
       <AnswerImage />
       <AnswerText>{answer}</AnswerText>
     </AnswerContainer>
