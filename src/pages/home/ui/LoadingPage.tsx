@@ -4,19 +4,32 @@ import IcLoadingStyle from '@shared/assets/icon/ic-loading-style.svg';
 import IcBgLoading from '@shared/assets/icon/ic-bg-loading.svg';
 import { useLocation, useNavigate } from 'react-router';
 import { useEffect } from 'react';
+import { RecommendationType } from '@shared/types';
 
 export const LoadingPage = () => {
+  const { type } = useLocation().state as { type: RecommendationType };
   const navigate = useNavigate();
   const name = '이름';
-  const { type } = useLocation().state;
-  const image = type === '스타일 추천' ? IcLoadingStyle : IcLoading;
-  const text = type === '스타일 추천'
-    ? `모디가 ${name} 님의\n스타일을 추천중이에요!`
-    : `모디가 ${name} 님의\n체형을 분석 중이에요!`;
+  const image = type === RecommendationType.STYLE ? IcLoadingStyle : IcLoading;
+
+  const text = type === RecommendationType.BODY_TYPE
+    ? `모디가 ${name} 님의\n체형을 분석 중이에요!`
+    : `모디가 ${name} 님의\n스타일을 추천중이에요!`;
   const handleNavigate = () => {
     setTimeout(() => {
-      if (type === '스타일 추천') navigate('/recommendation-result');
-      else navigate('/body-type');
+      switch (type) {
+        case RecommendationType.BODY_TYPE:
+          navigate('/body-type', { state: { type: RecommendationType.BODY_TYPE } });
+          break;
+        case RecommendationType.STYLE:
+          navigate('/recommendation-result', { state: { type: RecommendationType.STYLE } });
+          break;
+        case RecommendationType.FASHION:
+          navigate('recommendation-result', { state: { type: RecommendationType.FASHION } });
+          break;
+        default:
+          break;
+      }
     }, 3000);
   };
 
@@ -65,7 +78,7 @@ const Loading = styled.img<{ $type: string }>`
       transform: rotate(-360deg);
     }
   }
-  
+
   @keyframes bounce {
     0%, 20%, 50%, 80%, 100% {
       transform: translateY(0);

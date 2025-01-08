@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router';
+import { RecommendationType } from '@shared/types';
 
 interface BannerProps {
-  type: string;
+  type: RecommendationType;
   title: string;
   imageUrl: string;
   isFocused?: boolean;
@@ -10,12 +11,27 @@ interface BannerProps {
 
 const Banner = ({ type, title, imageUrl, isFocused }: BannerProps) => {
   const navigate = useNavigate();
-  const path = type === '체형 타입' ? '/body-survey' : '/style-survey';
+
+  const handleNavigate = () => {
+    switch (type) {
+      case RecommendationType.BODY_TYPE:
+        navigate('/body-survey', { state: { type: RecommendationType.BODY_TYPE } });
+        break;
+      case RecommendationType.STYLE:
+        navigate('/style-survey', { state: { type: RecommendationType.STYLE } });
+        break;
+      case RecommendationType.FASHION:
+        navigate('/style-survey', { state: { type: RecommendationType.FASHION } });
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
     <BannerContainer
       $imageUrl={imageUrl}
-      onClick={() => navigate(path)}
+      onClick={handleNavigate}
       style={{ transform: `scale(${isFocused ? 1 : 0.95})` }}
     >
       <Type>{type}</Type>
