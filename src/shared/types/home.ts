@@ -17,5 +17,10 @@ export type StyleKeywordType = {
   label: string;
 };
 
-export type ImageKeyword = {
-} & StyleKeywordType;
+export type ImageKeyword = {} & StyleKeywordType;
+
+export enum RecommendationType {
+  BODY_TYPE = '체형 타입',
+  STYLE = '스타일 추천',
+  FASHION = '패션 아이템 추천',
+}
