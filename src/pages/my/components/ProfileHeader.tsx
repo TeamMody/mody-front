@@ -7,13 +7,13 @@ export const ProfileHeader = () => {
     const like = UserInfo?.like;
 
     if (like === undefined) {
-      return <span>0</span>;
+      return <SpanStyle>0</SpanStyle>;
     } else if (like >= 10000) {
-      return <span>{Math.floor(like / 10000)}만</span>;
+      return <SpanStyle>{Math.floor(like / 10000)}만</SpanStyle>;
     } else if (like >= 1000) {
-      return <span>{(like / 10000).toFixed(1)}만</span>;
+      return <SpanStyle>{(like / 10000).toFixed(1)}만</SpanStyle>;
     } else {
-      return <span>{like}</span>;
+      return <SpanStyle>{like}</SpanStyle>;
     }
   };
 
@@ -29,7 +29,7 @@ export const ProfileHeader = () => {
         )}
         <UserInfoContaniner>
           <UserInfoSection>
-            <div>{UserInfo.name}</div>
+            <div className="responsive-div">{UserInfo.name}</div>
             <div>{UserInfo.type || '체형 진단 결과가 없습니다'}</div>
           </UserInfoSection>
           <ActivityStatus>
@@ -75,18 +75,20 @@ const UserInfoContaniner = styled.div`
   margin-top: 23px;
 `;
 const UserInfoSection = styled.div`
+  width: auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   & > div:nth-child(1) {
     font-size: ${({ theme }) => theme.fonts.heading_bold_24px};
+    transiton: font-size 0.2 ease;
   }
   & > div:nth-child(2) {
     font-size: ${({ theme }) => theme.fonts.detail_medium_12px};
   }
 `;
 const ActivityStatus = styled.div`
-  width: 101px;
+  width: auto;
   height: 65px;
   display: flex;
   justify-content: space-between;
@@ -95,7 +97,7 @@ const ActivityStatus = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 50px;
+    width: auto;
   }
 
   & > div:nth-child(1) > span:nth-child(1) {
@@ -112,7 +114,7 @@ const ActivityStatus = styled.div`
     flex-direction: column;
     justify-content: space-between;
     text-align: center;
-    width: 60px;
+    width: auto;
   }
 
   & > div:nth-child(2) > span:nth-child(1) {
@@ -129,4 +131,10 @@ const EmptyProfile = styled.div`
   width: 80px;
   margin-left: 20px;
   margin-top: 16px;
+`;
+
+const SpanStyle = styled.span`
+  width: auto;
+  box-sizing: border-box;
+  white-space: nowrap;
 `;
