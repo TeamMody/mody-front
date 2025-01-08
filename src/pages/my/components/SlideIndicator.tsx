@@ -6,7 +6,7 @@ const SlideIndicator = ({ activeTabIndex }: { activeTabIndex: number }) => {
 const IndicatorWrapper = styled.div<{ $activeTabIndex: number }>`
   position: absolute;
   bottom: 0;
-  left: ${({ $activeTabIndex }) => `calc(${$activeTabIndex * 31.5 + 11.5}%)`};
+  left: ${({ $activeTabIndex }) => `calc(${$activeTabIndex * 33.5 + 9.5}%)`};
   width: 14%;
   height: 3px;
   background-color: ${({ theme }) => theme.colors.green500};
