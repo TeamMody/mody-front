@@ -3,7 +3,7 @@ import ImgBannerStyle from '@shared/assets/img/img-banner-style.png';
 import ImgBannerItem from '@shared/assets/img/img-banner-item.png';
 import ImgSubBannerWeather from '@shared/assets/img/img-sub-banner-weather.png';
 import ImgSubBannerSituation from '@shared/assets/img/img-sub-banner-situation.png';
-import { BodyTypeQuestion } from '@shared/types';
+import { BodyTypeQuestion, ImageKeyword, StyleKeywordType } from '@shared/types';
 
 export const topBanner = [
   {
@@ -146,3 +146,97 @@ export const surveyList: BodyTypeQuestion[] = [
     ],
   },
 ];
+
+export const keywords: StyleKeywordType[] = [
+  {
+    id: 0,
+    label: '캐주얼',
+  },
+  {
+    id: 1,
+    label: '캠퍼스룩',
+  },
+  {
+    id: 2,
+    label: '스트릿',
+  }, {
+    id: 3,
+    label: '클래식',
+  }, {
+    id: 4,
+    label: '비즈니스룩',
+  }, {
+    id: 5,
+    label: '세미포멀',
+  }, {
+    id: 6,
+    label: '오피스룩',
+  }, {
+    id: 7,
+    label: '모던/미니멀',
+  }, {
+    id: 8,
+    label: '빈티지',
+  }, {
+    id: 9,
+    label: '아메카지',
+  }, {
+    id: 10,
+    label: '러블리룩',
+  },
+  {
+    id: 11,
+    label: '테크웨어',
+  },
+  {
+    id: 12,
+    label: 'Y2K',
+  },
+];
+
+export const styleKeywords: ImageKeyword[] =[
+  {
+    id: 0,
+    label: '지적인',
+  },
+  {
+    id: 1,
+    label: '섹시한',
+  },
+  {
+    id: 2,
+    label: '귀여운',
+  },
+  {
+    id: 3,
+    label: '개성있는',
+  },
+  {
+    id: 4,
+    label: '차분한',
+  },
+  {
+    id: 5,
+    label: '활기찬',
+  },
+  {
+    id: 6,
+    label: '힙한',
+  },
+  {
+    id: 7,
+    label: '시크한',
+  },
+  {
+    id: 8,
+    label: '남성적인',
+  },
+  {
+    id: 9,
+    label: '여성스러운',
+  },
+  {
+    id: 10,
+    label: '청순한',
+  },
+]

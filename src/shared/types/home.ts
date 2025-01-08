@@ -11,3 +11,11 @@ export interface BodyTypeAnswer {
   id: number;
   answer: string;
 }
+
+export type StyleKeywordType = {
+  id: number;
+  label: string;
+};
+
+export type ImageKeyword = {
+} & StyleKeywordType;
