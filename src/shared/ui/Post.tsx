@@ -62,7 +62,7 @@ const PostContainer = styled.div<{ bgImage: string }>`
   position: relative;
   background-color: ${({ theme }) => theme.colors.gray600};
   background-image: url(${({ bgImage }) => bgImage});
-  background-size: contain;
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   border-radius: 10px;
