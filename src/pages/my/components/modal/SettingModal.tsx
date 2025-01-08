@@ -4,18 +4,21 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { ConfirmationModal } from '@pages/my/components/modal/ConfirmationModal';
 import { AnimatePresence, motion } from 'framer-motion';
+import { IcEmptyProfile } from '@shared/assets/icon/ic-emptyProfileIcon';
+import { img } from 'framer-motion/client';
 interface SettingModalProps {
   isOpened: boolean | undefined;
   onClose: () => void;
+  profileImg?: string | undefined;
 }
 
-export const SettingModal = ({ isOpened, onClose }: SettingModalProps) => {
-  const [modalState2, setModalState2] = useState<string | null>(null);
+export const SettingModal = ({ isOpened, onClose, profileImg }: SettingModalProps) => {
+  const [modalState, setModalState] = useState<string | null>(null);
   const openModal = (modalName: string) => {
-    setModalState2(modalName);
+    setModalState(modalName);
   };
   const closeModal = () => {
-    setModalState2(null);
+    setModalState(null);
   };
 
   const handleClose = () => {
@@ -39,25 +42,31 @@ export const SettingModal = ({ isOpened, onClose }: SettingModalProps) => {
           </TopBox>
           <BottomBox>
             <div>
-              <img />
+              {profileImg !== undefined ? (
+                <img src={profileImg}></img>
+              ) : (
+                <IcEmptyProfile width="10.256vw" height="4.739vh" />
+              )}
               <div>회원정보 수정</div>
             </div>
             <CustomDivider width="89.487vw" border="0.5px" />
             <LogOut onClick={() => openModal('logout')}>로그아웃</LogOut>
             <WithDraw onClick={() => openModal('withdraw')}>회원 탈퇴</WithDraw>
           </BottomBox>
-          {modalState2 === 'logout' && (
+          {modalState === 'logout' && (
             <ConfirmationModal
               isOpened={true}
               content="로그아웃을 진행할까요?"
               onClose={closeModal}
+              index={1}
             />
           )}
-          {modalState2 === 'withdraw' && (
+          {modalState === 'withdraw' && (
             <ConfirmationModal
               isOpened={true}
               content="회원탈퇴를 진행할까요?"
               onClose={closeModal}
+              index={1}
             />
           )}
         </Container>
