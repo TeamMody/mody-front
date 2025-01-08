@@ -1,7 +1,8 @@
 import React from 'react';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { IcCancel } from '@shared/assets/icon/ic-cancel';
 import styled from 'styled-components';
+import { AnimatePresence, motion } from 'framer-motion';
 interface ModalProps {
   isOpened: boolean;
   onClose: () => void;
@@ -11,24 +12,6 @@ interface ModalProps {
 }
 
 export const RecommendationModal = ({ isOpened, img, content, btnText, onClose }: ModalProps) => {
-  if (!isOpened) return null;
-  const ModalRef = useRef<HTMLDialogElement>(null);
-
-  useEffect(() => {
-    const dialog = ModalRef.current;
-    if (dialog) {
-      if (isOpened) {
-        if (!dialog.open) {
-          dialog.showModal();
-        }
-      } else {
-        if (dialog.open) {
-          dialog.close();
-        }
-      }
-    }
-  }, [isOpened]);
-
   const handleClose = () => {
     if (onClose) {
       onClose();
@@ -36,28 +19,38 @@ export const RecommendationModal = ({ isOpened, img, content, btnText, onClose }
   };
 
   return (
-    <Wrapper ref={ModalRef}>
-      <Container>
-        <CancelButton onClick={handleClose}>
-          <IcCancel />
-        </CancelButton>
-        <div>
-          <img src={img} alt="이미지 없음" />
-          <div>{content}</div>
-          <button>{btnText}</button>
-        </div>
-      </Container>
-    </Wrapper>
+    <AnimatePresence>
+      {isOpened && (
+        <Wrapper
+          initial={{ y: '100%' }}
+          animate={{ y: '0%' }}
+          exit={{ y: '100%' }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
+        >
+          <Container>
+            <CancelButton onClick={handleClose}>
+              <IcCancel />
+            </CancelButton>
+            <div>
+              <img src={img} alt="이미지 없음" />
+              <div>{content}</div>
+              <button>{btnText}</button>
+            </div>
+          </Container>
+        </Wrapper>
+      )}
+    </AnimatePresence>
   );
 };
 
-const Wrapper = styled.dialog`
-  all: unset;
-  background-color: rgba(0, 0, 0, 0.5);
+const Wrapper = styled(motion.div)`
   width: 100vw;
   height: 100vh;
   margin: 0px;
   padding: 0px;
+  position: absolute;
+  z-index: 1000;
+  backdrop-filter: blur(2px);
 `;
 const Container = styled.div`
   height: 47.39vh;

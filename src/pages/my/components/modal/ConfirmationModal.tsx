@@ -1,4 +1,5 @@
 import { useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 interface ModalProps {
   isOpened: boolean;
@@ -9,7 +10,7 @@ interface ModalProps {
 export const ConfirmationModal = ({ isOpened, content, onClose }: ModalProps) => {
   if (!isOpened) return null;
   const ModalRef = useRef<HTMLDialogElement>(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const dialog = ModalRef.current;
     if (dialog) {
@@ -29,6 +30,7 @@ export const ConfirmationModal = ({ isOpened, content, onClose }: ModalProps) =>
     if (onClose) {
       onClose();
     }
+    navigate('/home');
   };
 
   return (

@@ -13,11 +13,23 @@ import { MyBodyTypeCard } from '@pages/my/components/MyBodyTypeCard';
 import { MiddleTabBar } from '@pages/my/components/MiddleTabBar.tsx';
 import { ProfileHeader } from '@pages/my/components/ProfileHeader';
 import BottomSheet from '../components/modal/EditBottomSheetModal';
+import { SettingModal } from '@pages/my/components/modal/SettingModal';
 export const MyPage = () => {
+  const [modalState, setModalState] = useState<boolean>(false);
+  const openModal = () => {
+    setModalState(true);
+  };
+  const closeModal = () => {
+    setModalState(false);
+  };
+
   const leftHeaderAction: HeaderAction = { icon: logo, onClick: () => console.log('') };
   const rightHeaderActionArr: HeaderAction[] = [
     { icon: plus, onClick: () => console.log('') },
-    { icon: hamburger, onClick: () => console.log('') },
+    {
+      icon: hamburger,
+      onClick: openModal,
+    },
   ];
   const [activeTab, setActiveTab] = useState<string>('recommend');
   const tabs = [
@@ -37,6 +49,7 @@ export const MyPage = () => {
     <Wrapper>
       <AppBar leftHeaderAction={leftHeaderAction} rightHeaderActionArr={rightHeaderActionArr} />
       <ProfileHeader />
+      <SettingModal isOpened={modalState} onClose={closeModal} />
       <MyBodyTypeCard />
       <button style={{ backgroundColor: 'white' }} onClick={openSheet}>
         바텀시트 열기
@@ -51,6 +64,7 @@ export const MyPage = () => {
 };
 
 const Wrapper = styled.div`
+  position: absolute;
   display: flex;
   flex-direction: column;
   width: 100vw;
