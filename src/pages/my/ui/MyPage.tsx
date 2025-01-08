@@ -12,6 +12,7 @@ import RenderTabContent from '@pages/my/components/RenderTabContent.tsx';
 import { MyBodyTypeCard } from '@pages/my/components/MyBodyTypeCard';
 import { MiddleTabBar } from '@pages/my/components/MiddleTabBar.tsx';
 import { ProfileHeader } from '@pages/my/components/ProfileHeader';
+import BottomSheet from '../components/modal/EditBottomSheetModal';
 export const MyPage = () => {
   const leftHeaderAction: HeaderAction = { icon: logo, onClick: () => console.log('') };
   const rightHeaderActionArr: HeaderAction[] = [
@@ -19,18 +20,28 @@ export const MyPage = () => {
     { icon: hamburger, onClick: () => console.log('') },
   ];
   const [activeTab, setActiveTab] = useState<string>('recommend');
-
   const tabs = [
     { id: 'recommend', icon: IcHexagon, label: '추천 결과' },
     { id: 'post', icon: IcGrid, label: '게시글' },
     { id: 'like', icon: IcHeart, label: '좋아요' },
   ];
 
+  // isOpen 상태 관리
+  const [isOpen, setIsOpen] = useState(false);
+  // 바텀시트 열기
+  const openSheet = () => setIsOpen(true);
+  // 바텀시트 닫기
+  const closeSheet = () => setIsOpen(false);
+
   return (
     <Wrapper>
       <AppBar leftHeaderAction={leftHeaderAction} rightHeaderActionArr={rightHeaderActionArr} />
       <ProfileHeader />
       <MyBodyTypeCard />
+      <button style={{ backgroundColor: 'white' }} onClick={openSheet}>
+        바텀시트 열기
+      </button>
+      <BottomSheet isOpen={isOpen} onClose={closeSheet} />
       {/* 중앙 탭바 */}
       <MiddleTabBar tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />
       {/* 하단 내용 */}
