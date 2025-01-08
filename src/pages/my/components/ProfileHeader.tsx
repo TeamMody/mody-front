@@ -7,13 +7,13 @@ export const ProfileHeader = () => {
     const like = UserInfo?.like;
 
     if (like === undefined) {
-      return <SpanStyle>0</SpanStyle>;
+      return <span>0</span>;
     } else if (like >= 10000) {
-      return <SpanStyle>{Math.floor(like / 10000)}만</SpanStyle>;
+      return <span>{Math.floor(like / 10000)}만</span>;
     } else if (like >= 1000) {
-      return <SpanStyle>{(like / 10000).toFixed(1)}만</SpanStyle>;
+      return <span>{(like / 10000).toFixed(1)}만</span>;
     } else {
-      return <SpanStyle>{like}</SpanStyle>;
+      return <span>{like}</span>;
     }
   };
 
@@ -131,10 +131,4 @@ const EmptyProfile = styled.div`
   width: 80px;
   margin-left: 20px;
   margin-top: 16px;
-`;
-
-const SpanStyle = styled.span`
-  width: auto;
-  box-sizing: border-box;
-  white-space: nowrap;
 `;

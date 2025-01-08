@@ -12,5 +12,5 @@ export const UserInfo: UserInfo | undefined = {
   name: '정휘준',
   type: '#스트레이트 타입',
   result: 12,
-  like: 230000,
+  like: 2300,
 };
