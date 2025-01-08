@@ -1,27 +1,34 @@
-import { Link, useLocation } from 'react-router';
+import { Link } from 'react-router';
 import styled from 'styled-components';
 import IcHome from '@shared/assets/icon/ic-home.tsx';
 import IcInbox from '@shared/assets/icon/ic-inbox.tsx';
 import IcUser from '@shared/assets/icon/ic-user';
 import { ActiveProps } from '@shared/types';
+import { useState } from 'react';
+
+enum Tab {
+  HOME = 1,
+  POST = 2,
+  MY = 3,
+}
 
 const BottomNavigation = () => {
-  const location = useLocation();
-
-  const isActiveState = (path: string) => location.pathname === path;
+  const [activeTab, setActiveTab] = useState(1);
 
   return (
     <Wrapper>
       <Container>
-        <BottomLink to="/" $active={isActiveState('/')}>
-          <IcHome $active={isActiveState('/')} />홈
+
+        <BottomLink onClick={() => setActiveTab(1)} to="/" $active={activeTab === Tab.HOME}>
+          <IcHome $active={activeTab === Tab.HOME} />
+          홈
         </BottomLink>
-        <BottomLink to="/post" $active={isActiveState('/post')}>
-          <IcInbox $active={isActiveState('/post')} />
+        <BottomLink onClick={() => setActiveTab(2)} to="/post" $active={activeTab === Tab.POST}>
+          <IcInbox $active={activeTab === Tab.POST} />
           비슷
         </BottomLink>
-        <BottomLink to="/my" $active={isActiveState('/my')}>
-          <IcUser $active={isActiveState('/my')} />내 정보
+        <BottomLink onClick={() => setActiveTab(3)} to="/my" $active={activeTab === Tab.MY}>
+          <IcUser $active={activeTab === Tab.MY} />내 정보
         </BottomLink>
       </Container>
     </Wrapper>
