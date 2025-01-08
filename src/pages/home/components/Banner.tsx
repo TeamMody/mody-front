@@ -10,7 +10,7 @@ interface BannerProps {
 
 const Banner = ({ type, title, imageUrl, isFocused }: BannerProps) => {
   const navigate = useNavigate();
-  const path = type === '체형 타입' ? '/body-survey' : '/';
+  const path = type === '체형 타입' ? '/body-survey' : '/style-survey';
 
   return (
     <BannerContainer
