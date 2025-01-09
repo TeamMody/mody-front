@@ -3,28 +3,28 @@ import ImgBannerStyle from '@shared/assets/img/img-banner-style.png';
 import ImgBannerItem from '@shared/assets/img/img-banner-item.png';
 import ImgSubBannerWeather from '@shared/assets/img/img-sub-banner-weather.png';
 import ImgSubBannerSituation from '@shared/assets/img/img-sub-banner-situation.png';
-import { BodyTypeQuestion, ImageKeyword, StyleKeywordType } from '@shared/types';
+import { BodyTypeQuestion, ImageKeyword, RecommendationType, StyleKeywordType } from '@shared/types';
 
 export const topBanner = [
   {
     id: 0,
-    type: '체형 타입',
+    type: RecommendationType.BODY_TYPE,
     title: '나의 체형 타입 분석하기',
     imageUrl: ImgBannerBodyType,
   },
   {
     id: 1,
-    type: '스타일 추천',
+    type: RecommendationType.STYLE,
     title: '취향과 개성에 맞춘 스타일',
     imageUrl: ImgBannerStyle,
   },
   {
     id: 2,
-    type: '패션 추천',
+    type: RecommendationType.FASHION,
     title: '체형과 취향을 반영한 패션',
     imageUrl: ImgBannerItem,
   },
-]
+];
 
 export const subBanner = [
   {
@@ -41,7 +41,7 @@ export const subBanner = [
     id: 2,
     title: '일상에 꼭 맞는 패션 추천',
   },
-]
+];
 
 export const surveyList: BodyTypeQuestion[] = [
   {
@@ -194,7 +194,7 @@ export const keywords: StyleKeywordType[] = [
   },
 ];
 
-export const styleKeywords: ImageKeyword[] =[
+export const styleKeywords: ImageKeyword[] = [
   {
     id: 0,
     label: '지적인',
@@ -239,4 +239,4 @@ export const styleKeywords: ImageKeyword[] =[
     id: 10,
     label: '청순한',
   },
-]
+];
