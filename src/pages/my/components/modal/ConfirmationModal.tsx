@@ -34,7 +34,7 @@ export const ConfirmationModal = ({ isOpened, content, onClose, index }: ModalPr
         navigate('/onboarding');
       } else if (index === 2) {
         onClose();
-        navigate('/my');
+        navigate('/my'); // 삭제하기 모달에서 예를 눌렀을 때 라우팅 설정
       } else {
         onClose();
       }

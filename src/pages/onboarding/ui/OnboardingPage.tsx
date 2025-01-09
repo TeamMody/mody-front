@@ -15,6 +15,5 @@ const Wrapper = styled.div`
   max-width: 440px;
   height: 100vh;
   padding: 16px 20px;
-
   background-color: ${({ theme }) => theme.colors.gray900};
 `;
