@@ -4,7 +4,7 @@ import { StyleKeywordType, ImageKeyword } from '@shared/types'
 import React, { useState } from 'react';
 
 interface SurveyProps {
-  title: '선호허는 패션 스타일' | '싫어하는 패션 스타일' | '보여지고 싶은 이미지';
+  title: '선호하는 패션 스타일' | '싫어하는 패션 스타일' | '보여지고 싶은 이미지';
   keywords: StyleKeywordType[] | ImageKeyword[];
 }
 
