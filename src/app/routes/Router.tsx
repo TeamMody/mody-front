@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router';
 
 import { RootLayout } from '@app/layout';
-import { HomePage, BodySurveyPage } from '@pages/home';
+import { HomePage, BodySurveyPage, LoadingPage, BodyTypePage } from '@pages/home';
 import { PostPage } from '@pages/post';
 import { MyPage } from '@pages/my';
 import { OnboardingPage } from '@pages/onboarding';
@@ -36,5 +36,13 @@ export const router = createBrowserRouter([
   {
     path: 'body-survey',
     element: <BodySurveyPage />
+  },
+  {
+    path: 'loading',
+    element: <LoadingPage />
+  },
+  {
+    path: 'body-type',
+    element: <BodyTypePage />
   }
 ]);

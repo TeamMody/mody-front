@@ -32,7 +32,7 @@ export const BodySurveyPage = () => {
           {myAnswers.filter((myAnswer) => myAnswer !== '').length === surveyList.length
             ? <CustomButton
               label="체형 분석하기"
-              onClick={() => console.log('체형 분석')}
+              onClick={() => navigate('/loading')}
               active={true}
               paddingTop="16px"
               paddingBottom="16px"
