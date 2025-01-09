@@ -21,9 +21,9 @@ export const StyleSurveyPage = () => {
     <Wrapper>
       <AppBar leftHeaderAction={leftHeaderAction} title="스타일 추천" />
       <KeywordsContainer>
-        <StyleSurvey title='선호허는 패션 스타일' keywords={keywords} />
+        <StyleSurvey title='선호하는 패션 스타일' keywords={keywords} />
         <StyleSurvey title='싫어하는 패션 스타일' keywords={keywords} />
-        <StyleSurvey title='싫어하는 패션 스타일' keywords={styleKeywords} />
+        <StyleSurvey title='보여지고 싶은 이미지' keywords={styleKeywords} />
         <CustomButton label='스타일 추천 받기' onClick={handleNavigate} active={true} paddingTop='19px' paddingBottom='19px' />
       </KeywordsContainer>
     </Wrapper>
