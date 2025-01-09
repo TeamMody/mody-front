@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Toggle } from './ToggleButton';
+import { ToggleButton } from '../../../shared/ui/ToggleButton';
 import { useState } from 'react';
 
 interface BottomSheetItemProps {
@@ -9,7 +9,7 @@ interface BottomSheetItemProps {
 
 const BottomSheetItem = ({ content, icon }: BottomSheetItemProps) => {
   // 토글 상태 관리
-  const [isOn, setIsOn] = useState(false);
+  const [isOn, setIsOn] = useState<boolean>(false);
 
   // 버튼 클릭 시 상태 토글
   const toggleState = () => {
@@ -19,7 +19,7 @@ const BottomSheetItem = ({ content, icon }: BottomSheetItemProps) => {
     <SheetContentItem>
       <Content>{content}</Content>
       {content === '나만보기' ? (
-        <Toggle isOn={isOn} onSetToggle={toggleState} />
+        <ToggleButton $isOn={isOn} onSetToggle={toggleState} />
       ) : (
         <img src={icon}></img>
       )}

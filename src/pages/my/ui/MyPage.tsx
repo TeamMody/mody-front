@@ -12,8 +12,8 @@ import RenderTabContent from '@pages/my/components/RenderTabContent.tsx';
 import { MyBodyTypeCard } from '@pages/my/components/MyBodyTypeCard';
 import { MiddleTabBar } from '@pages/my/components/MiddleTabBar.tsx';
 import { ProfileHeader } from '@pages/my/components/ProfileHeader';
-import BottomSheet from '../components/modal/EditBottomSheetModal';
 import { SettingModal } from '@pages/my/components/modal/SettingModal';
+import EditBottomSheet from '../components/modal/EditBottomSheetModal';
 export const MyPage = () => {
   const [modalState, setModalState] = useState<boolean>(false);
   const openModal = () => {
@@ -39,7 +39,7 @@ export const MyPage = () => {
   ];
 
   // isOpen 상태 관리
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   // 바텀시트 열기
   const openSheet = () => setIsOpen(true);
   // 바텀시트 닫기
@@ -51,10 +51,11 @@ export const MyPage = () => {
       <ProfileHeader />
       <SettingModal isOpened={modalState} onClose={closeModal} />
       <MyBodyTypeCard />
+      {/* 바텀시트 */}
       <button style={{ backgroundColor: 'white' }} onClick={openSheet}>
         바텀시트 열기
       </button>
-      <BottomSheet isOpen={isOpen} onClose={closeSheet} />
+      <EditBottomSheet isOpen={isOpen} onClose={closeSheet} />
       {/* 중앙 탭바 */}
       <MiddleTabBar tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />
       {/* 하단 내용 */}
