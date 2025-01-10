@@ -5,10 +5,8 @@ import { useState } from 'react';
 import { ConfirmationModal } from '@pages/my/components/modal/ConfirmationModal';
 import { AnimatePresence, motion } from 'framer-motion';
 import { IcEmptyProfile } from '@shared/assets/icon/ic-emptyProfileIcon';
-import { img } from 'framer-motion/client';
-interface SettingModalProps {
-  isOpened: boolean | undefined;
-  onClose: () => void;
+import { ModalProps } from '@shared/types/my/modalProps';
+interface SettingModalProps extends ModalProps {
   profileImg?: string | undefined;
 }
 
@@ -47,7 +45,7 @@ export const SettingModal = ({ isOpened, onClose, profileImg }: SettingModalProp
               ) : (
                 <IcEmptyProfile width="10.256vw" height="4.739vh" />
               )}
-              <div>회원정보 수정</div>
+              <div onClick={() => openModal('EditUserInfo')}>회원정보 수정</div>
             </div>
             <CustomDivider width="89.487vw" border="0.5px" />
             <LogOut onClick={() => openModal('logout')}>로그아웃</LogOut>
@@ -62,6 +60,14 @@ export const SettingModal = ({ isOpened, onClose, profileImg }: SettingModalProp
             />
           )}
           {modalState === 'withdraw' && (
+            <ConfirmationModal
+              isOpened={true}
+              content="회원탈퇴를 진행할까요?"
+              onClose={closeModal}
+              index={1}
+            />
+          )}
+          {modalState === 'EditUserInfo' && (
             <ConfirmationModal
               isOpened={true}
               content="회원탈퇴를 진행할까요?"
