@@ -23,7 +23,7 @@ const TabContents = ({ img, divide, activeTab }: TabContentsProps) => {
     //게시글이 있을 때
     <TabContentsWrapper ref={tabWrapperRef} $divide={divide}>
       {Array.from({ length: 10 }).map((_, i) => (
-        <Post key={i} img={img} />
+        <Post key={i} img={img} activeTab={activeTab} />
       ))}
     </TabContentsWrapper>
   ) : (
