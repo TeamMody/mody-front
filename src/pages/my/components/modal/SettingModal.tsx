@@ -29,6 +29,7 @@ export const SettingModal = ({ isOpened, onClose, profileImg }: SettingModalProp
     <AnimatePresence>
       {isOpened && (
         <Container
+          key="hi"
           initial={{ x: '100%' }}
           animate={{ x: '0%' }}
           exit={{ x: '100%' }}
@@ -69,17 +70,16 @@ export const SettingModal = ({ isOpened, onClose, profileImg }: SettingModalProp
               index={1}
             />
           )}
-          {/* {modalState === 'editUserInfo' && (
+          {modalState === 'editUserInfo' && (
             <EditUserInfoModal
               isOpened={true}
               onClose={closeModal}
-              profileImg=""
               name="김모디"
               birth="2020"
               gender="남자"
               height="160cm"
             />
-          )} */}
+          )}
         </Container>
       )}
     </AnimatePresence>,
@@ -100,17 +100,17 @@ const TopBox = styled.div`
   width: 100vw;
   height: 7.583vh;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   background: linear-gradient(to bottom, #121212, #262626);
 
   & > button:nth-child(1) {
-    margin-right: 90%;
+    margin-left: 5.641vw;
   }
 
   & > div:nth-child(2) {
     display: flex;
-    justify-content: center;
+    margin-right: 45.128vw;
     font-size: ${({ theme }) => theme.fonts.heading_bold_22px};
   }
 `;
@@ -120,7 +120,7 @@ const BottomBox = styled.div`
   padding: 1.896vh 5.385vw 0 4.872vw;
   max-width: 440px;
   width: 100vw;
-  height: 100%;
+  height: 92.417vh;
   background: ${({ theme }) => theme.colors.gray900};
 
   & > div:nth-child(1) {
