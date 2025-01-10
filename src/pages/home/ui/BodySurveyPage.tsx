@@ -1,14 +1,16 @@
 import styled from 'styled-components';
 import AppBar from '@shared/ui/AppBar.tsx';
 import IcLeftArrow from '@shared/assets/icon/ic-left-arrow.svg';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import Question from '@home/components/Question.tsx';
 import { surveyList } from '@shared/apis/home/mocks.ts';
 import { useAnswersStore } from '@home/feature/store/useAnswersStore.ts';
 import CustomButton from '@shared/ui/CustomButton.tsx';
 import { useEffect } from 'react';
+import { RecommendationType } from '@shared/types';
 
 export const BodySurveyPage = () => {
+  const { type } = useLocation().state as { type: RecommendationType };
   const navigate = useNavigate();
   const leftHeaderAction = { icon: IcLeftArrow, onClick: () => navigate(-1) };
   const { myAnswers } = useAnswersStore();
@@ -32,7 +34,7 @@ export const BodySurveyPage = () => {
           {myAnswers.filter((myAnswer) => myAnswer !== '').length === surveyList.length
             ? <CustomButton
               label="체형 분석하기"
-              onClick={() => navigate('/loading')}
+              onClick={() => navigate('/loading', { state: { type: type } })}
               active={true}
               paddingTop="16px"
               paddingBottom="16px"
