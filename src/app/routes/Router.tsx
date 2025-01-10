@@ -1,6 +1,13 @@
 import { createBrowserRouter } from 'react-router';
 import { RootLayout } from '@app/layout';
-import { HomePage, BodySurveyPage } from '@pages/home';
+import {
+  HomePage,
+  BodySurveyPage,
+  LoadingPage,
+  BodyTypePage,
+  StyleSurveyPage,
+  RecommendationResultPage,
+} from '@pages/home';
 import { PostPage } from '@pages/post';
 import { MyPage } from '@pages/my';
 import { OnboardingPage, InputUser } from '@pages/onboarding';
@@ -43,6 +50,23 @@ export const router = createBrowserRouter([
   },
   {
     path: 'body-survey',
-    element: <BodySurveyPage />,
+
+    element: <BodySurveyPage />
   },
+  {
+    path: 'loading',
+    element: <LoadingPage />
+  },
+  {
+    path: 'body-type',
+    element: <BodyTypePage />
+  },
+  {
+    path: 'style-survey',
+    element: <StyleSurveyPage />
+  },
+  {
+    path: 'recommendation-result',
+    element: <RecommendationResultPage />
+  }
 ]);

@@ -37,7 +37,7 @@ export const MyBodyTypeCard = () => {
 
 const Container = styled.div`
   width: calc(100% - 41px);
-  margin: 16px 20px 0px 21px;
+  margin: 1.896vh 5.128vw 2.844vh 5.385vw;
   display: flex;
   justify-content: space-between;
   align-items: center;

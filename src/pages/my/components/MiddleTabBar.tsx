@@ -32,7 +32,7 @@ const Wrapper = styled.div`
 
 const TabBarWrapper = styled.div`
   display: flex;
-  padding: 0 3%;
+  padding: 0.3%;
   height: 44px;
   align-items: center;
   background-color: ${({ theme }) => theme.colors.gray700};
