@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import Post from './Post';
+import Post from '@pages/my/components/Post';
 import { useEffect, useRef } from 'react';
-import NoPosts from './NoPosts';
+import NoPosts from '@pages/my/components/NoPosts';
 
 interface TabContentsProps {
   img: string;

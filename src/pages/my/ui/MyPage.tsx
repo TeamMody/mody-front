@@ -13,7 +13,7 @@ import { MyBodyTypeCard } from '@pages/my/components/MyBodyTypeCard';
 import { MiddleTabBar } from '@pages/my/components/MiddleTabBar.tsx';
 import { ProfileHeader } from '@pages/my/components/ProfileHeader';
 import { SettingModal } from '@pages/my/components/modal/SettingModal';
-import EditBottomSheet from '../components/modal/EditBottomSheetModal';
+import EditBottomSheet from '@pages/my/components/modal/EditBottomSheetModal';
 export const MyPage = () => {
   const [modalState, setModalState] = useState<boolean>(false);
   const openModal = () => {
