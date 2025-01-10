@@ -6,6 +6,8 @@ import { ConfirmationModal } from '@pages/my/components/modal/ConfirmationModal'
 import { AnimatePresence, motion } from 'framer-motion';
 import { IcEmptyProfile } from '@shared/assets/icon/ic-emptyProfileIcon';
 import { ModalProps } from '@shared/types/my/modalProps';
+import { EditUserInfoModal } from '@pages/my/components/modal/EditUserInfoModal';
+import ReactDOM from 'react-dom';
 interface SettingModalProps extends ModalProps {
   profileImg?: string | undefined;
 }
@@ -23,7 +25,7 @@ export const SettingModal = ({ isOpened, onClose, profileImg }: SettingModalProp
     if (onClose) onClose();
   };
 
-  return (
+  return ReactDOM.createPortal(
     <AnimatePresence>
       {isOpened && (
         <Container
@@ -45,7 +47,7 @@ export const SettingModal = ({ isOpened, onClose, profileImg }: SettingModalProp
               ) : (
                 <IcEmptyProfile width="10.256vw" height="4.739vh" />
               )}
-              <div onClick={() => openModal('EditUserInfo')}>회원정보 수정</div>
+              <div onClick={() => openModal('editUserInfo')}>회원정보 수정</div>
             </div>
             <CustomDivider width="89.487vw" border="0.5px" />
             <LogOut onClick={() => openModal('logout')}>로그아웃</LogOut>
@@ -67,17 +69,21 @@ export const SettingModal = ({ isOpened, onClose, profileImg }: SettingModalProp
               index={1}
             />
           )}
-          {modalState === 'EditUserInfo' && (
-            <ConfirmationModal
+          {/* {modalState === 'editUserInfo' && (
+            <EditUserInfoModal
               isOpened={true}
-              content="회원탈퇴를 진행할까요?"
               onClose={closeModal}
-              index={1}
+              profileImg=""
+              name="김모디"
+              birth="2020"
+              gender="남자"
+              height="160cm"
             />
-          )}
+          )} */}
         </Container>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body,
   );
 };
 const Container = styled(motion.div)`
@@ -103,8 +109,8 @@ const TopBox = styled.div`
   }
 
   & > div:nth-child(2) {
-    position: fixed;
     display: flex;
+    justify-content: center;
     font-size: ${({ theme }) => theme.fonts.heading_bold_22px};
   }
 `;
