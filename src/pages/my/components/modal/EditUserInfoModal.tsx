@@ -9,22 +9,19 @@ import Human from '@onboarding/icons/ic-human.svg?react';
 import Edit from '@onboarding/icons/ic-edit.svg?react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UserInfoSchema } from '@my/features/schema/userInfoSchema';
-import { log } from 'console';
 interface EditUserInfoModalProps extends ModalProps {
-  profileImg?: string | undefined;
-  name: string;
-  birth: string;
-  gender: string;
-  height: string;
-}
-
-interface UserInfoProps {
   profileImg?: string | undefined;
   name: string;
   birth: string;
   gender: '남자' | '여자';
   height: string;
 }
+
+type UserInfoProps = Pick<
+  EditUserInfoModalProps,
+  'profileImg' | 'name' | 'birth' | 'gender' | 'height'
+>;
+
 export const EditUserInfoModal = ({
   isOpened,
   onClose,
@@ -42,30 +39,35 @@ export const EditUserInfoModal = ({
     resolver: zodResolver(UserInfoSchema),
     mode: 'onChange',
   });
+
   const [isVisible, setIsVisible] = useState(isOpened);
   const [img, setImg] = useState<string | undefined>(profileImg);
+
   const ModalClose = () => {
     setIsVisible(false);
     setTimeout(() => {
       if (onClose) onClose();
     }, 400);
   };
-  const onSubmit = (data: any) => {
+
+  const onSubmit = (data: UserInfoProps) => {
     console.log(data);
     ModalClose();
   };
+
   const onError = () => {
     console.log(errors);
   };
+
   const handelFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
-    const uploadFile = files?.[0];
-    if (uploadFile) {
+    if (files) {
+      const uploadFile = files?.[0];
       const previewUrl = window.URL.createObjectURL(uploadFile);
       setImg(previewUrl);
-      console.log(previewUrl);
     }
   };
+
   return ReactDOM.createPortal(
     <AnimatePresence>
       {isVisible && (
@@ -89,9 +91,9 @@ export const EditUserInfoModal = ({
                   type="file"
                   id="image-upload"
                   accept="image/*"
-                  {...register('profileImg')}
+                  onChange={handelFileUpload}
                 />
-                {profileImg !== undefined ? (
+                {img !== undefined ? (
                   <>
                     <ProfilImg src={img} alt="이미지가 없습니다." />
                     <EditLabel htmlFor="image-upload">
