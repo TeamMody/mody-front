@@ -5,23 +5,52 @@ import Logo from '@shared/assets/icon/ic-inputuser-logo.svg?react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
 import InputUserMain from '@onboarding/ui/InputUserMain';
+import { UserInfoSchema, UserInfoSchemaType } from '@onboarding/schema';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 export const InputUser = () => {
   const [curIdx, setCurIdx] = useState<number>(0);
   const navigate = useNavigate();
 
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    setValue,
+    watch,
+    formState: { errors, isValid },
+  } = useForm<UserInfoSchemaType>({
+    resolver: zodResolver(UserInfoSchema),
+    mode: 'onChange',
+  });
+  console.log(watch());
   const handleButtonClick = () => {
     if (curIdx < 3) setCurIdx((prev) => ++prev);
     else {
       navigate('/body-survey');
     }
   };
+
+  const handleIsValid = (curIdx: number) => {
+    if (curIdx === 0) {
+      return !!errors.nickname;
+    } else if (curIdx === 1) {
+      return !!errors.birthday;
+    }
+  };
+  // 값이 바뀔 때마다 전체 값이 렌더링되는 현상 발생
   return (
     <Wrapper>
       <ProgressBar length={4} curIdx={curIdx} />
       <CustomLogo />
-      <InputUserMain curIdx={curIdx} />
-      <Button type="button" onClick={handleButtonClick}>
+      <InputUserMain
+        curIdx={curIdx}
+        register={register}
+        watch={watch}
+        setValue={setValue}
+        getValues={getValues}
+      />
+      <Button type="button" onClick={handleButtonClick} disabled={handleIsValid(curIdx)}>
         {curIdx !== 3 ? '다음' : '체형 분석하기'}
       </Button>
     </Wrapper>

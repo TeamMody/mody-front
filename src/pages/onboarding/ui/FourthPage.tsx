@@ -1,11 +1,13 @@
 import styled from 'styled-components';
-const FourthPage = () => {
+const FourthPage = ({ getValues }) => {
+  const previewImage = getValues('previewImage');
+
   return (
     <>
       <Text>
         모디가 당신에게 <br /> 맞는 모드를 찾기 위해 <br /> 정보가 필요해요!
       </Text>
-      <Image src="" alt="" />
+      <Image src={previewImage} alt="" />
       {/* link */}
       <LinkSpan>분석 없이 써볼래요</LinkSpan>
     </>

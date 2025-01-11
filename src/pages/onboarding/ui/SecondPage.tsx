@@ -1,5 +1,14 @@
 import styled from 'styled-components';
-const SecondPage = () => {
+import { RegisterType } from '@onboarding/types';
+import { useState } from 'react';
+
+const SecondPage = ({ register, setValue }: { register: RegisterType }) => {
+  const [selectedSex, setSelectedSex] = useState<string | null>(null);
+
+  const handleSexClick = (sex: string) => {
+    setSelectedSex(sex); // 상태 업데이트
+    setValue('sex', sex); // react-hook-form에 값 설정
+  };
   return (
     <>
       <Text>모디는 당신의 정보가 필요해요!</Text>
@@ -7,20 +16,38 @@ const SecondPage = () => {
         <InputBox>
           <span className="title">생년월일 8자리</span>
           <div className="input-box">
-            <input type="text" placeholder="1996년 4월 11일" />
+            <input
+              type="text"
+              placeholder="1996년 4월 11일"
+              {...(register('birthday'), { required: true })}
+            />
           </div>
         </InputBox>
         <InputBox>
           <span className="title">성별</span>
           <div className="input-box">
-            <button>남성</button>
-            <button>여성</button>
+            <button
+              type="button"
+              onClick={() => handleSexClick('male')}
+              className={selectedSex === 'male' ? 'selected' : ''}
+              {...(register('sex'), { required: true })}
+            >
+              남성
+            </button>
+            <button
+              type="button"
+              onClick={() => handleSexClick('female')}
+              className={selectedSex === 'female' ? 'selected' : ''}
+              {...(register('sex'), { required: true })}
+            >
+              여성
+            </button>
           </div>
         </InputBox>
         <InputBox>
           <span className="title">키</span>
           <div className="input-box">
-            <input type="text" placeholder="160cm" />
+            <input type="text" placeholder="160cm" {...(register('height'), { required: true })} />
           </div>
         </InputBox>
       </InputContainer>
@@ -82,7 +109,11 @@ const InputBox = styled.div`
       font-size: ${({ theme }) => theme.fonts.heading_medium_20px};
       color: white;
       background-color: ${({ theme }) => theme.colors.gray800};
-    }
+
+      &.selected {
+        background-color: ${({ theme }) => theme.colors.green500};
+        color:black;
+      }
   }
 `;
 export default SecondPage;

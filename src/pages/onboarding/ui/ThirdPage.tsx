@@ -1,11 +1,14 @@
 import styled from 'styled-components';
-const ThirdPage = () => {
+import Human from '@onboarding/icons/ic-human.svg?react';
+
+const ThirdPage = ({ getValues }) => {
+  const previewImage = getValues('previewImage');
   return (
     <>
       <Text>
         이제 모디와 함께 <br /> 당신의 모드를 시작해봐요!
       </Text>
-      <Image src="" alt="" />
+      <Image src={previewImage} alt="" />
     </>
   );
 };
