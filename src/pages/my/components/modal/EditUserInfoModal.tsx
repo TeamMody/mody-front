@@ -4,8 +4,12 @@ import styled from 'styled-components';
 import ReactDOM from 'react-dom';
 import { IcLeftArrow } from '@shared/assets/icon/ic-left-arrow';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import Human from '@onboarding/icons/ic-human.svg?react';
 import Edit from '@onboarding/icons/ic-edit.svg?react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { UserInfoSchema } from '@my/features/schema/userInfoSchema';
+import { log } from 'console';
 interface EditUserInfoModalProps extends ModalProps {
   profileImg?: string | undefined;
   name: string;
@@ -14,6 +18,13 @@ interface EditUserInfoModalProps extends ModalProps {
   height: string;
 }
 
+interface UserInfoProps {
+  profileImg?: string | undefined;
+  name: string;
+  birth: string;
+  gender: '남자' | '여자';
+  height: string;
+}
 export const EditUserInfoModal = ({
   isOpened,
   onClose,
@@ -23,15 +34,38 @@ export const EditUserInfoModal = ({
   gender,
   height,
 }: EditUserInfoModalProps) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<UserInfoProps>({
+    resolver: zodResolver(UserInfoSchema),
+    mode: 'onChange',
+  });
   const [isVisible, setIsVisible] = useState(isOpened);
-
+  const [img, setImg] = useState<string | undefined>(profileImg);
   const ModalClose = () => {
     setIsVisible(false);
     setTimeout(() => {
       if (onClose) onClose();
     }, 400);
   };
-
+  const onSubmit = (data: any) => {
+    console.log(data);
+    ModalClose();
+  };
+  const onError = () => {
+    console.log(errors);
+  };
+  const handelFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    const uploadFile = files?.[0];
+    if (uploadFile) {
+      const previewUrl = window.URL.createObjectURL(uploadFile);
+      setImg(previewUrl);
+      console.log(previewUrl);
+    }
+  };
   return ReactDOM.createPortal(
     <AnimatePresence>
       {isVisible && (
@@ -41,47 +75,74 @@ export const EditUserInfoModal = ({
           exit={{ x: '100%' }}
           transition={{ duration: 0.3, ease: 'easeOut' }}
         >
-          <Top>
-            <button onClick={ModalClose}>
-              <IcLeftArrow />
-            </button>
-            <div>회원정보 수정</div>
-          </Top>
+          <form onSubmit={handleSubmit(onSubmit, onError)}>
+            <Top>
+              <button onClick={ModalClose}>
+                <IcLeftArrow />
+              </button>
+              <div>회원정보 수정</div>
+            </Top>
 
-          <Middle>
-            <div>
-              <ImageInput type="file" id="image-upload" accept="image/*" />
-              {profileImg !== undefined ? (
-                <>
-                  <ProfilImg src={profileImg} alt="이미지가 없습니다." />
-                  <EditLabel htmlFor="image-upload">
-                    <Edit />
-                  </EditLabel>
-                </>
-              ) : (
-                <>
-                  <Label htmlFor="image-upload">
-                    <Human />
-                  </Label>
-                  <EditLabel htmlFor="image-upload">
-                    <Edit />
-                  </EditLabel>
-                </>
-              )}
-            </div>
+            <Middle>
+              <div>
+                <ImageInput
+                  type="file"
+                  id="image-upload"
+                  accept="image/*"
+                  {...register('profileImg')}
+                />
+                {profileImg !== undefined ? (
+                  <>
+                    <ProfilImg src={img} alt="이미지가 없습니다." />
+                    <EditLabel htmlFor="image-upload">
+                      <Edit />
+                    </EditLabel>
+                  </>
+                ) : (
+                  <>
+                    <Label htmlFor="image-upload">
+                      <Human />
+                    </Label>
+                    <EditLabel htmlFor="image-upload">
+                      <Edit />
+                    </EditLabel>
+                  </>
+                )}
+              </div>
 
-            <Bottom>
-              <span className="name">이름</span>
-              <input type="text" defaultValue={name} placeholder={name}></input>
-              <span className="birth">생년월일</span>
-              <input type="date" defaultValue={birth} placeholder={birth}></input>
-              <span className="gender">성별</span>
-              <input defaultValue={gender} placeholder={gender}></input>
-              <span className="height">키</span>
-              <input type="text" defaultValue={height} placeholder={height}></input>
-            </Bottom>
-            <button onClick={ModalClose}>완료</button>
-          </Middle>
+              <Bottom>
+                <span className="name">이름</span>
+                <input
+                  type="text"
+                  defaultValue={name}
+                  placeholder={name}
+                  {...register('name')}
+                ></input>
+                {errors.name?.message ? <p>{errors.name?.message}</p> : <p></p>}
+
+                <span className="birth">생년월일</span>
+                <input
+                  type="date"
+                  defaultValue={birth}
+                  placeholder={birth}
+                  {...register('birth')}
+                ></input>
+                {errors.birth?.message ? <p>{errors.birth?.message}</p> : <p></p>}
+                <span className="gender">성별</span>
+                <input defaultValue={gender} placeholder={gender} {...register('gender')}></input>
+                {errors.gender?.message ? <p>{errors.gender?.message}</p> : <p></p>}
+                <span className="height">키</span>
+                <input
+                  type="text"
+                  defaultValue={height}
+                  placeholder={height}
+                  {...register('height')}
+                ></input>
+                {errors.height?.message ? <p>{errors.height?.message}</p> : <p></p>}
+              </Bottom>
+              <button type="submit">완료</button>
+            </Middle>
+          </form>
         </Container>
       )}
     </AnimatePresence>,
@@ -181,7 +242,6 @@ const Bottom = styled.div`
 
   & input {
     margin-top: 0.948vh;
-    margin-bottom: 2.844vh;
     border-radius: 10px;
     height: 5.687vh;
     border: 0;
@@ -192,5 +252,11 @@ const Bottom = styled.div`
     align-contents: center;
     color: white;
     padding: 9px;
+  }
+  & p {
+    height: 2.844vh;
+    color: red;
+    display: flex;
+    align-items: center;
   }
 `;
