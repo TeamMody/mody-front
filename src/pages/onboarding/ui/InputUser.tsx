@@ -46,7 +46,7 @@ export const InputUser = () => {
         watch('height')?.length === 0
       );
     }
-    return true;
+    return false;
   };
   useEffect(() => {
     setIsButtonDisabled(handleIsValid(curIdx));
