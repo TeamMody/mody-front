@@ -13,7 +13,7 @@ export const UserInfoSchema = z.object({
   nickname: z.string().min(1).max(12),
   birthday: z.string(),
   sex: z.string(),
-  height: z.number().min(100).max(250),
+  height: z.string(),
 });
 
 export type UserInfoSchemaType = z.infer<typeof UserInfoSchema>;

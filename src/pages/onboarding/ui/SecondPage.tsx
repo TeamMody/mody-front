@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import { RegisterType } from '@onboarding/types';
 import { useState } from 'react';
+import { SecondPageProps } from '@onboarding/types';
 
-const SecondPage = ({ register, setValue }: { register: RegisterType }) => {
+const SecondPage = ({ register, setValue }: SecondPageProps) => {
   const [selectedSex, setSelectedSex] = useState<string | null>(null);
 
   const handleSexClick = (sex: string) => {
@@ -19,7 +19,7 @@ const SecondPage = ({ register, setValue }: { register: RegisterType }) => {
             <input
               type="text"
               placeholder="1996년 4월 11일"
-              {...(register('birthday'), { required: true })}
+              {...register('birthday', { required: true })}
             />
           </div>
         </InputBox>
@@ -30,7 +30,7 @@ const SecondPage = ({ register, setValue }: { register: RegisterType }) => {
               type="button"
               onClick={() => handleSexClick('male')}
               className={selectedSex === 'male' ? 'selected' : ''}
-              {...(register('sex'), { required: true })}
+              {...register('sex', { required: true })}
             >
               남성
             </button>
@@ -38,7 +38,7 @@ const SecondPage = ({ register, setValue }: { register: RegisterType }) => {
               type="button"
               onClick={() => handleSexClick('female')}
               className={selectedSex === 'female' ? 'selected' : ''}
-              {...(register('sex'), { required: true })}
+              {...register('sex', { required: true })}
             >
               여성
             </button>
@@ -47,7 +47,7 @@ const SecondPage = ({ register, setValue }: { register: RegisterType }) => {
         <InputBox>
           <span className="title">키</span>
           <div className="input-box">
-            <input type="text" placeholder="160cm" {...(register('height'), { required: true })} />
+            <input type="text" placeholder="160cm" {...register('height', { required: true })} />
           </div>
         </InputBox>
       </InputContainer>

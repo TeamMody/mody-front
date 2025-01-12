@@ -3,17 +3,9 @@ import FirstPage from '@onboarding/ui/FirstPage';
 import SecondPage from '@onboarding/ui/SecondPage';
 import ThirdPage from '@onboarding/ui/ThirdPage';
 import FourthPage from '@onboarding/ui/FourthPage';
-import { RegisterType } from '@onboarding/types';
-const InputUserMain = ({
-  curIdx,
-  register,
-  watch,
-  setValue,
-  getValues,
-}: {
-  curIdx: number;
-  register: RegisterType;
-}) => {
+import { InputUserMainProps } from '@onboarding/types';
+
+const InputUserMain = ({ curIdx, register, watch, setValue, getValues }: InputUserMainProps) => {
   return (
     <Container>
       {curIdx === 0 && <FirstPage register={register} watch={watch} setValue={setValue} />}

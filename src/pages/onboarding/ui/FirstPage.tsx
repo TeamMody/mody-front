@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import Human from '@onboarding/icons/ic-human.svg?react';
 import Edit from '@onboarding/icons/ic-edit.svg?react';
-import { RegisterType } from '@onboarding/types';
+import { FirstPageProps } from '@onboarding/types';
 import { useEffect, useState } from 'react';
 
-const FirstPage = ({ register, watch, setValue }: { register: RegisterType }) => {
+const FirstPage = ({ register, watch, setValue }: FirstPageProps) => {
   const imgFile = watch('image');
 
   const [imagePreview, setImagePreview] = useState<string | undefined>(undefined);
