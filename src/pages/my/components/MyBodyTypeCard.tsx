@@ -19,9 +19,8 @@ export const MyBodyTypeCard = () => {
       {/* 종류 1번 modal */}
       <RecommendationModal
         isOpened={modalState}
-        content="스타일을 추천 받으러 가볼까요?"
-        btnText="스타일 추천 받기"
-        img=""
+        content="내 체형을 분석하러 가볼까요?"
+        btnText="체형 분석하기"
         onClose={() => setModalState(false)}
       />
 
