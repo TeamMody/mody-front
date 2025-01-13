@@ -3,13 +3,15 @@ import FirstPage from '@onboarding/ui/FirstPage';
 import SecondPage from '@onboarding/ui/SecondPage';
 import ThirdPage from '@onboarding/ui/ThirdPage';
 import FourthPage from '@onboarding/ui/FourthPage';
-const InputUserMain = ({ curIdx }: { curIdx: number }) => {
+import { InputUserMainProps } from '@onboarding/types';
+
+const InputUserMain = ({ curIdx, register, watch, setValue, getValues }: InputUserMainProps) => {
   return (
     <Container>
-      {curIdx === 0 && <FirstPage />}
-      {curIdx === 1 && <SecondPage />}
-      {curIdx === 2 && <ThirdPage />}
-      {curIdx === 3 && <FourthPage />}
+      {curIdx === 0 && <FirstPage register={register} watch={watch} setValue={setValue} />}
+      {curIdx === 1 && <SecondPage register={register} setValue={setValue} />}
+      {curIdx === 2 && <ThirdPage getValues={getValues} />}
+      {curIdx === 3 && <FourthPage getValues={getValues} />}
     </Container>
   );
 };
