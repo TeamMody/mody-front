@@ -3,7 +3,6 @@ import { RootLayout } from '@app/layout';
 import {
   HomePage,
   BodySurveyPage,
-  LoadingPage,
   BodyTypePage,
   StyleSurveyPage,
   RecommendationResultPage,
@@ -51,22 +50,18 @@ export const router = createBrowserRouter([
   {
     path: 'body-survey',
 
-    element: <BodySurveyPage />
-  },
-  {
-    path: 'loading',
-    element: <LoadingPage />
+    element: <BodySurveyPage />,
   },
   {
     path: 'body-type',
-    element: <BodyTypePage />
+    element: <BodyTypePage />,
   },
   {
     path: 'style-survey',
-    element: <StyleSurveyPage />
+    element: <StyleSurveyPage />,
   },
   {
     path: 'recommendation-result',
-    element: <RecommendationResultPage />
-  }
+    element: <RecommendationResultPage />,
+  },
 ]);
