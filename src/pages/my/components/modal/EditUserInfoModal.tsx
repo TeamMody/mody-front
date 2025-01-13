@@ -1,14 +1,15 @@
-import { ModalProps } from '@shared/types/my/modalProps';
 import { AnimatePresence, motion } from 'framer-motion';
 import styled from 'styled-components';
 import ReactDOM from 'react-dom';
-import { IcLeftArrow } from '@shared/assets/icon/ic-left-arrow';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { IcLeftArrow } from '@shared/assets/icon/ic-left-arrow';
+import { ModalProps } from '@shared/types/my/modalProps';
 import Human from '@onboarding/icons/ic-human.svg?react';
 import Edit from '@onboarding/icons/ic-edit.svg?react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { UserInfoSchema } from '@my/features/schema/userInfoSchema';
+import { UserInfoSchema } from '@pages/my/features/schema/MyUserInfoSchema';
+import { UserDataInput } from '@my/components/UserDataInput';
 interface EditUserInfoModalProps extends ModalProps {
   profileImg?: string | undefined;
   name: string;
@@ -113,34 +114,41 @@ export const EditUserInfoModal = ({
               </div>
 
               <Bottom>
-                <span className="name">이름</span>
-                <input
+                <UserDataInput
+                  inputTitle="이름"
                   type="text"
-                  defaultValue={name}
-                  placeholder={name}
-                  {...register('name')}
-                ></input>
-                {errors.name?.message ? <p>{errors.name?.message}</p> : <p></p>}
+                  inputValue={name}
+                  inputKind="name"
+                  errors={errors}
+                  register={register}
+                  maxLength={12}
+                />
 
-                <span className="birth">생년월일</span>
-                <input
+                <UserDataInput
+                  inputTitle="생년월일"
                   type="date"
-                  defaultValue={birth}
-                  placeholder={birth}
-                  {...register('birth')}
-                ></input>
-                {errors.birth?.message ? <p>{errors.birth?.message}</p> : <p></p>}
-                <span className="gender">성별</span>
-                <input defaultValue={gender} placeholder={gender} {...register('gender')}></input>
-                {errors.gender?.message ? <p>{errors.gender?.message}</p> : <p></p>}
-                <span className="height">키</span>
-                <input
+                  inputValue={birth}
+                  inputKind="birth"
+                  errors={errors}
+                  register={register}
+                />
+
+                <UserDataInput
+                  inputTitle="성별"
                   type="text"
-                  defaultValue={height}
-                  placeholder={height}
-                  {...register('height')}
-                ></input>
-                {errors.height?.message ? <p>{errors.height?.message}</p> : <p></p>}
+                  inputValue={gender}
+                  inputKind="gender"
+                  errors={errors}
+                  register={register}
+                />
+                <UserDataInput
+                  inputTitle="키"
+                  type="text"
+                  inputValue={height}
+                  inputKind="height"
+                  errors={errors}
+                  register={register}
+                />
               </Bottom>
               <button type="submit">완료</button>
             </Middle>

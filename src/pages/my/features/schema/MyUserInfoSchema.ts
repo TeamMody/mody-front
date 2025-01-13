@@ -1,5 +1,5 @@
 import { z } from 'zod';
-export const UserInfoSchema = z.object({
+const UserInfoSchema = z.object({
   name: z
     .string()
     .trim()
@@ -14,3 +14,7 @@ export const UserInfoSchema = z.object({
     .trim()
     .refine((val) => val.includes('cm'), { message: 'cm를 포함시켜주세요' }),
 });
+
+export type MyUserInfoSchemaType = z.infer<typeof UserInfoSchema>;
+
+export { UserInfoSchema };
