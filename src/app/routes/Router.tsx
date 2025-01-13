@@ -51,22 +51,22 @@ export const router = createBrowserRouter([
   {
     path: 'body-survey',
 
-    element: <BodySurveyPage />
+    element: <BodySurveyPage />,
   },
   {
     path: 'loading',
-    element: <LoadingPage />
+    element: <LoadingPage />,
   },
   {
     path: 'body-type',
-    element: <BodyTypePage />
+    element: <BodyTypePage />,
   },
   {
     path: 'style-survey',
-    element: <StyleSurveyPage />
+    element: <StyleSurveyPage />,
   },
   {
     path: 'recommendation-result',
-    element: <RecommendationResultPage />
-  }
+    element: <RecommendationResultPage />,
+  },
 ]);
