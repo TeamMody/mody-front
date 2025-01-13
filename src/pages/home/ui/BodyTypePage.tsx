@@ -3,6 +3,8 @@ import CustomButton from '@shared/ui/CustomButton.tsx';
 import { useNavigate } from 'react-router';
 import BodyTypeContent from '@home/components/BodyTypeContent.tsx';
 import { bodyTypeResult } from '@shared/apis/home/mocks.ts';
+import { Loading } from '@home/components/Loading.tsx';
+import { RecommendationType } from '@shared/types';
 
 export const BodyTypePage = () => {
   const navigate = useNavigate();
@@ -10,6 +12,12 @@ export const BodyTypePage = () => {
   const handleNavigate = () => {
     navigate('/', { replace: true });
   };
+
+  const isLoading = false;
+
+  if (isLoading) {
+    return <Loading type={RecommendationType.BODY_TYPE} />;
+  }
 
   return (
     <Wrapper>
