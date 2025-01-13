@@ -4,32 +4,36 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { ConfirmationModal } from '@pages/my/components/modal/ConfirmationModal';
 import { AnimatePresence, motion } from 'framer-motion';
-interface SettingModalProps {
-  isOpened: boolean | undefined;
-  onClose: () => void;
+import { IcEmptyProfile } from '@shared/assets/icon/ic-emptyProfileIcon';
+import { ModalProps } from '@shared/types/my/modalProps';
+import { EditUserInfoModal } from '@pages/my/components/modal/EditUserInfoModal';
+import ReactDOM from 'react-dom';
+interface SettingModalProps extends ModalProps {
+  profileImg?: string | undefined;
 }
 
-export const SettingModal = ({ isOpened, onClose }: SettingModalProps) => {
-  const [modalState2, setModalState2] = useState<string | null>(null);
+export const SettingModal = ({ isOpened, onClose, profileImg }: SettingModalProps) => {
+  const [modalState, setModalState] = useState<string | null>(null);
   const openModal = (modalName: string) => {
-    setModalState2(modalName);
+    setModalState(modalName);
   };
   const closeModal = () => {
-    setModalState2(null);
+    setModalState(null);
   };
 
   const handleClose = () => {
     if (onClose) onClose();
   };
 
-  return (
+  return ReactDOM.createPortal(
     <AnimatePresence>
       {isOpened && (
         <Container
+          key="hi"
           initial={{ x: '100%' }}
           animate={{ x: '0%' }}
           exit={{ x: '100%' }}
-          transition={{ duration: 0.5, ease: 'easeOut' }}
+          transition={{ duration: 0.4, ease: 'easeOut' }}
         >
           <TopBox>
             <button onClick={handleClose}>
@@ -39,30 +43,47 @@ export const SettingModal = ({ isOpened, onClose }: SettingModalProps) => {
           </TopBox>
           <BottomBox>
             <div>
-              <img />
-              <div>회원정보 수정</div>
+              {profileImg !== undefined ? (
+                <img src={profileImg}></img>
+              ) : (
+                <IcEmptyProfile width="10.256vw" height="4.739vh" />
+              )}
+              <div onClick={() => openModal('editUserInfo')}>회원정보 수정</div>
             </div>
             <CustomDivider width="89.487vw" border="0.5px" />
             <LogOut onClick={() => openModal('logout')}>로그아웃</LogOut>
             <WithDraw onClick={() => openModal('withdraw')}>회원 탈퇴</WithDraw>
           </BottomBox>
-          {modalState2 === 'logout' && (
+          {modalState === 'logout' && (
             <ConfirmationModal
               isOpened={true}
               content="로그아웃을 진행할까요?"
               onClose={closeModal}
+              index={1}
             />
           )}
-          {modalState2 === 'withdraw' && (
+          {modalState === 'withdraw' && (
             <ConfirmationModal
               isOpened={true}
               content="회원탈퇴를 진행할까요?"
               onClose={closeModal}
+              index={1}
+            />
+          )}
+          {modalState === 'editUserInfo' && (
+            <EditUserInfoModal
+              isOpened={true}
+              onClose={closeModal}
+              name="김모디"
+              birth="2020"
+              gender="남자"
+              height="160cm"
             />
           )}
         </Container>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body,
   );
 };
 const Container = styled(motion.div)`
@@ -79,17 +100,17 @@ const TopBox = styled.div`
   width: 100vw;
   height: 7.583vh;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   background: linear-gradient(to bottom, #121212, #262626);
 
   & > button:nth-child(1) {
-    margin-right: 90%;
+    margin-left: 5.641vw;
   }
 
   & > div:nth-child(2) {
-    position: fixed;
     display: flex;
+    margin-right: 45.128vw;
     font-size: ${({ theme }) => theme.fonts.heading_bold_22px};
   }
 `;
@@ -99,7 +120,7 @@ const BottomBox = styled.div`
   padding: 1.896vh 5.385vw 0 4.872vw;
   max-width: 440px;
   width: 100vw;
-  height: 100%;
+  height: 92.417vh;
   background: ${({ theme }) => theme.colors.gray900};
 
   & > div:nth-child(1) {
