@@ -1,9 +1,9 @@
 import { useRef } from 'react';
 import { Sheet, SheetRef } from 'react-modal-sheet';
 import { styled } from 'styled-components';
-import BottomSheetItem from '../BottomSheetItem';
 import IcPen from '@shared/assets/icon/ic-pen.svg';
 import IcTrashCan from '@shared/assets/icon/ic-trash-can.svg';
+import BottomSheetItem from '@pages/my/components/BottomSheetItem';
 
 interface EditBottomSheetProps {
   isOpen: boolean;
