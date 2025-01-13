@@ -30,17 +30,17 @@ export const topBanner = [
 export const subBanner = [
   {
     id: 0,
-    title: '오늘 날씨에 맞는 패션 추천',
+    title: '오늘 날씨에 맞는\n패션 추천',
     imageUrl: ImgSubBannerWeather,
   },
   {
     id: 1,
-    title: '특정 상황에 어울리는 패션 추천',
+    title: '특정 상황에 어울리는\n패션 추천',
     imageUrl: ImgSubBannerSituation,
   },
   {
     id: 2,
-    title: '일상에 꼭 맞는 패션 추천',
+    title: '일상에 꼭 맞는\n패션 추천',
   },
 ];
 
