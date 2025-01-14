@@ -23,7 +23,8 @@ const Container = styled.div`
   flex-direction: column;
   gap: 7px;
   width: 42.8vw;
-  height: 20.8vh;
+  height: 21vh;
+  min-height: 173px;
   scroll-snap-align: center;
 `;
 
@@ -35,6 +36,6 @@ const SubBannerImage = styled.img`
 `;
 
 const Title = styled.p`
-  width: 70%;
   font: ${({ theme }) => theme.fonts.body_bold_16px};
+  white-space: pre-wrap;
 `;

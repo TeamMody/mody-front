@@ -10,6 +10,7 @@ import { MyBodyTypeCard } from '@pages/my/components/MyBodyTypeCard';
 import { ProfileHeader } from '@pages/my/components/ProfileHeader';
 import { SettingModal } from '@pages/my/components/modal/SettingModal';
 import EditBottomSheet from '@pages/my/components/modal/EditBottomSheetModal';
+
 export const MyPage = () => {
   const [modalState, setModalState] = useState<boolean>(false);
   const openModal = () => {
