@@ -3,9 +3,12 @@ import ImgBannerBodyType from '@shared/assets/img/img-banner-body-type.png';
 import ImgBannerItem from '@shared/assets/img/img-banner-item.png';
 import ImgBannerStyle from '@shared/assets/img/img-banner-style.png';
 import TabContents from '@pages/my/components/TabContents';
-const RenderTabContent = ({ activeTab }: { activeTab: string }) => {
+import React, { forwardRef } from 'react';
+
+// forwardRef 적용
+const RenderTabContent = forwardRef<HTMLDivElement, { activeTab: string }>(({ activeTab }, ref) => {
   return (
-    <Wrapper>
+    <Wrapper ref={ref}>
       {(() => {
         switch (activeTab) {
           case 'recommend':
@@ -20,7 +23,7 @@ const RenderTabContent = ({ activeTab }: { activeTab: string }) => {
       })()}
     </Wrapper>
   );
-};
+});
 
 export default RenderTabContent;
 
