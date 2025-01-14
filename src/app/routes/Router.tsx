@@ -49,7 +49,6 @@ export const router = createBrowserRouter([
   },
   {
     path: 'body-survey',
-
     element: <BodySurveyPage />,
   },
   {

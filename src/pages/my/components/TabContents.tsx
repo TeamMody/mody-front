@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import Post from './Post';
+import Post from '@pages/my/components/Post';
 import { useEffect, useRef } from 'react';
-import NoPosts from './NoPosts';
+import NoPosts from '@pages/my/components/NoPosts';
 
 interface TabContentsProps {
   img: string;
@@ -23,7 +23,7 @@ const TabContents = ({ img, divide, activeTab }: TabContentsProps) => {
     //게시글이 있을 때
     <TabContentsWrapper ref={tabWrapperRef} $divide={divide}>
       {Array.from({ length: 10 }).map((_, i) => (
-        <Post key={i} img={img} />
+        <Post key={i} img={img} activeTab={activeTab} />
       ))}
     </TabContentsWrapper>
   ) : (

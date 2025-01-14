@@ -1,11 +1,18 @@
 import styled from 'styled-components';
-const FourthPage = () => {
+import { ThirdPageProps } from '@onboarding/types';
+import Human from '@onboarding/icons/ic-human.svg?react';
+
+const FourthPage = ({ getValues }: ThirdPageProps) => {
+  const previewImage = getValues('previewImage');
+
   return (
     <>
       <Text>
         모디가 당신에게 <br /> 맞는 모드를 찾기 위해 <br /> 정보가 필요해요!
       </Text>
-      <Image src="" alt="" />
+      <ImageContainer>
+        {!previewImage ? <Human /> : <Image src={previewImage} alt="" />}
+      </ImageContainer>
       {/* link */}
       <LinkSpan>분석 없이 써볼래요</LinkSpan>
     </>
@@ -19,14 +26,22 @@ const Text = styled.span`
   font-size: ${({ theme }) => theme.fonts.heading_bold_22px};
 `;
 
-const Image = styled.img`
+const ImageContainer = styled.div`
   width: 20vh;
   height: 20vh;
   border-radius: 100%;
-  background-color: #3b3b3b;
+  background-color: #808080;
   margin-top: 5vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
+const Image = styled.img`
+  width: 100%;
+  height: 100%;
+`;
 const LinkSpan = styled.span`
   margin-top: 18vh;
   font-size: ${({ theme }) => theme.fonts.caption_medium_14px};

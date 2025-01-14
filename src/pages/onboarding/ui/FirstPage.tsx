@@ -1,13 +1,32 @@
 import styled from 'styled-components';
 import Human from '@onboarding/icons/ic-human.svg?react';
 import Edit from '@onboarding/icons/ic-edit.svg?react';
-const FirstPage = () => {
+import { FirstPageProps } from '@onboarding/types';
+import { useEffect, useState } from 'react';
+
+const FirstPage = ({ register, watch, setValue }: FirstPageProps) => {
+  const imgFile = watch('image');
+
+  const [imagePreview, setImagePreview] = useState<string | undefined>(undefined);
+  // image의 값이 undefined가 아니면 image 태그 src에 박아넣어줘야 함 .
+  // schema 하나 더 만들고 setValue 갈겨주자 그냥
+  useEffect(() => {
+    if (imgFile && imgFile[0]) {
+      const file = imgFile[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+        setValue('previewImage', reader.result as string);
+      };
+    }
+  }, [imgFile]);
   return (
     <>
       <LabelContainer>
-        <ImageInput type="file" id="image-upload" accept="image/*" />
+        <ImageInput type="file" id="image-upload" accept="image/*" {...register('image')} />
         <Label htmlFor="image-upload">
-          <Human />
+          {imagePreview ? <Image src={imagePreview} /> : <Human />}
         </Label>
         <EditLabel htmlFor="image-upload">
           <Edit />
@@ -18,14 +37,20 @@ const FirstPage = () => {
       <Input
         type="text"
         placeholder="닉네임 (최대 12자)"
-        minLength={2}
+        minLength={1}
         maxLength={12}
         onFocus={(e) => (e.target.placeholder = '')}
-        onBlur={(e) => (e.target.placeholder = '닉네임 (최대 12자)')}
+        // onBlur={(e) => (e.target.placeholder = '닉네임 (최대 12자)')}
+        {...register('nickname', { required: true })}
       ></Input>
     </>
   );
 };
+const Image = styled.img`
+  display: block;
+  width: 100%;
+  height: 100%;
+`;
 
 const Input = styled.input`
   margin-top: 5vh;
