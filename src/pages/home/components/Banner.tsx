@@ -48,7 +48,7 @@ const BannerContainer = styled.div<{ $imageUrl: string }>`
   flex-direction: column;
   justify-content: flex-end;
   height: 40vh;
-  width: 71vw;
+  width: 100%;
   border: none;
   border-radius: 15px;
   padding: 14px 17px;
