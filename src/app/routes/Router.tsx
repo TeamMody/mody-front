@@ -3,7 +3,6 @@ import { RootLayout } from '@app/layout';
 import {
   HomePage,
   BodySurveyPage,
-  LoadingPage,
   BodyTypePage,
   StyleSurveyPage,
   RecommendationResultPage,
@@ -50,12 +49,7 @@ export const router = createBrowserRouter([
   },
   {
     path: 'body-survey',
-
     element: <BodySurveyPage />,
-  },
-  {
-    path: 'loading',
-    element: <LoadingPage />,
   },
   {
     path: 'body-type',
