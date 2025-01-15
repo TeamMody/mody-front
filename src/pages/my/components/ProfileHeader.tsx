@@ -58,7 +58,7 @@ const Container = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
-  height: 96px;
+  height: 11.374vh;
 
   .fetchingUserInfo {
     width: 100%;
@@ -71,15 +71,14 @@ const UserInfoContaniner = styled.div`
   width: 65.13vw;
   height: 7.7vh;
   justify-content: space-between;
-  margin-right: 20px;
-  margin-top: 23px;
+  margin-right: 5.128vw;
+  margin-top: 2.725vh;
 `;
 const UserInfoSection = styled.div`
   width: auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 9px;
   & > span:nth-child(1) {
     font-size: ${({ theme }) => theme.fonts.heading_bold_24px};
   }
@@ -89,11 +88,11 @@ const UserInfoSection = styled.div`
 `;
 const ActivityStatus = styled.div`
   width: auto;
-  height: 65px;
   display: flex;
   justify-content: space-between;
 
   & > div:nth-child(1) {
+    height: 7.7vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -112,6 +111,7 @@ const ActivityStatus = styled.div`
   }
 
   & > div:nth-child(2) {
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -121,7 +121,6 @@ const ActivityStatus = styled.div`
 
   & > div:nth-child(2) > span:nth-child(1) {
     font-size: ${({ theme }) => theme.fonts.heading_bold_24px};
-    display: inline-block;
   }
 
   & > div:nth-child(2) > span:nth-child(2) {
@@ -130,7 +129,7 @@ const ActivityStatus = styled.div`
 `;
 
 const EmptyProfile = styled.div`
-  width: 80px;
-  margin-left: 20px;
-  margin-top: 16px;
+  width: 20.513vw;
+  margin-left: 5.128vw;
+  margin-top: 1.896vh;
 `;
