@@ -14,6 +14,8 @@ interface PostPropsType {
   isLiked: boolean;
 }
 
+// 이미지 미리 렌더링 시켜놓고 해얃될듯
+
 const Post = ({ data }: { data: PostPropsType }) => {
   const [imgIdx, setImgIdx] = useState<number>(0);
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
@@ -42,54 +44,32 @@ const Post = ({ data }: { data: PostPropsType }) => {
 
     startXRef.current = null; // 초기화
   };
+
   return (
-    <PostContainer
-      bgImage={data.images[imgIdx]}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
-    >
-      <ProgressBar length={data.images.length} curIdx={imgIdx}></ProgressBar>
-      {/* InfoContainer는 분리가 필요해보임 imgIdx가 리렌더링될 때마다  */}
-      <InfoContainer isExpanded={isExpanded} onClick={() => setIsExpanded((prev) => !prev)}>
-        <UserInfo>
-          <span className="user-name">{data.name}</span>
-          <span className="user-type">{data.type}</span>
-          {isExpanded && <IconBox data={data} isExpanded={isExpanded} />}
-        </UserInfo>
-        <DescriptionContainer>
-          <p className={`description ${isExpanded ? 'expanded' : ''}`}>{data.description}</p>
-          {!isExpanded && <IconBox data={data} isExpanded={isExpanded} />}
-        </DescriptionContainer>
-      </InfoContainer>
-    </PostContainer>
+    <Container>
+      <PostContainer
+        bgImage={data.images[imgIdx]}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        isExpanded={isExpanded}
+      >
+        <ProgressBar length={data.images.length} curIdx={imgIdx}></ProgressBar>
+        {/* InfoContainer는 분리가 필요해보임 imgIdx가 리렌더링될 때마다  */}
+        <InfoContainer isExpanded={isExpanded} onClick={() => setIsExpanded((prev) => !prev)}>
+          <UserInfo>
+            <span className="user-name">{data.name}</span>
+            <span className="user-type">{data.type}</span>
+            {isExpanded && <IconBox data={data} isExpanded={isExpanded} />}
+          </UserInfo>
+          <DescriptionContainer>
+            <p className={`description ${isExpanded ? 'expanded' : ''}`}>{data.description}</p>
+            {!isExpanded && <IconBox data={data} isExpanded={isExpanded} />}
+          </DescriptionContainer>
+        </InfoContainer>
+      </PostContainer>
+    </Container>
   );
 };
-
-// const InfoWrapper = React.memo(
-//   ({
-//     data,
-//     isExpanded,
-//     setIsExpanded,
-//   }: {
-//     data: PostPropsType;
-//     isExpanded: boolean;
-//     setIsExpanded: any;
-//   }) => {
-//     return (
-//       <InfoContainer isExpanded={isExpanded} onClick={() => setIsExpanded((prev) => !prev)}>
-//         <UserInfo>
-//           <span className="user-name">{data.name}</span>
-//           <span className="user-type">{data.type}</span>
-//           {isExpanded && <IconBox data={data} isExpanded={isExpanded} />}
-//         </UserInfo>
-//         <DescriptionContainer>
-//           <p className={`description ${isExpanded ? 'expanded' : ''}`}>{data.description}</p>
-//           {!isExpanded && <IconBox data={data} isExpanded={isExpanded} />}
-//         </DescriptionContainer>
-//       </InfoContainer>
-//     );
-//   },
-// );
 
 const IconBox = ({ data, isExpanded }: { data: PostPropsType; isExpanded: boolean }) => {
   return (
@@ -110,16 +90,22 @@ const IconBox = ({ data, isExpanded }: { data: PostPropsType; isExpanded: boolea
     </IconContainer>
   );
 };
+const Container = styled.main`
+  width: 100%;
+  padding: 16px 20px;
+  height: calc(100vh - 8vh - 64px);
 
-const PostContainer = styled.div<{ bgImage: string }>`
+  // background-color: black;
+`;
+const PostContainer = styled.div<{ isExpanded: boolean; bgImage: string }>`
   width: 100%;
   height: 100%;
   position: relative;
-  background-color: ${({ theme }) => theme.colors.gray600};
-  background-image: url(${({ bgImage }) => bgImage});
-  // transition: background-image; /* 배경 변경 시 부드러운 전환 효과 */
-
-  background-size: contain;
+  background-image: ${({ isExpanded, bgImage }) =>
+    isExpanded
+      ? `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${bgImage})`
+      : `url(${bgImage})`};
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   border-radius: 10px;
@@ -128,7 +114,6 @@ const PostContainer = styled.div<{ bgImage: string }>`
 const InfoContainer = styled.div<{ isExpanded: boolean }>`
   padding: 0px 15px 24px 15px;
   background-color: transparent;
-
   position: absolute;
   bottom: 0;
   display: flex;
@@ -157,7 +142,6 @@ const DescriptionContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
-
   .description {
     position: relative;
     width: 70%;

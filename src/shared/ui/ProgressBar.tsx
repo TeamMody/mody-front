@@ -24,6 +24,7 @@ const Container = styled.div`
   align-items: center;
   height: 16px;
   gap: 8px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 100%);
 `;
 
 const Circle = styled.div<{ isActive: boolean }>`
