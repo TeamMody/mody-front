@@ -5,9 +5,10 @@ interface ModalProps {
   isOpened: boolean;
   onClose: () => void;
   content: '이 게시글을 삭제할까요?' | '로그아웃을 진행할까요?' | '회원탈퇴를 진행할까요?';
+  index: number;
 }
 
-export const ConfirmationModal = ({ isOpened, content, onClose }: ModalProps) => {
+export const ConfirmationModal = ({ isOpened, content, onClose, index }: ModalProps) => {
   if (!isOpened) return null;
   const ModalRef = useRef<HTMLDialogElement>(null);
   const navigate = useNavigate();
@@ -26,11 +27,18 @@ export const ConfirmationModal = ({ isOpened, content, onClose }: ModalProps) =>
     }
   }, [isOpened]);
 
-  const handleClose = () => {
+  const handleClose = (index: number = 0) => {
     if (onClose) {
-      onClose();
+      if (index === 1) {
+        onClose();
+        navigate('/onboarding');
+      } else if (index === 2) {
+        onClose();
+        navigate('/my'); // 삭제하기 모달에서 예를 눌렀을 때 라우팅 설정
+      } else {
+        onClose();
+      }
     }
-    navigate('/home');
   };
 
   return (
@@ -38,8 +46,8 @@ export const ConfirmationModal = ({ isOpened, content, onClose }: ModalProps) =>
       <Container>
         <div>{content}</div>
         <div>
-          <button onClick={handleClose}>아니요</button>
-          <button onClick={handleClose}>예</button>
+          <button onClick={() => handleClose()}>아니요</button>
+          <button onClick={() => handleClose(index)}>예</button>
         </div>
       </Container>
     </Wrapper>

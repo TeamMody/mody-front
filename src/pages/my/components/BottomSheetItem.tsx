@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ToggleButton } from '../../../shared/ui/ToggleButton';
+import { ToggleButton } from '@shared/ui/ToggleButton';
 import { useState } from 'react';
 
 interface BottomSheetItemProps {
