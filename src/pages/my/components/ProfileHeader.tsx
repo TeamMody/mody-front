@@ -24,7 +24,7 @@ export const ProfileHeader = () => {
           <UserImg img={UserInfo.img} width="9.479vh" height="9.479vh" />
         ) : (
           <EmptyProfile>
-            <IcEmptyProfile width="20.513vw" height="9.479vh" />
+            <IcEmptyProfile width="9.479vh" height="9.479vh" />
           </EmptyProfile>
         )}
         <UserInfoContaniner>
