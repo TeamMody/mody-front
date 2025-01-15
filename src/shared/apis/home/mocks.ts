@@ -3,6 +3,7 @@ import ImgBannerStyle from '@shared/assets/img/img-banner-style.png';
 import ImgBannerItem from '@shared/assets/img/img-banner-item.png';
 import ImgSubBannerWeather from '@shared/assets/img/img-sub-banner-weather.png';
 import ImgSubBannerSituation from '@shared/assets/img/img-sub-banner-situation.png';
+import IcBodyTypeSt from '@shared/assets/icon/ic-body-type-st.svg';
 import { BodyTypeQuestion, ImageKeyword, RecommendationType, StyleKeywordType } from '@shared/types';
 
 export const topBanner = [
@@ -29,17 +30,17 @@ export const topBanner = [
 export const subBanner = [
   {
     id: 0,
-    title: '오늘 날씨에 맞는 패션 추천',
+    title: '오늘 날씨에 맞는\n패션 추천',
     imageUrl: ImgSubBannerWeather,
   },
   {
     id: 1,
-    title: '특정 상황에 어울리는 패션 추천',
+    title: '특정 상황에 어울리는\n패션 추천',
     imageUrl: ImgSubBannerSituation,
   },
   {
     id: 2,
-    title: '일상에 꼭 맞는 패션 추천',
+    title: '일상에 꼭 맞는\n패션 추천',
   },
 ];
 
@@ -240,3 +241,11 @@ export const styleKeywords: ImageKeyword[] = [
     label: '청순한',
   },
 ];
+
+export const bodyTypeResult = {
+  imageUrl: IcBodyTypeSt,
+  bodyType: "스트레이트",
+  detail: '이름 님의 체형은 스트레이트형에 가깝습니다. 골격이 상대적으로 근육감이 느껴지는 어깨와 탄탄한 허벅지를 가진 반면, 허리의 굴곡은 크지 않고 엉덩이는 입체감이 적습니다. 목이 길고 쇄골이 눈에 띄지 않으며, 다리 길이가 상체에 비해 약간 짧은 편입니다. 이 체형은 상체와 하체의 균형을 고려한 스타일링이 중요하며, 체형적 장점을 돋보이게 하기 위해 적절한 실루엣 선택이 필요합니다.',
+  emphasize: '어깨와 허벅지의 근육감 있는 라인. 이 부분은 피트감이 있는 상의나 슬림 핏 팬츠를 활용해 강조하면 좋습니다. 상체의 볼륨감이 자연스러운 매력을 더해줄 수 있습니다. ',
+  supplementation: '허리가 굴곡이 뚜렷하지 않으므로, 시각적으로 허리를 강조할 수 있는 스타일링이 필요합니다. 다리 길이를 더 길어 보이게 연출하는 하이웨스트 디자인을 추천합니다.',
+}

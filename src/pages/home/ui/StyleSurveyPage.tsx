@@ -6,26 +6,34 @@ import { useLocation, useNavigate } from 'react-router';
 import StyleSurvey from '@home/components/StyleSurvey.tsx';
 import CustomButton from '@shared/ui/CustomButton.tsx';
 import { keywords, styleKeywords } from '@shared/apis/home/mocks.ts';
+import { useStyleSurveyStore } from '@home/feature/store/useStyleSurveyStore.ts';
+import { useEffect } from 'react';
 
 export const StyleSurveyPage = () => {
+  const { resetKeywords } = useStyleSurveyStore();
   const { type } = useLocation().state as { type: RecommendationType };
   const navigate = useNavigate();
+
+  useEffect(() => {
+    resetKeywords();
+  }, [resetKeywords]);
+
   const leftHeaderAction: HeaderAction = {
     icon: IcLeftArrow, onClick: () => navigate(-1),
   };
 
   const handleNavigate = () => {
-      navigate('/loading', { state: { type: type } });
-  }
+    navigate('/recommendation-result', { state: { type: type } });
+  };
 
   return (
     <Wrapper>
       <AppBar leftHeaderAction={leftHeaderAction} title={type} />
       <KeywordsContainer>
-        <StyleSurvey title='선호하는 패션 스타일' keywords={keywords} />
-        <StyleSurvey title='싫어하는 패션 스타일' keywords={keywords} />
-        <StyleSurvey title='보여지고 싶은 이미지' keywords={styleKeywords} />
-        <CustomButton label='스타일 추천 받기' onClick={handleNavigate} active={true} paddingTop='19px' paddingBottom='19px' />
+        <StyleSurvey category="liked" keywords={keywords} />
+        <StyleSurvey category="disliked" keywords={keywords} />
+        <StyleSurvey category="image" keywords={styleKeywords} />
+        <CustomButton label="스타일 추천 받기" onClick={handleNavigate} active={true} paddingTop="19px" paddingBottom="19px" />
       </KeywordsContainer>
     </Wrapper>
   );

@@ -1,47 +1,26 @@
 import styled from 'styled-components';
-import IcLoading from '@shared/assets/icon/ic-loading.svg';
-import IcLoadingStyle from '@shared/assets/icon/ic-loading-style.svg';
-import IcBgLoading from '@shared/assets/icon/ic-bg-loading.svg';
-import { useLocation, useNavigate } from 'react-router';
-import { useEffect } from 'react';
+import IcLoading from '@icon/ic-loading.svg';
+import IcLoadingStyle from '@icon/ic-loading-style.svg';
+import IcBgLoading from '@icon/ic-bg-loading.svg';
+import React from 'react';
 import { RecommendationType } from '@shared/types';
 
-export const LoadingPage = () => {
-  const { type } = useLocation().state as { type: RecommendationType };
-  const navigate = useNavigate();
+interface LoadingProps {
+  type: RecommendationType;
+}
+
+export const Loading: React.FC<LoadingProps> = ({ type }) => {
   const name = '이름';
   const image = type === RecommendationType.STYLE ? IcLoadingStyle : IcLoading;
 
   const text = type === RecommendationType.BODY_TYPE
     ? `모디가 ${name} 님의\n체형을 분석 중이에요!`
     : `모디가 ${name} 님의\n스타일을 추천중이에요!`;
-  const handleNavigate = () => {
-    setTimeout(() => {
-      switch (type) {
-        case RecommendationType.BODY_TYPE:
-          navigate('/body-type', { state: { type: RecommendationType.BODY_TYPE } });
-          break;
-        case RecommendationType.STYLE:
-          navigate('/recommendation-result', { state: { type: RecommendationType.STYLE } });
-          break;
-        case RecommendationType.FASHION:
-          navigate('recommendation-result', { state: { type: RecommendationType.FASHION } });
-          break;
-        default:
-          break;
-      }
-    }, 3000);
-  };
-
-  // 임시 로딩
-  useEffect(() => {
-    handleNavigate();
-  }, []);
 
   return (
     <>
       <Container>
-        <Loading $type={type} src={image} />
+        <LoadingImage $type={type} src={image} />
         <Text>{text}</Text>
       </Container>
     </>
@@ -67,7 +46,7 @@ const Text = styled.p`
   white-space: pre-wrap;
 `;
 
-const Loading = styled.img<{ $type: string }>`
+const LoadingImage = styled.img<{ $type: string }>`
   animation: ${({ $type }) => ($type !== '스타일 추천' ? 'spin 2s linear infinite' : 'bounce 1s linear infinite')};
 
   @keyframes spin {
