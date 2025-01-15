@@ -1,10 +1,15 @@
 import { createBrowserRouter } from 'react-router';
-
 import { RootLayout } from '@app/layout';
-import { HomePage, BodySurveyPage, LoadingPage, BodyTypePage } from '@pages/home';
+import {
+  HomePage,
+  BodySurveyPage,
+  BodyTypePage,
+  StyleSurveyPage,
+  RecommendationResultPage,
+} from '@pages/home';
 import { PostPage } from '@pages/post';
 import { MyPage } from '@pages/my';
-import { OnboardingPage } from '@pages/onboarding';
+import { OnboardingPage, InputUser } from '@pages/onboarding';
 
 export const router = createBrowserRouter([
   {
@@ -31,18 +36,31 @@ export const router = createBrowserRouter([
   },
   {
     path: '/onboarding',
-    element: <OnboardingPage />,
+    children: [
+      {
+        index: true,
+        element: <OnboardingPage />,
+      },
+      {
+        path: 'inputuser',
+        element: <InputUser />,
+      },
+    ],
   },
   {
     path: 'body-survey',
-    element: <BodySurveyPage />
-  },
-  {
-    path: 'loading',
-    element: <LoadingPage />
+    element: <BodySurveyPage />,
   },
   {
     path: 'body-type',
-    element: <BodyTypePage />
-  }
+    element: <BodyTypePage />,
+  },
+  {
+    path: 'style-survey',
+    element: <StyleSurveyPage />,
+  },
+  {
+    path: 'recommendation-result',
+    element: <RecommendationResultPage />,
+  },
 ]);

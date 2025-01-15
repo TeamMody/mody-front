@@ -3,45 +3,46 @@ import ImgBannerStyle from '@shared/assets/img/img-banner-style.png';
 import ImgBannerItem from '@shared/assets/img/img-banner-item.png';
 import ImgSubBannerWeather from '@shared/assets/img/img-sub-banner-weather.png';
 import ImgSubBannerSituation from '@shared/assets/img/img-sub-banner-situation.png';
-import { BodyTypeQuestion } from '@shared/types';
+import IcBodyTypeSt from '@shared/assets/icon/ic-body-type-st.svg';
+import { BodyTypeQuestion, ImageKeyword, RecommendationType, StyleKeywordType } from '@shared/types';
 
 export const topBanner = [
   {
     id: 0,
-    type: '체형 타입',
+    type: RecommendationType.BODY_TYPE,
     title: '나의 체형 타입 분석하기',
     imageUrl: ImgBannerBodyType,
   },
   {
     id: 1,
-    type: '스타일 추천',
+    type: RecommendationType.STYLE,
     title: '취향과 개성에 맞춘 스타일',
     imageUrl: ImgBannerStyle,
   },
   {
     id: 2,
-    type: '패션 추천',
+    type: RecommendationType.FASHION,
     title: '체형과 취향을 반영한 패션',
     imageUrl: ImgBannerItem,
   },
-]
+];
 
 export const subBanner = [
   {
     id: 0,
-    title: '오늘 날씨에 맞는 패션 추천',
+    title: '오늘 날씨에 맞는\n패션 추천',
     imageUrl: ImgSubBannerWeather,
   },
   {
     id: 1,
-    title: '특정 상황에 어울리는 패션 추천',
+    title: '특정 상황에 어울리는\n패션 추천',
     imageUrl: ImgSubBannerSituation,
   },
   {
     id: 2,
-    title: '일상에 꼭 맞는 패션 추천',
+    title: '일상에 꼭 맞는\n패션 추천',
   },
-]
+];
 
 export const surveyList: BodyTypeQuestion[] = [
   {
@@ -146,3 +147,105 @@ export const surveyList: BodyTypeQuestion[] = [
     ],
   },
 ];
+
+export const keywords: StyleKeywordType[] = [
+  {
+    id: 0,
+    label: '캐주얼',
+  },
+  {
+    id: 1,
+    label: '캠퍼스룩',
+  },
+  {
+    id: 2,
+    label: '스트릿',
+  }, {
+    id: 3,
+    label: '클래식',
+  }, {
+    id: 4,
+    label: '비즈니스룩',
+  }, {
+    id: 5,
+    label: '세미포멀',
+  }, {
+    id: 6,
+    label: '오피스룩',
+  }, {
+    id: 7,
+    label: '모던/미니멀',
+  }, {
+    id: 8,
+    label: '빈티지',
+  }, {
+    id: 9,
+    label: '아메카지',
+  }, {
+    id: 10,
+    label: '러블리룩',
+  },
+  {
+    id: 11,
+    label: '테크웨어',
+  },
+  {
+    id: 12,
+    label: 'Y2K',
+  },
+];
+
+export const styleKeywords: ImageKeyword[] = [
+  {
+    id: 0,
+    label: '지적인',
+  },
+  {
+    id: 1,
+    label: '섹시한',
+  },
+  {
+    id: 2,
+    label: '귀여운',
+  },
+  {
+    id: 3,
+    label: '개성있는',
+  },
+  {
+    id: 4,
+    label: '차분한',
+  },
+  {
+    id: 5,
+    label: '활기찬',
+  },
+  {
+    id: 6,
+    label: '힙한',
+  },
+  {
+    id: 7,
+    label: '시크한',
+  },
+  {
+    id: 8,
+    label: '남성적인',
+  },
+  {
+    id: 9,
+    label: '여성스러운',
+  },
+  {
+    id: 10,
+    label: '청순한',
+  },
+];
+
+export const bodyTypeResult = {
+  imageUrl: IcBodyTypeSt,
+  bodyType: "스트레이트",
+  detail: '이름 님의 체형은 스트레이트형에 가깝습니다. 골격이 상대적으로 근육감이 느껴지는 어깨와 탄탄한 허벅지를 가진 반면, 허리의 굴곡은 크지 않고 엉덩이는 입체감이 적습니다. 목이 길고 쇄골이 눈에 띄지 않으며, 다리 길이가 상체에 비해 약간 짧은 편입니다. 이 체형은 상체와 하체의 균형을 고려한 스타일링이 중요하며, 체형적 장점을 돋보이게 하기 위해 적절한 실루엣 선택이 필요합니다.',
+  emphasize: '어깨와 허벅지의 근육감 있는 라인. 이 부분은 피트감이 있는 상의나 슬림 핏 팬츠를 활용해 강조하면 좋습니다. 상체의 볼륨감이 자연스러운 매력을 더해줄 수 있습니다. ',
+  supplementation: '허리가 굴곡이 뚜렷하지 않으므로, 시각적으로 허리를 강조할 수 있는 스타일링이 필요합니다. 다리 길이를 더 길어 보이게 연출하는 하이웨스트 디자인을 추천합니다.',
+}

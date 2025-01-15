@@ -4,13 +4,15 @@ import { useAnswersStore } from '@home/feature/store/useAnswersStore.ts';
 interface AnswerProps {
   answer: string;
   index: number;
+  onClick: () => void;
 }
 
-const Answer = ({ answer, index }: AnswerProps) => {
+const Answer = ({ answer, index, onClick }: AnswerProps) => {
   const { setMyAnswer } = useAnswersStore();
 
   const handleClick = () => {
     setMyAnswer(index, answer);
+    onClick();
   }
 
   return (

@@ -1,13 +1,26 @@
+import IcHeart from '@shared/assets/icon/ic-full-heart.svg';
 import styled from 'styled-components';
-const Post = ({ img }: { img: string }) => {
+
+interface PostProps {
+  img: string;
+  activeTab: string;
+}
+
+const Post = ({ img, activeTab }: PostProps) => {
+  //임시로 좋아요 상태를 true로 설정
+  const like = true;
   return (
     <PostWrapper>
-      <img src={img} alt="게시물" />
+      <Image src={img} alt="게시물" />
+      {like === true && activeTab === 'recommend' && (
+        <HeartIcon src={IcHeart} alt="좋아요 아이콘" />
+      )}
     </PostWrapper>
   );
 };
 
 const PostWrapper = styled.div`
+  position: relative; // 하트 아이콘을 이미지 위에 겹치기 위해 추가
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -16,11 +29,19 @@ const PostWrapper = styled.div`
   :hover {
     cursor: pointer;
   }
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; // 이미지가 카드 안에 꽉 차도록 설정
-  }
+`;
+
+const Image = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
+
+const HeartIcon = styled.img`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1;
 `;
 
 export default Post;

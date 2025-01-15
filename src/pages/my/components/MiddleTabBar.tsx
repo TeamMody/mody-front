@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import SlideIndicator from './SlideIndicator';
+import SlideIndicator from '@pages/my/components/SlideIndicator';
 
 interface TabBarProps {
   tabs: { id: string; icon: React.ElementType; label: string }[];

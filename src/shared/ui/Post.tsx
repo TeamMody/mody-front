@@ -1,51 +1,106 @@
 import styled from 'styled-components';
 import ProgressBar from '@shared/ui/ProgressBar';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Heart from '@shared/assets/icon/ic-heart.svg?react';
 import MoreVertical from '@shared/assets/icon/ic-more-vertical.svg?react';
 import FullHeart from '@shared/assets/icon/ic-full-heart.svg?react';
 
 interface PostPropsType {
-  data: {
-    images: string[];
-    name: string;
-    type: string;
-    description: string;
-    likeCount: number;
-    isLiked: boolean;
-  };
+  images: string[];
+  name: string;
+  type: string;
+  description: string;
+  likeCount: number;
+  isLiked: boolean;
 }
 
-const Post = ({ data }: PostPropsType) => {
+const Post = ({ data }: { data: PostPropsType }) => {
   const [imgIdx, setImgIdx] = useState<number>(0);
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
+  const startXRef = useRef<number | null>(null); // 터치 시작 지점
+
+  // 터치 시작 이벤트
+  const handleTouchStart = (e: React.TouchEvent) => {
+    startXRef.current = e.touches[0].clientX;
+  };
+
+  // 터치 종료 이벤트
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (startXRef.current === null) return;
+
+    const endX = e.changedTouches[0].clientX;
+    const diffX = startXRef.current - endX;
+
+    // 왼쪽 스와이프 (다음 이미지)
+    if (diffX > 50) {
+      setImgIdx((prev) => (prev < data.images.length - 1 ? prev + 1 : prev));
+    }
+    // 오른쪽 스와이프 (이전 이미지)
+    else if (diffX < -50) {
+      setImgIdx((prev) => (prev > 0 ? prev - 1 : prev));
+    }
+
+    startXRef.current = null; // 초기화
+  };
   return (
-    <PostContainer bgImage={data.images[imgIdx]}>
+    <PostContainer
+      bgImage={data.images[imgIdx]}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
       <ProgressBar length={data.images.length} curIdx={imgIdx}></ProgressBar>
+      {/* InfoContainer는 분리가 필요해보임 imgIdx가 리렌더링될 때마다  */}
       <InfoContainer isExpanded={isExpanded} onClick={() => setIsExpanded((prev) => !prev)}>
         <UserInfo>
           <span className="user-name">{data.name}</span>
           <span className="user-type">{data.type}</span>
-          {isExpanded && <IconBox data={data} />}
+          {isExpanded && <IconBox data={data} isExpanded={isExpanded} />}
         </UserInfo>
         <DescriptionContainer>
-          <p className={`description ${isExpanded ? 'expanded' : ''}`}>
-            {data.description}
-            <span className="more-btn">{isExpanded ? '접기' : '더보기'}</span>
-          </p>
-          {!isExpanded && <IconBox data={data} />}
+          <p className={`description ${isExpanded ? 'expanded' : ''}`}>{data.description}</p>
+          {!isExpanded && <IconBox data={data} isExpanded={isExpanded} />}
         </DescriptionContainer>
       </InfoContainer>
     </PostContainer>
   );
 };
 
-const IconBox = ({ data }: PostPropsType) => {
+// const InfoWrapper = React.memo(
+//   ({
+//     data,
+//     isExpanded,
+//     setIsExpanded,
+//   }: {
+//     data: PostPropsType;
+//     isExpanded: boolean;
+//     setIsExpanded: any;
+//   }) => {
+//     return (
+//       <InfoContainer isExpanded={isExpanded} onClick={() => setIsExpanded((prev) => !prev)}>
+//         <UserInfo>
+//           <span className="user-name">{data.name}</span>
+//           <span className="user-type">{data.type}</span>
+//           {isExpanded && <IconBox data={data} isExpanded={isExpanded} />}
+//         </UserInfo>
+//         <DescriptionContainer>
+//           <p className={`description ${isExpanded ? 'expanded' : ''}`}>{data.description}</p>
+//           {!isExpanded && <IconBox data={data} isExpanded={isExpanded} />}
+//         </DescriptionContainer>
+//       </InfoContainer>
+//     );
+//   },
+// );
+
+const IconBox = ({ data, isExpanded }: { data: PostPropsType; isExpanded: boolean }) => {
   return (
-    <IconContainer>
+    <IconContainer isExpanded={isExpanded}>
       <div className="heart">
         {/* onClick event 설정 */}
-        {data.isLiked ? <FullHeart onClick={() => console.log('clicked')} /> : <Heart />}
+        {data.isLiked ? (
+          <FullHeart width={24} height={24} onClick={() => console.log('clicked')} />
+        ) : (
+          <Heart width={24} height={24} />
+        )}
         <span>{data.likeCount}</span>
       </div>
       <div className="more-vertical">
@@ -62,6 +117,8 @@ const PostContainer = styled.div<{ bgImage: string }>`
   position: relative;
   background-color: ${({ theme }) => theme.colors.gray600};
   background-image: url(${({ bgImage }) => bgImage});
+  // transition: background-image; /* 배경 변경 시 부드러운 전환 효과 */
+
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -79,12 +136,15 @@ const InfoContainer = styled.div<{ isExpanded: boolean }>`
   gap: 20px;
   width: 100%;
   height: ${({ isExpanded }) => (isExpanded ? '40%' : '20%')};
+  transition: height 0.5s ease;
 `;
 
 const UserInfo = styled.div`
   display: flex;
   align-items: center;
   gap: 20px;
+  position: relative;
+
   & > .user-name {
     font-size: ${({ theme }) => theme.fonts.heading_bold_24px};
   }
@@ -110,7 +170,6 @@ const DescriptionContainer = styled.div`
     overflow: hidden;
     text-overflow: ellipsis;
     word-break: break-word;
-    transition: height 1s ease; /* 부드러운 전환 효과 */
 
     &.expanded {
       height: auto; /* 확장 시 높이 자동 */
@@ -129,15 +188,19 @@ const DescriptionContainer = styled.div`
     }
   }
 `;
-// p태그 가운데 정렬 px단위 말고 해결할 수 있나 ?
 
-const IconContainer = styled.div`
+const IconContainer = styled.div<{ isExpanded: boolean }>`
   width: 20%;
   height: 100%;
   display: flex;
 
+  position: ${({ isExpanded }) => isExpanded && 'absolute'};
+  right: ${({ isExpanded }) => isExpanded && '0'};
+  bottom: ${({ isExpanded }) => isExpanded && '-5px'};
+
   div {
     width: 50%;
+    height: 200%;
   }
   .heart {
     display: flex;

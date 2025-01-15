@@ -5,14 +5,12 @@ import { HeaderAction } from '@shared/types';
 import logo from '@shared/assets/icon/ic-logo.svg';
 import plus from '@shared/assets/icon/ic-plus.svg';
 import hamburger from '@shared/assets/icon/ic-hamburger.svg';
-import IcHexagon from '@shared/assets/icon/ic-hexagon.tsx';
-import IcGrid from '@shared/assets/icon/ic-grid.tsx';
-import IcHeart from '@shared/assets/icon/ic-heart.tsx';
-import RenderTabContent from '@pages/my/components/RenderTabContent.tsx';
+import { MyPageContentLayout } from '@pages/my/components/MyPageContentLayout';
 import { MyBodyTypeCard } from '@pages/my/components/MyBodyTypeCard';
-import { MiddleTabBar } from '@pages/my/components/MiddleTabBar.tsx';
 import { ProfileHeader } from '@pages/my/components/ProfileHeader';
 import { SettingModal } from '@pages/my/components/modal/SettingModal';
+import EditBottomSheet from '@pages/my/components/modal/EditBottomSheetModal';
+
 export const MyPage = () => {
   const [modalState, setModalState] = useState<boolean>(false);
   const openModal = () => {
@@ -30,24 +28,14 @@ export const MyPage = () => {
       onClick: openModal,
     },
   ];
-  const [activeTab, setActiveTab] = useState<string>('recommend');
-
-  const tabs = [
-    { id: 'recommend', icon: IcHexagon, label: '추천 결과' },
-    { id: 'post', icon: IcGrid, label: '게시글' },
-    { id: 'like', icon: IcHeart, label: '좋아요' },
-  ];
 
   return (
     <Wrapper>
       <AppBar leftHeaderAction={leftHeaderAction} rightHeaderActionArr={rightHeaderActionArr} />
-      <ProfileHeader />
       <SettingModal isOpened={modalState} onClose={closeModal} />
+      <ProfileHeader />
       <MyBodyTypeCard />
-      {/* 중앙 탭바 */}
-      <MiddleTabBar tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />
-      {/* 하단 내용 */}
-      <RenderTabContent activeTab={activeTab} />
+      <MyPageContentLayout />
     </Wrapper>
   );
 };
