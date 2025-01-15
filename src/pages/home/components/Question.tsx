@@ -2,15 +2,22 @@ import { BodyTypeAnswer } from '@shared/types';
 import styled from 'styled-components';
 import Answer from '@home/components/Answer.tsx';
 import { useAnswersStore } from '@home/feature/store/useAnswersStore.ts';
+import { forwardRef, useState } from 'react';
 
 interface QuestionProps {
   question: string;
   answers: BodyTypeAnswer[];
   index: number;
+  ref: HTMLDivElement;
 }
 
-const Question = ({ question, answers, index }: QuestionProps) => {
+const Question = forwardRef<HTMLDivElement, QuestionProps>(({ question, answers, index }, ref) => {
   const { myAnswers } = useAnswersStore();
+  const [selected, setSelected] = useState(false);
+
+  const changeVisible = () => {
+    setSelected(!selected);
+  };
 
   if (index !== 0) {
     if (myAnswers[index - 1] === '') {
@@ -18,26 +25,21 @@ const Question = ({ question, answers, index }: QuestionProps) => {
     }
   }
 
-  if (myAnswers[index] !== '') {
-    return (
-      <Container>
-        <QuestionText>{question}</QuestionText>
-        <SelectedAnswer>{myAnswers[index]}</SelectedAnswer>
-      </Container>
-    );
-  }
-
   return (
-    <Container>
+    <Container ref={ref}>
       <QuestionText>{question}</QuestionText>
-      <AnswersContainer>
-        {answers.map((answer) => (
-          <Answer key={answer.id} index={index} {...answer} />
-        ))}
-      </AnswersContainer>
+      {!selected
+        ? <AnswersContainer>
+          {answers.map((answer) => (
+            <Answer key={answer.id} index={index} {...answer} onClick={changeVisible} />
+          ))}
+        </AnswersContainer>
+        : <SelectedAnswer onClick={changeVisible}>{myAnswers[index]}</SelectedAnswer>
+      }
     </Container>
   );
-};
+}
+);
 
 export default Question;
 

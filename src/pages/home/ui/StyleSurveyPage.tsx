@@ -15,7 +15,7 @@ export const StyleSurveyPage = () => {
   };
 
   const handleNavigate = () => {
-      navigate('/loading', { state: { type: type } });
+      navigate('/recommendation-result', { state: { type: type } });
   }
 
   return (
