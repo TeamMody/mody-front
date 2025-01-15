@@ -16,26 +16,26 @@ const MainRecommendation = () => {
 
       const containerCenter = container.scrollLeft + container.offsetWidth / 2; // 컨테이너 중심 위치
 
-      // 배너들의 offsetLeft 값을 비교하여 가장 가까운 배너를 찾음
       let closestId = 0;
       let closestDistance = Infinity;
 
+      // 배너의 중심 위치를 계산하고 가장 가까운 배너의 ID를 찾음
       Array.from(container.children).forEach((child, index) => {
-        const banner = child as HTMLElement;
-        const bannerCenter = banner.offsetLeft + banner.offsetWidth / 2; // 배너의 중심 위치
+        if (!(child instanceof HTMLElement)) return; // 타입 체크
+        const bannerCenter = child.offsetLeft + child.offsetWidth / 2; // 배너 중심
         const distance = Math.abs(containerCenter - bannerCenter);
 
         if (distance < closestDistance) {
-          closestId = topBanner[index].id;
+          closestId = topBanner[index].id; // 배너 ID 설정
           closestDistance = distance;
         }
       });
 
-      setFocusedId(closestId); // 가장 가까운 배너의 ID를 포커스로 설정
+      setFocusedId(closestId); // 가장 가까운 배너의 ID 설정
     };
 
     container.addEventListener('scroll', handleScroll);
-    return () => container.removeEventListener('scroll', handleScroll);
+    return () => container.removeEventListener('scroll', handleScroll); // 클린업
   }, []);
 
   return (
@@ -53,6 +53,7 @@ const MainRecommendation = () => {
 export default MainRecommendation;
 
 const MainBannersContainer = styled.div`
+  width: 100%;
   display: flex;
   align-items: center;
   gap: 16px;
