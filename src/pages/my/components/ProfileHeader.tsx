@@ -29,8 +29,8 @@ export const ProfileHeader = () => {
         )}
         <UserInfoContaniner>
           <UserInfoSection>
-            <div className="responsive-div">{UserInfo.name}</div>
-            <div>{UserInfo.type || '체형 진단 결과가 없습니다'}</div>
+            <span className="responsive-div">{UserInfo.name}</span>
+            <span>{UserInfo.type || '체형 진단 결과가 없습니다'}</span>
           </UserInfoSection>
           <ActivityStatus>
             <div>
@@ -79,11 +79,11 @@ const UserInfoSection = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  & > div:nth-child(1) {
+  gap: 9px;
+  & > span:nth-child(1) {
     font-size: ${({ theme }) => theme.fonts.heading_bold_24px};
-    transiton: font-size 0.2 ease;
   }
-  & > div:nth-child(2) {
+  & > span:nth-child(2) {
     font-size: ${({ theme }) => theme.fonts.detail_medium_12px};
   }
 `;
@@ -103,6 +103,8 @@ const ActivityStatus = styled.div`
   & > div:nth-child(1) > span:nth-child(1) {
     font-size: ${({ theme }) => theme.fonts.heading_bold_24px};
     text-align: center;
+    align-content: start;
+    align-items: start;
   }
 
   & > div:nth-child(1) > span:nth-child(2) {
