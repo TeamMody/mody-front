@@ -21,10 +21,10 @@ export const ProfileHeader = () => {
     return (
       <Container>
         {UserInfo.img ? (
-          <UserImg img={UserInfo.img} width="80px" height="80px" />
+          <UserImg img={UserInfo.img} width="9.479vh" height="9.479vh" />
         ) : (
           <EmptyProfile>
-            <IcEmptyProfile width="80px" height="80px" />
+            <IcEmptyProfile width="20.513vw" height="9.479vh" />
           </EmptyProfile>
         )}
         <UserInfoContaniner>
@@ -71,7 +71,7 @@ const UserInfoContaniner = styled.div`
   width: 65.13vw;
   height: 7.7vh;
   justify-content: space-between;
-  margin-right: 5.128vw;
+  margin-right: 4.128vw;
   margin-top: 2.725vh;
 `;
 const UserInfoSection = styled.div`
@@ -90,7 +90,7 @@ const ActivityStatus = styled.div`
   width: auto;
   display: flex;
   justify-content: space-between;
-
+  gap: 3px;
   & > div:nth-child(1) {
     height: 7.7vh;
     display: flex;
