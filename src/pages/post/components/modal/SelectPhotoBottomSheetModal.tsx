@@ -5,6 +5,7 @@ import IcCamera from '@shared/assets/icon/ic-camera.svg?react';
 import IcGallery from '@shared/assets/icon/ic-gallery.svg?react';
 import { ImgLayout } from '@pages/post/components/ImgLayout';
 import { mockData } from '@pages/post/ui/PostPage';
+import { useImagesStore } from '@pages/post/components/store/ClickImg';
 interface SelectPhotoBottomModalProps {
   isOpened: boolean;
   onClose: () => void;
@@ -12,6 +13,8 @@ interface SelectPhotoBottomModalProps {
 
 export const SelectPhotoBottomSheetModal = ({ isOpened, onClose }: SelectPhotoBottomModalProps) => {
   const ref = useRef<SheetRef>(null);
+  const { image } = useImagesStore();
+  console.log(image);
   return (
     <Sheet isOpen={isOpened} onClose={onClose} ref={ref}>
       <SheetContainer>

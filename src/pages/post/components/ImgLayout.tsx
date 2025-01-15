@@ -1,12 +1,12 @@
-import { useState } from 'react';
 import styled from 'styled-components';
-
+import { useImagesStore } from '@pages/post/components/store/ClickImg';
 export const ImgLayout = ({ ImgUrl }: { ImgUrl: string }) => {
-  const [ImgState, setImgState] = useState<string | undefined>(undefined);
-  const handleClick = (ImgUrl: string | undefined) => {
-    setImgState(ImgUrl);
+  const { setImages, setImg } = useImagesStore();
+  const handleClick = (ImgUrl: string) => {
+    setImg(ImgUrl);
+    setImages(ImgUrl);
   };
-  console.log(ImgState);
+
   return <ImgStyle src={ImgUrl} onClick={() => handleClick(ImgUrl)} />;
 };
 

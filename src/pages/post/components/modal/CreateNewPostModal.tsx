@@ -8,23 +8,23 @@ import { IcEmptyProfile } from '@shared/assets/icon/ic-emptyProfileIcon';
 import { ModalProps } from '@shared/types/my/modalProps';
 import { EditUserInfoModal } from '@pages/my/components/modal/EditUserInfoModal';
 import ReactDOM from 'react-dom';
-import { CreateNewPostModal } from './createNewPostModal';
+import Post from '@shared/ui/Post';
+import { mockData } from '@pages/post/ui/PostPage';
 import { useImagesStore } from '@pages/post/components/store/ClickImg';
-export const SelectPhotoModal = ({ isOpened, onClose }: ModalProps) => {
-  const [modalState, setModalState] = useState<boolean>(false);
-  const { image } = useImagesStore();
-  console.log(image);
-  const openModal = () => {
-    setModalState(true);
+export const CreateNewPostModal = ({ isOpened, onClose }: ModalProps) => {
+  const { images } = useImagesStore();
+  const [modalState, setModalState] = useState<string | null>(null);
+  const openModal = (modalName: string) => {
+    setModalState(modalName);
   };
   const closeModal = () => {
-    setModalState(false);
+    setModalState(null);
   };
 
   const handleClose = () => {
     if (onClose) onClose();
   };
-
+  console.log(images);
   return ReactDOM.createPortal(
     <AnimatePresence>
       {isOpened && (
@@ -39,16 +39,10 @@ export const SelectPhotoModal = ({ isOpened, onClose }: ModalProps) => {
             <button onClick={handleClose}>
               <IcLeftArrow />
             </button>
-            <button onClick={openModal}>다음</button>
-            <CreateNewPostModal isOpened={modalState} onClose={closeModal} />
+            <div>새로운 게시물</div>
           </TopBox>
           <BottomBox isOpened={isOpened}>
-            <ChooseImg
-              initial={{ width: '100%', height: '100%' }}
-              animate={{ width: '57.692vw', height: '45.316vh' }}
-              transition={{ duration: 0.4, ease: 'linear' }}
-              src={image}
-            />
+            <Post data={mockData} />
           </BottomBox>
         </Container>
       )}
@@ -61,7 +55,7 @@ const Container = styled(motion.div)`
   max-width: 440px;
   width: 100%;
   height: 100vh;
-  z-index: 1000;
+  z-index: 10000;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 `;
 
