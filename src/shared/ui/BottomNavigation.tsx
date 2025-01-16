@@ -4,30 +4,24 @@ import IcHome from '@shared/assets/icon/ic-home.tsx';
 import IcInbox from '@shared/assets/icon/ic-inbox.tsx';
 import IcUser from '@shared/assets/icon/ic-user';
 import { ActiveProps } from '@shared/types';
-import { useState } from 'react';
-
-enum Tab {
-  HOME = 1,
-  POST = 2,
-  MY = 3,
-}
+import { ActiveIndex, useBottomNavigationStore } from '@shared/store/useBottomNavigationStore.ts';
 
 const BottomNavigation = () => {
-  const [activeTab, setActiveTab] = useState(1);
+  const { activeIndex, setActiveIndex } = useBottomNavigationStore();
 
   return (
     <Wrapper>
       <Container>
 
-        <BottomLink onClick={() => setActiveTab(1)} to="/" $active={activeTab === Tab.HOME}>
-          <IcHome $active={activeTab === Tab.HOME} />홈
+        <BottomLink onClick={() => setActiveIndex(ActiveIndex.HOME)} to="/" $active={activeIndex === ActiveIndex.HOME}>
+          <IcHome $active={activeIndex === ActiveIndex.HOME} />홈
         </BottomLink>
-        <BottomLink onClick={() => setActiveTab(2)} to="/post" $active={activeTab === Tab.POST}>
-          <IcInbox $active={activeTab === Tab.POST} />
+        <BottomLink onClick={() => setActiveIndex(ActiveIndex.POST)} to="/post" $active={activeIndex === ActiveIndex.POST}>
+          <IcInbox $active={activeIndex === ActiveIndex.POST} />
           비슷
         </BottomLink>
-        <BottomLink onClick={() => setActiveTab(3)} to="/my" $active={activeTab === Tab.MY}>
-          <IcUser $active={activeTab === Tab.MY} />내 정보
+        <BottomLink onClick={() => setActiveIndex(ActiveIndex.PROFILE)} to="/my" $active={activeIndex === ActiveIndex.PROFILE}>
+          <IcUser $active={activeIndex === ActiveIndex.PROFILE} />내 정보
         </BottomLink>
       </Container>
     </Wrapper>
