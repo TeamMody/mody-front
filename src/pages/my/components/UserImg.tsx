@@ -16,6 +16,7 @@ const ProfileImg = styled.img<ProfileImgProps>`
   width: ${({ $width }) => $width};
   height: ${({ $height }) => $height};
   border-radius: 50px;
-  margin-top: 16px;
-  margin-left: 20px;
+  margin-top: 1.896vh;
+  margin-left: 5.128vw;
+  aspect-ratio: 1 / 1;
 `;
