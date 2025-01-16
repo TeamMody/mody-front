@@ -35,12 +35,12 @@ export const MyBodyTypeCard = () => {
 };
 
 const Container = styled.div`
-  width: calc(100% - 41px);
+  width: calc(100% - 10.513vw);
   margin: 1.896vh 5.128vw 2.844vh 5.385vw;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10.5px 17px 10.5px 16px;
+  padding: 1.244vh 4.359vw 1.244vh 4.103vw;
   border-radius: 10px;
   background-color: ${({ theme }) => theme.colors.gray700};
 `;
