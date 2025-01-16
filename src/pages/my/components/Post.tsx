@@ -12,9 +12,7 @@ const Post = ({ img, activeTab }: PostProps) => {
   return (
     <PostWrapper>
       <Image src={img} alt="게시물" />
-      {like === true && activeTab === 'recommend' && (
-        <HeartIcon src={IcHeart} alt="좋아요 아이콘" />
-      )}
+      {like && activeTab === 'recommend' && <HeartIcon src={IcHeart} alt="좋아요 아이콘" />}
     </PostWrapper>
   );
 };
@@ -39,9 +37,10 @@ const Image = styled.img`
 
 const HeartIcon = styled.img`
   position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 1;
+  top: 5%;
+  left: 35%;
+  width: 24px;
+  height: 24px;
 `;
 
 export default Post;

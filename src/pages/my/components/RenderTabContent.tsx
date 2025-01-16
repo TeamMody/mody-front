@@ -3,6 +3,7 @@ import ImgBannerBodyType from '@shared/assets/img/img-banner-body-type.png';
 import ImgBannerItem from '@shared/assets/img/img-banner-item.png';
 import ImgBannerStyle from '@shared/assets/img/img-banner-style.png';
 import TabContents from '@pages/my/components/TabContents';
+
 const RenderTabContent = ({ activeTab }: { activeTab: string }) => {
   return (
     <Wrapper>
