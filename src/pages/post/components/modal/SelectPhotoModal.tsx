@@ -1,19 +1,15 @@
-import { IcLeftArrow } from '@shared/assets/icon/ic-left-arrow';
-import CustomDivider from '@shared/ui/CustomDivider';
 import styled from 'styled-components';
 import { useState } from 'react';
-import { ConfirmationModal } from '@pages/my/components/modal/ConfirmationModal';
-import { AnimatePresence, motion } from 'framer-motion';
-import { IcEmptyProfile } from '@shared/assets/icon/ic-emptyProfileIcon';
-import { ModalProps } from '@shared/types/my/modalProps';
-import { EditUserInfoModal } from '@pages/my/components/modal/EditUserInfoModal';
 import ReactDOM from 'react-dom';
-import { CreateNewPostModal } from './createNewPostModal';
-import { useImagesStore } from '@pages/post/components/store/ClickImg';
+import { AnimatePresence, motion } from 'framer-motion';
+import { ModalProps } from '@shared/types/my/modalProps';
+import { IcLeftArrow } from '@shared/assets/icon/ic-left-arrow';
+import { CreateNewPostModal } from '@pages/post/components/modal/CreateNewPostModal';
+import { useImagesStore } from '@pages/post/components/store/selectedImg';
 export const SelectPhotoModal = ({ isOpened, onClose }: ModalProps) => {
   const [modalState, setModalState] = useState<boolean>(false);
-  const { image } = useImagesStore();
-  console.log(image);
+  const { image, setImages, reset } = useImagesStore();
+
   const openModal = () => {
     setModalState(true);
   };
@@ -22,14 +18,16 @@ export const SelectPhotoModal = ({ isOpened, onClose }: ModalProps) => {
   };
 
   const handleClose = () => {
-    if (onClose) onClose();
+    if (onClose) {
+      reset();
+      onClose();
+    }
   };
 
   return ReactDOM.createPortal(
     <AnimatePresence>
       {isOpened && (
         <Container
-          key="hi"
           initial={{ x: '100%' }}
           animate={{ x: '0%' }}
           exit={{ x: '100%' }}

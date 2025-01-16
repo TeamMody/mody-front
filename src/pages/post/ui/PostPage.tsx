@@ -8,6 +8,7 @@ import TempImg2 from '@post/images/tempImg2.jpg';
 import { SelectPhotoModal } from '@pages/post/components/modal/SelectPhotoModal';
 import { useState } from 'react';
 import { SelectPhotoBottomSheetModal } from '@pages/post/components/modal/SelectPhotoBottomSheetModal';
+import { useImagesStore } from '@pages/post/components/store/selectedImg';
 interface PostPropsType {
   images: string[];
   name: string;
@@ -28,6 +29,8 @@ export const mockData: PostPropsType = {
 
 export const PostPage = () => {
   const [modalState, setModalState] = useState<boolean>(false);
+  const { images, setImages } = useImagesStore();
+  console.log(images);
   const modalOpen = () => {
     setModalState(true);
   };

@@ -1,18 +1,15 @@
-import { IcLeftArrow } from '@shared/assets/icon/ic-left-arrow';
-import CustomDivider from '@shared/ui/CustomDivider';
 import styled from 'styled-components';
 import { useState } from 'react';
-import { ConfirmationModal } from '@pages/my/components/modal/ConfirmationModal';
-import { AnimatePresence, motion } from 'framer-motion';
-import { IcEmptyProfile } from '@shared/assets/icon/ic-emptyProfileIcon';
-import { ModalProps } from '@shared/types/my/modalProps';
-import { EditUserInfoModal } from '@pages/my/components/modal/EditUserInfoModal';
 import ReactDOM from 'react-dom';
-import Post from '@shared/ui/Post';
-import { mockData } from '@pages/post/ui/PostPage';
-import { useImagesStore } from '@pages/post/components/store/ClickImg';
+import { AnimatePresence, motion } from 'framer-motion';
+import { ModalProps } from '@shared/types/my/modalProps';
+import { IcLeftArrow } from '@shared/assets/icon/ic-left-arrow';
+import CustomDivider from '@shared/ui/CustomDivider';
+import { useImagesStore } from '@pages/post/components/store/selectedImg';
+import BottomSheetItem from '@pages/my/components/BottomSheetItem';
+
 export const CreateNewPostModal = ({ isOpened, onClose }: ModalProps) => {
-  const { images } = useImagesStore();
+  const { images, setImages } = useImagesStore();
   const [modalState, setModalState] = useState<string | null>(null);
   const openModal = (modalName: string) => {
     setModalState(modalName);
@@ -22,14 +19,15 @@ export const CreateNewPostModal = ({ isOpened, onClose }: ModalProps) => {
   };
 
   const handleClose = () => {
-    if (onClose) onClose();
+    if (onClose) {
+      onClose();
+    }
   };
   console.log(images);
   return ReactDOM.createPortal(
     <AnimatePresence>
       {isOpened && (
         <Container
-          key="hi"
           initial={{ x: '100%' }}
           animate={{ x: '0%' }}
           exit={{ x: '100%' }}
@@ -41,8 +39,16 @@ export const CreateNewPostModal = ({ isOpened, onClose }: ModalProps) => {
             </button>
             <div>새로운 게시물</div>
           </TopBox>
-          <BottomBox isOpened={isOpened}>
-            <Post data={mockData} />
+          <BottomBox>
+            <img></img>
+            <div>
+              <textarea placeholder="게시글을 작성해주세요."></textarea>
+              <CustomDivider width="100%" border="1px" />
+              <div>
+                <BottomSheetItem content="나만보기" />
+                <button>스타일 저장하기</button>
+              </div>
+            </div>
           </BottomBox>
         </Container>
       )}
@@ -73,26 +79,53 @@ const TopBox = styled.div`
     height: 100%;
   }
 
-  & > button:nth-child(2) {
+  & > div:nth-child(2) {
     height: 100%;
     color: white;
-    font-size: ${({ theme }) => theme.fonts.heading_medium_18px};
+    font-size: ${({ theme }) => theme.fonts.heading_bold_22px};
+    text-align: center;
+    align-content: center;
+    margin-right: 30%;
   }
 `;
 
-type StyledProps = Pick<ModalProps, 'isOpened'>;
+// type StyledProps = Pick<ModalProps, 'isOpened'>;
 
-const BottomBox = styled.div<StyledProps>`
+const BottomBox = styled.div`
   max-width: 440px;
   width: 100%;
   height: 92.417vh;
-  background: ${({ theme }) => theme.colors.gray900};
+  background-color: ${({ theme }) => theme.colors.gray900};
   display: flex;
-  justify-content: center;
-`;
+  flex-direction: column;
+  justify-content: space-between;
+  & > img:nth-child(1) {
+    width: 100%;
+    border: 1px solid red;
+    height: 45.735vh;
+    margin-top: 4.147vh;
+  }
+  & > div:nth-child(2) {
+    width: 100%;
+  }
+  & > div:nth-child(2) > textarea:nth-child(1) {
+    width: 100%;
+    font-size: ${({ theme }) => theme.fonts.body_medium_16px};
+    border: none;
+    color: white;
+    background-color: transparent;
+    outline: none;
+    padding: 0px 5.128vw;
+  }
 
-const ChooseImg = styled(motion.img)`
-  width: 100%;
-  height: 100%;
-  background-color: ${({ theme }) => theme.colors.gray800};
+  & > div:nth-child(2) > div:nth-child(3) {
+    width: 100%;
+    padding: 0px 5.128vw;
+    margin: 1.896vh 0 4.028vh 0;
+  }
+  & > div:nth-child(2) > div:nth-child(3) > button {
+    width: 100%;
+    height: 6.635vh;
+    background-color: ${({ theme }) => theme.colors.green500};
+  }
 `;
