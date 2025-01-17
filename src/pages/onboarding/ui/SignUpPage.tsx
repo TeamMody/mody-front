@@ -5,6 +5,7 @@ import Logo from '@shared/assets/icon/ic-inputuser-logo.svg?react';
 import CustomButton from '@shared/ui/CustomButton';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
+import FinishedSignUpPage from './FinishedSignUpPage';
 const SignUpPage = () => {
   const [buttonActive, setButtonActive] = useState<boolean>(false);
   const [slideIndex, setSlideIndex] = useState<number>(0);
@@ -12,12 +13,14 @@ const SignUpPage = () => {
 
   const handleOnClick = () => {
     // 회원가입 완료 시 페이지 이동
-    if (slideIndex === 2) {
+    if (slideIndex === 1) {
+      setButtonActive(true);
+    } else if (slideIndex === 2) {
       navigate('/onboarding/inputuser');
     } else {
-      setSlideIndex((prevIndex) => prevIndex + 1);
       setButtonActive(false);
     }
+    setSlideIndex((prevIndex) => prevIndex + 1);
   };
   // 인디케이터 표시 여부를 결정하는 함수
   const shouldShowIndicator = slideIndex < 2; // 두 번째 슬라이드까지만 인디케이터 표시
@@ -37,15 +40,11 @@ const SignUpPage = () => {
 
       <StyledCarousel
         selectedItem={slideIndex} // 현재 슬라이드 인덱스
-        // onChange={(index) => {
-        //   setActiveTab(tabs[index].id);
-        // }} // 슬라이드 변경 시 탭 동기화
         showArrows={false} // 화살표 숨김
         showStatus={false} // 상태 표시 숨김
         showThumbs={false} // 썸네일 표시 숨김
         showIndicators={shouldShowIndicator} // 인디케이터 숨김
-        // onChange={(index) => setSlideIndex(index)}
-        // swipeable={false} // 스와이프 사용하지 않음
+        swipeable={false} // 스와이프 사용하지 않음
         renderIndicator={(onClickHandler, isSelected, index) => {
           if (index > 1) return null; // 2번째 인디케이터까지만 표시
           return (
@@ -58,7 +57,7 @@ const SignUpPage = () => {
       >
         <EmailCodePage value={buttonActive} setValue={setButtonActive} />
         <EmailCodePage value={buttonActive} setValue={setButtonActive} />
-        <EmailCodePage value={buttonActive} setValue={setButtonActive} />
+        <FinishedSignUpPage />
       </StyledCarousel>
     </Wrapper>
   );
@@ -96,7 +95,7 @@ const StyledCarousel = styled(Carousel)`
   overflow-y: auto;
   .slider-wrapper {
     height: 80vh;
-    padding-top: 27.6vh;
+    padding-top: 17vh;
   }
   .carousel-slider {
     height: 100%;

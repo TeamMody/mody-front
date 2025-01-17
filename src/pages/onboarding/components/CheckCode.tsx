@@ -5,15 +5,16 @@ import InputField from './InputField';
 import Message from './Message';
 import SubmitButton from './SubmitButton';
 import { useForm } from 'react-hook-form';
-import { CodeSchema, CodeSchemaType } from '../schema';
+import { CodeSchema, CodeSchemaType } from '@onboarding/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { StateProps } from '@shared/types';
 
 interface CheckCodeProps extends StateProps<boolean> {}
 
-const CheckCode = ({ value: codeConfirmed, setValue: setCodeConfirmed }: CheckCodeProps) => {
+const CheckCode = ({ value: buttonActive, setValue: setButtonActive }: CheckCodeProps) => {
   const [message, setMessage] = useState<string>('');
   const [isValid, setIsValid] = useState<boolean>(false);
+  const [codeConfirmed, setCodeConfirmed] = useState<boolean>(false);
   const schema = CodeSchema;
   const {
     register,
@@ -40,9 +41,11 @@ const CheckCode = ({ value: codeConfirmed, setValue: setCodeConfirmed }: CheckCo
   const onSubmit = (data: CodeSchemaType) => {
     if (data.code === '12345678') {
       setCodeConfirmed(true);
+      setButtonActive(true);
       setMessage('인증 코드가 확인 됐어요.');
     } else {
       setIsValid(false);
+      setCodeConfirmed(false);
       setMessage('인증 코드가 일치하지 않아요.');
     }
   };

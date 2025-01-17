@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import CheckEmail from '../components/CheckEmail';
+import CheckEmail from '@onboarding/components/CheckEmail';
 import { useState } from 'react';
-import CheckCode from '../components/CheckCode';
+import CheckCode from '@onboarding/components/CheckCode';
 import { StateProps } from '@shared/types';
 
 interface EmailCodePageProps extends StateProps<boolean> {}
@@ -23,7 +23,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0 auto;
+  margin: 10.6vh auto;
   width: 90%;
   height: 100%;
 `;

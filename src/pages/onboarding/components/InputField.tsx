@@ -9,7 +9,15 @@ interface InputFieldProps {
 }
 
 const InputField = ({ placeholder, type, register, isvalid }: InputFieldProps) => {
-  return <Input placeholder={placeholder} type={type} {...register} isvalid={isvalid} />;
+  return (
+    <Input
+      autoComplete="off"
+      placeholder={placeholder}
+      type={type}
+      {...register}
+      isvalid={isvalid}
+    />
+  );
 };
 
 const Input = styled.input<{ isvalid: boolean }>`
