@@ -4,7 +4,7 @@ import { UseFormRegisterReturn } from 'react-hook-form';
 interface InputFieldProps {
   placeholder: string;
   type: string;
-  register: UseFormRegisterReturn; // register로 받은 객체를 그대로 전달
+  register: UseFormRegisterReturn | void; // register로 받은 객체를 그대로 전달
   isvalid: boolean;
 }
 

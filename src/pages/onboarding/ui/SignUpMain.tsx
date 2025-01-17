@@ -6,7 +6,8 @@ import CustomButton from '@shared/ui/CustomButton';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import FinishedSignUpPage from './FinishedSignUpPage';
-const SignUpPage = () => {
+import PasswordPage from './PasswordPage';
+const SignUpMain = () => {
   const [buttonActive, setButtonActive] = useState<boolean>(false);
   const [slideIndex, setSlideIndex] = useState<number>(0);
   const navigate = useNavigate();
@@ -56,7 +57,7 @@ const SignUpPage = () => {
         }}
       >
         <EmailCodePage value={buttonActive} setValue={setButtonActive} />
-        <EmailCodePage value={buttonActive} setValue={setButtonActive} />
+        <PasswordPage value={buttonActive} setValue={setButtonActive} />
         <FinishedSignUpPage />
       </StyledCarousel>
     </Wrapper>
@@ -122,4 +123,4 @@ const CustomIndicator = styled.div<{ isSelected: boolean }>`
   cursor: default; // 클릭 시 아무 동작도 하지 않음
 `;
 
-export default SignUpPage;
+export default SignUpMain;

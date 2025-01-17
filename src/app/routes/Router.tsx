@@ -10,7 +10,7 @@ import {
 import { PostPage } from '@pages/post';
 import { MyPage } from '@pages/my';
 import { OnboardingPage, InputUser } from '@pages/onboarding';
-import SignUpPage from '@pages/onboarding/ui/SignUpPage';
+import SignUpPage from '@pages/onboarding/ui/SignUpMain';
 
 export const router = createBrowserRouter([
   {
