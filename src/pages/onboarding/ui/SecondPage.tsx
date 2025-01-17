@@ -1,9 +1,13 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import { SecondPageProps } from '@onboarding/types';
+import BirthdaySelector from '@onboarding/components/BirthdaySelector.tsx';
+import HeightSelector from '@onboarding/components/HeightSelector.tsx';
 
 const SecondPage = ({ register, setValue }: SecondPageProps) => {
   const [selectedSex, setSelectedSex] = useState<string | null>(null);
+  const [isVisibleBirthday, setIsVisibleBirthday] = useState(false);
+  const [isVisibleHeight, setIsVisibleHeight] = useState(false);
 
   const handleSexClick = (sex: string) => {
     setSelectedSex(sex); // 상태 업데이트
@@ -16,11 +20,15 @@ const SecondPage = ({ register, setValue }: SecondPageProps) => {
         <InputBox>
           <span className="title">생년월일 8자리</span>
           <div className="input-box">
-            <input
-              type="text"
-              placeholder="1996년 4월 11일"
-              {...register('birthday', { required: true })}
-            />
+            {isVisibleBirthday ?
+              <BirthdaySelector />
+              : <input
+                onClick={() => setIsVisibleBirthday(!isVisibleBirthday)}
+                type="text"
+                placeholder="1996년 4월 11일"
+                {...register('birthday', { required: true })}
+              />
+            }
           </div>
         </InputBox>
         <InputBox>
@@ -46,9 +54,16 @@ const SecondPage = ({ register, setValue }: SecondPageProps) => {
         </InputBox>
         <InputBox>
           <span className="title">키</span>
-          <div className="input-box">
-            <input type="text" placeholder="160cm" {...register('height', { required: true })} />
-          </div>
+          {isVisibleHeight
+            ? <HeightSelector />
+            : <div className="input-box" onClick={() => setIsVisibleHeight(!isVisibleHeight)}>
+              <input
+                type="text"
+                placeholder="160cm"
+                {...register('height', { required: true })}
+              />
+            </div>
+          }
         </InputBox>
       </InputContainer>
     </>
@@ -112,8 +127,8 @@ const InputBox = styled.div`
 
       &.selected {
         background-color: ${({ theme }) => theme.colors.green500};
-        color:black;
+        color: black;
       }
-  }
+    }
 `;
 export default SecondPage;

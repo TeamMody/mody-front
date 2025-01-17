@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import Post from '@pages/my/components/Post';
-import { useEffect, useRef } from 'react';
 import NoPosts from '@pages/my/components/NoPosts';
 
 interface TabContentsProps {
@@ -10,18 +9,9 @@ interface TabContentsProps {
 }
 
 const TabContents = ({ img, divide, activeTab }: TabContentsProps) => {
-  const tabWrapperRef = useRef<HTMLDivElement | null>(null);
-
-  // activeTab 변경 시마다 스크롤을 초기화
-  useEffect(() => {
-    if (tabWrapperRef.current) {
-      tabWrapperRef.current.scrollTop = 0;
-    }
-  }, [activeTab]);
-
   return img ? (
     //게시글이 있을 때
-    <TabContentsWrapper ref={tabWrapperRef} $divide={divide}>
+    <TabContentsWrapper $divide={divide}>
       {Array.from({ length: 10 }).map((_, i) => (
         <Post key={i} img={img} activeTab={activeTab} />
       ))}
@@ -38,6 +28,7 @@ const TabContentsWrapper = styled.div<{ $divide: number }>`
   grid-auto-rows: ${({ $divide }) => `calc(100% / ${$divide})`};
   width: 100%;
   height: 100%;
+  gap: 0.7vw;
   overflow-y: auto;
 `;
 

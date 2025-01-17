@@ -1,28 +1,33 @@
 import Keyword from '@home/components/Keyword.tsx';
 import styled from 'styled-components';
 import { StyleKeywordType, ImageKeyword } from '@shared/types'
-import React, { useState } from 'react';
+import React from 'react';
+import { useStyleSurveyStore } from '@home/feature/store/useStyleSurveyStore.ts';
 
 interface SurveyProps {
-  title: '선호하는 패션 스타일' | '싫어하는 패션 스타일' | '보여지고 싶은 이미지';
+  category: 'liked' | 'disliked' | 'image';
   keywords: StyleKeywordType[] | ImageKeyword[];
 }
 
-const StyleSurvey: React.FC<SurveyProps> = ({ title, keywords}) => {
-  const [count, setCount] = useState(0);
+enum SurveyType {
+  liked = '선호하는 패션 스타일',
+  disliked = '싫어하는 패션 스타일',
+  image = '보여지고 싶은 이미지',
+}
 
-  const validateMaximum = () => {
-    console.log(count)
-    return count >= 3;
-  }
+const StyleSurvey: React.FC<SurveyProps> = ({ category, keywords }) => {
+  const title = SurveyType[category];
+  const { selectedKeywords, addKeyword, removeKeyword } = useStyleSurveyStore();
 
-  const changeCount = (active: boolean) => {
+  const validateMaximum = () => selectedKeywords[category].length >= 3;
+
+  const changeCount = (active: boolean, label: string) => {
     if (active) {
-      setCount(count + 1);
+      addKeyword(category, label);
     } else {
-      setCount(count - 1);
+      removeKeyword(category, label);
     }
-  }
+  };
 
   return (
     <>
@@ -36,7 +41,7 @@ const StyleSurvey: React.FC<SurveyProps> = ({ title, keywords}) => {
             <Keyword
               key={keyword.id}
               validateMaximum={validateMaximum}
-              changeCount={changeCount}
+              changeCount={(active) => changeCount(active, keyword.label)}
               {...keyword} />
           ))}
         </KeywordsWrapper>
