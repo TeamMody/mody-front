@@ -63,35 +63,41 @@ export const InputUser = () => {
         setValue={setValue}
         getValues={getValues}
       />
-      <Button type="button" onClick={handleButtonClick} disabled={isButtonDisabled}>
-        {curIdx !== 3 ? '다음' : '체형 분석하기'}
-      </Button>
+      <ButtonContainer>
+        <Button type="button" onClick={handleButtonClick} disabled={isButtonDisabled}>
+          {curIdx !== 3 ? '다음' : '체형 분석하기'}
+        </Button>
+      </ButtonContainer>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
   display: flex;
-  position: relative;
   flex-direction: column;
   align-items: center;
   width: 100vw;
-  max-width: 440px;
   height: 100vh;
+  max-width: 440px;
   padding: 16px 20px;
   background-color: ${({ theme }) => theme.colors.gray900};
+  overflow-y: auto;
 `;
 
 const CustomLogo = styled(Logo)`
   margin-top: 16px;
 `;
 
+const ButtonContainer = styled.div`
+  width: 100%;
+  margin-top: auto;
+`;
+
 const Button = styled.button<{ disabled: boolean }>`
-  width: 90%;
+  margin-top: 35px;
+  width: 100%;
   height: 7vh;
-  position: absolute;
   display: flex;
-  bottom: 4vh;
   align-items: center;
   justify-content: center;
   background-color: ${({ disabled, theme }) =>

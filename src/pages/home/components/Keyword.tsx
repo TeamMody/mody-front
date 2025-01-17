@@ -7,20 +7,13 @@ interface KeywordProps {
   changeCount: (active: boolean) => void;
 }
 
-const Keyword: React.FC<KeywordProps> = ({ label, validateMaximum , changeCount}) => {
+const Keyword: React.FC<KeywordProps> = ({ label, validateMaximum, changeCount }) => {
   const [active, setActive] = useState(false);
 
   const changeActive = () => {
-    if (!validateMaximum()) {
-      if (!active) {
-        setActive(true);
-        changeCount(true)
-        return;
-      }
-    }
-    if (active) {
-      setActive(false);
-      changeCount(false)
+    if (!validateMaximum() || active) {
+      setActive(!active);
+      changeCount(!active);
     }
   };
 
