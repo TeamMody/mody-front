@@ -1,13 +1,10 @@
 import styled from 'styled-components';
 import TypeLetter from './TypeLetter';
 import InputField from './InputField';
+import { PasswordSchemaType } from '../schema';
+import { FieldProps } from '@shared/types';
 
-interface CheckPasswordProps {
-  register: any;
-  errors: any;
-  touchedFields: any;
-}
-
+interface CheckPasswordProps extends FieldProps<PasswordSchemaType> {}
 const CheckPassword = ({ register, errors, touchedFields }: CheckPasswordProps) => {
   return (
     <Wrapper>
@@ -21,7 +18,7 @@ const CheckPassword = ({ register, errors, touchedFields }: CheckPasswordProps) 
     </Wrapper>
   );
 };
-const Wrapper = styled.form`
+const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;

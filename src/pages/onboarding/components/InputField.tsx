@@ -4,7 +4,7 @@ import { UseFormRegisterReturn } from 'react-hook-form';
 interface InputFieldProps {
   placeholder: string;
   type: string;
-  register: UseFormRegisterReturn | void; // register로 받은 객체를 그대로 전달
+  register: UseFormRegisterReturn;
   isvalid: boolean;
 }
 
@@ -24,7 +24,7 @@ const Input = styled.input<{ isvalid: boolean }>`
   border-radius: 10px;
   border: ${({ isvalid }) => (isvalid ? 'none' : '1px solid red')};
   width: 100%;
-  height: 5vh;
+  height: 5.68vh;
   text-align: center;
   color: white;
   margin-top: 0.95vh;

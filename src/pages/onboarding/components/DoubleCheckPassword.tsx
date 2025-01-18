@@ -2,20 +2,34 @@ import InputField from './InputField';
 import TypeLetter from './TypeLetter';
 import Message from './Message';
 import styled from 'styled-components';
+import { PasswordSchemaType } from '../schema';
+import { FieldProps } from '@shared/types';
+import { UseFormWatch } from 'react-hook-form';
+import { useEffect } from 'react';
 
-interface DoubleChekPasswordProps {
-  errors: any;
-  touchedFields: any;
-  register: any;
-  watch: any;
+interface DoubleChekPasswordProps extends FieldProps<PasswordSchemaType> {
+  watch: UseFormWatch<PasswordSchemaType>;
+  password: string;
+  passwordConfirm: string;
+  setValue: any;
 }
-
 const DoubleChekPassword = ({
   errors,
   touchedFields,
   register,
-  watch,
+  setValue,
+  password,
+  passwordConfirm,
 }: DoubleChekPasswordProps) => {
+  // 비밀번호와 비밀번호 확인이 일치하는지 확인
+  const isPasswordMatch = password && passwordConfirm && password === passwordConfirm;
+
+  useEffect(() => {
+    // password가 변경될 때마다 passwordConfirm을 빈 값으로 리셋
+    if (password) {
+      setValue('passwordConfirm', '');
+    }
+  }, [password, setValue]);
   return (
     <Wrapper>
       <TypeLetter type="비밀번호 확인" />
@@ -23,15 +37,13 @@ const DoubleChekPassword = ({
         placeholder="비밀번호를 한번 더 입력해 주세요!"
         type="password"
         register={register('passwordConfirm')}
-        isvalid={!errors.passwordConfirm || !touchedFields.passwordConfirm}
+        isvalid={!errors.passwordConfirm || !touchedFields.passwordConfirm || !passwordConfirm}
       />
-      {touchedFields.passwordConfirm &&
-        watch('passwordConfirm') &&
-        (errors.passwordConfirm ? (
-          <Message isvalid={!errors.passwordConfirm} message={errors.passwordConfirm?.message} />
-        ) : (
-          <Message isvalid={!errors.passwordConfirm} message="비밀번호가 일치해요" />
-        ))}
+      {errors.passwordConfirm && passwordConfirm ? (
+        <Message isvalid={!errors.passwordConfirm} message={errors.passwordConfirm?.message} />
+      ) : isPasswordMatch ? (
+        <Message isvalid={isPasswordMatch} message="비밀번호가 일치해요" />
+      ) : null}
     </Wrapper>
   );
 };

@@ -41,4 +41,3 @@ export type UserInfoSchemaType = z.infer<typeof UserInfoSchema>;
 export type EmailSchemaType = z.infer<typeof EmailSchema>;
 export type CodeSchemaType = z.infer<typeof CodeSchema>;
 export type PasswordSchemaType = z.infer<typeof PasswordSchema>;
-// export type SignUpSchemaType = z.infer<typeof SignUpSchema>;

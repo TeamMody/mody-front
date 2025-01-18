@@ -24,15 +24,19 @@ const CheckEmail = ({ value: codeSent, setValue: setCodeSent }: CheckEmailProps)
   });
 
   const [message, setMessage] = useState<string>('');
+
   const onSubmit = (data: EmailSchemaType) => {
-    setMessage('인증번호가 전송되었습니다.');
+    setMessage('인증 코드가 전송되었어요.');
     setCodeSent(true);
   };
   const email = watch('email'); // 이메일 값을 실시간으로 추적
 
-  // 이메일이 변경될 때마다 메시지 초기화
+  // 이메일이 변경될 때마다 메시지 초기화, 인증번호 전송 여부 초기화
   useEffect(() => {
-    if (codeSent) setMessage('');
+    if (codeSent) {
+      setMessage('');
+      setCodeSent(false);
+    }
   }, [email]);
 
   return (
@@ -49,7 +53,12 @@ const CheckEmail = ({ value: codeSent, setValue: setCodeSent }: CheckEmailProps)
       ) : (
         <Message isvalid={isValid} message={message} />
       )}
-      <SubmitButton content="인증번호 전송" isvalid={isValid} />
+      {/* 인증번호 전송 여부에 따라 버튼 내용 변경 */}
+      {codeSent ? (
+        <SubmitButton content="인증 코드 재전송" isvalid={isValid} />
+      ) : (
+        <SubmitButton content="인증 코드 전송" isvalid={isValid} />
+      )}
     </Form>
   );
 };

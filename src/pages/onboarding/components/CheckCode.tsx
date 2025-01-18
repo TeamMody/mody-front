@@ -13,7 +13,9 @@ interface CheckCodeProps extends StateProps<boolean> {}
 
 const CheckCode = ({ value: buttonActive, setValue: setButtonActive }: CheckCodeProps) => {
   const [message, setMessage] = useState<string>('');
+  // 인증코드 유효성 체크
   const [isValid, setIsValid] = useState<boolean>(false);
+  // 인증코드 일치 여부 체크
   const [codeConfirmed, setCodeConfirmed] = useState<boolean>(false);
   const schema = CodeSchema;
   const {
@@ -26,19 +28,21 @@ const CheckCode = ({ value: buttonActive, setValue: setButtonActive }: CheckCode
     mode: 'onChange',
   });
 
-  const code = watch('code'); // 이메일 값을 실시간으로 추적
+  const code = watch('code'); // 인증코드 값을 실시간으로 추적
 
-  // 이메일이 변경될 때마다 메시지 초기화
+  // 인증코드가 변경될 때마다 메시지 초기화
   useEffect(() => {
     if (code?.length === 8) {
       setIsValid(true);
     } else {
       setIsValid(false);
+      setButtonActive(false);
     }
     setMessage('');
   }, [code]);
 
   const onSubmit = (data: CodeSchemaType) => {
+    //임시로 인증코드를 12345678로 설정
     if (data.code === '12345678') {
       setCodeConfirmed(true);
       setButtonActive(true);

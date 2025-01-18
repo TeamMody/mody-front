@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import CheckEmail from '@onboarding/components/CheckEmail';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CheckCode from '@onboarding/components/CheckCode';
 import { StateProps } from '@shared/types';
 
@@ -10,9 +10,18 @@ const EmailCodePage = ({
   setValue: setCodeConfirmed,
 }: EmailCodePageProps) => {
   const [codeSent, setCodeSent] = useState<boolean>(false);
+
+  //인증번호 전송 여부 변경 시 인증번호 확인 초기화
+  useEffect(() => {
+    if (!codeSent) {
+      setCodeConfirmed(false);
+    }
+  }, [codeSent]);
   return (
     <Wrapper>
+      {/* 이메일 확인 */}
       <CheckEmail value={codeSent} setValue={setCodeSent} />
+      {/* 인증 코드 확인 */}
       {codeSent && <CheckCode value={codeConfirmed} setValue={setCodeConfirmed} />}
     </Wrapper>
   );

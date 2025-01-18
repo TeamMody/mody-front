@@ -1,3 +1,5 @@
+import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form';
+
 export interface ActiveProps {
   $active: boolean;
 }
@@ -10,4 +12,10 @@ export type HeaderAction = {
 export interface StateProps<T> {
   value: T;
   setValue: React.Dispatch<React.SetStateAction<T>>;
+}
+
+export interface FieldProps<T extends FieldValues> {
+  register: UseFormRegister<T>;
+  errors: FieldErrors<T>;
+  touchedFields: FieldValues;
 }
