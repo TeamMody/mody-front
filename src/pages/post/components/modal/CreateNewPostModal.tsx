@@ -9,14 +9,13 @@ import { useImagesStore } from '@pages/post/components/store/selectedImg';
 import BottomSheetItem from '@pages/my/components/BottomSheetItem';
 import ImageCarousel from '@shared/ui/ImageCarousel';
 import IcZoom from '@shared/assets/icon/ic-zoom.svg?react';
+import { Loading } from '@pages/home/components/Loading';
 export const CreateNewPostModal = ({ isOpened, onClose }: ModalProps) => {
   const { images, setImages } = useImagesStore();
   const [modalState, setModalState] = useState<string | null>(null);
   const [imgIdx, setImgIdx] = useState<number>(0);
   const [imgZoom, setImgZoom] = useState<boolean>(false);
-  const openModal = (modalName: string) => {
-    setModalState(modalName);
-  };
+
   const closeModal = () => {
     setModalState(null);
   };
@@ -50,37 +49,46 @@ export const CreateNewPostModal = ({ isOpened, onClose }: ModalProps) => {
             <div>새로운 게시물</div>
           </TopBox>
           <BottomBox>
-            {!imgZoom ? (
-              <div style={{ padding: '4.147vh 0px 0px 0px' }}>
-                <ImageCarousel
-                  images={images}
-                  isExpanded={undefined}
-                  imgIdx={imgIdx}
-                  setImgIdx={setImgIdx}
-                  height="45.735vh"
-                  marginTop="6.635vh"
-                />
-              </div>
+            {images.length === 0 ? (
+              <EmptyImgContainer></EmptyImgContainer>
             ) : (
-              <ImageCarousel
-                images={images}
-                isExpanded={undefined}
-                imgIdx={imgIdx}
-                setImgIdx={setImgIdx}
-                height="53.791vh"
-                marginTop="2.725vh"
-              />
+              <>
+                {!imgZoom ? (
+                  <TmgContainer>
+                    <ImageCarousel
+                      images={images}
+                      isExpanded={undefined}
+                      imgIdx={imgIdx}
+                      setImgIdx={setImgIdx}
+                      height="45.735vh"
+                      marginTop="6.635vh"
+                    />
+                  </TmgContainer>
+                ) : (
+                  <ImageCarousel
+                    images={images}
+                    isExpanded={undefined}
+                    imgIdx={imgIdx}
+                    setImgIdx={setImgIdx}
+                    height="53.791vh"
+                    marginTop="2.725vh"
+                  />
+                )}
+              </>
             )}
-
-            <ZoomButton onClick={handleImgZoom}>
-              <IcZoom />
-            </ZoomButton>
+            {images.length === 0 ? (
+              <></>
+            ) : (
+              <ZoomButton onClick={handleImgZoom}>
+                <IcZoom />
+              </ZoomButton>
+            )}
 
             <TextArea placeholder="게시글을 작성해주세요."></TextArea>
             <CustomDivider width="100%" border="1px" />
             <BottomDiv>
               <BottomSheetItem content="나만보기" />
-              <SaveStyleButton>스타일 저장하기</SaveStyleButton>
+              <SaveStyleButton onClick={handleClose}>스타일 저장하기</SaveStyleButton>
             </BottomDiv>
           </BottomBox>
         </Container>
@@ -131,6 +139,18 @@ const BottomBox = styled.div`
   flex-direction: column;
   padding: 0px 0px 4.028vh 0px;
   position: absolute;
+`;
+
+const EmptyImgContainer = styled.div`
+  width: 100%;
+  border: 1px solid ${({ theme }) => theme.colors.green500};
+  border-radius: 20px;
+  padding: 0.5px;
+  height: 45.735vh;
+  margin: 4.147vh 0px 14.337vh 0px;
+`;
+const TmgContainer = styled.div`
+  padding: 4.147vh 0px 0px 0px;
 `;
 
 const ZoomButton = styled.button`

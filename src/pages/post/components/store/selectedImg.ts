@@ -17,5 +17,5 @@ export const useImagesStore = create<MemoState>((set: any) => ({
       }
       return prev;
     }),
-  reset: () => set({ images: [] }),
+  reset: () => set({ image: '', images: [] }),
 }));

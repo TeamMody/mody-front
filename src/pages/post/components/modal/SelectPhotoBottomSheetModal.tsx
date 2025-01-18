@@ -14,7 +14,7 @@ interface SelectPhotoBottomModalProps {
 export const SelectPhotoBottomSheetModal = ({ isOpened, onClose }: SelectPhotoBottomModalProps) => {
   const ref = useRef<SheetRef>(null);
   const { image } = useImagesStore();
-
+  const mockImages = mockData.map((data) => data.images)[0];
   return (
     <Sheet isOpen={isOpened} onClose={onClose} ref={ref}>
       <SheetContainer>
@@ -28,7 +28,7 @@ export const SelectPhotoBottomSheetModal = ({ isOpened, onClose }: SelectPhotoBo
               <CameraIcon />
             </div>
           </div>
-          <div>{mockData?.images.map((Img) => <ImgLayout ImgUrl={Img} />)}</div>
+          <div>{mockImages?.map((Img) => <ImgLayout ImgUrl={Img} />)}</div>
         </SheetContent>
       </SheetContainer>
     </Sheet>

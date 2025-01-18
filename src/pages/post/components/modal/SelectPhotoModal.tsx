@@ -9,7 +9,7 @@ import { useImagesStore } from '@pages/post/components/store/selectedImg';
 export const SelectPhotoModal = ({ isOpened, onClose }: ModalProps) => {
   const [modalState, setModalState] = useState<boolean>(false);
   const { image, setImages, reset } = useImagesStore();
-
+  console.log(image);
   const openModal = () => {
     setModalState(true);
   };
@@ -46,6 +46,7 @@ export const SelectPhotoModal = ({ isOpened, onClose }: ModalProps) => {
               animate={{ width: '57.692vw', height: '45.316vh' }}
               transition={{ duration: 0.4, ease: 'linear' }}
               src={image}
+              alt="이미지를 넣어주세요"
             />
           </BottomBox>
         </Container>
