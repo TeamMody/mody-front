@@ -3,32 +3,35 @@ import styled from 'styled-components';
 interface ProgressBarPropsType {
   length: number;
   curIdx: number;
+  size?: number;
+  marginTop?: string;
 }
 
-const ProgressBar = ({ length, curIdx }: ProgressBarPropsType) => {
+const ProgressBar = ({ length, curIdx, size = 10, marginTop = '8px' }: ProgressBarPropsType) => {
   const circleArr = Array.from({ length });
   return (
-    <Container>
+    <Container marginTop={marginTop}>
       {circleArr.map((_, idx) => (
-        <Circle key={idx} isActive={idx === curIdx} />
+        <Circle key={idx} isActive={idx === curIdx} size={size} />
       ))}
     </Container>
   );
 };
 
-const Container = styled.div`
-  margin-top: 8px;
+const Container = styled.div<{ marginTop: string }>`
+  margin-top: ${({ marginTop }) => `${marginTop}`};
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 16px;
   gap: 8px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 100%);
 `;
 
-const Circle = styled.div<{ isActive: boolean }>`
-  width: 10px;
-  height: 10px;
+const Circle = styled.div<{ isActive: boolean; size: number }>`
+  width: ${({ size }) => `${size}px`};
+  height: ${({ size }) => `${size}px`};
   border-radius: 100%;
   background-color: ${({ theme, isActive }) => (isActive ? '#00ff99' : theme.colors.gray500)};
 `;
