@@ -4,14 +4,14 @@ import Message from './Message';
 import styled from 'styled-components';
 import { PasswordSchemaType } from '../schema';
 import { FieldProps } from '@shared/types';
-import { UseFormWatch } from 'react-hook-form';
+import { UseFormSetValue, UseFormWatch } from 'react-hook-form';
 import { useEffect } from 'react';
 
 interface DoubleChekPasswordProps extends FieldProps<PasswordSchemaType> {
   watch: UseFormWatch<PasswordSchemaType>;
   password: string;
   passwordConfirm: string;
-  setValue: any;
+  setValue: UseFormSetValue<PasswordSchemaType>;
 }
 const DoubleChekPassword = ({
   errors,

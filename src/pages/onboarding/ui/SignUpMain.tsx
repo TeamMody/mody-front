@@ -101,7 +101,7 @@ const StyledCarousel = styled(Carousel)<{ topMargin: string }>`
   height: 100%;
   overflow-y: auto;
   .slider-wrapper {
-    height: 80vh;
+    height: 75vh;
     padding-top: ${(props) => `calc(17vh + ${props.topMargin})`};
   }
   .carousel-slider {
