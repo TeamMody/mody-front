@@ -29,9 +29,8 @@ export const SettingModal = ({ isOpened, onClose, profileImg }: SettingModalProp
     <AnimatePresence>
       {isOpened && (
         <Container
-          key="hi"
           initial={{ x: '100%' }}
-          animate={{ x: '0%' }}
+          animate={{ x: '31.5%' }}
           exit={{ x: '100%' }}
           transition={{ duration: 0.4, ease: 'easeOut' }}
         >
@@ -50,7 +49,7 @@ export const SettingModal = ({ isOpened, onClose, profileImg }: SettingModalProp
               )}
               <div onClick={() => openModal('editUserInfo')}>회원정보 수정</div>
             </div>
-            <CustomDivider width="89.487vw" border="0.5px" />
+            <CustomDivider width="66.897vw" border="0.5px" />
             <LogOut onClick={() => openModal('logout')}>로그아웃</LogOut>
             <WithDraw onClick={() => openModal('withdraw')}>회원 탈퇴</WithDraw>
           </BottomBox>
@@ -88,16 +87,15 @@ export const SettingModal = ({ isOpened, onClose, profileImg }: SettingModalProp
 };
 const Container = styled(motion.div)`
   position: absolute;
-  max-width: 440px;
-  width: 100vw;
+  width: 76.154vw;
   height: 100vh;
-  z-index: 1000;
+  z-index: 10003;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 `;
 
 const TopBox = styled.div`
   max-width: 440px;
-  width: 100vw;
+  width: 100%;
   height: 7.583vh;
   display: flex;
   justify-content: space-between;
@@ -110,7 +108,7 @@ const TopBox = styled.div`
 
   & > div:nth-child(2) {
     display: flex;
-    margin-right: 45.128vw;
+    margin-right: 30.641vw;
     font-size: ${({ theme }) => theme.fonts.heading_bold_22px};
   }
 `;
@@ -119,7 +117,7 @@ const BottomBox = styled.div`
   flex-direction: column;
   padding: 1.896vh 5.385vw 0 4.872vw;
   max-width: 440px;
-  width: 100vw;
+  width: 76.154vw;
   height: 92.417vh;
   background: ${({ theme }) => theme.colors.gray900};
 
