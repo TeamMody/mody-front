@@ -26,7 +26,7 @@ const FirstPage = ({ register, watch, setValue }: FirstPageProps) => {
       <LabelContainer>
         <ImageInput type="file" id="image-upload" accept="image/*" {...register('image')} />
         <Label htmlFor="image-upload">
-          {imagePreview ? <Image src={imagePreview} /> : <Human />}
+          {imagePreview ? <Image src={imagePreview} /> : <Human width={'100%'} height={'90%'} />}
         </Label>
         <EditLabel htmlFor="image-upload">
           <Edit />
