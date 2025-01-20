@@ -1,5 +1,3 @@
-import React from 'react';
-import { useRef, useEffect, useState } from 'react';
 import { IcCancel } from '@shared/assets/icon/ic-cancel';
 import styled from 'styled-components';
 import { AnimatePresence, motion } from 'framer-motion';

@@ -25,7 +25,7 @@ const CheckEmail = ({ value: codeSent, setValue: setCodeSent }: CheckEmailProps)
 
   const [message, setMessage] = useState<string>('');
 
-  const onSubmit = (data: EmailSchemaType) => {
+  const onSubmit = () => {
     setMessage('인증 코드가 전송되었어요.');
     setCodeSent(true);
   };

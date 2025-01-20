@@ -11,7 +11,7 @@ import { StateProps } from '@shared/types';
 
 interface CheckCodeProps extends StateProps<boolean> {}
 
-const CheckCode = ({ value: buttonActive, setValue: setButtonActive }: CheckCodeProps) => {
+const CheckCode = ({ setValue: setButtonActive }: CheckCodeProps) => {
   const [message, setMessage] = useState<string>('');
   // 인증코드 유효성 체크
   const [isValid, setIsValid] = useState<boolean>(false);

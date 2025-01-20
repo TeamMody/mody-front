@@ -15,11 +15,10 @@ export const InputUser = () => {
 
   const {
     register,
-    handleSubmit,
     getValues,
     setValue,
     watch,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<UserInfoSchemaType>({
     resolver: zodResolver(UserInfoSchema),
     mode: 'onChange',
