@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import React, { useEffect, useRef } from 'react';
 import { UseFormSetValue } from 'react-hook-form';
 import { UserInfoSchemaType } from '@onboarding/schema';
+import debounce from 'lodash/debounce';
 
 // onScroll 시 값이 변하게
 const Option = React.memo(
@@ -23,7 +24,6 @@ const Option = React.memo(
     type: 'year' | 'month' | 'day';
   }) => {
     const optionRef = useRef<HTMLDivElement>(null);
-
     // 스크롤이 가장 가까운 항목 찾기
     const findClosestElement = (): {
       index: number;
@@ -38,6 +38,7 @@ const Option = React.memo(
         if (!el) return;
         const rect = el.getBoundingClientRect();
         const distance = Math.abs(rect.y - center.y);
+
         if (distance < closestDistance) {
           closestDistance = distance;
           closest = { index, el };
@@ -50,12 +51,9 @@ const Option = React.memo(
     const handleScroll = () => {
       const closest = findClosestElement();
 
-      console.log(closest);
-      console.log(data);
-
       if (closest) {
         // type에 따라 값 업데이트
-        console.log(data[closest.index]);
+
         setValue(`birthday.${type}`, data[closest.index], {
           shouldValidate: true,
           shouldDirty: true,
@@ -65,16 +63,22 @@ const Option = React.memo(
 
     useEffect(() => {
       const currentOption = optionRef.current;
+
+      // debounce를 사용해 스크롤 이벤트 처리
+      const debouncedHandleScroll = debounce(handleScroll, 10);
+
       if (currentOption) {
-        currentOption.addEventListener('scroll', handleScroll);
+        currentOption.addEventListener('scroll', debouncedHandleScroll);
       }
 
       return () => {
         if (currentOption) {
-          currentOption.removeEventListener('scroll', handleScroll);
+          currentOption.removeEventListener('scroll', debouncedHandleScroll);
         }
+        // debounce 취소
+        debouncedHandleScroll.cancel();
       };
-    }, []);
+    }, [data, dateRefs]);
 
     useEffect(() => {
       const selectedEl = dateRefs[data.indexOf(selected)];
@@ -85,7 +89,6 @@ const Option = React.memo(
         });
       }
     }, [isModalOpen, selected]);
-
     return (
       <OptionContainer ref={optionRef}>
         {data.map((d, index) => (
@@ -98,6 +101,15 @@ const Option = React.memo(
           </Select>
         ))}
       </OptionContainer>
+    );
+  },
+  (prevProps, nextProps) => {
+    // 비교 조건 명시
+    return (
+      prevProps.isModalOpen === nextProps.isModalOpen && // Modal 상태가 동일한지 확인
+      prevProps.selected === nextProps.selected && // 선택된 값이 동일한지 확인
+      prevProps.type === nextProps.type && // 타입이 동일한지 확인
+      JSON.stringify(prevProps.data) === JSON.stringify(nextProps.data) // 데이터 배열 비교
     );
   },
 );

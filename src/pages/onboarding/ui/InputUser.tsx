@@ -15,7 +15,6 @@ export const InputUser = () => {
 
   const {
     register,
-    handleSubmit,
     getValues,
     setValue,
     watch,
@@ -36,9 +35,11 @@ export const InputUser = () => {
   const handleButtonClick = () => {
     if (curIdx < 3) setCurIdx((prev) => ++prev);
   };
-  const handleOnSubmit = () => {
+  const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log('form submitted');
     console.log(getValues());
-    navigate('/body-survey');
+    // navigate('/body-survey');
   };
 
   const handleIsValid = (curIdx: number): boolean => {
@@ -49,15 +50,17 @@ export const InputUser = () => {
     if (curIdx === 1) {
       return watch('sex')?.length === 0;
     }
+
     return false;
   };
 
   useEffect(() => {
     setIsButtonDisabled(handleIsValid(curIdx));
   }, [curIdx, watch(), errors]);
+
   // 값이 바뀔 때마다 전체 값이 렌더링되는 현상 발생
   return (
-    <Wrapper onSubmit={handleSubmit(handleOnSubmit)}>
+    <Wrapper onSubmit={handleOnSubmit}>
       <ProgressBar length={4} curIdx={curIdx} />
       <CustomLogo />
       <InputUserMain
@@ -68,7 +71,11 @@ export const InputUser = () => {
         getValues={getValues}
       />
       <ButtonContainer>
-        <Button type="button" onClick={handleButtonClick} disabled={isButtonDisabled}>
+        <Button
+          type={curIdx !== 3 ? 'button' : 'submit'}
+          onClick={curIdx !== 3 ? handleButtonClick : undefined}
+          disabled={isButtonDisabled}
+        >
           {curIdx !== 3 ? '다음' : '체형 분석하기'}
         </Button>
       </ButtonContainer>
@@ -76,7 +83,7 @@ export const InputUser = () => {
   );
 };
 
-const Wrapper = styled.div`
+const Wrapper = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { years, months, getDays } from '@onboarding/utils/getData';
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useMemo } from 'react';
 import { UseFormSetValue } from 'react-hook-form';
 import { UserInfoSchemaType } from '@onboarding/schema';
 import Option from './BirthdayOption';
@@ -17,14 +17,10 @@ const Dialog = ({
   setValue: UseFormSetValue<UserInfoSchemaType>;
 }) => {
   const centerRef = useRef<HTMLDivElement>(null);
-  const [dayArr, setDayArr] = useState<number[]>(() => getDays(selectedDate.month));
   const dateRefs = useRef<(HTMLDivElement | null)[][]>(Array.from({ length: 3 }, () => []));
 
   const { year: selectedYear, month: selectedMonth, day: selectedDay } = selectedDate;
-
-  useEffect(() => {
-    setDayArr(getDays(selectedMonth));
-  }, [selectedMonth]);
+  const dayArr = useMemo(() => getDays(selectedMonth), [selectedMonth]);
 
   return (
     <Dialog1 open={open} ref={dialogRef}>
