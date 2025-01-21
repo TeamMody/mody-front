@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { SecondPageProps } from '@onboarding/types';
 import BirthdayModal from '../components/BirthdayModal';
 import ButtonBox from '../components/ButtonBox';

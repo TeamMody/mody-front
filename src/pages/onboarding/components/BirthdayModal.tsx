@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { useState, useRef } from 'react';
 import { UseFormWatch, UseFormSetValue } from 'react-hook-form';
 import { UserInfoSchemaType } from '@onboarding/schema';
-import Dialog from '@pages/onboarding/components/BirthdayDialog';
+import BirthdayDialog from '@pages/onboarding/components/BirthdayDialog';
 import usePositionedDialog from '@onboarding/hooks/usePositionedDialog';
 import useOutsideClick from '@onboarding/hooks/useOutsideClick';
 
@@ -38,12 +38,12 @@ const BirthdayModal = ({
           onClick={() => setIsModalOpen((prev) => !prev)}
           open={isModalOpen}
         />
-        <Dialog
+        <BirthdayDialog
           open={isModalOpen}
           dialogRef={dialogRef}
           selectedDate={birthday}
           setValue={setValue}
-        ></Dialog>
+        ></BirthdayDialog>
       </div>
     </Container>
   );

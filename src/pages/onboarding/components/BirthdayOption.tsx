@@ -20,7 +20,6 @@ const Option = React.memo(
     centerRef: React.RefObject<HTMLDivElement>;
     dateRefs: (HTMLDivElement | null)[];
     setValue: UseFormSetValue<UserInfoSchemaType>;
-
     type: 'year' | 'month' | 'day';
   }) => {
     const optionRef = useRef<HTMLDivElement>(null);
@@ -39,7 +38,6 @@ const Option = React.memo(
         if (!el) return;
         const rect = el.getBoundingClientRect();
         const distance = Math.abs(rect.y - center.y);
-
         if (distance < closestDistance) {
           closestDistance = distance;
           closest = { index, el };
@@ -52,8 +50,12 @@ const Option = React.memo(
     const handleScroll = () => {
       const closest = findClosestElement();
 
+      console.log(closest);
+      console.log(data);
+
       if (closest) {
         // type에 따라 값 업데이트
+        console.log(data[closest.index]);
         setValue(`birthday.${type}`, data[closest.index], {
           shouldValidate: true,
           shouldDirty: true,
@@ -82,7 +84,7 @@ const Option = React.memo(
           block: 'center',
         });
       }
-    }, [isModalOpen]);
+    }, [isModalOpen, selected]);
 
     return (
       <OptionContainer ref={optionRef}>

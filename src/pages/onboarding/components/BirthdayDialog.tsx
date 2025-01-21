@@ -1,74 +1,64 @@
 import styled from 'styled-components';
 import { years, months, getDays } from '@onboarding/utils/getData';
-import React, { useRef, useState, useLayoutEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { UseFormSetValue } from 'react-hook-form';
 import { UserInfoSchemaType } from '@onboarding/schema';
 import Option from './BirthdayOption';
 
-const Dialog = React.memo(
-  ({
-    open,
-    dialogRef,
-    selectedDate,
-    setValue,
-  }: {
-    open: boolean;
-    dialogRef: React.RefObject<HTMLDialogElement>;
-    selectedDate: { year: number; month: number; day: number };
-    setValue: UseFormSetValue<UserInfoSchemaType>;
-  }) => {
-    const centerRef = useRef<HTMLDivElement>(null);
-    const [dayArr, setDayArr] = useState<number[]>(() => getDays(selectedDate.month));
-    const dateRefs = useRef<(HTMLDivElement | null)[][]>(Array.from({ length: 3 }, () => []));
+const Dialog = ({
+  open,
+  dialogRef,
+  selectedDate,
+  setValue,
+}: {
+  open: boolean;
+  dialogRef: React.RefObject<HTMLDialogElement>;
+  selectedDate: { year: number; month: number; day: number };
+  setValue: UseFormSetValue<UserInfoSchemaType>;
+}) => {
+  const centerRef = useRef<HTMLDivElement>(null);
+  const [dayArr, setDayArr] = useState<number[]>(() => getDays(selectedDate.month));
+  const dateRefs = useRef<(HTMLDivElement | null)[][]>(Array.from({ length: 3 }, () => []));
 
-    console.log(selectedDate);
-    const { year: selectedYear, month: selectedMonth, day: selectedDay } = selectedDate;
-    useLayoutEffect(() => {
-      setDayArr(getDays(selectedMonth));
-    }, [selectedMonth]);
+  const { year: selectedYear, month: selectedMonth, day: selectedDay } = selectedDate;
 
-    return (
-      <Dialog1 open={open} ref={dialogRef}>
-        <CenterHighlight ref={centerRef} />
-        <Option
-          isModalOpen={open}
-          data={years}
-          selected={selectedYear}
-          centerRef={centerRef}
-          dateRefs={dateRefs.current[0]}
-          setValue={setValue}
-          type={'year'}
-        />
-        <Option
-          isModalOpen={open}
-          data={months}
-          selected={selectedMonth}
-          centerRef={centerRef}
-          dateRefs={dateRefs.current[1]}
-          setValue={setValue}
-          type={'month'}
-        />
-        <Option
-          isModalOpen={open}
-          data={dayArr}
-          selected={selectedDay}
-          centerRef={centerRef}
-          dateRefs={dateRefs.current[2]}
-          setValue={setValue}
-          type={'day'}
-        />
-      </Dialog1>
-    );
-  },
-  (prevProps, nextProps) => {
-    // props 변경 사항 비교
-    return (
-      prevProps.open === nextProps.open &&
-      JSON.stringify(prevProps.selectedDate) === JSON.stringify(nextProps.selectedDate)
-    );
-  },
-);
+  useEffect(() => {
+    setDayArr(getDays(selectedMonth));
+  }, [selectedMonth]);
 
+  return (
+    <Dialog1 open={open} ref={dialogRef}>
+      <CenterHighlight ref={centerRef} />
+      <Option
+        isModalOpen={open}
+        data={years}
+        selected={selectedYear}
+        centerRef={centerRef}
+        dateRefs={dateRefs.current[0]}
+        setValue={setValue}
+        type={'year'}
+      />
+      <Option
+        isModalOpen={open}
+        data={months}
+        selected={selectedMonth}
+        centerRef={centerRef}
+        dateRefs={dateRefs.current[1]}
+        setValue={setValue}
+        type={'month'}
+      />
+      <Option
+        isModalOpen={open}
+        data={dayArr}
+        selected={selectedDay}
+        centerRef={centerRef}
+        dateRefs={dateRefs.current[2]}
+        setValue={setValue}
+        type={'day'}
+      />
+    </Dialog1>
+  );
+};
 const Dialog1 = styled.dialog<{ open: boolean }>`
   height: 30vh;
   display: ${({ open }) => (open ? 'flex' : 'none')}; /* open 속성 기반 제어 */
