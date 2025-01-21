@@ -5,12 +5,10 @@ import plus from '@shared/assets/icon/ic-plus.svg';
 import Post from '@shared/ui/Post.tsx';
 import TempImg1 from '@post/images/tempImg1.jpg';
 import TempImg2 from '@post/images/tempImg2.jpg';
-import { SelectPhotoModal } from '@pages/post/components/modal/SelectPhotoModal';
 import { useState } from 'react';
-import { SelectPhotoBottomSheetModal } from '@pages/post/components/modal/SelectPhotoBottomSheetModal';
-import { useImagesStore } from '@pages/post/components/store/selectedImg';
 import TempImg3 from '@post/images/tempImg3.png';
 import { useMemo } from 'react';
+import { useNavigate } from 'react-router';
 
 interface PostPropsType {
   images: string[];
@@ -23,7 +21,18 @@ interface PostPropsType {
 
 export const mockData: PostPropsType[] = [
   {
-    images: [TempImg3, TempImg2, TempImg3],
+    images: [
+      TempImg3,
+      TempImg2,
+      TempImg3,
+      TempImg1,
+      TempImg1,
+      TempImg1,
+      TempImg1,
+      TempImg3,
+      TempImg2,
+      TempImg3,
+    ],
     name: '사람1',
     type: '네모형 체형',
     description:
@@ -59,16 +68,15 @@ export const mockData: PostPropsType[] = [
 
 export const PostPage = () => {
   const [modalState, setModalState] = useState<boolean>(false);
-  const { images, setImages } = useImagesStore();
-  console.log(images);
+  const navigate = useNavigate();
   const modalOpen = () => {
     setModalState(true);
   };
   const modalClose = () => {
     setModalState(false);
   };
-  const leftHeaderAction = { icon: logo, onClick: () => console.log('') };
-  const rightHeaderActionArr = [{ icon: plus, onClick: modalOpen }];
+  const leftHeaderAction = { icon: logo, onClick: () => navigate('home') };
+  const rightHeaderActionArr = [{ icon: plus, onClick: () => navigate('createPost') }];
 
   // Post내부 Container 리렌더링 발생은 나중에 해결
   const memoizedData = useMemo(() => mockData, []);
@@ -76,9 +84,6 @@ export const PostPage = () => {
   return (
     <>
       <AppBar leftHeaderAction={leftHeaderAction} rightHeaderActionArr={rightHeaderActionArr} />
-
-      <SelectPhotoModal isOpened={modalState} onClose={modalClose} />
-      <SelectPhotoBottomSheetModal isOpened={modalState} onClose={modalClose} />
 
       <Container>
         {memoizedData.map((data, index) => (

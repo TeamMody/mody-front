@@ -10,20 +10,26 @@ import BottomSheetItem from '@pages/my/components/BottomSheetItem';
 import ImageCarousel from '@shared/ui/ImageCarousel';
 import IcZoom from '@shared/assets/icon/ic-zoom.svg?react';
 import { Loading } from '@pages/home/components/Loading';
-export const CreateNewPostModal = ({ isOpened, onClose }: ModalProps) => {
-  const { images, setImages } = useImagesStore();
-  const [modalState, setModalState] = useState<string | null>(null);
+import { Navigate, useNavigate } from 'react-router';
+import React from 'react';
+import { PostLoading } from '../PostLoading';
+interface ImgModalProps extends ModalProps {
+  selectedImages: string[];
+}
+export const CreateNewPostModal = ({ isOpened, onClose, selectedImages }: ImgModalProps) => {
+  const [modalState, setModalState] = useState<boolean>(false);
   const [imgIdx, setImgIdx] = useState<number>(0);
   const [imgZoom, setImgZoom] = useState<boolean>(false);
-
-  const closeModal = () => {
-    setModalState(null);
-  };
-
+  const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
+  // 예: 3초 후 로딩 종료
+  // React.useEffect(() => {
+  //   const timer = setTimeout(() => setIsLoading(false), 3000);
+  //   return () => clearTimeout(timer);
+  // }, []);
   const handleClose = () => {
-    if (onClose) {
-      onClose();
-    }
+    setTimeout(() => setIsLoading(false), 3000);
+    return <PostLoading />;
   };
   const handleImgZoom = () => {
     if (imgZoom) {
@@ -32,7 +38,7 @@ export const CreateNewPostModal = ({ isOpened, onClose }: ModalProps) => {
       setImgZoom(true);
     }
   };
-  console.log(images);
+
   return ReactDOM.createPortal(
     <AnimatePresence>
       {isOpened && (
@@ -43,20 +49,20 @@ export const CreateNewPostModal = ({ isOpened, onClose }: ModalProps) => {
           transition={{ duration: 0.5, ease: 'easeOut' }}
         >
           <TopBox>
-            <button onClick={handleClose}>
+            <button onClick={onClose}>
               <IcLeftArrow />
             </button>
             <div>새로운 게시물</div>
           </TopBox>
           <BottomBox>
-            {images.length === 0 ? (
+            {selectedImages.length === 0 ? (
               <EmptyImgContainer></EmptyImgContainer>
             ) : (
               <>
                 {!imgZoom ? (
                   <TmgContainer>
                     <ImageCarousel
-                      images={images}
+                      images={selectedImages}
                       isExpanded={undefined}
                       imgIdx={imgIdx}
                       setImgIdx={setImgIdx}
@@ -66,7 +72,7 @@ export const CreateNewPostModal = ({ isOpened, onClose }: ModalProps) => {
                   </TmgContainer>
                 ) : (
                   <ImageCarousel
-                    images={images}
+                    images={selectedImages}
                     isExpanded={undefined}
                     imgIdx={imgIdx}
                     setImgIdx={setImgIdx}
@@ -76,7 +82,7 @@ export const CreateNewPostModal = ({ isOpened, onClose }: ModalProps) => {
                 )}
               </>
             )}
-            {images.length === 0 ? (
+            {selectedImages.length === 0 ? (
               <></>
             ) : (
               <ZoomButton onClick={handleImgZoom}>

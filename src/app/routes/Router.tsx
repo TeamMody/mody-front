@@ -10,7 +10,7 @@ import {
 import { PostPage } from '@pages/post';
 import { MyPage } from '@pages/my';
 import { OnboardingPage, InputUser } from '@pages/onboarding';
-
+import { CreatePost } from '@pages/post/components/CreatePost';
 export const router = createBrowserRouter([
   {
     path: '/',
@@ -26,7 +26,10 @@ export const router = createBrowserRouter([
       },
       {
         path: 'post',
-        element: <PostPage />,
+        children: [
+          { index: true, element: <PostPage /> },
+          { path: 'createPost', element: <CreatePost isOpened={true} /> },
+        ],
       },
       {
         path: 'my',

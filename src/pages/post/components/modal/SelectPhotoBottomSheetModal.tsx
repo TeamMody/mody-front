@@ -5,16 +5,44 @@ import IcCamera from '@shared/assets/icon/ic-camera.svg?react';
 import IcGallery from '@shared/assets/icon/ic-gallery.svg?react';
 import { ImgLayout } from '@pages/post/components/ImgLayout';
 import { mockData } from '@pages/post/ui/PostPage';
-import { useImagesStore } from '@pages/post/components/store/selectedImg';
+import { useNavigate } from 'react-router';
+
 interface SelectPhotoBottomModalProps {
   isOpened: boolean;
-  onClose: () => void;
+  onClose: () => void | undefined;
+  selectedImages: string[];
+  setSelectedImages: React.Dispatch<React.SetStateAction<string[]>>;
+  selectedId: number[];
+  setSelectedIds: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
-export const SelectPhotoBottomSheetModal = ({ isOpened, onClose }: SelectPhotoBottomModalProps) => {
+export const SelectPhotoBottomSheetModal = ({
+  isOpened,
+  onClose,
+  selectedImages,
+  setSelectedImages,
+  selectedId,
+  setSelectedIds,
+}: SelectPhotoBottomModalProps) => {
   const ref = useRef<SheetRef>(null);
-  const { image } = useImagesStore();
   const mockImages = mockData.map((data) => data.images)[0];
+
+  const handleImageClick = (id: number, imgUrl: string) => {
+    setSelectedIds((prev) => {
+      if (prev.includes(id)) {
+        return prev.filter((selectedId) => selectedId !== id);
+      }
+      return [...prev, id];
+    });
+
+    setSelectedImages((prev) => {
+      if (selectedId.includes(id)) {
+        return prev.filter((_, index) => selectedId[index] !== id);
+      }
+      return [...prev, imgUrl];
+    });
+  };
+
   return (
     <Sheet isOpen={isOpened} onClose={onClose} ref={ref}>
       <SheetContainer>
@@ -28,7 +56,16 @@ export const SelectPhotoBottomSheetModal = ({ isOpened, onClose }: SelectPhotoBo
               <CameraIcon />
             </div>
           </div>
-          <div>{mockImages?.map((Img) => <ImgLayout ImgUrl={Img} />)}</div>
+          <div>
+            {mockImages?.map((Img, Idx) => (
+              <ImgLayout
+                ImgUrl={Img}
+                key={Idx}
+                order={selectedId.indexOf(Idx) + 1}
+                onClick={() => handleImageClick(Idx, Img)}
+              />
+            ))}
+          </div>
         </SheetContent>
       </SheetContainer>
     </Sheet>
@@ -38,7 +75,7 @@ export const SelectPhotoBottomSheetModal = ({ isOpened, onClose }: SelectPhotoBo
 const SheetContainer = styled(Sheet.Container)`
   width: 100%;
   height: 46.551vh !important;
-  transition: 0.3s linear;
+  transition: 0.3s linear !important;
 `;
 
 const SheetContent = styled(Sheet.Content)`
@@ -76,6 +113,7 @@ const SheetContent = styled(Sheet.Content)`
     margin-left: 4.103vw;
   }
   & > div:nth-child(2) {
+    gap: 2px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(3, auto);

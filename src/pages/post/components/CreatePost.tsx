@@ -5,28 +5,31 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { ModalProps } from '@shared/types/my/modalProps';
 import { IcLeftArrow } from '@shared/assets/icon/ic-left-arrow';
 import { CreateNewPostModal } from '@pages/post/components/modal/CreateNewPostModal';
-import { useImagesStore } from '@pages/post/components/store/selectedImg';
-export const SelectPhotoModal = ({ isOpened, onClose }: ModalProps) => {
+import { useNavigate } from 'react-router';
+import { SelectPhotoBottomSheetModal } from '@pages/post/components/modal/SelectPhotoBottomSheetModal';
+import { PostLoading } from '@pages/post/components/PostLoading';
+export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
   const [modalState, setModalState] = useState<boolean>(false);
-  const { image, setImages, reset } = useImagesStore();
-  console.log(image);
+  const [opened, setIsOpened] = useState<boolean>(isOpened);
+  const [selectedImages, setSelectedImages] = useState<string[]>([]);
+  const [selectedId, setSelectedIds] = useState<number[]>([]);
+  const navigate = useNavigate();
   const openModal = () => {
     setModalState(true);
   };
   const closeModal = () => {
     setModalState(false);
   };
-
-  const handleClose = () => {
-    if (onClose) {
-      reset();
-      onClose();
-    }
+  const closePage = () => {
+    setIsOpened(false);
+    setTimeout(() => {
+      navigate(-1);
+    }, 500);
   };
-
+  console.log(modalState);
   return ReactDOM.createPortal(
     <AnimatePresence>
-      {isOpened && (
+      {opened && (
         <Container
           initial={{ x: '100%' }}
           animate={{ x: '0%' }}
@@ -34,21 +37,33 @@ export const SelectPhotoModal = ({ isOpened, onClose }: ModalProps) => {
           transition={{ duration: 0.5, ease: 'easeOut' }}
         >
           <TopBox>
-            <button onClick={handleClose}>
+            <button onClick={closePage}>
               <IcLeftArrow />
             </button>
             <button onClick={openModal}>다음</button>
-            <CreateNewPostModal isOpened={modalState} onClose={closeModal} />
+            <CreateNewPostModal
+              isOpened={modalState}
+              onClose={closeModal}
+              selectedImages={selectedImages}
+            />
           </TopBox>
           <BottomBox isOpened={isOpened}>
             <ChooseImg
               initial={{ width: '100%', height: '100%' }}
               animate={{ width: '57.692vw', height: '45.316vh' }}
               transition={{ duration: 0.4, ease: 'linear' }}
-              src={image}
+              src={selectedImages.slice(-1)[0]}
               alt="이미지를 넣어주세요"
             />
           </BottomBox>
+          <SelectPhotoBottomSheetModal
+            isOpened={isOpened}
+            onClose={closePage}
+            selectedImages={selectedImages}
+            setSelectedImages={setSelectedImages}
+            selectedId={selectedId}
+            setSelectedIds={setSelectedIds}
+          />
         </Container>
       )}
     </AnimatePresence>,
