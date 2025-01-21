@@ -26,16 +26,18 @@ type styleProps = {
 };
 const ImgStyle = styled.div<styleProps>`
   position: relative;
-  width: 24vw;
-  height: 24vw;
+  width: 24.231vw;
+  height: 24.231vw;
   background-image: url(${(props) => props.ImgUrl});
   background-size: cover;
+  margin-top: 1px;
+
   &::after {
     content: ${({ imgState, order }) => (imgState && order ? `"${order}"` : "''")};
     background-color: ${({ imgState }) => (imgState ? 'black  ' : 'transparent')};
     position: absolute;
-    width: 24vw;
-    height: 24vw;
+    width: 24.231vw;
+    height: 24.231vw;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -43,7 +45,5 @@ const ImgStyle = styled.div<styleProps>`
     font-weight: 700;
     font-size: 20px;
     opacity: 0.6;
-    border: ${({ imgState, theme }) =>
-      imgState && theme ? `1px solid ${theme.colors.green500}` : 'none'};
   }
 `;

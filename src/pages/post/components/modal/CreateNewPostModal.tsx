@@ -5,31 +5,25 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { ModalProps } from '@shared/types/my/modalProps';
 import { IcLeftArrow } from '@shared/assets/icon/ic-left-arrow';
 import CustomDivider from '@shared/ui/CustomDivider';
-import { useImagesStore } from '@pages/post/components/store/selectedImg';
+
 import BottomSheetItem from '@pages/my/components/BottomSheetItem';
 import ImageCarousel from '@shared/ui/ImageCarousel';
 import IcZoom from '@shared/assets/icon/ic-zoom.svg?react';
-import { Loading } from '@pages/home/components/Loading';
-import { Navigate, useNavigate } from 'react-router';
-import React from 'react';
-import { PostLoading } from '../PostLoading';
+
+import { useNavigate } from 'react-router';
+
 interface ImgModalProps extends ModalProps {
   selectedImages: string[];
 }
 export const CreateNewPostModal = ({ isOpened, onClose, selectedImages }: ImgModalProps) => {
-  const [modalState, setModalState] = useState<boolean>(false);
   const [imgIdx, setImgIdx] = useState<number>(0);
   const [imgZoom, setImgZoom] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
-  // 예: 3초 후 로딩 종료
-  // React.useEffect(() => {
-  //   const timer = setTimeout(() => setIsLoading(false), 3000);
-  //   return () => clearTimeout(timer);
-  // }, []);
+
   const handleClose = () => {
-    setTimeout(() => setIsLoading(false), 3000);
-    return <PostLoading />;
+    setTimeout(() => {
+      navigate(-1);
+    }, 500);
   };
   const handleImgZoom = () => {
     if (imgZoom) {

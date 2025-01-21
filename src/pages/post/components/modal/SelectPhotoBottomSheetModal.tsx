@@ -5,12 +5,10 @@ import IcCamera from '@shared/assets/icon/ic-camera.svg?react';
 import IcGallery from '@shared/assets/icon/ic-gallery.svg?react';
 import { ImgLayout } from '@pages/post/components/ImgLayout';
 import { mockData } from '@pages/post/ui/PostPage';
-import { useNavigate } from 'react-router';
 
 interface SelectPhotoBottomModalProps {
   isOpened: boolean;
   onClose: () => void | undefined;
-  selectedImages: string[];
   setSelectedImages: React.Dispatch<React.SetStateAction<string[]>>;
   selectedId: number[];
   setSelectedIds: React.Dispatch<React.SetStateAction<number[]>>;
@@ -19,7 +17,6 @@ interface SelectPhotoBottomModalProps {
 export const SelectPhotoBottomSheetModal = ({
   isOpened,
   onClose,
-  selectedImages,
   setSelectedImages,
   selectedId,
   setSelectedIds,
@@ -74,7 +71,7 @@ export const SelectPhotoBottomSheetModal = ({
 
 const SheetContainer = styled(Sheet.Container)`
   width: 100%;
-  height: 46.551vh !important;
+  height: 43.572vh !important;
   transition: 0.3s linear !important;
 `;
 
@@ -113,7 +110,7 @@ const SheetContent = styled(Sheet.Content)`
     margin-left: 4.103vw;
   }
   & > div:nth-child(2) {
-    gap: 2px;
+    padding: 0px 2px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(3, auto);

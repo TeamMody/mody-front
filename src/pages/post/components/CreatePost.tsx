@@ -7,7 +7,7 @@ import { IcLeftArrow } from '@shared/assets/icon/ic-left-arrow';
 import { CreateNewPostModal } from '@pages/post/components/modal/CreateNewPostModal';
 import { useNavigate } from 'react-router';
 import { SelectPhotoBottomSheetModal } from '@pages/post/components/modal/SelectPhotoBottomSheetModal';
-import { PostLoading } from '@pages/post/components/PostLoading';
+
 export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
   const [modalState, setModalState] = useState<boolean>(false);
   const [opened, setIsOpened] = useState<boolean>(isOpened);
@@ -50,7 +50,7 @@ export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
           <BottomBox isOpened={isOpened}>
             <ChooseImg
               initial={{ width: '100%', height: '100%' }}
-              animate={{ width: '57.692vw', height: '45.316vh' }}
+              animate={{ width: '99.744vw', height: '98.35vw' }}
               transition={{ duration: 0.4, ease: 'linear' }}
               src={selectedImages.slice(-1)[0]}
               alt="이미지를 넣어주세요"
@@ -59,7 +59,6 @@ export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
           <SelectPhotoBottomSheetModal
             isOpened={isOpened}
             onClose={closePage}
-            selectedImages={selectedImages}
             setSelectedImages={setSelectedImages}
             selectedId={selectedId}
             setSelectedIds={setSelectedIds}
@@ -108,11 +107,11 @@ const BottomBox = styled.div<StyledProps>`
   height: 92.417vh;
   background: ${({ theme }) => theme.colors.gray900};
   display: flex;
-  justify-content: center;
 `;
 
 const ChooseImg = styled(motion.img)`
   width: 100%;
   height: 100%;
   background-color: ${({ theme }) => theme.colors.gray800};
+  margin-top: 1.4vh;
 `;

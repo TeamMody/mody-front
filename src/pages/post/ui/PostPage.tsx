@@ -5,7 +5,6 @@ import plus from '@shared/assets/icon/ic-plus.svg';
 import Post from '@shared/ui/Post.tsx';
 import TempImg1 from '@post/images/tempImg1.jpg';
 import TempImg2 from '@post/images/tempImg2.jpg';
-import { useState } from 'react';
 import TempImg3 from '@post/images/tempImg3.png';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router';
@@ -67,14 +66,8 @@ export const mockData: PostPropsType[] = [
 ];
 
 export const PostPage = () => {
-  const [modalState, setModalState] = useState<boolean>(false);
   const navigate = useNavigate();
-  const modalOpen = () => {
-    setModalState(true);
-  };
-  const modalClose = () => {
-    setModalState(false);
-  };
+
   const leftHeaderAction = { icon: logo, onClick: () => navigate('home') };
   const rightHeaderActionArr = [{ icon: plus, onClick: () => navigate('createPost') }];
 

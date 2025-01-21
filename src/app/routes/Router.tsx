@@ -35,7 +35,10 @@ export const router = createBrowserRouter([
       },
       {
         path: 'my',
-        element: <MyPage />,
+        children: [
+          { index: true, element: <MyPage /> },
+          { path: 'createPost', element: <CreatePost isOpened={true} /> },
+        ],
       },
     ],
   },
