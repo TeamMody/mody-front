@@ -8,8 +8,6 @@ const FirstPage = ({ register, watch, setValue }: FirstPageProps) => {
   const imgFile = watch('image');
 
   const [imagePreview, setImagePreview] = useState<string | undefined>(undefined);
-  // image의 값이 undefined가 아니면 image 태그 src에 박아넣어줘야 함 .
-  // schema 하나 더 만들고 setValue 갈겨주자 그냥
   useEffect(() => {
     if (imgFile && imgFile[0]) {
       const file = imgFile[0];
@@ -21,6 +19,7 @@ const FirstPage = ({ register, watch, setValue }: FirstPageProps) => {
       };
     }
   }, [imgFile]);
+
   return (
     <>
       <LabelContainer>
@@ -37,10 +36,8 @@ const FirstPage = ({ register, watch, setValue }: FirstPageProps) => {
       <Input
         type="text"
         placeholder="닉네임 (최대 12자)"
-        minLength={1}
         maxLength={12}
         onFocus={(e) => (e.target.placeholder = '')}
-        // onBlur={(e) => (e.target.placeholder = '닉네임 (최대 12자)')}
         {...register('nickname', { required: true })}
       ></Input>
     </>

@@ -19,41 +19,45 @@ export const InputUser = () => {
     getValues,
     setValue,
     watch,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<UserInfoSchemaType>({
     resolver: zodResolver(UserInfoSchema),
     mode: 'onChange',
+    defaultValues: {
+      birthday: {
+        year: 1996,
+        month: 4,
+        day: 11,
+      },
+      height: 160,
+    },
   });
 
   const handleButtonClick = () => {
     if (curIdx < 3) setCurIdx((prev) => ++prev);
-    else {
-      navigate('/body-survey');
-    }
+  };
+  const handleOnSubmit = () => {
+    console.log(getValues());
+    navigate('/body-survey');
   };
 
   const handleIsValid = (curIdx: number): boolean => {
-    console.log(watch());
-    console.log(errors);
     if (curIdx === 0) {
       const nickname = watch('nickname');
-      return nickname?.length === 0 || !!errors.nickname;
+      return nickname === '' || !!errors.nickname;
     }
     if (curIdx === 1) {
-      return (
-        watch('birthday')?.length === 0 ||
-        watch('sex')?.length === 0 ||
-        watch('height')?.length === 0
-      );
+      return watch('sex')?.length === 0;
     }
     return false;
   };
+
   useEffect(() => {
     setIsButtonDisabled(handleIsValid(curIdx));
   }, [curIdx, watch(), errors]);
   // 값이 바뀔 때마다 전체 값이 렌더링되는 현상 발생
   return (
-    <Wrapper>
+    <Wrapper onSubmit={handleSubmit(handleOnSubmit)}>
       <ProgressBar length={4} curIdx={curIdx} />
       <CustomLogo />
       <InputUserMain

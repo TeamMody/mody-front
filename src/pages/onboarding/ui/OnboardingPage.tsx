@@ -1,21 +1,27 @@
 import styled from 'styled-components';
 import Logo from '@shared/assets/icon/ic-onboarding-logo.svg?react';
 import KakaoLogo from '@pages/onboarding/icons/ic-kakao-logo.svg?react';
+import { useNavigate } from 'react-router';
 
 export const OnboardingPage = () => {
+  const navigate = useNavigate();
+  const handleAccount = (e) => {
+    console.log(e);
+  };
   return (
     <Wrapper>
-      <CustomLogo></CustomLogo>
-      <ButtonContainer>
-        <Button type="button" fontColor={'#000000'} bgColor={'#FFE812'}>
-          <KakaoLogo />
-          카카오로 시작하기
-        </Button>
+      <CustomLogo />
+      <Button type="button" fontColor={'#000000'} bgColor={'#FFE812'}>
+        <KakaoLogo />
+        카카오로 시작하기
+      </Button>
 
-        <Button type="button" fontColor={'#ffffff'} bgColor={'#666666'}>
-          회원 가입 하기
-        </Button>
-      </ButtonContainer>
+      <AccountContainer>
+        <span onClick={handleAccount} className="signin">
+          이메일로 로그인
+        </span>
+        |<span className="signup">이메일로 회원가입</span>
+      </AccountContainer>
       <Policy>
         계속 진행됨에 따라 <span className="link">이용약관</span>과 개인정보{' '}
         <span className="link">처리방침</span>에 동의합니다.
@@ -23,6 +29,17 @@ export const OnboardingPage = () => {
     </Wrapper>
   );
 };
+const AccountContainer = styled.div`
+  margin-top: 3vh;
+  width: 70%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  span {
+    color: ${({ theme }) => theme.colors.gray100};
+  }
+`;
 
 const Wrapper = styled.div`
   display: flex;
@@ -39,15 +56,8 @@ const CustomLogo = styled(Logo)`
   margin-top: 30vh;
 `;
 
-const ButtonContainer = styled.div`
-  width: 100%;
-  margin-top: 15vh;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-`;
-
 const Button = styled.button<{ fontColor: string; bgColor: string }>`
+  margin-top: 15vh;
   width: 100%;
   height: 7vh;
   border-radius: 10px;
