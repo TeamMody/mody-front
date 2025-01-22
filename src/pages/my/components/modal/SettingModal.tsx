@@ -28,63 +28,74 @@ export const SettingModal = ({ isOpened, onClose, profileImg }: SettingModalProp
   return ReactDOM.createPortal(
     <AnimatePresence>
       {isOpened && (
-        <Container
-          initial={{ x: '100%' }}
-          animate={{ x: '31.5%' }}
-          exit={{ x: '100%' }}
-          transition={{ duration: 0.4, ease: 'easeOut' }}
-        >
-          <TopBox>
-            <button onClick={handleClose}>
-              <IcLeftArrow />
-            </button>
-            <div>설정</div>
-          </TopBox>
-          <BottomBox>
-            <div>
-              {profileImg !== undefined ? (
-                <img src={profileImg}></img>
-              ) : (
-                <IcEmptyProfile width="10.256vw" height="4.739vh" />
-              )}
-              <div onClick={() => openModal('editUserInfo')}>회원정보 수정</div>
-            </div>
-            <CustomDivider width="66.897vw" border="0.5px" />
-            <LogOut onClick={() => openModal('logout')}>로그아웃</LogOut>
-            <WithDraw onClick={() => openModal('withdraw')}>회원 탈퇴</WithDraw>
-          </BottomBox>
-          {modalState === 'logout' && (
-            <ConfirmationModal
-              isOpened={true}
-              content="로그아웃을 진행할까요?"
-              onClose={closeModal}
-              index={1}
-            />
-          )}
-          {modalState === 'withdraw' && (
-            <ConfirmationModal
-              isOpened={true}
-              content="회원탈퇴를 진행할까요?"
-              onClose={closeModal}
-              index={1}
-            />
-          )}
-          {modalState === 'editUserInfo' && (
-            <EditUserInfoModal
-              isOpened={true}
-              onClose={closeModal}
-              name="김모디"
-              birth="2020"
-              gender="남자"
-              height="160cm"
-            />
-          )}
-        </Container>
+        <DivStyle>
+          <Container
+            initial={{ x: '100%' }}
+            animate={{ x: '31.5%' }}
+            exit={{ x: '100%' }}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
+          >
+            <TopBox>
+              <button onClick={handleClose}>
+                <IcLeftArrow />
+              </button>
+              <div>설정</div>
+            </TopBox>
+            <BottomBox>
+              <div>
+                {profileImg !== undefined ? (
+                  <img src={profileImg}></img>
+                ) : (
+                  <IcEmptyProfile width="10.256vw" height="4.739vh" />
+                )}
+                <div onClick={() => openModal('editUserInfo')}>회원정보 수정</div>
+              </div>
+              <CustomDivider width="66.897vw" border="0.5px" />
+              <LogOut onClick={() => openModal('logout')}>로그아웃</LogOut>
+              <WithDraw onClick={() => openModal('withdraw')}>회원 탈퇴</WithDraw>
+            </BottomBox>
+            {modalState === 'logout' && (
+              <ConfirmationModal
+                isOpened={true}
+                content="로그아웃을 진행할까요?"
+                onClose={closeModal}
+                index={1}
+              />
+            )}
+            {modalState === 'withdraw' && (
+              <ConfirmationModal
+                isOpened={true}
+                content="회원탈퇴를 진행할까요?"
+                onClose={closeModal}
+                index={1}
+              />
+            )}
+            {modalState === 'editUserInfo' && (
+              <EditUserInfoModal
+                isOpened={true}
+                onClose={closeModal}
+                name="김모디"
+                birth="2020"
+                gender="남자"
+                height="160cm"
+              />
+            )}
+          </Container>
+        </DivStyle>
       )}
     </AnimatePresence>,
     document.body,
   );
 };
+const DivStyle = styled(motion.div)`
+  width: 100vw;
+  height: 100vh;
+  margin: 0px;
+  padding: 0px;
+  position: absolute;
+  z-index: 10009;
+  backdrop-filter: blur(2px);
+`;
 const Container = styled(motion.div)`
   position: absolute;
   width: 76.154vw;

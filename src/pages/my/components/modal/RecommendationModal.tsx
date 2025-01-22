@@ -1,9 +1,8 @@
-import React from 'react';
-import { useRef, useEffect, useState } from 'react';
 import { IcCancel } from '@shared/assets/icon/ic-cancel';
 import styled from 'styled-components';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useNavigate } from 'react-router';
+import ReactDOM from 'react-dom';
 interface ModalProps {
   isOpened: boolean;
   onClose: () => void;
@@ -20,7 +19,7 @@ export const RecommendationModal = ({ isOpened, img, content, btnText, onClose }
     }
   };
 
-  return (
+  return ReactDOM.createPortal(
     <AnimatePresence>
       {isOpened && (
         <Wrapper
@@ -45,7 +44,8 @@ export const RecommendationModal = ({ isOpened, img, content, btnText, onClose }
           </Container>
         </Wrapper>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body,
   );
 };
 
