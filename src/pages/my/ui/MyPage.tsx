@@ -10,9 +10,11 @@ import { MyBodyTypeCard } from '@pages/my/components/MyBodyTypeCard';
 import { ProfileHeader } from '@pages/my/components/ProfileHeader';
 import { SettingModal } from '@pages/my/components/modal/SettingModal';
 import EditBottomSheet from '@pages/my/components/modal/EditBottomSheetModal';
+import { useNavigate } from 'react-router';
 
 export const MyPage = () => {
   const [modalState, setModalState] = useState<boolean>(false);
+  const navigate = useNavigate();
   const openModal = () => {
     setModalState(true);
   };
@@ -22,7 +24,7 @@ export const MyPage = () => {
 
   const leftHeaderAction: HeaderAction = { icon: logo, onClick: () => console.log('') };
   const rightHeaderActionArr: HeaderAction[] = [
-    { icon: plus, onClick: () => console.log('') },
+    { icon: plus, onClick: () => navigate('createPost') },
     {
       icon: hamburger,
       onClick: openModal,
