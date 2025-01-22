@@ -8,6 +8,7 @@ export const OnboardingPage = () => {
   // const handleAccount = (e) => {
   //   console.log(e);
   // };
+
   return (
     <Wrapper>
       <CustomLogo />
