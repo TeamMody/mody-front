@@ -22,9 +22,18 @@ export const OnboardingPage = () => {
         계속 진행됨에 따라 <span className="link">이용약관</span>과 개인정보{' '}
         <span className="link">처리방침</span>에 동의합니다.
       </Policy>
+      <MockButton onClick={() => navigate('/onboarding/inputuser')}>
+        input user 가기 버튼
+      </MockButton>
     </Wrapper>
   );
 };
+
+const MockButton = styled.button`
+  padding: 10px;
+  border: 1px solid red;
+  color: white;
+`;
 const AccountContainer = styled.div`
   margin-top: 3vh;
   width: 70%;
