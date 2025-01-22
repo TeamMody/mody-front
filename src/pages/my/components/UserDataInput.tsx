@@ -14,7 +14,7 @@ export const UserDataInput = ({
   inputTitle: string;
   type: string;
   inputValue: string;
-  inputKind: 'name' | 'height' | 'gender' | 'birth';
+  inputKind: 'name' | 'height' | 'birth';
   maxLength?: number;
   register: RegisterType;
   errors: ErrorsType;
