@@ -7,6 +7,7 @@ import TempImg1 from '@post/images/tempImg1.jpg';
 import TempImg2 from '@post/images/tempImg2.jpg';
 import TempImg3 from '@post/images/tempImg3.png';
 import { useMemo } from 'react';
+import { useNavigate } from 'react-router';
 
 interface PostPropsType {
   images: string[];
@@ -17,9 +18,20 @@ interface PostPropsType {
   isLiked: boolean;
 }
 
-const mockData: PostPropsType[] = [
+export const mockData: PostPropsType[] = [
   {
-    images: [TempImg3, TempImg2, TempImg3],
+    images: [
+      TempImg3,
+      TempImg2,
+      TempImg3,
+      TempImg1,
+      TempImg1,
+      TempImg1,
+      TempImg1,
+      TempImg3,
+      TempImg2,
+      TempImg3,
+    ],
     name: '사람1',
     type: '네모형 체형',
     description:
@@ -54,8 +66,10 @@ const mockData: PostPropsType[] = [
 ];
 
 export const PostPage = () => {
-  const leftHeaderAction = { icon: logo, onClick: () => console.log('') };
-  const rightHeaderActionArr = [{ icon: plus, onClick: () => console.log('') }];
+  const navigate = useNavigate();
+
+  const leftHeaderAction = { icon: logo, onClick: () => navigate('home') };
+  const rightHeaderActionArr = [{ icon: plus, onClick: () => navigate('createPost') }];
 
   // Post내부 Container 리렌더링 발생은 나중에 해결
   const memoizedData = useMemo(() => mockData, []);
@@ -63,6 +77,7 @@ export const PostPage = () => {
   return (
     <>
       <AppBar leftHeaderAction={leftHeaderAction} rightHeaderActionArr={rightHeaderActionArr} />
+
       <Container>
         {memoizedData.map((data, index) => (
           <Post key={index} data={data} />

@@ -1,6 +1,7 @@
 import { useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
+import ReactDOM from 'react-dom';
 interface ModalProps {
   isOpened: boolean;
   onClose: () => void;
@@ -41,7 +42,7 @@ export const ConfirmationModal = ({ isOpened, content, onClose, index }: ModalPr
     }
   };
 
-  return (
+  return ReactDOM.createPortal(
     <Wrapper ref={ModalRef}>
       <Container>
         <div>{content}</div>
@@ -50,7 +51,8 @@ export const ConfirmationModal = ({ isOpened, content, onClose, index }: ModalPr
           <button onClick={() => handleClose(index)}>예</button>
         </div>
       </Container>
-    </Wrapper>
+    </Wrapper>,
+    document.body,
   );
 };
 
