@@ -29,4 +29,5 @@ const Wrapper = styled.div`
   flex: 1;
   height: 100%;
   overflow-y: auto;
+  z-index: 999;
 `;
