@@ -93,6 +93,7 @@ const Container = styled.div`
     font-size: ${({ theme }) => theme.fonts.button_medium_16px};
     background-color: ${({ theme }) => theme.colors.green500};
     margin-top: 3.556vh;
+    color: black;
   }
 `;
 

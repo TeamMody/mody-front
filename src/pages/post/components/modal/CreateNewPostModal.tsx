@@ -183,4 +183,5 @@ const SaveStyleButton = styled.button`
   font-size: ${({ theme }) => theme.fonts.body_medium_16px};
   background-color: ${({ theme }) => theme.colors.green500};
   border-radius: 10px;
+  color: black;
 `;
