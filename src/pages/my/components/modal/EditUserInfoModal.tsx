@@ -43,7 +43,10 @@ export const EditUserInfoModal = ({
 
   const [isVisible, setIsVisible] = useState(isOpened);
   const [img, setImg] = useState<string | undefined>(profileImg);
-
+  const [selectedSex, setSelectedSex] = useState<string | null>(null);
+  const handleSexClick = (sex: string) => {
+    setSelectedSex(sex); // 상태 업데이트
+  };
   const ModalClose = () => {
     setIsVisible(false);
     setTimeout(() => {
@@ -76,7 +79,7 @@ export const EditUserInfoModal = ({
           initial={{ x: '100%' }}
           animate={{ x: '0%' }}
           exit={{ x: '100%' }}
-          transition={{ duration: 0.3, ease: 'easeOut' }}
+          transition={{ duration: 0.4, ease: 'easeOut' }}
         >
           <form onSubmit={handleSubmit(onSubmit, onError)}>
             <Top>
@@ -133,14 +136,24 @@ export const EditUserInfoModal = ({
                   register={register}
                 />
 
-                <UserDataInput
-                  inputTitle="성별"
-                  type="text"
-                  inputValue={gender}
-                  inputKind="gender"
-                  errors={errors}
-                  register={register}
-                />
+                <div>성별</div>
+                <Gender>
+                  <button
+                    onClick={() => handleSexClick('male')}
+                    className={selectedSex === 'male' ? 'selected' : ''}
+                    {...register('gender', { required: true })}
+                  >
+                    남자
+                  </button>
+                  <button
+                    onClick={() => handleSexClick('female')}
+                    className={selectedSex === 'female' ? 'selected' : ''}
+                    {...register('gender', { required: true })}
+                  >
+                    여자
+                  </button>
+                </Gender>
+
                 <UserDataInput
                   inputTitle="키"
                   type="text"
@@ -150,7 +163,7 @@ export const EditUserInfoModal = ({
                   register={register}
                 />
               </Bottom>
-              <button type="submit">완료</button>
+              <CompleteButton type="submit">완료</CompleteButton>
             </Middle>
           </form>
         </Container>
@@ -167,7 +180,7 @@ const Container = styled(motion.div)`
   max-width: 440px;
   width: 100vw;
   height: 100vh;
-  z-index: 10000;
+  z-index: 10010;
   background: linear-gradient(to bottom, #121212, #262626);
 `;
 
@@ -202,12 +215,12 @@ const Middle = styled.div`
     justify-content: center;
     align-items: flex-end;
   }
-  & button {
-    margin-top: 2.962vh;
-    width: 100%;
-    height: 6.635vh;
-    background-color: ${({ theme }) => theme.colors.green500};
-  }
+`;
+const CompleteButton = styled.button`
+  margin-top: 2.962vh;
+  width: 100%;
+  height: 6.635vh;
+  background-color: ${({ theme }) => theme.colors.green500};
 `;
 const ProfilImg = styled.img`
   width: 43.846vw;
@@ -268,5 +281,27 @@ const Bottom = styled.div`
     color: red;
     display: flex;
     align-items: center;
+  }
+`;
+
+const Gender = styled.div`
+  width: 100%;
+  display: flex;
+  height: 7.583vh;
+  font-size: ${({ theme }) => theme.fonts.heading_medium_20px};
+  justify-content: space-between;
+  margin-top: 0.948vh;
+  & button {
+    border-radius: 10px;
+    width: 44.103vw;
+    height: 7vh;
+    font-size: ${({ theme }) => theme.fonts.heading_medium_20px};
+    color: white;
+    background-color: ${({ theme }) => theme.colors.gray600};
+
+    &.selected {
+      background-color: ${({ theme }) => theme.colors.green500};
+      color: black;
+    }
   }
 `;

@@ -27,7 +27,7 @@ const EditBottomSheet = ({ isOpen, onClose }: EditBottomSheetProps) => {
 };
 
 const SheetContainer = styled(Sheet.Container)`
-  height: 22.3vh !important;
+  height: 43.572vh !important;
   width: 100vw !important;
   border-radius: 30px 30px 0 0 !important;
   background-color: ${({ theme }) => theme.colors.gray800} !important;

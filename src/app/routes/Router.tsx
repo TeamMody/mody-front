@@ -12,6 +12,7 @@ import { MyPage } from '@pages/my';
 import { OnboardingPage, InputUser } from '@pages/onboarding';
 import SignUpPage from '@pages/onboarding/ui/SignUpMain';
 
+import { CreatePost } from '@pages/post/components/CreatePost';
 export const router = createBrowserRouter([
   {
     path: '/',
@@ -27,11 +28,17 @@ export const router = createBrowserRouter([
       },
       {
         path: 'post',
-        element: <PostPage />,
+        children: [
+          { index: true, element: <PostPage /> },
+          { path: 'createPost', element: <CreatePost isOpened={true} /> },
+        ],
       },
       {
         path: 'my',
-        element: <MyPage />,
+        children: [
+          { index: true, element: <MyPage /> },
+          { path: 'createPost', element: <CreatePost isOpened={true} /> },
+        ],
       },
     ],
   },
