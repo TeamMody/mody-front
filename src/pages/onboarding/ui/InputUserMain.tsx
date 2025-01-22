@@ -9,7 +9,9 @@ const InputUserMain = ({ curIdx, register, watch, setValue, getValues }: InputUs
   return (
     <Container>
       {curIdx === 0 && <FirstPage register={register} watch={watch} setValue={setValue} />}
-      {curIdx === 1 && <SecondPage register={register} setValue={setValue} />}
+      {curIdx === 1 && (
+        <SecondPage watch={watch} register={register} setValue={setValue} getValues={getValues} />
+      )}
       {curIdx === 2 && <ThirdPage getValues={getValues} />}
       {curIdx === 3 && <FourthPage getValues={getValues} />}
     </Container>

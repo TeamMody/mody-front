@@ -12,5 +12,5 @@ export type InputUserMainProps = {
 };
 
 export type FirstPageProps = Omit<InputUserMainProps, 'curIdx' | 'getValues'>;
-export type SecondPageProps = Omit<InputUserMainProps, 'curIdx' | 'watch' | 'getValues'>;
+export type SecondPageProps = Omit<InputUserMainProps, 'curIdx'>;
 export type ThirdPageProps = Pick<InputUserMainProps, 'getValues'>;
