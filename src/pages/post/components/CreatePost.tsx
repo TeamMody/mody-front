@@ -23,10 +23,10 @@ export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
   const closePage = () => {
     setIsOpened(false);
     setTimeout(() => {
-      navigate(-1);
+      navigate('/post');
     }, 500);
   };
-  console.log(modalState);
+
   return ReactDOM.createPortal(
     <AnimatePresence>
       {opened && (
@@ -48,13 +48,16 @@ export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
             />
           </TopBox>
           <BottomBox isOpened={isOpened}>
-            <ChooseImg
-              initial={{ width: '100%', height: '100%' }}
-              animate={{ width: '99.744vw', height: '98.35vw' }}
-              transition={{ duration: 0.4, ease: 'linear' }}
-              src={selectedImages.slice(-1)[0]}
-              alt="이미지를 넣어주세요"
-            />
+            {selectedImages ? (
+              <ChooseImg
+                // initial={{ width: '100%', height: '100%' }}
+                // animate={{ width: '99.744vw', height: '98.35vw' }}
+                // transition={{ duration: 0.4, ease: 'linear' }}
+                src={selectedImages.slice(-1)[0]}
+              />
+            ) : (
+              <></>
+            )}
           </BottomBox>
           <SelectPhotoBottomSheetModal
             isOpened={isOpened}
@@ -107,11 +110,11 @@ const BottomBox = styled.div<StyledProps>`
   height: 92.417vh;
   background: ${({ theme }) => theme.colors.gray900};
   display: flex;
+  padding: 1.1vh 0.9vw 0 0.9vw;
 `;
 
 const ChooseImg = styled(motion.img)`
   width: 100%;
-  height: 100%;
+  height: 46vh;
   background-color: ${({ theme }) => theme.colors.gray800};
-  margin-top: 1.4vh;
 `;
