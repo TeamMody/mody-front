@@ -65,7 +65,7 @@ export const PostPage = () => {
       <AppBar leftHeaderAction={leftHeaderAction} rightHeaderActionArr={rightHeaderActionArr} />
       <Container>
         {memoizedData.map((data, index) => (
-          <Post key={index} data={data} />
+          <Post key={index} data={data} type={'my'} />
         ))}
       </Container>
     </>
