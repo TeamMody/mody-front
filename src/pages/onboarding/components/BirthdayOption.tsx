@@ -32,8 +32,8 @@ const Option = React.memo(
       const center = centerRef.current?.getBoundingClientRect();
       if (!center) return null;
 
-      let closest = null;
-      let closestDistance = Infinity;
+      let closest = null; // html
+      let closestDistance = Infinity; // 실제 거리
       dateRefs.forEach((el, index) => {
         if (!el) return;
         const rect = el.getBoundingClientRect();
