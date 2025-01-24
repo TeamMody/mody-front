@@ -33,7 +33,9 @@ export const StyleSurveyPage = () => {
         <StyleSurvey category="liked" keywords={keywords} />
         <StyleSurvey category="disliked" keywords={keywords} />
         <StyleSurvey category="image" keywords={styleKeywords} />
+        <ButtonContainer>
         <CustomButton label="스타일 추천 받기" onClick={handleNavigate} active={true} paddingTop="19px" paddingBottom="19px" />
+        </ButtonContainer>
       </KeywordsContainer>
     </Wrapper>
   );
@@ -49,8 +51,19 @@ const Wrapper = styled.div`
 `;
 
 const KeywordsContainer = styled.div`;
+  height: 100%;
   display: flex;
   flex-direction: column;
   gap: 35px;
   padding: 16px 20px 0;
+  overflow-y: auto;
+`;
+
+const ButtonContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-top: auto;
+  position: relative;
+  bottom: 0;
 `;
