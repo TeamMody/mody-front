@@ -3,7 +3,7 @@ import Logo from '@shared/assets/icon/ic-onboarding-logo.svg?react';
 import KakaoLogo from '@pages/onboarding/icons/ic-kakao-logo.svg?react';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
-
+import { apiInstance } from '@shared/apis/instance';
 import { useEffect } from 'react';
 
 export const OnboardingPage = () => {
@@ -18,8 +18,16 @@ export const OnboardingPage = () => {
 
   useEffect(() => {
     const test = () => {
-      axios.get();
+      apiInstance
+        .get('/test')
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     };
+    test();
   }, []);
   return (
     <Wrapper>
