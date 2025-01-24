@@ -9,12 +9,14 @@ const ImageCarousel = ({
   isExpanded = undefined,
   imgIdx,
   setImgIdx,
+  marginTop,
 }: {
   images: string[];
   height?: string;
   isExpanded?: boolean;
   imgIdx: number;
   setImgIdx: React.Dispatch<React.SetStateAction<number>>;
+  marginTop?: string | undefined;
 }) => {
   return (
     <>
@@ -38,7 +40,12 @@ const ImageCarousel = ({
           );
         })}
       </StyledCarousel>
-      <ProgressBar length={images.length} curIdx={imgIdx} size={7}></ProgressBar>
+      <ProgressBar
+        length={images.length}
+        curIdx={imgIdx}
+        size={7}
+        marginTop={marginTop}
+      ></ProgressBar>
     </>
   );
 };
@@ -56,7 +63,6 @@ const StyledCarousel = styled(Carousel)<{ isExpanded: boolean; height: string }>
 
     img {
       max-width: 100%;
-      pointer-events: none; /* 이미지 자체에서 이벤트 차단 */
     }
   }
 `;
