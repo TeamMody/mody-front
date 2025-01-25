@@ -29,7 +29,6 @@ export const EditUserInfoModal = ({
   profileImg,
   name,
   birth,
-  gender,
   height,
 }: EditUserInfoModalProps) => {
   const {
