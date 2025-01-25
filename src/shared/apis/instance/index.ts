@@ -18,7 +18,13 @@ async function refreshAccessToken() {
   }
 }
 
-const nonToken = ['/auth/signup', '/auth/signup/oauth2', '/auth/signup/oauth2', '/auth/reissue'];
+const nonToken = [
+  '/auth/signup',
+  '/auth/signup/oauth2',
+  '/auth/signup/oauth2',
+  '/auth/reissue',
+  '/auth/login',
+];
 
 apiInstance.interceptors.request.use((config) => {
   const apiURL = config.url;
@@ -37,16 +43,16 @@ apiInstance.interceptors.response.use(null, async (err) => {
   // const code = err.response?.data?.code;
   const url = err.config.url;
 
-  if (err.response?.status === 401 && url !== '/auth/reissue') {
-    try {
-      const newAccessToken = await refreshAccessToken();
-      originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-      return apiInstance(originalRequest); // 원래 요청 재시도
-    } catch (refreshError) {
-      console.error('Refresh token failed:', refreshError);
-      throw refreshError; // 최종적으로 실패하면 상위로 에러 전달
-    }
-  }
+  // if (err.response?.status === 401 && url !== '/auth/reissue') {
+  //   try {
+  //     const newAccessToken = await refreshAccessToken();
+  //     originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+  //     return apiInstance(originalRequest); // 원래 요청 재시도
+  //   } catch (refreshError) {
+  //     console.error('Refresh token failed:', refreshError);
+  //     throw refreshError; // 최종적으로 실패하면 상위로 에러 전달
+  //   }
+  // }
 
   if (err.response?.status === 401 && url === '/auth/reissue') {
     window.location.href = `${import.meta.env.VITE_LOCAL_ADDRESS}/onboarding`;
