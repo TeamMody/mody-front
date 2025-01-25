@@ -1,20 +1,12 @@
 import Logo from '@shared/assets/icon/ic-inputuser-logo.svg?react';
 import InputField from '@onboarding/components/InputField';
 import Message from '@onboarding/components/Message';
-import { LoginSchema, LoginSchemaType } from '../schema';
+import { LoginSchema, LoginSchemaType } from '@onboarding/schema';
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import TypeLetter from '@onboarding/components/TypeLetter';
-import { useMutation } from '@tanstack/react-query';
-import { apiInstance } from '@shared/apis/instance';
-import useAuthStore from '@shared/store/token';
-import axios, { AxiosError } from 'axios';
-
-interface ErrorResponse {
-  message: string;
-  status: number;
-}
+import useLoginMutation from '@onboarding/hooks/useLoginMutation';
 
 const SignIn = () => {
   const {
@@ -25,38 +17,16 @@ const SignIn = () => {
     resolver: zodResolver(LoginSchema),
     mode: 'onChange',
   });
+  const loginMutation = useLoginMutation();
 
-  const loginMutation = useMutation({
-    mutationFn: async (data: LoginSchemaType) => {
-      const response = await apiInstance.post('/auth/login', data);
-      return response;
-    },
-    onSuccess: (data) => {
-      // 예: 토큰 저장 후 페이지 리다이렉트
-      const accessToken = data.headers.authorization.split(' ')[1];
-      const { setAccessToken } = useAuthStore.getState();
-      setAccessToken(accessToken);
-
-      alert('로그인이 완료되었습니다.');
-      window.location.href = '/';
-    },
-    onError: (error: AxiosError) => {
-      const axiosError = error as AxiosError<ErrorResponse>;
-      if (error.status === 401 && axiosError.response?.data) {
-        alert(axiosError.response.data.message);
-      } else {
-        alert('서버에 문제가 있다.');
-      }
-    },
-  });
-
-  const handleLogin = (data: LoginSchemaType) => {
-    loginMutation.mutate(data);
-  };
   return (
     <Wrapper>
       <CustomLogo topMargin={'6.4vh'} />
-      <Form onSubmit={handleSubmit(handleLogin)}>
+      <Form
+        onSubmit={handleSubmit((data: LoginSchemaType) => {
+          loginMutation.mutate(data);
+        })}
+      >
         <InputWrapper>
           <TypeLetter type="이메일" />
           <InputField
