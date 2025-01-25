@@ -36,7 +36,7 @@ export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
           initial={{ x: '100%' }}
           animate={{ x: '0%' }}
           exit={{ x: '100%' }}
-          transition={{ duration: 0.5, ease: 'easeOut' }}
+          transition={{ duration: 0.3, ease: 'easeOut' }}
         >
           <TopBox>
             <button onClick={closePage}>
@@ -94,6 +94,9 @@ const TopBox = styled.div`
     height: 100%;
     color: white;
     font-size: ${({ theme }) => theme.fonts.heading_medium_18px};
+    &:hover {
+      color: ${({ theme }) => theme.colors.green500};
+    }
   }
 `;
 

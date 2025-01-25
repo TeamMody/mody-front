@@ -124,9 +124,19 @@ const SheetContent = styled(Sheet.Content)`
 const GalleryIcon = styled(IcGallery)`
   height: 100%;
   align-content: center;
+  &:hover {
+    path {
+      stroke: ${({ theme }) => theme.colors.green500}; /* 원하는 색상 */
+    }
+  }
 `;
 
 const CameraIcon = styled(IcCamera)`
   height: 100%;
   align-content: center;
+  &:hover {
+    path {
+      stroke: ${({ theme }) => theme.colors.green500}; /* 원하는 색상 */
+    }
+  }
 `;

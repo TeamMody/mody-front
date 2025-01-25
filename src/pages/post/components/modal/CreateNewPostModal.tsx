@@ -5,14 +5,11 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { ModalProps } from '@shared/types/my/modalProps';
 import { IcLeftArrow } from '@shared/assets/icon/ic-left-arrow';
 import CustomDivider from '@shared/ui/CustomDivider';
-
 import BottomSheetItem from '@pages/my/components/BottomSheetItem';
 import ImageCarousel from '@shared/ui/ImageCarousel';
 import IcZoom from '@shared/assets/icon/ic-zoom.svg?react';
-
 import { useNavigate } from 'react-router';
-import { boolean } from 'zod';
-
+import IcModyLogo from '@shared/assets/icon/ic-logo.svg?react';
 interface ImgModalProps extends ModalProps {
   selectedImages: string[];
   imgZoom: boolean;
@@ -49,7 +46,7 @@ export const CreateNewPostModal = ({
           initial={{ x: '100%' }}
           animate={{ x: '0%' }}
           exit={{ x: '100%' }}
-          transition={{ duration: 0.5, ease: 'easeOut' }}
+          transition={{ duration: 0.3, ease: 'easeOut' }}
         >
           <TopBox>
             <button onClick={onClose}>
@@ -59,7 +56,9 @@ export const CreateNewPostModal = ({
           </TopBox>
           <BottomBox>
             {selectedImages.length === 0 ? (
-              <EmptyImgContainer></EmptyImgContainer>
+              <EmptyImgContainer>
+                <IcModyLogo />
+              </EmptyImgContainer>
             ) : (
               <BottomImgContainer imgZoom={imgZoom}>
                 <ImageCarousel
@@ -76,7 +75,7 @@ export const CreateNewPostModal = ({
               <></>
             ) : (
               <ZoomButton onClick={handleImgZoom}>
-                <IcZoom />
+                <IcZoomStyle />
               </ZoomButton>
             )}
 
@@ -133,7 +132,7 @@ const BottomBox = styled.div`
   background-color: ${({ theme }) => theme.colors.gray900};
   display: flex;
   flex-direction: column;
-  padding: 0px 0px 4.028vh 0px;
+  padding: 0px 1px 4.028vh 1px;
   position: absolute;
 `;
 
@@ -141,9 +140,11 @@ const EmptyImgContainer = styled.div`
   width: 100%;
   border: 1px solid ${({ theme }) => theme.colors.green500};
   border-radius: 20px;
-  padding: 0.5px;
   height: 45.735vh;
-  margin: 4.147vh 0px 14.337vh 0px;
+  margin: 3.791vh 0px 9vh 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 const BottomImgContainer = styled.div<{ imgZoom: boolean }>`
   width: 100%;
@@ -155,13 +156,14 @@ const BottomImgContainer = styled.div<{ imgZoom: boolean }>`
   justify-content: space-between;
   gap: ${({ imgZoom }) => (imgZoom ? '0px' : '5.79vh')};
 `;
+
 const ZoomButton = styled.button`
   width: 5.924vh;
   height: 5.924vh;
-  margin-left: 2.564vw;
+  margin-left: 1.5vw;
   position: absolute;
   z-index: 10001;
-  top: 46.682vh;
+  top: 46vh;
 `;
 
 const TextArea = styled.textarea`
@@ -186,4 +188,12 @@ const SaveStyleButton = styled.button`
   background-color: ${({ theme }) => theme.colors.green500};
   border-radius: 10px;
   color: black;
+`;
+
+const IcZoomStyle = styled(IcZoom)`
+  &:hover {
+    path {
+      stroke: ${({ theme }) => theme.colors.green500};
+    }
+  }
 `;
