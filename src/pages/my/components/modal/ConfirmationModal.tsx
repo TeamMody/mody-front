@@ -94,11 +94,13 @@ const Container = styled.div`
     height: 5.213vh;
     font-size: ${({ theme }) => theme.fonts.body_medium_16px};
     background-color: ${({ theme }) => theme.colors.green500};
+    color: black;
   }
   & > div:nth-child(2) > button:nth-child(2) {
     width: 38.462vw;
     height: 5.213vh;
     font-size: ${({ theme }) => theme.fonts.body_medium_16px};
     background-color: ${({ theme }) => theme.colors.gray300};
+    color: black;
   }
 `;
