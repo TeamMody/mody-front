@@ -22,13 +22,13 @@ export const RecommendationModal = ({ isOpened, img, content, btnText, onClose }
   return ReactDOM.createPortal(
     <AnimatePresence>
       {isOpened && (
-        <Wrapper
-          initial={{ y: '100%' }}
-          animate={{ y: '0%' }}
-          exit={{ y: '100%' }}
-          transition={{ duration: 0.5, ease: 'easeOut' }}
-        >
-          <Container>
+        <Wrapper>
+          <Container
+            initial={{ y: '100%' }}
+            animate={{ y: '0%' }}
+            exit={{ y: '100%' }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
+          >
             <CancelButton onClick={handleClose}>
               <IcCancel />
             </CancelButton>
@@ -58,7 +58,7 @@ const Wrapper = styled(motion.div)`
   z-index: 1000;
   backdrop-filter: blur(2px);
 `;
-const Container = styled.div`
+const Container = styled(motion.div)`
   height: 47.39vh;
   width: 100vw;
   background-color: ${({ theme }) => theme.colors.gray800};

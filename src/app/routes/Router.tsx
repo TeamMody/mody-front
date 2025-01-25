@@ -7,13 +7,10 @@ import {
   StyleSurveyPage,
   RecommendationResultPage,
 } from '@pages/home';
-import { PostPage } from '@pages/post';
 import { MyPage } from '@pages/my';
 import { OnboardingPage, InputUser } from '@pages/onboarding';
 import SignUpPage from '@pages/onboarding/ui/SignUpMain';
-import { CreatePost } from '@pages/post/components/CreatePost';
-import { CameraPage } from '@pages/post/components/CameraPage';
-import { CapturedImgPage } from '@pages/post/components/CapturedImgPage';
+import { PostPage, CreatePost, CameraPage, CapturedImgPage } from '@pages/post';
 export const router = createBrowserRouter([
   {
     path: '/',

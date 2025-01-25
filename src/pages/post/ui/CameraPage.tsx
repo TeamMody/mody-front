@@ -54,3 +54,9 @@ const ButtonStyle = styled.button`
   z-index: 100;
   margin-bottom: 9.479vh;
 `;
+
+// const IcCameraStyle = styled(IcCamera)`
+//   path {
+//     stroke: ${({ theme }) => theme.colors.green500} !important;
+//   }
+// `;

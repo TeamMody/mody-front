@@ -13,12 +13,14 @@ export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
   const [opened, setIsOpened] = useState<boolean>(isOpened);
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const [selectedId, setSelectedIds] = useState<number[]>([]);
+  const [imgZoom, setImgZoom] = useState<boolean>(false);
   const navigate = useNavigate();
   const openModal = () => {
     setModalState(true);
   };
   const closeModal = () => {
     setModalState(false);
+    setImgZoom(false);
   };
   const closePage = () => {
     setIsOpened(false);
@@ -45,19 +47,12 @@ export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
               isOpened={modalState}
               onClose={closeModal}
               selectedImages={selectedImages}
+              imgZoom={imgZoom}
+              setImgZoom={setImgZoom}
             />
           </TopBox>
           <BottomBox isOpened={isOpened}>
-            {selectedImages ? (
-              <ChooseImg
-                // initial={{ width: '100%', height: '100%' }}
-                // animate={{ width: '99.744vw', height: '98.35vw' }}
-                // transition={{ duration: 0.4, ease: 'linear' }}
-                src={selectedImages.slice(-1)[0]}
-              />
-            ) : (
-              <></>
-            )}
+            {selectedImages ? <ChooseImg src={selectedImages.slice(-1)[0]} /> : <></>}
           </BottomBox>
           <SelectPhotoBottomSheetModal
             isOpened={isOpened}
