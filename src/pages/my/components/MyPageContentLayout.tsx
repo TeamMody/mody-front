@@ -31,6 +31,8 @@ export const MyPageContentLayout = () => {
         showThumbs={false} // 썸네일 표시 숨김
         showIndicators={false} // 인디케이터 숨김
         emulateTouch={true} // 터치 제스처 사용
+        swipeScrollTolerance={0}
+        preventMovementUntilSwipeScrollTolerance={true} // 설정된 거리까지 스와이프 대기
       >
         <RenderTabContent activeTab={'recommend'} />
         <RenderTabContent activeTab={'post'} />
