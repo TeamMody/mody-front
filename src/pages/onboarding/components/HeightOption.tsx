@@ -58,6 +58,22 @@ const Option = React.memo(
       }
     };
 
+    const handleClick = (index: number) => {
+      const selectedEl = dateRefs[index];
+      if (selectedEl) {
+        selectedEl.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+
+        // 값 업데이트
+        setValue('height', data[index], {
+          shouldValidate: true,
+          shouldDirty: true,
+        });
+      }
+    };
+
     useEffect(() => {
       const currentOption = optionRef.current;
       if (currentOption) {
@@ -88,6 +104,7 @@ const Option = React.memo(
             key={d}
             ref={(el) => (dateRefs[index] = el)}
             className={selected === d ? 'selected' : ''}
+            onClick={() => handleClick(index)}
           >
             {d}
           </Select>
