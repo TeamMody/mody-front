@@ -11,7 +11,6 @@ import { MyPage } from '@pages/my';
 import { OnboardingPage, InputUser } from '@pages/onboarding';
 import SignUpPage from '@pages/onboarding/ui/SignUpMain';
 import SignInPage from '@pages/onboarding/pages/SignInPage';
-import { CreatePost } from '@pages/post/components/CreatePost';
 import { PostPage, CreatePost, CameraPage, CapturedImgPage } from '@pages/post';
 
 export const router = createBrowserRouter([
