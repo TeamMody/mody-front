@@ -1,6 +1,9 @@
 /*
  * 체형 분석 질문 & 답변 타입
  */
+
+import React from 'react';
+
 export interface BodyTypeQuestion {
   id: number;
   question: string;
@@ -10,6 +13,7 @@ export interface BodyTypeQuestion {
 export interface BodyTypeAnswer {
   id: number;
   answer: string;
+  imageUrl?: React.FC<React.SVGProps<SVGSVGElement>>;
 }
 
 export type StyleKeywordType = {
