@@ -5,12 +5,19 @@ interface ProgressBarPropsType {
   curIdx: number;
   size?: number;
   marginTop?: string;
+  imgZoom?: boolean | undefined;
 }
 
-const ProgressBar = ({ length, curIdx, size = 10, marginTop = '8px' }: ProgressBarPropsType) => {
+const ProgressBar = ({
+  length,
+  curIdx,
+  size = 10,
+  marginTop = '8px',
+  imgZoom,
+}: ProgressBarPropsType) => {
   const circleArr = Array.from({ length });
   return (
-    <Container marginTop={marginTop}>
+    <Container marginTop={marginTop} imgZoom={imgZoom}>
       {circleArr.map((_, idx) => (
         <Circle key={idx} isActive={idx === curIdx} size={size} />
       ))}
@@ -18,8 +25,8 @@ const ProgressBar = ({ length, curIdx, size = 10, marginTop = '8px' }: ProgressB
   );
 };
 
-const Container = styled.div<{ marginTop: string }>`
-  margin-top: ${({ marginTop }) => `${marginTop}`};
+const Container = styled.div<{ marginTop: string; imgZoom?: boolean | undefined }>`
+  margin-top: ${({ marginTop, imgZoom }) => (imgZoom ? '2.725vh' : `${marginTop}`)};
   width: 100%;
   display: flex;
   justify-content: center;

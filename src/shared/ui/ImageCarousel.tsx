@@ -10,6 +10,7 @@ const ImageCarousel = ({
   imgIdx,
   setImgIdx,
   marginTop,
+  imgZoomed,
 }: {
   images: string[];
   height?: string;
@@ -17,6 +18,7 @@ const ImageCarousel = ({
   imgIdx: number;
   setImgIdx: React.Dispatch<React.SetStateAction<number>>;
   marginTop?: string | undefined;
+  imgZoomed?: boolean;
 }) => {
   return (
     <>
@@ -31,6 +33,7 @@ const ImageCarousel = ({
         centerSlidePercentage={95}
         {...(isExpanded !== undefined && { isExpanded })}
         height={height}
+        imgZoomed={imgZoomed}
       >
         {images.map((img, idx) => {
           return (
@@ -45,14 +48,19 @@ const ImageCarousel = ({
         curIdx={imgIdx}
         size={7}
         marginTop={marginTop}
+        imgZoom={imgZoomed}
       ></ProgressBar>
     </>
   );
 };
 
-const StyledCarousel = styled(Carousel)<{ isExpanded: boolean; height: string }>`
+const StyledCarousel = styled(Carousel)<{
+  isExpanded: boolean;
+  height: string;
+  imgZoomed?: boolean;
+}>`
   width: 100%;
-  height: ${({ height }) => height};
+  height: ${({ imgZoomed, height }) => (imgZoomed ? '53.791vh' : height)};
   background-color: ${({ theme }) => theme.colors.gray500};
   filter: ${({ isExpanded }) => (isExpanded ? 'brightness(0.5)' : '')};
   div {
