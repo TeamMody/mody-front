@@ -4,6 +4,7 @@ import Heart from '@shared/assets/icon/ic-heart.svg?react';
 import MoreVertical from '@shared/assets/icon/ic-more-vertical.svg?react';
 import FullHeart from '@shared/assets/icon/ic-full-heart.svg?react';
 import ImageCarousel from '@shared/ui/ImageCarousel';
+import EditBottomSheet from './EditBottomSheetModal';
 
 interface PostPropsType {
   images: string[];
@@ -15,7 +16,7 @@ interface PostPropsType {
 }
 
 const Post = memo(
-  ({ data }: { data: PostPropsType }) => {
+  ({ data, type }: { data: PostPropsType; type: string }) => {
     const [imgIdx, setImgIdx] = useState<number>(0);
     const [isExpanded, setIsExpanded] = useState<boolean>(false);
 
@@ -29,7 +30,7 @@ const Post = memo(
           imgIdx={imgIdx}
           setImgIdx={setImgIdx}
         />
-        <Info isExpanded={isExpanded} data={data} setIsExpanded={setIsExpanded} />
+        <Info isExpanded={isExpanded} data={data} setIsExpanded={setIsExpanded} type={type} />
       </Container>
     );
   },
@@ -53,21 +54,23 @@ const Info = memo(
     isExpanded,
     data,
     setIsExpanded,
+    type,
   }: {
     isExpanded: boolean;
     data: PostPropsType;
     setIsExpanded: React.Dispatch<React.SetStateAction<boolean>>;
+    type: string;
   }) => {
     return (
       <InfoContainer isExpanded={isExpanded} onClick={() => setIsExpanded((prev) => !prev)}>
         <UserInfo>
           <span className="user-name">{data.name}</span>
           <span className="user-type">{data.type}</span>
-          {isExpanded && <IconBox data={data} isExpanded={isExpanded} />}
+          {isExpanded && <IconBox data={data} isExpanded={isExpanded} type={type} />}
         </UserInfo>
         <DescriptionContainer>
           <p className={`description ${isExpanded ? 'expanded' : ''}`}>{data.description}</p>
-          {!isExpanded && <IconBox data={data} isExpanded={isExpanded} />}
+          {!isExpanded && <IconBox data={data} isExpanded={isExpanded} type={type} />}
         </DescriptionContainer>
       </InfoContainer>
     );
@@ -145,7 +148,17 @@ const DescriptionContainer = styled.div`
   }
 `;
 
-const IconBox = ({ data, isExpanded }: { data: PostPropsType; isExpanded: boolean }) => {
+const IconBox = ({
+  data,
+  isExpanded,
+  type,
+}: {
+  data: PostPropsType;
+  isExpanded: boolean;
+  type: string;
+}) => {
+  const [isMoreClicked, setIsMoreClicked] = useState<boolean>(false);
+
   const handleClickHeart = (e: React.MouseEvent<SVGElement>) => {
     e.stopPropagation();
     console.log('Heart clicked', e);
@@ -153,7 +166,7 @@ const IconBox = ({ data, isExpanded }: { data: PostPropsType; isExpanded: boolea
 
   const handleClickMore = (e: React.MouseEvent<SVGElement>) => {
     e.stopPropagation();
-    console.log('More clicked', e);
+    setIsMoreClicked(true);
   };
 
   return (
@@ -171,6 +184,12 @@ const IconBox = ({ data, isExpanded }: { data: PostPropsType; isExpanded: boolea
         {/* onClick event 설정 */}
         <MoreVertical onClick={handleClickMore} />
       </div>
+      {type === 'my' && (
+        <EditBottomSheet
+          isOpen={isMoreClicked}
+          onClose={() => setIsMoreClicked(false)}
+        ></EditBottomSheet>
+      )}
     </IconContainer>
   );
 };

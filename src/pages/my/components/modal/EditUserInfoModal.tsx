@@ -29,7 +29,6 @@ export const EditUserInfoModal = ({
   profileImg,
   name,
   birth,
-  gender,
   height,
 }: EditUserInfoModalProps) => {
   const {
@@ -196,6 +195,7 @@ const Top = styled.div`
 
   & > button:nth-child(1) {
     margin-right: 90.359vw;
+    color: black;
   }
 
   & > div:nth-child(2) {
@@ -221,6 +221,7 @@ const CompleteButton = styled.button`
   width: 100%;
   height: 6.635vh;
   background-color: ${({ theme }) => theme.colors.green500};
+  color: black;
 `;
 const ProfilImg = styled.img`
   width: 43.846vw;

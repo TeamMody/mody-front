@@ -5,7 +5,7 @@ import IcCamera from '@shared/assets/icon/ic-camera.svg?react';
 import IcGallery from '@shared/assets/icon/ic-gallery.svg?react';
 import { ImgLayout } from '@pages/post/components/ImgLayout';
 import { mockData } from '@pages/post/ui/PostPage';
-
+import { useNavigate } from 'react-router';
 interface SelectPhotoBottomModalProps {
   isOpened: boolean;
   onClose: () => void | undefined;
@@ -23,7 +23,7 @@ export const SelectPhotoBottomSheetModal = ({
 }: SelectPhotoBottomModalProps) => {
   const ref = useRef<SheetRef>(null);
   const mockImages = mockData.map((data) => data.images)[0];
-
+  const navigate = useNavigate();
   const handleImageClick = (id: number, imgUrl: string) => {
     setSelectedIds((prev) => {
       if (prev.includes(id)) {
@@ -46,10 +46,12 @@ export const SelectPhotoBottomSheetModal = ({
         <SheetContent>
           <div>
             <div>갤러리에서 선택하기</div>
-            <div>
+            <input type="file" id="Gallary"></input>
+            <label htmlFor="Gallary">
               <GalleryIcon />
-            </div>
-            <div>
+            </label>
+
+            <div onClick={() => navigate('/post/cameraPage')}>
               <CameraIcon />
             </div>
           </div>
@@ -90,7 +92,10 @@ const SheetContent = styled(Sheet.Content)`
     flex-grow: 1;
     align-content: center;
   }
-  & > div:nth-child(1) > div:nth-child(2) {
+  & > div:nth-child(1) > input:nth-child(2) {
+    display: none;
+  }
+  & > div:nth-child(1) > label:nth-child(3) {
     aspect-ratio: 1/1;
     height: 100%;
     background-color: ${({ theme }) => theme.colors.gray800};
@@ -99,7 +104,7 @@ const SheetContent = styled(Sheet.Content)`
     justify-content: center;
     align-content: center;
   }
-  & > div:nth-child(1) > div:nth-child(3) {
+  & > div:nth-child(1) > div:nth-child(4) {
     aspect-ratio: 1/1;
     height: 100%;
     background-color: ${({ theme }) => theme.colors.gray800};
@@ -119,9 +124,19 @@ const SheetContent = styled(Sheet.Content)`
 const GalleryIcon = styled(IcGallery)`
   height: 100%;
   align-content: center;
+  &:hover {
+    path {
+      stroke: ${({ theme }) => theme.colors.green500}; /* 원하는 색상 */
+    }
+  }
 `;
 
 const CameraIcon = styled(IcCamera)`
   height: 100%;
   align-content: center;
+  &:hover {
+    path {
+      stroke: ${({ theme }) => theme.colors.green500}; /* 원하는 색상 */
+    }
+  }
 `;

@@ -12,33 +12,44 @@ interface QuestionProps {
 }
 
 const Question = forwardRef<HTMLDivElement, QuestionProps>(({ question, answers, index }, ref) => {
-  const { myAnswers } = useAnswersStore();
-  const [selected, setSelected] = useState(false);
+    const { myAnswers, setMyAnswer } = useAnswersStore();
+    const [activeAnswers, setActiveAnswers] = useState(Array(answers.length).fill(false));
+    const [selected, setSelected] = useState(false);
 
-  const changeVisible = () => {
-    setSelected(!selected);
-  };
+    const handleAnswerClick = (answerIndex: number, answer: string) => {
+      const newActiveAnswers = Array(answers.length).fill(false);
+      newActiveAnswers[answerIndex] = true;
+      setActiveAnswers(newActiveAnswers);
+      setMyAnswer(index, answer);
+      setSelected(true);
+    };
 
-  if (index !== 0) {
-    if (myAnswers[index - 1] === '') {
-      return null;
-    }
-  }
-
-  return (
-    <Container ref={ref}>
-      <QuestionText>{question}</QuestionText>
-      {!selected
-        ? <AnswersContainer>
-          {answers.map((answer) => (
-            <Answer key={answer.id} index={index} {...answer} onClick={changeVisible} />
-          ))}
-        </AnswersContainer>
-        : <SelectedAnswer onClick={changeVisible}>{myAnswers[index]}</SelectedAnswer>
+    if (index !== 0) {
+      if (myAnswers[index - 1] === '') {
+        return null;
       }
-    </Container>
-  );
-}
+    }
+
+    return (
+      <Container ref={ref}>
+        <QuestionText>{question}</QuestionText>
+
+        {selected ? <SelectedAnswer onClick={() => setSelected(false)}>{myAnswers[index]}</SelectedAnswer>
+          : <AnswersContainer>
+            {answers.map((answer, answerIndex) => (
+              <Answer
+                key={answer.id}
+                answer={answer.answer}
+                imageUrl={answer.imageUrl}
+                active={activeAnswers[answerIndex]} // active 상태 전달
+                onClick={() => handleAnswerClick(answerIndex, answer.answer)} // 클릭 핸들러
+              />
+            ))}
+          </AnswersContainer>
+        }
+      </Container>
+    );
+  },
 );
 
 export default Question;
@@ -57,8 +68,9 @@ const AnswersContainer = styled.div`
   display: flex;
   overflow-x: scroll;
   gap: 16px;
+  margin-top: 13px;
   scroll-snap-type: x mandatory;
-  padding: 0 59px;
+  padding: 0 20px;
 `;
 
 const SelectedAnswer = styled.div`

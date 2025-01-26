@@ -37,12 +37,11 @@ const Wrapper = styled.div`
   height: 100vh;
   padding: 0 20px;
   background-color: ${({ theme }) => theme.colors.gray900};
-  overflow-y: scroll;
+  overflow-y: auto;
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 36px;
-  margin-bottom: 56px;
 `;
