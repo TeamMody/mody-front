@@ -7,6 +7,7 @@ import { IcLeftArrow } from '@shared/assets/icon/ic-left-arrow';
 import { CreateNewPostModal } from '@pages/post/components/modal/CreateNewPostModal';
 import { useNavigate } from 'react-router';
 import { SelectPhotoBottomSheetModal } from '@pages/post/components/modal/SelectPhotoBottomSheetModal';
+import { string } from 'zod';
 
 export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
   const [modalState, setModalState] = useState<boolean>(false);
@@ -38,7 +39,7 @@ export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
           exit={{ x: '100%' }}
           transition={{ duration: 0.3, ease: 'easeOut' }}
         >
-          <TopBox>
+          <TopBox selectedImages={selectedImages}>
             <button onClick={closePage}>
               <IcLeftArrow />
             </button>
@@ -76,7 +77,7 @@ const Container = styled(motion.div)`
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 `;
 
-const TopBox = styled.div`
+const TopBox = styled.div<{ selectedImages: string[] }>`
   max-width: 440px;
   width: 100%;
   height: 8.101vh;
@@ -95,7 +96,8 @@ const TopBox = styled.div`
     color: white;
     font-size: ${({ theme }) => theme.fonts.heading_medium_18px};
     &:hover {
-      color: ${({ theme }) => theme.colors.green500};
+      color: ${({ theme, selectedImages }) =>
+        selectedImages ? `${theme.colors.green500}` : 'red'};
     }
   }
 `;

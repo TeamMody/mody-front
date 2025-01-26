@@ -55,29 +55,20 @@ export const CreateNewPostModal = ({
             <div>새로운 게시물</div>
           </TopBox>
           <BottomBox>
-            {selectedImages.length === 0 ? (
-              <EmptyImgContainer>
-                <IcModyLogo />
-              </EmptyImgContainer>
-            ) : (
-              <BottomImgContainer imgZoom={imgZoom}>
-                <ImageCarousel
-                  images={selectedImages}
-                  isExpanded={undefined}
-                  imgIdx={imgIdx}
-                  setImgIdx={setImgIdx}
-                  height="45.735vh"
-                  imgZoomed={imgZoom}
-                />
-              </BottomImgContainer>
-            )}
-            {selectedImages.length === 0 ? (
-              <></>
-            ) : (
-              <ZoomButton onClick={handleImgZoom}>
-                <IcZoomStyle />
-              </ZoomButton>
-            )}
+            <BottomImgContainer imgZoom={imgZoom}>
+              <ImageCarousel
+                images={selectedImages}
+                isExpanded={undefined}
+                imgIdx={imgIdx}
+                setImgIdx={setImgIdx}
+                height="45.735vh"
+                imgZoomed={imgZoom}
+              />
+            </BottomImgContainer>
+
+            <ZoomButton onClick={handleImgZoom}>
+              <IcZoomStyle />
+            </ZoomButton>
 
             <TextArea placeholder="게시글을 작성해주세요."></TextArea>
             <CustomDivider width="100%" border="1px" />
@@ -136,16 +127,6 @@ const BottomBox = styled.div`
   position: absolute;
 `;
 
-const EmptyImgContainer = styled.div`
-  width: 100%;
-  border: 1px solid ${({ theme }) => theme.colors.green500};
-  border-radius: 20px;
-  height: 45.735vh;
-  margin: 3.791vh 0px 9vh 0px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
 const BottomImgContainer = styled.div<{ imgZoom: boolean }>`
   width: 100%;
   height: 56.398vh;

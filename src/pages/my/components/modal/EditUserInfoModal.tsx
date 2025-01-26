@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import styled from 'styled-components';
 import ReactDOM from 'react-dom';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { IcLeftArrow } from '@shared/assets/icon/ic-left-arrow';
 import { ModalProps } from '@shared/types/my/modalProps';
@@ -10,6 +10,10 @@ import Edit from '@onboarding/icons/ic-edit.svg?react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UserInfoSchema } from '@pages/my/features/schema/MyUserInfoSchema';
 import { UserDataInput } from '@my/components/UserDataInput';
+import BirthdayModal from '@onboarding/components/BirthdayModal';
+
+import ButtonBox from '@pages/onboarding/components/ButtonBox';
+import HeightBox from '@pages/onboarding/components/HeightModal';
 interface EditUserInfoModalProps extends ModalProps {
   profileImg?: string | undefined;
   name: string;
@@ -39,7 +43,7 @@ export const EditUserInfoModal = ({
     resolver: zodResolver(UserInfoSchema),
     mode: 'onChange',
   });
-
+  const rootRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(isOpened);
   const [img, setImg] = useState<string | undefined>(profileImg);
   const [selectedSex, setSelectedSex] = useState<string | null>(null);
@@ -127,7 +131,7 @@ export const EditUserInfoModal = ({
                 />
 
                 <UserDataInput
-                  inputTitle="생년월일"
+                  inputTitle="생년월일 (8자리)"
                   type="date"
                   inputValue={birth}
                   inputKind="birth"
@@ -263,7 +267,9 @@ const Bottom = styled.div`
   & span {
     font-size: ${({ theme }) => theme.fonts.body_bold_16px};
   }
-
+  & div {
+    font-size: ${({ theme }) => theme.fonts.body_bold_16px};
+  }
   & input {
     margin-top: 0.948vh;
     border-radius: 10px;
@@ -282,6 +288,8 @@ const Bottom = styled.div`
     color: red;
     display: flex;
     align-items: center;
+  }
+  & div {
   }
 `;
 
