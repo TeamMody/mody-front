@@ -32,8 +32,8 @@ const Option = React.memo(
       const center = centerRef.current?.getBoundingClientRect();
       if (!center) return null;
 
-      let closest = null;
-      let closestDistance = Infinity;
+      let closest = null; // html
+      let closestDistance = Infinity; // 실제 거리
       dateRefs.forEach((el, index) => {
         if (!el) return;
         const rect = el.getBoundingClientRect();
@@ -55,6 +55,21 @@ const Option = React.memo(
         // type에 따라 값 업데이트
 
         setValue(`birthday.${type}`, data[closest.index], {
+          shouldValidate: true,
+          shouldDirty: true,
+        });
+      }
+    };
+    const handleClick = (index: number) => {
+      const selectedEl = dateRefs[index];
+      if (selectedEl) {
+        selectedEl.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+
+        // 값 업데이트
+        setValue(`birthday.${type}`, data[index], {
           shouldValidate: true,
           shouldDirty: true,
         });
@@ -84,11 +99,12 @@ const Option = React.memo(
       const selectedEl = dateRefs[data.indexOf(selected)];
       if (selectedEl && isModalOpen) {
         selectedEl.scrollIntoView({
-          behavior: 'instant',
+          behavior: 'smooth',
           block: 'center',
         });
       }
     }, [isModalOpen, selected]);
+
     return (
       <OptionContainer ref={optionRef}>
         {data.map((d, index) => (
@@ -96,6 +112,7 @@ const Option = React.memo(
             key={d}
             ref={(el) => (dateRefs[index] = el)}
             className={selected === d ? 'selected' : ''}
+            onClick={() => handleClick(index)}
           >
             {d}
           </Select>
@@ -118,7 +135,6 @@ const OptionContainer = styled.div`
   width: 33.33333%;
   height: 100%;
   overflow-y: scroll;
-  scroll-behavior: smooth;
   scroll-snap-type: y mandatory;
   padding: 30% 0 30% 0;
   z-index: 2;
@@ -129,6 +145,7 @@ const Select = styled.div`
   height: 34px;
   display: flex;
   align-items: center;
+
   justify-content: center;
   scroll-snap-align: center;
   font-size:${({ theme }) => theme.fonts.heading_medium_20px}
