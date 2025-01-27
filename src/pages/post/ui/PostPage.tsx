@@ -68,7 +68,7 @@ export const mockData: PostPropsType[] = [
 export const PostPage = () => {
   const navigate = useNavigate();
 
-  const leftHeaderAction = { icon: logo, onClick: () => navigate('home') };
+  const leftHeaderAction = { icon: logo, onClick: () => navigate('/home') };
   const rightHeaderActionArr = [{ icon: plus, onClick: () => navigate('createPost') }];
 
   // Post내부 Container 리렌더링 발생은 나중에 해결
