@@ -13,20 +13,22 @@ export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
   const [opened, setIsOpened] = useState<boolean>(isOpened);
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const [selectedId, setSelectedIds] = useState<number[]>([]);
+  const [imgZoom, setImgZoom] = useState<boolean>(false);
   const navigate = useNavigate();
   const openModal = () => {
     setModalState(true);
   };
   const closeModal = () => {
     setModalState(false);
+    setImgZoom(false);
   };
   const closePage = () => {
     setIsOpened(false);
     setTimeout(() => {
-      navigate(-1);
+      navigate('/post');
     }, 500);
   };
-  console.log(modalState);
+
   return ReactDOM.createPortal(
     <AnimatePresence>
       {opened && (
@@ -34,7 +36,7 @@ export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
           initial={{ x: '100%' }}
           animate={{ x: '0%' }}
           exit={{ x: '100%' }}
-          transition={{ duration: 0.5, ease: 'easeOut' }}
+          transition={{ duration: 0.3, ease: 'easeOut' }}
         >
           <TopBox>
             <button onClick={closePage}>
@@ -45,16 +47,12 @@ export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
               isOpened={modalState}
               onClose={closeModal}
               selectedImages={selectedImages}
+              imgZoom={imgZoom}
+              setImgZoom={setImgZoom}
             />
           </TopBox>
           <BottomBox isOpened={isOpened}>
-            <ChooseImg
-              initial={{ width: '100%', height: '100%' }}
-              animate={{ width: '99.744vw', height: '98.35vw' }}
-              transition={{ duration: 0.4, ease: 'linear' }}
-              src={selectedImages.slice(-1)[0]}
-              alt="이미지를 넣어주세요"
-            />
+            {selectedImages ? <ChooseImg src={selectedImages.slice(-1)[0]} /> : <></>}
           </BottomBox>
           <SelectPhotoBottomSheetModal
             isOpened={isOpened}
@@ -96,6 +94,9 @@ const TopBox = styled.div`
     height: 100%;
     color: white;
     font-size: ${({ theme }) => theme.fonts.heading_medium_18px};
+    &:hover {
+      color: ${({ theme }) => theme.colors.green500};
+    }
   }
 `;
 
@@ -107,11 +108,11 @@ const BottomBox = styled.div<StyledProps>`
   height: 92.417vh;
   background: ${({ theme }) => theme.colors.gray900};
   display: flex;
+  padding: 1.1vh 0.9vw 0 0.9vw;
 `;
 
 const ChooseImg = styled(motion.img)`
   width: 100%;
-  height: 100%;
+  height: 46vh;
   background-color: ${({ theme }) => theme.colors.gray800};
-  margin-top: 1.4vh;
 `;

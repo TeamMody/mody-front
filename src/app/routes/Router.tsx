@@ -7,14 +7,13 @@ import {
   StyleSurveyPage,
   RecommendationResultPage,
 } from '@pages/home';
-import { PostPage } from '@pages/post';
 import { MyPage } from '@pages/my';
 import { OnboardingPage, InputUser } from '@pages/onboarding';
 import SignUpPage from '@pages/onboarding/ui/SignUpMain';
 import SignInPage from '@pages/onboarding/pages/SignInPage';
+import { PostPage, CreatePost, CameraPage, CapturedImgPage } from '@pages/post';
 import Redirect from '@shared/ui/Redirect';
 
-import { CreatePost } from '@pages/post/components/CreatePost';
 export const router = createBrowserRouter([
   {
     path: '/',
@@ -33,6 +32,8 @@ export const router = createBrowserRouter([
         children: [
           { index: true, element: <PostPage /> },
           { path: 'createPost', element: <CreatePost isOpened={true} /> },
+          { path: 'cameraPage', element: <CameraPage /> },
+          { path: 'capturedImgPage', element: <CapturedImgPage /> },
         ],
       },
       {

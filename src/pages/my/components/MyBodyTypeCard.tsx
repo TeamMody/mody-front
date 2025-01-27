@@ -1,5 +1,4 @@
 import { IcRightArrow } from '@shared/assets/icon/ic-right-arrow';
-import { ConfirmationModal } from '@pages/my/components/modal/ConfirmationModal';
 import { RecommendationModal } from '@pages/my/components/modal/RecommendationModal';
 import styled from 'styled-components';
 import { useState } from 'react';

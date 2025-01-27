@@ -85,6 +85,5 @@ const ButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 20px;
-  margin-bottom: 20px;
   padding: 0 20px;
 `;
