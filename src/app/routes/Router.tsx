@@ -12,6 +12,7 @@ import { MyPage } from '@pages/my';
 import { OnboardingPage, InputUser } from '@pages/onboarding';
 import SignUpPage from '@pages/onboarding/ui/SignUpMain';
 import SignInPage from '@pages/onboarding/pages/SignInPage';
+import Redirect from '@shared/ui/Redirect';
 
 import { CreatePost } from '@pages/post/components/CreatePost';
 export const router = createBrowserRouter([
@@ -40,6 +41,10 @@ export const router = createBrowserRouter([
           { index: true, element: <MyPage /> },
           { path: 'createPost', element: <CreatePost isOpened={true} /> },
         ],
+      },
+      {
+        path: 'redirect',
+        element: <Redirect />,
       },
     ],
   },

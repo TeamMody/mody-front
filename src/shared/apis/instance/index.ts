@@ -29,7 +29,6 @@ const nonToken = [
 
 apiInstance.interceptors.request.use((config) => {
   const apiURL = config.url;
-  console.log('잘 먹고 갑니다.');
   if (apiURL && nonToken.includes(apiURL)) return config;
 
   const { accessToken } = useAuthStore.getState();
@@ -39,25 +38,25 @@ apiInstance.interceptors.request.use((config) => {
   return config;
 });
 
-apiInstance.interceptors.response.use(null, async (err) => {
-  const originalRequest = err.config;
-  // const code = err.response?.data?.code;
-  const url = err.config.url;
+// apiInstance.interceptors.response.use(null, async (err) => {
+//   const originalRequest = err.config;
+//   // const code = err.response?.data?.code;
+//   const url = err.config.url;
 
-  if (err.response?.status === 401 && !nonToken.includes(url)) {
-    try {
-      const newAccessToken = await refreshAccessToken();
-      originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-      return apiInstance(originalRequest); // 원래 요청 재시도
-    } catch (refreshError) {
-      console.error('Refresh token failed:', refreshError);
-      throw refreshError; // 최종적으로 실패하면 상위로 에러 전달
-    }
-  }
+//   if (err.response?.status === 401 && !nonToken.includes(url)) {
+//     if (!originalRequest._retry) {
+//       originalRequest._retry = true;
+//       try {
+//         const newAccessToken = await refreshAccessToken();
+//         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+//         return apiInstance(originalRequest);
+//       } catch (refreshError) {
+//         // console.error('Refresh token failed:', refreshError);
+//         window.location.href = `${import.meta.env.VITE_LOCAL_ADDRESS}/onboarding`; // 로그인 페이지로 리다이렉트
+//         return Promise.reject(refreshError);
+//       }
+//     }
+//   }
 
-  if (err.response?.status === 401 && url === '/auth/reissue') {
-    window.location.href = `${import.meta.env.VITE_LOCAL_ADDRESS}/onboarding`;
-  }
-
-  return Promise.reject(err); // 다른 에러는 그대로 전달
-});
+//   return Promise.reject(err); // 다른 에러는 그대로 전달
+// });
