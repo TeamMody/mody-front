@@ -103,7 +103,7 @@ const Option = React.memo(
           block: 'center',
         });
       }
-    }, [isModalOpen, selected]);
+    }, [isModalOpen]);
 
     return (
       <OptionContainer ref={optionRef}>
@@ -135,6 +135,7 @@ const OptionContainer = styled.div`
   width: 33.33333%;
   height: 100%;
   overflow-y: scroll;
+  scroll-behavior: smooth;
   scroll-snap-type: y mandatory;
   padding: 30% 0 30% 0;
   z-index: 2;
