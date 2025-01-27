@@ -7,8 +7,7 @@ import { IcLeftArrow } from '@shared/assets/icon/ic-left-arrow';
 import { CreateNewPostModal } from '@pages/post/components/modal/CreateNewPostModal';
 import { useNavigate } from 'react-router';
 import { SelectPhotoBottomSheetModal } from '@pages/post/components/modal/SelectPhotoBottomSheetModal';
-import { string } from 'zod';
-
+import { createPresignedUrl } from '@pages/post/apis/createPresignedUrl';
 export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
   const [modalState, setModalState] = useState<boolean>(false);
   const [opened, setIsOpened] = useState<boolean>(isOpened);
@@ -16,9 +15,12 @@ export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
   const [selectedId, setSelectedIds] = useState<number[]>([]);
   const [imgZoom, setImgZoom] = useState<boolean>(false);
   const navigate = useNavigate();
-  const openModal = () => {
+  let presignedUrls;
+  const openModal = async (data: string[]) => {
     setModalState(true);
+    if (data) presignedUrls = await createPresignedUrl(data);
   };
+
   const closeModal = () => {
     setModalState(false);
     setImgZoom(false);
@@ -39,17 +41,24 @@ export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
           exit={{ x: '100%' }}
           transition={{ duration: 0.3, ease: 'easeOut' }}
         >
-          <TopBox selectedImages={selectedImages}>
+          <TopBox>
             <button onClick={closePage}>
               <IcLeftArrow />
             </button>
-            <button onClick={openModal}>다음</button>
+            <NextButton
+              onClick={() => openModal(selectedImages)}
+              selectedImages={selectedImages}
+              disabled={selectedImages.length === 0}
+            >
+              다음
+            </NextButton>
             <CreateNewPostModal
               isOpened={modalState}
               onClose={closeModal}
               selectedImages={selectedImages}
               imgZoom={imgZoom}
               setImgZoom={setImgZoom}
+              presignedUrls={presignedUrls}
             />
           </TopBox>
           <BottomBox isOpened={isOpened}>
@@ -77,7 +86,7 @@ const Container = styled(motion.div)`
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 `;
 
-const TopBox = styled.div<{ selectedImages: string[] }>`
+const TopBox = styled.div`
   max-width: 440px;
   width: 100%;
   height: 8.101vh;
@@ -90,15 +99,14 @@ const TopBox = styled.div<{ selectedImages: string[] }>`
   & > button:nth-child(1) {
     height: 100%;
   }
-
-  & > button:nth-child(2) {
-    height: 100%;
-    color: white;
-    font-size: ${({ theme }) => theme.fonts.heading_medium_18px};
-    &:hover {
-      color: ${({ theme, selectedImages }) =>
-        selectedImages ? `${theme.colors.green500}` : 'red'};
-    }
+`;
+const NextButton = styled.button<{ selectedImages: string[] }>`
+  height: 100%;
+  font-size: ${({ theme }) => theme.fonts.heading_medium_18px};
+  color: ${({ selectedImages }) => (selectedImages.length > 0 ? 'white' : 'black')};
+  &:hover {
+    color: ${({ theme, selectedImages }) =>
+      selectedImages.length > 0 ? `${theme.colors.green500}` : 'none'};
   }
 `;
 

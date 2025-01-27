@@ -9,11 +9,13 @@ import BottomSheetItem from '@pages/my/components/BottomSheetItem';
 import ImageCarousel from '@shared/ui/ImageCarousel';
 import IcZoom from '@shared/assets/icon/ic-zoom.svg?react';
 import { useNavigate } from 'react-router';
-import IcModyLogo from '@shared/assets/icon/ic-logo.svg?react';
+import { createS3url } from '@pages/post/apis/createS3Url';
+import { createPost } from '@pages/post/apis/createPost';
 interface ImgModalProps extends ModalProps {
   selectedImages: string[];
   imgZoom: boolean;
   setImgZoom: React.Dispatch<React.SetStateAction<boolean>>;
+  presignedUrls: string[] | undefined;
 }
 export const CreateNewPostModal = ({
   isOpened,
@@ -21,14 +23,19 @@ export const CreateNewPostModal = ({
   selectedImages,
   imgZoom,
   setImgZoom,
+  presignedUrls,
 }: ImgModalProps) => {
   const [imgIdx, setImgIdx] = useState<number>(0);
 
   const navigate = useNavigate();
-
-  const handleClose = () => {
+  let S3Urls;
+  const handleClose = async () => {
+    if (presignedUrls) {
+      S3Urls = await createS3url(selectedImages, presignedUrls);
+      createPost({ content: '스트레이트형 착장 예시', isPublic: true, s3Urls: S3Urls });
+    }
     setTimeout(() => {
-      navigate(-1);
+      navigate('/post');
     }, 500);
   };
   const handleImgZoom = () => {
