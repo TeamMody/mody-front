@@ -22,7 +22,7 @@ export const MyPage = () => {
     setModalState(false);
   };
 
-  const leftHeaderAction: HeaderAction = { icon: logo, onClick: () => console.log('') };
+  const leftHeaderAction: HeaderAction = { icon: logo, onClick: () => navigate('/home') };
   const rightHeaderActionArr: HeaderAction[] = [
     { icon: plus, onClick: () => navigate('createPost') },
     {
