@@ -50,7 +50,7 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: '/onboarding',
+    path: 'onboarding',
     children: [
       {
         index: true,

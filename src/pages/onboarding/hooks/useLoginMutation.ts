@@ -16,13 +16,21 @@ const useLoginMutation = () => {
       return response;
     },
     onSuccess: (data) => {
-      const accessToken = data.headers.authorization.split(' ')[1];
-      const { setAccessToken } = useAuthStore.getState();
-      setAccessToken(accessToken);
+      console.log(data);
+      try {
+        if (data.headers) {
+          const accessToken = data.headers.authorization.split(' ')[1];
+          const { setAccessToken } = useAuthStore.getState();
+          setAccessToken(accessToken);
+        }
+      } catch (err) {
+        throw new Error(err);
+      }
 
       window.location.href = '/';
     },
     onError: (error: AxiosError) => {
+      console.log(error);
       const axiosError = error as AxiosError<ErrorResponse>;
       if (error.status === 401 && axiosError.response?.data) {
         alert(axiosError.response.data.message);
