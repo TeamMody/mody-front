@@ -68,6 +68,7 @@ const Wrapper = styled.div`
   max-width: 440px;
   height: 100vh;
   background-color: ${({ theme }) => theme.colors.gray900};
+  position: relative;
 `;
 
 const CustomLogo = styled(Logo)<{ topMargin: string }>`
@@ -90,15 +91,16 @@ const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 90%;
-  height: 100%;
+  width: 100%;
+  height: 13vh;
 `;
 
 const Button = styled.button<{ active: boolean }>`
-  margin-top: 25vh;
+  position: absolute;
   padding-top: 19px;
   padding-bottom: 19px;
-  width: 80%;
+  width: 100%;
+  bottom: -28vh;
   background-color: ${({ theme, active }) =>
     active ? theme.colors.green500 : theme.colors.gray500};
   color: ${({ active }) => (active ? 'black' : 'white')};
