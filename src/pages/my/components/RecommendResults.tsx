@@ -3,11 +3,7 @@ import Post from '@pages/my/components/Post';
 import NoPosts from '@pages/my/components/NoPosts';
 import { useQuery } from '@tanstack/react-query';
 import { getMyPosts } from '@shared/apis/my';
-
-interface PostData {
-  postId: number;
-  files: string[];
-}
+import { PostData } from '@shared/types';
 
 const RecommendResults = ({ activeTab }: { activeTab: string }) => {
   const {

@@ -1,8 +1,13 @@
 import IcHeart from '@shared/assets/icon/ic-full-heart.svg';
 import styled from 'styled-components';
+
+interface FileData {
+  s3Url: string;
+}
+
 interface PostData {
   postId: number;
-  files: string[];
+  files: FileData[];
 }
 interface PostProps {
   data: PostData;
@@ -12,9 +17,10 @@ interface PostProps {
 const Post = ({ data, activeTab }: PostProps) => {
   //임시로 좋아요 상태를 true로 설정
   const like = true;
+  console.log(data.files[0]);
   return (
     <PostWrapper>
-      <Image src={data.files[0]} alt="게시물" />
+      <Image src={data.files[0].s3Url} alt="게시물" />
       {like && activeTab === 'recommend' && <HeartIcon src={IcHeart} alt="좋아요 아이콘" />}
     </PostWrapper>
   );

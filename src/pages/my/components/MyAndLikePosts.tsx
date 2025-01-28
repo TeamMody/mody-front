@@ -3,11 +3,7 @@ import Post from '@pages/my/components/Post';
 import NoPosts from '@pages/my/components/NoPosts';
 import { useQuery } from '@tanstack/react-query';
 import { getLikedPosts, getMyPosts } from '@shared/apis/my';
-
-interface PostData {
-  postId: number;
-  files: string[];
-}
+import { PostData } from '@shared/types';
 
 const MyAndLikePosts = ({ activeTab }: { activeTab: string }) => {
   // activeTab에 따라 queryFn을 동적으로 선택
@@ -28,8 +24,6 @@ const MyAndLikePosts = ({ activeTab }: { activeTab: string }) => {
   if (error) {
     return <p>에러</p>;
   }
-
-  console.log(posts);
 
   return posts.length > 0 ? (
     //게시글이 있을 때

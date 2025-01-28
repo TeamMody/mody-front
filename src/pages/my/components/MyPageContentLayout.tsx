@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import RenderTabContent from '@pages/my/components/RenderTabContent.tsx';
 import { MiddleTabBar } from '@pages/my/components/MiddleTabBar.tsx';
 import IcHexagon from '@shared/assets/icon/ic-hexagon.tsx';
 import IcGrid from '@shared/assets/icon/ic-grid.tsx';
@@ -37,9 +36,6 @@ export const MyPageContentLayout = () => {
         <RecommendResults activeTab={'recommend'} />
         <MyAndLikePosts activeTab={'post'} />
         <MyAndLikePosts activeTab={'like'} />
-        {/* <RenderTabContent activeTab={'recommend'} />
-        <RenderTabContent activeTab={'post'} />
-        <RenderTabContent activeTab={'like'} /> */}
       </StyledCarousel>
     </>
   );

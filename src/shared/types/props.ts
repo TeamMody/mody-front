@@ -19,3 +19,16 @@ export interface FieldProps<T extends FieldValues> {
   errors: FieldErrors<T>;
   touchedFields: FieldValues;
 }
+
+export interface FileData {
+  s3Url: string;
+}
+
+export interface PostData {
+  postId: number;
+  files: FileData[];
+}
+export interface PostProps {
+  data: PostData;
+  activeTab: string;
+}
