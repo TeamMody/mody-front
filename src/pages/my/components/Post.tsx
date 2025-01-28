@@ -1,18 +1,6 @@
 import IcHeart from '@shared/assets/icon/ic-full-heart.svg';
+import { PostProps } from '@shared/types';
 import styled from 'styled-components';
-
-interface FileData {
-  s3Url: string;
-}
-
-interface PostData {
-  postId: number;
-  files: FileData[];
-}
-interface PostProps {
-  data: PostData;
-  activeTab: string;
-}
 
 const Post = ({ data, activeTab }: PostProps) => {
   //임시로 좋아요 상태를 true로 설정
