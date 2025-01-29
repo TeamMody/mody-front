@@ -13,6 +13,7 @@ const BottomNavigation = () => {
     setActiveIndex(ActiveIndex.PROFILE);
     myProfileHeader();
   };
+
   return (
     <Wrapper>
       <Container>

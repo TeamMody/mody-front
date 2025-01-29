@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import AppBar from '@shared/ui/AppBar.tsx';
 import { HeaderAction } from '@shared/types';
@@ -9,8 +9,9 @@ import { MyPageContentLayout } from '@pages/my/components/MyPageContentLayout';
 import { MyBodyTypeCard } from '@pages/my/components/MyBodyTypeCard';
 import { ProfileHeader } from '@pages/my/components/ProfileHeader';
 import { SettingModal } from '@pages/my/components/modal/SettingModal';
-import EditBottomSheet from '@pages/my/components/modal/EditBottomSheetModal';
 import { useNavigate } from 'react-router';
+import { profileDataType } from '@my/types';
+import { myProfileHeader } from '@my/apis/myProfileHeader';
 
 export const MyPage = () => {
   const [modalState, setModalState] = useState<boolean>(false);
@@ -31,11 +32,20 @@ export const MyPage = () => {
     },
   ];
 
+  const [profileData, setProfileData] = useState<profileDataType>();
+  useEffect(() => {
+    const fetchProfileData = async () => {
+      const data = await myProfileHeader();
+      setProfileData(data);
+    };
+    fetchProfileData();
+  }, []);
+
   return (
     <Wrapper>
       <AppBar leftHeaderAction={leftHeaderAction} rightHeaderActionArr={rightHeaderActionArr} />
       <SettingModal isOpened={modalState} onClose={closeModal} />
-      <ProfileHeader />
+      {profileData && <ProfileHeader profileData={profileData} />}
       <MyBodyTypeCard />
       <MyPageContentLayout />
     </Wrapper>

@@ -15,20 +15,13 @@ export const MyBodyTypeCard = () => {
           <IcRightArrow />
         </button>
       </Container>
-      {/* 종류 1번 modal */}
+
       <RecommendationModal
         isOpened={modalState}
         content="내 체형을 분석하러 가볼까요?"
         btnText="체형 분석하기"
         onClose={() => setModalState(false)}
       />
-
-      {/* 종류 2번 modal */}
-      {/* <ConfirmationModal
-        isOpened={modalState}
-        content="이 게시글을 삭제할까요?"
-        onClose={() => setModalState(false)}
-      /> */}
     </>
   );
 };
