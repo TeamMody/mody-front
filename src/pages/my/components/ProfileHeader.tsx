@@ -19,9 +19,9 @@ export const ProfileHeader = ({ profileData }: { profileData: profileDataType })
   };
 
   // profile 데이터가 example 로 되어 있어서 실험을 위해 임시 s3 url 을 넣어놨습니다.
-  if (profileData)
-    profileData.profileImageUrl =
-      'https://modi-service-bucket.s3.ap-northeast-2.amazonaws.com/deploy/1/c96adcdc-5c73-4138-87de-f2245b79cb13/b.jpg';
+  // if (profileData)
+  //   profileData.profileImageUrl =
+  //     'https://modi-service-bucket.s3.ap-northeast-2.amazonaws.com/deploy/1/c96adcdc-5c73-4138-87de-f2245b79cb13/b.jpg';
 
   if (profileData)
     return (
