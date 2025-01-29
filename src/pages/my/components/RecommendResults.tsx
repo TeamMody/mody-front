@@ -22,8 +22,6 @@ const RecommendResults = ({ activeTab }: { activeTab: string }) => {
     return <p>에러</p>;
   }
 
-  console.log(posts);
-
   return posts.length > 0 ? (
     //게시글이 있을 때
     <RecommendResultsWrapper>

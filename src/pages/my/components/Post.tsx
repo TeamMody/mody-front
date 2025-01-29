@@ -5,7 +5,7 @@ import styled from 'styled-components';
 const Post = ({ data, activeTab }: PostProps) => {
   //임시로 좋아요 상태를 true로 설정
   const like = true;
-  console.log(data.files[0]);
+
   return (
     <PostWrapper>
       <Image src={data.files[0].s3Url} alt="게시물" />
