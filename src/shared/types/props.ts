@@ -32,3 +32,8 @@ export interface PostProps {
   data: PostData;
   activeTab: string;
 }
+
+export interface PaginationProps {
+  cursor: number | null;
+  size: number;
+}

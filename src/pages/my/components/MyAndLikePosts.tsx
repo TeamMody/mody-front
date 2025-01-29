@@ -1,36 +1,43 @@
 import styled from 'styled-components';
 import Post from '@pages/my/components/Post';
 import NoPosts from '@pages/my/components/NoPosts';
-import { useQuery } from '@tanstack/react-query';
-import { getLikedPosts, getMyPosts } from '@shared/apis/my';
 import { PostData } from '@shared/types';
-
+import ClipLoader from 'react-spinners/ClipLoader';
+import useGetInfinitePosts from '../hooks/useGetInfinitePosts';
+import { useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
 const MyAndLikePosts = ({ activeTab }: { activeTab: string }) => {
-  // activeTab에 따라 queryFn을 동적으로 선택
-  const fetchPosts = activeTab === 'like' ? getLikedPosts : getMyPosts;
-
   const {
     data: posts,
-    error,
     isLoading,
-  } = useQuery({
-    queryKey: [activeTab],
-    queryFn: fetchPosts,
-  });
+    isError,
+    hasNextPage,
+    fetchNextPage,
+    isFetching,
+    isFetchingNextPage,
+  } = useGetInfinitePosts({ activeTab });
 
-  if (isLoading) {
-    return <p>로딩중</p>;
-  }
-  if (error) {
-    return <p>에러</p>;
-  }
+  const { ref, inView } = useInView({ threshold: 0 });
 
-  return posts.length > 0 ? (
+  useEffect(() => {
+    if (inView) {
+      !isFetching && hasNextPage && fetchNextPage();
+    }
+  }, [inView, isFetching, hasNextPage, fetchNextPage]);
+
+  if (isLoading) return <p>로딩중</p>;
+  if (isError) return <p>에러</p>;
+
+  console.log(posts);
+  return (posts?.pages?.length ?? 0 > 0) ? (
     //게시글이 있을 때
     <MyAndLikePostsWrapper>
-      {posts.map((post: PostData) => (
+      {posts?.pages.map((post: PostData) => (
         <Post key={post.postId} data={post} activeTab={activeTab} />
       ))}
+      {hasNextPage && (
+        <Bottom ref={ref}>{isFetchingNextPage && <ClipLoader color={'#fff'} />}</Bottom>
+      )}{' '}
     </MyAndLikePostsWrapper>
   ) : (
     //게시글이 없을 때
@@ -46,6 +53,15 @@ const MyAndLikePostsWrapper = styled.div`
   height: 100%;
   gap: 0.7vw;
   overflow-y: auto;
+`;
+
+const Bottom = styled.div`
+  display: flex;
+  justify-content: center;
+  height: 3rem;
+  width: 100%;
+  //새로운 행으로 배치
+  grid-column: 1 / -1;
 `;
 
 export default MyAndLikePosts;
