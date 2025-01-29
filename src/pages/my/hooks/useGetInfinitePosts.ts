@@ -2,7 +2,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { getLikedPosts, getMyPosts } from '@shared/apis/my';
 
 const useGetInfinitePosts = ({ activeTab }: { activeTab: string }) => {
-  const size = 3;
+  const size = 6;
   const fetchPosts = activeTab === 'like' ? getLikedPosts : getMyPosts;
 
   return useInfiniteQuery({
