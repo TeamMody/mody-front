@@ -7,18 +7,6 @@ export const apiInstance = axios.create({
   withCredentials: true,
 });
 
-async function refreshAccessToken() {
-  try {
-    const response = await apiInstance.post('/auth/reissue', {});
-    const { newAccessToken } = response.data;
-    useAuthStore.getState().setAccessToken(newAccessToken); // Zustand 또는 다른 상태 관리 라이브러리에 업데이트
-    return newAccessToken;
-  } catch (err) {
-    console.error('Failed to refresh token:', err);
-    throw err;
-  }
-}
-
 const nonToken = [
   '/auth/signup',
   '/auth/signup/oauth2',
