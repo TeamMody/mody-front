@@ -16,26 +16,17 @@ const useLoginMutation = () => {
       return response;
     },
     onSuccess: (data) => {
-      console.log(data);
-      try {
-        if (data.headers) {
-          const accessToken = data.headers.authorization.split(' ')[1];
-          const { setAccessToken } = useAuthStore.getState();
-          setAccessToken(accessToken);
-        }
-      } catch (err) {
-        throw new Error(err);
-      }
-
+      const accessToken = data.data.result.accessToken;
+      const { setAccessToken } = useAuthStore.getState();
+      setAccessToken(accessToken);
       window.location.href = '/';
     },
     onError: (error: AxiosError) => {
-      console.log(error);
       const axiosError = error as AxiosError<ErrorResponse>;
       if (error.status === 401 && axiosError.response?.data) {
         alert(axiosError.response.data.message);
       } else {
-        alert('서버에 문제가 있다.');
+        alert('서버 오류가 발생했습니다.');
       }
     },
   });
