@@ -10,12 +10,11 @@ import { MyBodyTypeCard } from '@pages/my/components/MyBodyTypeCard';
 import { ProfileHeader } from '@pages/my/components/ProfileHeader';
 import { SettingModal } from '@pages/my/components/modal/SettingModal';
 import { useNavigate } from 'react-router';
-import { profileDataType } from '@my/types';
-import { myProfileHeader } from '@my/apis/myProfileHeader';
-
+import { useMyInfoStore } from '@shared/store/useMyInfoStore.ts';
 export const MyPage = () => {
   const [modalState, setModalState] = useState<boolean>(false);
   const navigate = useNavigate();
+
   const openModal = () => {
     setModalState(true);
   };
@@ -31,22 +30,18 @@ export const MyPage = () => {
       onClick: openModal,
     },
   ];
-
-  const [profileData, setProfileData] = useState<profileDataType>();
-  useEffect(() => {
-    const fetchProfileData = async () => {
-      const data = await myProfileHeader();
-      setProfileData(data);
-    };
-    fetchProfileData();
-  }, []);
-
+  const { myInfo } = useMyInfoStore();
+  console.log(myInfo);
   return (
     <Wrapper>
       <AppBar leftHeaderAction={leftHeaderAction} rightHeaderActionArr={rightHeaderActionArr} />
-      <SettingModal isOpened={modalState} onClose={closeModal} />
-      {profileData && <ProfileHeader profileData={profileData} />}
-      <MyBodyTypeCard />
+      <SettingModal
+        isOpened={modalState}
+        onClose={closeModal}
+        profileImg={myInfo?.profileImageUrl}
+      />
+      {myInfo && <ProfileHeader myInfo={myInfo} />}
+      <MyBodyTypeCard img={myInfo?.profileImageUrl} />
       <MyPageContentLayout />
     </Wrapper>
   );

@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import { UserImg } from '@pages/my/components/UserImg';
 import { IcEmptyProfile } from '@shared/assets/icon/ic-emptyProfileIcon';
-import { profileDataType } from '@my/types';
+import { MemberInfo } from '@shared/types/member/member';
 
-export const ProfileHeader = ({ profileData }: { profileData: profileDataType }) => {
+export const ProfileHeader = ({ myInfo }: { myInfo: MemberInfo }) => {
   const renderLikes = () => {
-    const like = profileData?.likeCount;
+    const like = myInfo?.likeCount;
 
     if (like === undefined) {
       return <span>0</span>;
@@ -17,17 +17,13 @@ export const ProfileHeader = ({ profileData }: { profileData: profileDataType })
       return <span>{like}</span>;
     }
   };
-  console.log(profileData.profileImageUrl);
-  //profile 데이터가 example 로 되어 있어서 실험을 위해 임시 s3 url 을 넣어놨습니다.
-  // if (profileData)
-  //   profileData.profileImageUrl =
-  //     'https://modi-service-bucket.s3.ap-northeast-2.amazonaws.com/deploy/1/c96adcdc-5c73-4138-87de-f2245b79cb13/b.jpg';
+  console.log(myInfo.profileImageUrl);
 
-  if (profileData)
+  if (myInfo)
     return (
       <Container>
-        {profileData?.profileImageUrl ? (
-          <UserImg img={profileData?.profileImageUrl} width="9.479vh" height="9.479vh" />
+        {myInfo?.profileImageUrl ? (
+          <UserImg img={myInfo?.profileImageUrl} width="9.479vh" height="9.479vh" />
         ) : (
           <EmptyProfile>
             <IcEmptyProfile width="9.479vh" height="9.479vh" />
@@ -35,12 +31,12 @@ export const ProfileHeader = ({ profileData }: { profileData: profileDataType })
         )}
         <UserInfoContaniner>
           <UserInfoSection>
-            <span className="responsive-div">{profileData?.nickname}</span>
-            <span>{profileData?.bodyType || '체형 진단 결과가 없습니다'}</span>
+            <span className="responsive-div">{myInfo?.nickname}</span>
+            <span>{myInfo?.bodyType || '체형 진단 결과가 없습니다'}</span>
           </UserInfoSection>
           <ActivityStatus>
             <div>
-              <span>{profileData?.inspectedBodyType || 0}</span>
+              <span>{myInfo?.inspectedBodyTypeCount || 0}</span>
               <span>진단 결과</span>
             </div>
             <div>

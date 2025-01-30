@@ -2,7 +2,7 @@ import { IcRightArrow } from '@shared/assets/icon/ic-right-arrow';
 import { RecommendationModal } from '@pages/my/components/modal/RecommendationModal';
 import styled from 'styled-components';
 import { useState } from 'react';
-export const MyBodyTypeCard = () => {
+export const MyBodyTypeCard = ({ img }: { img?: undefined | string }) => {
   const [modalState, setModalState] = useState<boolean>(false);
   return (
     <>
@@ -21,6 +21,7 @@ export const MyBodyTypeCard = () => {
         content="내 체형을 분석하러 가볼까요?"
         btnText="체형 분석하기"
         onClose={() => setModalState(false)}
+        img={img}
       />
     </>
   );

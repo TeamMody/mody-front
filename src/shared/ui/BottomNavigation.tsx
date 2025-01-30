@@ -5,14 +5,9 @@ import IcInbox from '@shared/assets/icon/ic-inbox.tsx';
 import IcUser from '@shared/assets/icon/ic-user';
 import { ActiveProps } from '@shared/types';
 import { ActiveIndex, useBottomNavigationStore } from '@shared/store/useBottomNavigationStore.ts';
-import { myProfileHeader } from '@pages/my/apis/myProfileHeader';
+
 const BottomNavigation = () => {
   const { activeIndex, setActiveIndex } = useBottomNavigationStore();
-
-  const linkToMyPage = () => {
-    setActiveIndex(ActiveIndex.PROFILE);
-    myProfileHeader();
-  };
 
   return (
     <Wrapper>
@@ -32,7 +27,11 @@ const BottomNavigation = () => {
           <IcInbox $active={activeIndex === ActiveIndex.POST} />
           비슷
         </BottomLink>
-        <BottomLink onClick={linkToMyPage} to="/my" $active={activeIndex === ActiveIndex.PROFILE}>
+        <BottomLink
+          onClick={() => setActiveIndex(ActiveIndex.PROFILE)}
+          to="/my"
+          $active={activeIndex === ActiveIndex.PROFILE}
+        >
           <IcUser $active={activeIndex === ActiveIndex.PROFILE} />내 정보
         </BottomLink>
       </Container>
