@@ -1,17 +1,14 @@
 import IcHeart from '@shared/assets/icon/ic-full-heart.svg';
+import { PostProps } from '@shared/types';
 import styled from 'styled-components';
 
-interface PostProps {
-  img: string;
-  activeTab: string;
-}
-
-const Post = ({ img, activeTab }: PostProps) => {
+const Post = ({ data, activeTab }: PostProps) => {
   //임시로 좋아요 상태를 true로 설정
   const like = true;
+
   return (
     <PostWrapper>
-      <Image src={img} alt="게시물" />
+      <Image src={data.files[0].s3Url} alt="게시물" />
       {like && activeTab === 'recommend' && <HeartIcon src={IcHeart} alt="좋아요 아이콘" />}
     </PostWrapper>
   );
@@ -24,6 +21,7 @@ const PostWrapper = styled.div`
   width: 100%;
   background-color: ${({ theme }) => theme.colors.gray900};
   height: 100%;
+  overflow: hidden;
   :hover {
     cursor: pointer;
   }
