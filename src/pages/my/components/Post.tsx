@@ -24,6 +24,7 @@ const PostWrapper = styled.div`
   width: 100%;
   background-color: ${({ theme }) => theme.colors.gray900};
   height: 100%;
+  overflow: hidden;
   :hover {
     cursor: pointer;
   }

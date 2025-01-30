@@ -29,7 +29,6 @@ const TabContentsWrapper = styled.div<{ $divide: number }>`
   width: 100%;
   height: 100%;
   gap: 0.7vw;
-  overflow-y: auto;
 `;
 
 export default TabContents;
