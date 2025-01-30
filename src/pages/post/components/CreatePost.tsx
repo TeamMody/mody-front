@@ -8,6 +8,7 @@ import { CreateNewPostModal } from '@pages/post/components/modal/CreateNewPostMo
 import { useNavigate } from 'react-router';
 import { SelectPhotoBottomSheetModal } from '@pages/post/components/modal/SelectPhotoBottomSheetModal';
 import { createPresignedUrl } from '@pages/post/apis/createPresignedUrl';
+import { presignedUrlProps } from '@pages/post/apis/createPresignedUrl';
 export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
   const [modalState, setModalState] = useState<boolean>(false);
   const [opened, setIsOpened] = useState<boolean>(isOpened);
@@ -15,12 +16,15 @@ export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
   const [selectedId, setSelectedIds] = useState<number[]>([]);
   const [imgZoom, setImgZoom] = useState<boolean>(false);
   const navigate = useNavigate();
-  let presignedUrls;
-  const openModal = async (data: string[]) => {
-    setModalState(true);
-    if (data) presignedUrls = await createPresignedUrl(data);
-  };
+  const [presignedUrls, setPresignedUrls] = useState<presignedUrlProps[]>();
 
+  const openModal = async (data: string[]) => {
+    console.log('하이');
+    const urls = await createPresignedUrl(data);
+    setPresignedUrls(urls);
+    setModalState(true);
+  };
+  console.log(presignedUrls);
   const closeModal = () => {
     setModalState(false);
     setImgZoom(false);

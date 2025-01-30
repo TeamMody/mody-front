@@ -1,22 +1,24 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ModalProps } from '@shared/types/my/modalProps';
 import { IcLeftArrow } from '@shared/assets/icon/ic-left-arrow';
 import CustomDivider from '@shared/ui/CustomDivider';
-import BottomSheetItem from '@pages/my/components/BottomSheetItem';
+import { ToggleButton } from '@pages/post/components/toggleButton';
 import ImageCarousel from '@shared/ui/ImageCarousel';
 import IcZoom from '@shared/assets/icon/ic-zoom.svg?react';
 import { useNavigate } from 'react-router';
 import { createS3url } from '@pages/post/apis/createS3Url';
-import { createPost } from '@pages/post/apis/createPost';
+import { postData } from '@pages/post/apis/createPost';
+import { presignedUrlProps } from '@pages/post/apis/createPresignedUrl';
 interface ImgModalProps extends ModalProps {
   selectedImages: string[];
   imgZoom: boolean;
   setImgZoom: React.Dispatch<React.SetStateAction<boolean>>;
-  presignedUrls: string[] | undefined;
+  presignedUrls: presignedUrlProps[] | undefined;
 }
+
 export const CreateNewPostModal = ({
   isOpened,
   onClose,
@@ -29,14 +31,14 @@ export const CreateNewPostModal = ({
 
   const navigate = useNavigate();
   let S3Urls;
+  console.log(presignedUrls);
   const handleClose = async () => {
     if (presignedUrls) {
-      S3Urls = await createS3url(selectedImages, presignedUrls);
-      createPost({ content: '스트레이트형 착장 예시', isPublic: true, s3Urls: S3Urls });
-    }
-    setTimeout(() => {
+      S3Urls = await createS3url({ selectedImages, presignedUrls });
+      postData({ content: textRef.current?.value, isPublic: buttonState, s3Urls: S3Urls });
       navigate('/post');
-    }, 500);
+      S3Urls = null;
+    }
   };
   const handleImgZoom = () => {
     if (imgZoom) {
@@ -46,6 +48,8 @@ export const CreateNewPostModal = ({
     }
   };
 
+  const textRef = useRef<HTMLTextAreaElement | null>(null);
+  const [buttonState, setButtonState] = useState<boolean>(false);
   return ReactDOM.createPortal(
     <AnimatePresence>
       {isOpened && (
@@ -77,10 +81,10 @@ export const CreateNewPostModal = ({
               <IcZoomStyle />
             </ZoomButton>
 
-            <TextArea placeholder="게시글을 작성해주세요."></TextArea>
+            <TextArea placeholder="게시글을 작성해주세요." ref={textRef}></TextArea>
             <CustomDivider width="100%" border="1px" />
             <BottomDiv>
-              <BottomSheetItem content="나만보기" />
+              <ToggleButton buttonState={buttonState} setButtonState={setButtonState} />
               <SaveStyleButton onClick={handleClose}>스타일 저장하기</SaveStyleButton>
             </BottomDiv>
           </BottomBox>

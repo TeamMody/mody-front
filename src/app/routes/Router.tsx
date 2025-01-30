@@ -31,16 +31,16 @@ export const router = createBrowserRouter([
         path: 'post',
         children: [
           { index: true, element: <PostPage /> },
-          { path: 'createPost', element: <CreatePost isOpened={true} /> },
-          { path: 'cameraPage', element: <CameraPage /> },
-          { path: 'capturedImgPage', element: <CapturedImgPage /> },
+          { path: 'createpost', element: <CreatePost isOpened={true} /> },
+          { path: 'camerapage', element: <CameraPage /> },
+          { path: 'capturedimgpage', element: <CapturedImgPage /> },
         ],
       },
       {
         path: 'my',
         children: [
           { index: true, element: <MyPage /> },
-          { path: 'createPost', element: <CreatePost isOpened={true} /> },
+          { path: 'createpost', element: <CreatePost isOpened={true} /> },
         ],
       },
       {

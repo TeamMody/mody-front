@@ -1,19 +1,21 @@
 import styled from 'styled-components';
 import { ToggleButton } from '@shared/ui/ToggleButton';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 interface BottomSheetItemProps {
   content: string;
   icon?: string;
+  setButtonState?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const BottomSheetItem = ({ content, icon }: BottomSheetItemProps) => {
+const BottomSheetItem = ({ content, icon, setButtonState }: BottomSheetItemProps) => {
   // 토글 상태 관리
   const [isOn, setIsOn] = useState<boolean>(false);
 
   // 버튼 클릭 시 상태 토글
   const toggleState = () => {
     setIsOn((prevState) => !prevState);
+    if (setButtonState) setButtonState(!isOn);
   };
   return (
     <SheetContentItem>
