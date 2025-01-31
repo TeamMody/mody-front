@@ -19,31 +19,31 @@ export const RecommendationResultPage: React.FC = () => {
   const isLoading = false;
 
   if (isLoading) {
-    return <Loading type={type} />
+    return <Loading type={type} />;
   }
 
-  console.log(result);
+  const isSuccess: boolean = result !== undefined;
 
-  const style = result.styleRecommendations[0];
-
-  const description = `${style.introduction}\n\n ${style.styleDirection}\n\n ${style.practicalStylingTips}\n`;
+  const description = isSuccess ? `${result.introduction}\n\n${result.styleDirection}\n\n${result.practicalStylingTips}` : '에러 발생';
 
   return (
     <Wrapper>
       <AppBar leftHeaderAction={leftHeaderAction} title={title} />
-      <Container>
+      {isSuccess ? <Container>
         <Image src={ImgBannerBodyType} />
-        <BoldText>{style.recommendationStyle}</BoldText>
+        <BoldText>{result.recommendedStyle}</BoldText>
         <Description>{description}</Description>
+        <ButtonContainer>
+          <CustomButton
+            label="완료" onClick={() => navigate('/', { replace: true })}
+            active={true}
+            paddingTop="19px"
+            paddingBottom="19px"
+          />
+        </ButtonContainer>
       </Container>
-      <ButtonContainer>
-        <CustomButton
-          label="완료" onClick={() => navigate('/', { replace: true })}
-          active={true}
-          paddingTop="19px"
-          paddingBottom="19px"
-        />
-      </ButtonContainer>
+        : <div>에러 발생</div>
+      }
     </Wrapper>
   );
 };
@@ -82,11 +82,11 @@ const Description = styled.p`
   width: 100%;
   white-space: pre-wrap;
   margin-top: 26px;
+  margin-bottom: 40px;
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 20px;
-  padding: 0 20px;
+  margin-top: auto;
 `;
