@@ -7,12 +7,16 @@ import { surveyList } from '@shared/apis/home/mocks.ts';
 import { useAnswersStore } from '@home/feature/store/useAnswersStore.ts';
 import CustomButton from '@shared/ui/CustomButton.tsx';
 import { useEffect, useRef } from 'react';
+import { usePostBodyAnalysis } from '@home/feature/hooks/mutate/usePostBodyAnalysis.ts';
+import { BodyAnalysisRequest, RecommendationType } from '@shared/types';
+import { Loading } from '@home/components/Loading.tsx';
 
 export const BodySurveyPage = () => {
   const navigate = useNavigate();
   const leftHeaderAction = { icon: IcLeftArrow, onClick: () => navigate(-1) };
   const { myAnswers } = useAnswersStore();
   const questionRefs = useRef<HTMLDivElement[]>([]);
+  const { mutate, isSuccess, data, isPending } = usePostBodyAnalysis();
 
   const focusNextQuestion = () => {
     const nextUnansweredIndex = myAnswers.findIndex((answer) => answer === '')
@@ -28,6 +32,25 @@ export const BodySurveyPage = () => {
   useEffect(() => {
     focusNextQuestion();
   }, [myAnswers]);
+
+  const handleSubmit = () => {
+    if (myAnswers.filter((myAnswer) => myAnswer !== '').length === surveyList.length) {
+      const request: BodyAnalysisRequest = {
+        answer: myAnswers.join(' '),
+      }
+      mutate(request);
+    }
+  }
+
+  useEffect(() => {
+    if (isSuccess) {
+      navigate('/body-type', { state: { result: data?.result }});
+    }
+  }, [isSuccess]);
+
+  if (isPending) {
+    return <Loading type={RecommendationType.BODY_TYPE} />;
+  }
 
   return (
     <Wrapper>
@@ -45,8 +68,8 @@ export const BodySurveyPage = () => {
           {myAnswers.filter((myAnswer) => myAnswer !== '').length === surveyList.length
             ? <CustomButton
               label="체형 분석하기"
-              onClick={() => navigate('/body-type')}
-              active={true}
+              onClick={handleSubmit}
+              active={myAnswers.filter((myAnswer) => myAnswer !== '').length === surveyList.length}
               paddingTop="16px"
               paddingBottom="16px"
               marginHorizontal="20px"
