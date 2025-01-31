@@ -7,10 +7,11 @@ import StyleSurvey from '@home/components/StyleSurvey.tsx';
 import CustomButton from '@shared/ui/CustomButton.tsx';
 import { keywords, styleKeywords } from '@shared/apis/home/mocks.ts';
 import { useStyleSurveyStore } from '@home/feature/store/useStyleSurveyStore.ts';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useMyInfoStore } from '@shared/store/useMyInfoStore.ts';
 import { usePostStyleAnalysis } from '@home/feature/hooks/mutate/usePostStyleAnalysis.ts';
 import { Loading } from '@home/components/Loading.tsx';
+import debounce from 'lodash/debounce';
 
 export const StyleSurveyPage = () => {
   const { myInfo } = useMyInfoStore();
@@ -30,6 +31,8 @@ export const StyleSurveyPage = () => {
   const handleClick = () => {
     mutate();
   };
+
+  const debouncedApiRequest = useCallback(debounce(handleClick, 500), [handleClick]);
 
   useEffect(() => {
     if (myInfo && myInfo.bodyType === null) {
@@ -55,7 +58,7 @@ export const StyleSurveyPage = () => {
         <StyleSurvey category="disliked" keywords={keywords} />
         <StyleSurvey category="image" keywords={styleKeywords} />
         <ButtonContainer>
-          <CustomButton label="스타일 추천 받기" onClick={handleClick} active={true} paddingTop="19px"
+          <CustomButton label="스타일 추천 받기" onClick={debouncedApiRequest} active={true} paddingTop="19px"
                         paddingBottom="19px" />
         </ButtonContainer>
       </KeywordsContainer>
