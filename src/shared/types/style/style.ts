@@ -4,15 +4,15 @@ export interface StyleAnalysisRequest {
   appealedImage: string[];
 }
 
-export interface StyleRecommendation {
-  recommendationStyle: string;
+export interface StyleAnalysisResponse {
+  styleId: number;
+  memberId: number;
+  nickname: string;
+  isLiked: boolean;
+  likedCount?: number;
+  recommendedStyle: string;
   introduction: string;
   styleDirection: string;
   practicalStylingTips: string;
   imageUrl?: string;
-}
-
-export interface StyleAnalysisResponse {
-  nickname: string;
-  styleRecommendations: StyleRecommendation[];
 }
