@@ -1,42 +1,71 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ModalProps } from '@shared/types/my/modalProps';
 import { IcLeftArrow } from '@shared/assets/icon/ic-left-arrow';
 import CustomDivider from '@shared/ui/CustomDivider';
-import BottomSheetItem from '@pages/my/components/BottomSheetItem';
+import { ToggleButton } from '@pages/post/components/toggleButton';
 import ImageCarousel from '@shared/ui/ImageCarousel';
 import IcZoom from '@shared/assets/icon/ic-zoom.svg?react';
-import { useNavigate } from 'react-router';
-import IcModyLogo from '@shared/assets/icon/ic-logo.svg?react';
+import { createS3url } from '@pages/post/apis/createS3Url';
+import { presignedUrlProps } from '@pages/post/apis/createPresignedUrl';
+import { useCreatePost } from '@pages/post/hooks/useCreatePost';
+
 interface ImgModalProps extends ModalProps {
   selectedImages: string[];
   imgZoom: boolean;
   setImgZoom: React.Dispatch<React.SetStateAction<boolean>>;
+  presignedUrls: presignedUrlProps[] | undefined;
 }
+
 export const CreateNewPostModal = ({
   isOpened,
   onClose,
   selectedImages,
   imgZoom,
   setImgZoom,
+  presignedUrls,
 }: ImgModalProps) => {
   const [imgIdx, setImgIdx] = useState<number>(0);
+  const [textState, setTextState] = useState<string | undefined>(undefined);
+  const [buttonState, setButtonState] = useState<boolean>(false);
+  const { mutate } = useCreatePost();
 
-  const navigate = useNavigate();
+  const handleClose = async () => {
+    try {
+      if (presignedUrls) {
+        const S3Urls = await createS3url({ selectedImages, presignedUrls });
 
-  const handleClose = () => {
-    setTimeout(() => {
-      navigate(-1);
-    }, 500);
+        mutate({
+          content: textState,
+          isPublic: buttonState,
+          s3Urls: S3Urls,
+        });
+      }
+    } catch (error) {
+      console.error('게시물 생성 실패:', error);
+    }
+    setTextState(undefined);
   };
+
+  const moveBeforePage = () => {
+    setTextState(undefined);
+    onClose();
+  };
+
   const handleImgZoom = () => {
     if (imgZoom) {
       setImgZoom(false);
     } else {
       setImgZoom(true);
     }
+  };
+
+  const changeTextArea = (e: React.ChangeEvent<HTMLTextAreaElement | null>) => {
+    setTimeout(() => {
+      setTextState(e.target.value);
+    }, 500);
   };
 
   return ReactDOM.createPortal(
@@ -49,41 +78,41 @@ export const CreateNewPostModal = ({
           transition={{ duration: 0.3, ease: 'easeOut' }}
         >
           <TopBox>
-            <button onClick={onClose}>
+            <button onClick={moveBeforePage}>
               <IcLeftArrow />
             </button>
             <div>새로운 게시물</div>
           </TopBox>
           <BottomBox>
-            {selectedImages.length === 0 ? (
-              <EmptyImgContainer>
-                <IcModyLogo />
-              </EmptyImgContainer>
-            ) : (
-              <BottomImgContainer imgZoom={imgZoom}>
-                <ImageCarousel
-                  images={selectedImages}
-                  isExpanded={undefined}
-                  imgIdx={imgIdx}
-                  setImgIdx={setImgIdx}
-                  height="45.735vh"
-                  imgZoomed={imgZoom}
-                />
-              </BottomImgContainer>
-            )}
-            {selectedImages.length === 0 ? (
-              <></>
-            ) : (
-              <ZoomButton onClick={handleImgZoom}>
-                <IcZoomStyle />
-              </ZoomButton>
-            )}
+            <BottomImgContainer imgZoom={imgZoom}>
+              <ImageCarousel
+                images={selectedImages}
+                isExpanded={undefined}
+                imgIdx={imgIdx}
+                setImgIdx={setImgIdx}
+                height="45.735vh"
+                imgZoomed={imgZoom}
+              />
+            </BottomImgContainer>
 
-            <TextArea placeholder="게시글을 작성해주세요."></TextArea>
+            <ZoomButton onClick={handleImgZoom} imgZoom={imgZoom}>
+              <IcZoomStyle />
+            </ZoomButton>
+
+            <TextArea
+              placeholder="게시글을 작성해주세요."
+              onChange={(e) => changeTextArea(e)}
+            ></TextArea>
             <CustomDivider width="100%" border="1px" />
             <BottomDiv>
-              <BottomSheetItem content="나만보기" />
-              <SaveStyleButton onClick={handleClose}>스타일 저장하기</SaveStyleButton>
+              <ToggleButton setButtonState={setButtonState} />
+              <SaveStyleButton
+                onClick={handleClose}
+                disabled={textState === undefined}
+                textState={!!textState}
+              >
+                스타일 저장하기
+              </SaveStyleButton>
             </BottomDiv>
           </BottomBox>
         </Container>
@@ -92,6 +121,7 @@ export const CreateNewPostModal = ({
     document.body,
   );
 };
+
 const Container = styled(motion.div)`
   position: absolute;
   max-width: 440px;
@@ -136,16 +166,6 @@ const BottomBox = styled.div`
   position: absolute;
 `;
 
-const EmptyImgContainer = styled.div`
-  width: 100%;
-  border: 1px solid ${({ theme }) => theme.colors.green500};
-  border-radius: 20px;
-  height: 45.735vh;
-  margin: 3.791vh 0px 9vh 0px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
 const BottomImgContainer = styled.div<{ imgZoom: boolean }>`
   width: 100%;
   height: 56.398vh;
@@ -157,13 +177,13 @@ const BottomImgContainer = styled.div<{ imgZoom: boolean }>`
   gap: ${({ imgZoom }) => (imgZoom ? '0px' : '5.79vh')};
 `;
 
-const ZoomButton = styled.button`
+const ZoomButton = styled.button<{ imgZoom: boolean }>`
   width: 5.924vh;
   height: 5.924vh;
   margin-left: 1.5vw;
   position: absolute;
   z-index: 10001;
-  top: 46vh;
+  top: ${({ imgZoom }) => (imgZoom === false ? '46vh' : '50.5vh')};
 `;
 
 const TextArea = styled.textarea`
@@ -181,11 +201,12 @@ const BottomDiv = styled.div`
   padding: 0px 5.128vw 0px 5.128vw;
   margin-top: 1.896vh;
 `;
-const SaveStyleButton = styled.button`
+const SaveStyleButton = styled.button<{ textState: boolean | undefined }>`
   width: 100%;
   height: 6.635vh;
   font-size: ${({ theme }) => theme.fonts.body_medium_16px};
-  background-color: ${({ theme }) => theme.colors.green500};
+  background-color: ${({ theme, textState }) =>
+    textState === false ? theme.colors.gray500 : theme.colors.green500};
   border-radius: 10px;
   color: black;
 `;
