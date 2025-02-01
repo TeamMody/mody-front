@@ -22,14 +22,12 @@ const SignUpMain = () => {
         if (res) {
           setSlideIndex((prevIndex) => prevIndex + 1);
         }
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
       return;
     }
     if (slideIndex === 2) {
       // 회원가입 완료 시 페이지 이동
-      navigate('/onboarding/inputuser');
+      navigate('/onboarding');
     }
     if (slideIndex === 0) {
       setButtonActive(false);

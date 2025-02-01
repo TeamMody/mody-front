@@ -11,7 +11,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 export const InputUser = () => {
   const [curIdx, setCurIdx] = useState<number>(0);
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
-  const navigate = useNavigate();
 
   const {
     register,

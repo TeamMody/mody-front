@@ -13,13 +13,19 @@ const useLoginMutation = () => {
   const loginMutation = useMutation({
     mutationFn: async (data: LoginSchemaType) => {
       const response = await apiInstance.post('/auth/login', data);
-      return response;
+      return response.data;
     },
     onSuccess: (data) => {
-      const accessToken = data.data.result.accessToken;
+      const accessToken = data.result.accessToken;
+      const registrationCompleted = data.result.registrationCompleted;
+
       const { setAccessToken } = useAuthStore.getState();
       setAccessToken(accessToken);
-      window.location.href = '/';
+      if (registrationCompleted) {
+        window.location.href = '/';
+      } else {
+        window.location.href = '/onboarding/inputuser';
+      }
     },
     onError: (error: AxiosError) => {
       const axiosError = error as AxiosError<ErrorResponse>;
