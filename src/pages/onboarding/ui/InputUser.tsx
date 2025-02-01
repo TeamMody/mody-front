@@ -6,12 +6,13 @@ import { useForm } from 'react-hook-form';
 import InputUserMain from '@onboarding/ui/InputUserMain';
 import { UserInfoSchema, UserInfoSchemaType } from '@onboarding/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import useAuthStore from '@shared/store/token';
 import { apiInstance } from '@shared/apis/instance';
+import { useNavigate } from 'react-router';
+import { handleOnSubmit } from '@onboarding/utils/handleOnSubmit';
 export const InputUser = () => {
   const [curIdx, setCurIdx] = useState<number>(0);
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
-  const { accessToken } = useAuthStore();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -34,29 +35,7 @@ export const InputUser = () => {
 
   const handleButtonClick = () => {
     if (curIdx < 3) setCurIdx((prev) => ++prev);
-  };
-  const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const { birthday, height, sex, image, nickname } = getValues();
-    console.log(image);
-    let presignedURL;
-    if (image.length === 0) {
-      presignedURL = '';
-    } else {
-      const imgFile = image[0];
-      console.log(imgFile);
-      const res = await apiInstance.post('/image/upload/profiles', image[0]);
-      console.log(res);
-    }
-
-    const body = {
-      nickname,
-      birthday: `${birthday.year}-${birthday.month}-${birthday.day}`,
-      gender: sex,
-      height,
-    };
-    console.log(body);
-    console.log(birthday, sex, height, image, nickname);
+    if (curIdx === 3) navigate('/body-survey');
   };
 
   const handleIsValid = (curIdx: number): boolean => {
@@ -77,7 +56,7 @@ export const InputUser = () => {
 
   // 값이 바뀔 때마다 전체 값이 렌더링되는 현상 발생
   return (
-    <Wrapper onSubmit={handleOnSubmit}>
+    <Wrapper onSubmit={(e) => handleOnSubmit(e, curIdx, getValues)}>
       <ProgressBar length={4} curIdx={curIdx} />
       <CustomLogo />
       <InputUserMain
@@ -89,8 +68,8 @@ export const InputUser = () => {
       />
       <ButtonContainer>
         <Button
-          type={curIdx !== 3 ? 'button' : 'submit'}
-          onClick={curIdx !== 3 ? handleButtonClick : undefined}
+          type={curIdx !== 2 ? 'button' : 'submit'}
+          onClick={handleButtonClick}
           disabled={isButtonDisabled}
         >
           {curIdx !== 3 ? '다음' : '체형 분석하기'}

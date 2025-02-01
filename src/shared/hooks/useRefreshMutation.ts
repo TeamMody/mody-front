@@ -9,9 +9,10 @@ const useRefreshMutation = () => {
       return response;
     },
     onSuccess: (data) => {
-      const accessToken = data.headers.authorization.split(' ')[1];
-      const { setAccessToken } = useAuthStore.getState();
-      setAccessToken(accessToken);
+      console.log(data);
+      // const accessToken = data.headers.authorization.split(' ')[1];
+      // const { setAccessToken } = useAuthStore.getState();
+      // setAccessToken(accessToken);
     },
     onError: (err) => {
       console.log(err);
