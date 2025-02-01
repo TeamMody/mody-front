@@ -8,7 +8,7 @@ interface TokenState {
 
 const useAuthStore = create<TokenState>((set) => ({
   accessToken:
-    'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNyIsImlhdCI6MTczODI0OTE4NCwiZXhwIjoxNzM4Mjg1MTg0fQ.w4Tvkti_JTn9uDTgTOwvSVVC6tN6AutYCLWgYo9gt9Y',
+    'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNyIsImlhdCI6MTczODQwNDUwNCwiZXhwIjoxNzM4NDQwNTA0fQ.tBkU-7U7GJIu3s2BJVf86XIeJYubRKsJclqNWIhyQqw',
   setAccessToken: (token: string) => set({ accessToken: token }),
   logOut: () => set({ accessToken: '' }),
 }));
