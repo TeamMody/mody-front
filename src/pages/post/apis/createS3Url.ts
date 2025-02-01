@@ -6,7 +6,6 @@ export const createS3url = async ({
   selectedImages: string[];
   presignedUrls: presignedUrlProps[] | undefined;
 }): Promise<string[] | undefined> => {
-  console.log(presignedUrls);
   try {
     if (presignedUrls) {
       const uploadPromises = selectedImages.map(async (file, index) => {
