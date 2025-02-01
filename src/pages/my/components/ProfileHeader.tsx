@@ -17,7 +17,6 @@ export const ProfileHeader = ({ myInfo }: { myInfo: MemberInfo }) => {
       return <span>{like}</span>;
     }
   };
-  console.log(myInfo.profileImageUrl);
 
   if (myInfo)
     return (
