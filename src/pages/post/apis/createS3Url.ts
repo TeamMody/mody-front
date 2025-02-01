@@ -1,4 +1,4 @@
-import { presignedUrlProps } from './createPresignedUrl';
+import { presignedUrlProps } from '@pages/post/apis/createPresignedUrl';
 export const createS3url = async ({
   selectedImages,
   presignedUrls,
@@ -20,19 +20,17 @@ export const createS3url = async ({
           headers: { 'Content-Type': blob.type },
           body: blob,
         });
+
         if (!response.ok) {
           throw new Error(`업로드 실패: ${response.statusText}`);
         }
         return presignedUrl.presignedUrl.split('?')[0];
       });
       const results = await Promise.all(uploadPromises);
+
       console.log('upload 완료');
-      console.log(results);
-      const decodedUrl = results?.map((data) => {}decodeURIComponent(data));
-      console.log('✅ 디코딩된 URL:', decodedUrl);
-      const fixedUrl = decodedUrl[0].replace(/\/{2,}/g, '/');
-      console.log('✅ 수정된 URL:', fixedUrl);
-      return fixedUrl;
+
+      return results;
     }
   } catch (error) {
     console.log(error);
