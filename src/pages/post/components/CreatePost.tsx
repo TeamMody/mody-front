@@ -24,7 +24,7 @@ export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
     setPresignedUrls(urls);
     setModalState(true);
   };
-  console.log(presignedUrls);
+
   const closeModal = () => {
     setModalState(false);
     setImgZoom(false);
