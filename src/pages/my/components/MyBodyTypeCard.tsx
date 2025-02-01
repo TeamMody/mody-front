@@ -2,7 +2,7 @@ import { IcRightArrow } from '@shared/assets/icon/ic-right-arrow';
 import { RecommendationModal } from '@pages/my/components/modal/RecommendationModal';
 import styled from 'styled-components';
 import { useState } from 'react';
-export const MyBodyTypeCard = () => {
+export const MyBodyTypeCard = ({ img }: { img?: undefined | string }) => {
   const [modalState, setModalState] = useState<boolean>(false);
   return (
     <>
@@ -15,20 +15,14 @@ export const MyBodyTypeCard = () => {
           <IcRightArrow />
         </button>
       </Container>
-      {/* 종류 1번 modal */}
+
       <RecommendationModal
         isOpened={modalState}
         content="내 체형을 분석하러 가볼까요?"
         btnText="체형 분석하기"
         onClose={() => setModalState(false)}
+        img={img}
       />
-
-      {/* 종류 2번 modal */}
-      {/* <ConfirmationModal
-        isOpened={modalState}
-        content="이 게시글을 삭제할까요?"
-        onClose={() => setModalState(false)}
-      /> */}
     </>
   );
 };

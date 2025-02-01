@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import AppBar from '@shared/ui/AppBar.tsx';
 import { HeaderAction } from '@shared/types';
@@ -10,10 +10,11 @@ import { MyBodyTypeCard } from '@pages/my/components/MyBodyTypeCard';
 import { ProfileHeader } from '@pages/my/components/ProfileHeader';
 import { SettingModal } from '@pages/my/components/modal/SettingModal';
 import { useNavigate } from 'react-router';
-
+import { useMyInfoStore } from '@shared/store/useMyInfoStore.ts';
 export const MyPage = () => {
   const [modalState, setModalState] = useState<boolean>(false);
   const navigate = useNavigate();
+
   const openModal = () => {
     setModalState(true);
   };
@@ -21,7 +22,7 @@ export const MyPage = () => {
     setModalState(false);
   };
 
-  const leftHeaderAction: HeaderAction = { icon: logo, onClick: () => console.log('') };
+  const leftHeaderAction: HeaderAction = { icon: logo, onClick: () => navigate('/home') };
   const rightHeaderActionArr: HeaderAction[] = [
     { icon: plus, onClick: () => navigate('createPost') },
     {
@@ -29,13 +30,18 @@ export const MyPage = () => {
       onClick: openModal,
     },
   ];
-
+  const { myInfo } = useMyInfoStore();
+  console.log(myInfo);
   return (
     <Wrapper>
       <AppBar leftHeaderAction={leftHeaderAction} rightHeaderActionArr={rightHeaderActionArr} />
-      <SettingModal isOpened={modalState} onClose={closeModal} />
-      <ProfileHeader />
-      <MyBodyTypeCard />
+      <SettingModal
+        isOpened={modalState}
+        onClose={closeModal}
+        profileImg={myInfo?.profileImageUrl}
+      />
+      {myInfo && <ProfileHeader myInfo={myInfo} />}
+      <MyBodyTypeCard img={myInfo?.profileImageUrl} />
       <MyPageContentLayout />
     </Wrapper>
   );
