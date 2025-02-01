@@ -5,6 +5,7 @@ import MoreVertical from '@shared/assets/icon/ic-more-vertical.svg?react';
 import FullHeart from '@shared/assets/icon/ic-full-heart.svg?react';
 import ImageCarousel from '@shared/ui/ImageCarousel';
 import EditBottomSheet from './EditBottomSheetModal';
+import Report from '@pages/post/components/Report';
 
 interface PostPropsType {
   images: string[];
@@ -100,6 +101,7 @@ const Info = memo(
               onClose={() => setIsMoreClicked(false)}
             ></EditBottomSheet>
           )}
+          {type === 'public' && isMoreClicked && <Report />}
         </DescriptionContainer>
       </InfoContainer>
     );

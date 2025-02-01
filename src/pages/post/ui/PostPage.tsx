@@ -83,7 +83,7 @@ export const PostPage = () => {
 
       <Container>
         {memoizedData.map((data, index) => (
-          <Post key={index} data={data} type={'my'} />
+          <Post key={index} data={data} type={'public'} />
         ))}
       </Container>
     </>
