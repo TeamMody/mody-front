@@ -4,16 +4,35 @@ import IcLeftArrow from '@icon/ic-left-arrow.svg';
 import { useLocation, useNavigate } from 'react-router';
 import styled from 'styled-components';
 import CustomButton from '@shared/ui/CustomButton.tsx';
-import React from 'react';
+import React, { useState } from 'react';
 import ImgBannerBodyType from '@shared/assets/img/img-banner-body-type.png';
 import { Loading } from '@home/components/Loading.tsx';
+import IcHeart from '@icon/ic-heart.svg';
+import IcHeartFill from '@icon/ic-heart-fill.svg';
+import { usePostLikeEvent } from '@home/feature/hooks/mutate/usePostLikeEvent.ts';
 
 export const RecommendationResultPage: React.FC = () => {
   const { type, result } = useLocation().state as { type: RecommendationType, result: StyleAnalysisResponse };
   const navigate = useNavigate();
+  const { mutate } = usePostLikeEvent();
   const leftHeaderAction: HeaderAction = {
     icon: IcLeftArrow, onClick: () => navigate(-1),
   };
+  const isSuccess: boolean = result !== undefined;
+  const [liked, setLiked] = useState<boolean>(result.isLiked);
+
+  const rightHeaderActions: HeaderAction[] = [
+    { icon: liked ? IcHeartFill : IcHeart, onClick: () => onCLickLike() },
+  ];
+
+  const onCLickLike = () => {
+    if (liked) {
+      setLiked(false);
+    } else {
+      setLiked(true);
+    }
+    mutate(result.styleId);
+  }
 
   const title = type === RecommendationType.STYLE ? '스타일 추천 결과' : '패션 추천 결과';
   const isLoading = false;
@@ -22,26 +41,24 @@ export const RecommendationResultPage: React.FC = () => {
     return <Loading type={type} />;
   }
 
-  const isSuccess: boolean = result !== undefined;
-
   const description = isSuccess ? `${result.introduction}\n\n${result.styleDirection}\n\n${result.practicalStylingTips}` : '에러 발생';
 
   return (
     <Wrapper>
-      <AppBar leftHeaderAction={leftHeaderAction} title={title} />
+      <AppBar leftHeaderAction={leftHeaderAction} title={title} rightHeaderActionArr={rightHeaderActions} />
       {isSuccess ? <Container>
-        <Image src={ImgBannerBodyType} />
-        <BoldText>{result.recommendedStyle}</BoldText>
-        <Description>{description}</Description>
-        <ButtonContainer>
-          <CustomButton
-            label="완료" onClick={() => navigate('/', { replace: true })}
-            active={true}
-            paddingTop="19px"
-            paddingBottom="19px"
-          />
-        </ButtonContainer>
-      </Container>
+          <Image src={ImgBannerBodyType} />
+          <BoldText>{result.recommendedStyle}</BoldText>
+          <Description>{description}</Description>
+          <ButtonContainer>
+            <CustomButton
+              label="완료" onClick={() => navigate('/', { replace: true })}
+              active={true}
+              paddingTop="19px"
+              paddingBottom="19px"
+            />
+          </ButtonContainer>
+        </Container>
         : <div>에러 발생</div>
       }
     </Wrapper>

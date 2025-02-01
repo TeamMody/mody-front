@@ -12,15 +12,26 @@ const BottomNavigation = () => {
   return (
     <Wrapper>
       <Container>
-
-        <BottomLink onClick={() => setActiveIndex(ActiveIndex.HOME)} to="/" $active={activeIndex === ActiveIndex.HOME}>
+        <BottomLink
+          onClick={() => setActiveIndex(ActiveIndex.HOME)}
+          to="/"
+          $active={activeIndex === ActiveIndex.HOME}
+        >
           <IcHome $active={activeIndex === ActiveIndex.HOME} />홈
         </BottomLink>
-        <BottomLink onClick={() => setActiveIndex(ActiveIndex.POST)} to="/post" $active={activeIndex === ActiveIndex.POST}>
+        <BottomLink
+          onClick={() => setActiveIndex(ActiveIndex.POST)}
+          to="/post"
+          $active={activeIndex === ActiveIndex.POST}
+        >
           <IcInbox $active={activeIndex === ActiveIndex.POST} />
           비슷
         </BottomLink>
-        <BottomLink onClick={() => setActiveIndex(ActiveIndex.PROFILE)} to="/my" $active={activeIndex === ActiveIndex.PROFILE}>
+        <BottomLink
+          onClick={() => setActiveIndex(ActiveIndex.PROFILE)}
+          to="/my"
+          $active={activeIndex === ActiveIndex.PROFILE}
+        >
           <IcUser $active={activeIndex === ActiveIndex.PROFILE} />내 정보
         </BottomLink>
       </Container>
