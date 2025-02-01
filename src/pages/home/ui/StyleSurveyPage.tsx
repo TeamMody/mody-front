@@ -8,11 +8,16 @@ import CustomButton from '@shared/ui/CustomButton.tsx';
 import { keywords, styleKeywords } from '@shared/apis/home/mocks.ts';
 import { useStyleSurveyStore } from '@home/feature/store/useStyleSurveyStore.ts';
 import { useEffect } from 'react';
+import { useMyInfoStore } from '@shared/store/useMyInfoStore.ts';
+import { usePostStyleAnalysis } from '@home/feature/hooks/mutate/usePostStyleAnalysis.ts';
+import { Loading } from '@home/components/Loading.tsx';
 
 export const StyleSurveyPage = () => {
+  const { myInfo } = useMyInfoStore();
   const { resetKeywords } = useStyleSurveyStore();
   const { type } = useLocation().state as { type: RecommendationType };
   const navigate = useNavigate();
+  const { mutate, isSuccess, data, isPending } = usePostStyleAnalysis();
 
   useEffect(() => {
     resetKeywords();
@@ -22,9 +27,25 @@ export const StyleSurveyPage = () => {
     icon: IcLeftArrow, onClick: () => navigate(-1),
   };
 
-  const handleNavigate = () => {
-    navigate('/recommendation-result', { state: { type: type } });
+  const handleClick = () => {
+    mutate();
   };
+
+  useEffect(() => {
+    if (myInfo && myInfo.bodyType === null) {
+      navigate(-1);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isSuccess) {
+      navigate('/recommendation-result', { state: { type: type, result: data?.result } });
+    }
+  }, [isSuccess]);
+
+  if (isPending) {
+    return <Loading type={type} />;
+  }
 
   return (
     <Wrapper>
@@ -34,7 +55,8 @@ export const StyleSurveyPage = () => {
         <StyleSurvey category="disliked" keywords={keywords} />
         <StyleSurvey category="image" keywords={styleKeywords} />
         <ButtonContainer>
-        <CustomButton label="스타일 추천 받기" onClick={handleNavigate} active={true} paddingTop="19px" paddingBottom="19px" />
+          <CustomButton label="스타일 추천 받기" onClick={handleClick} active={true} paddingTop="19px"
+                        paddingBottom="19px" />
         </ButtonContainer>
       </KeywordsContainer>
     </Wrapper>
