@@ -3,14 +3,15 @@ import { useEffect, useState } from 'react';
 import ProgressBar from '@shared/ui/ProgressBar';
 import Logo from '@shared/assets/icon/ic-inputuser-logo.svg?react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router';
 import InputUserMain from '@onboarding/ui/InputUserMain';
 import { UserInfoSchema, UserInfoSchemaType } from '@onboarding/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
-
+import useAuthStore from '@shared/store/token';
+import { apiInstance } from '@shared/apis/instance';
 export const InputUser = () => {
   const [curIdx, setCurIdx] = useState<number>(0);
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
+  const { accessToken } = useAuthStore();
 
   const {
     register,
@@ -34,11 +35,28 @@ export const InputUser = () => {
   const handleButtonClick = () => {
     if (curIdx < 3) setCurIdx((prev) => ++prev);
   };
-  const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('form submitted');
-    console.log(getValues());
-    // navigate('/body-survey');
+    const { birthday, height, sex, image, nickname } = getValues();
+    console.log(image);
+    let presignedURL;
+    if (image.length === 0) {
+      presignedURL = '';
+    } else {
+      const imgFile = image[0];
+      console.log(imgFile);
+      const res = await apiInstance.post('/image/upload/profiles', image[0]);
+      console.log(res);
+    }
+
+    const body = {
+      nickname,
+      birthday: `${birthday.year}-${birthday.month}-${birthday.day}`,
+      gender: sex,
+      height,
+    };
+    console.log(body);
+    console.log(birthday, sex, height, image, nickname);
   };
 
   const handleIsValid = (curIdx: number): boolean => {

@@ -61,16 +61,45 @@ const Info = memo(
     setIsExpanded: React.Dispatch<React.SetStateAction<boolean>>;
     type: string;
   }) => {
+    const [isMoreClicked, setIsMoreClicked] = useState<boolean>(false);
+
+    const handleClickMore = (e: React.MouseEvent<SVGElement>) => {
+      e.stopPropagation();
+      setIsMoreClicked(true);
+    };
+    const handleClickHeart = (e: React.MouseEvent<SVGElement>) => {
+      e.stopPropagation();
+      console.log('Heart clicked', e);
+    };
     return (
-      <InfoContainer isExpanded={isExpanded} onClick={() => setIsExpanded((prev) => !prev)}>
-        <UserInfo>
-          <span className="user-name">{data.name}</span>
-          <span className="user-type">{data.type}</span>
-          {isExpanded && <IconBox data={data} isExpanded={isExpanded} type={type} />}
+      <InfoContainer>
+        <UserInfo isExpanded={isExpanded} onClick={() => setIsExpanded((prev) => !prev)}>
+          <div className="user">
+            <span className="user-name">{data.name}</span>
+            <span className="user-type">{data.type}</span>
+          </div>
+          <p className={`description ${isExpanded ? 'expanded' : ''}`}>{data.description}</p>
         </UserInfo>
         <DescriptionContainer>
-          <p className={`description ${isExpanded ? 'expanded' : ''}`}>{data.description}</p>
-          {!isExpanded && <IconBox data={data} isExpanded={isExpanded} type={type} />}
+          <div className="heart">
+            {/* onClick event 설정 */}
+            {data.isLiked ? (
+              <FullHeart width={24} height={24} id="heart-liked" onClick={handleClickHeart} />
+            ) : (
+              <Heart width={24} height={24} id="heart-unliked" onClick={handleClickHeart} />
+            )}
+            <span>{data.likeCount}</span>
+          </div>
+          <div className="more-vertical">
+            {/* onClick event 설정 */}
+            <MoreVertical onClick={handleClickMore} />
+          </div>
+          {type === 'my' && (
+            <EditBottomSheet
+              isOpen={isMoreClicked}
+              onClose={() => setIsMoreClicked(false)}
+            ></EditBottomSheet>
+          )}
         </DescriptionContainer>
       </InfoContainer>
     );
@@ -84,42 +113,48 @@ const Info = memo(
   },
 );
 
-const InfoContainer = styled.div<{ isExpanded: boolean }>`
+const InfoContainer = styled.div`
   width: 100%;
-  padding: 0px 15px 24px 30px;
+  height: 20%;
   background-color: transparent;
-  position: absolute;
-  bottom: 0;
+  padding: 50px 10px 0px 10px;
+  position: relative;
   left: 0;
   display: flex;
-  flex-direction: column;
   gap: 20px;
-  height: ${({ isExpanded }) => (isExpanded ? '40%' : '20%')};
   transition: height 0.5s ease;
 `;
 
-const UserInfo = styled.div`
+const UserInfo = styled.div<{ isExpanded: boolean }>`
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: 20px;
   position: relative;
   width: 100%;
-  & > .user-name {
-    font-size: ${({ theme }) => theme.fonts.heading_bold_24px};
-  }
-  & > .user-type {
-    font-size: ${({ theme }) => theme.fonts.heading_medium_18px};
-  }
-`;
+  height: ${({ isExpanded }) => (isExpanded ? '40vh' : '15vh')};
+  transition:
+    transform 0.7s ease,
+    height 0.7s ease;
 
-const DescriptionContainer = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
+  /* 위로 확장되도록 transform 적용 */
+  transform: ${({ isExpanded }) => (isExpanded ? 'translateY(-25vh)' : 'translateY(0)')};
+
+  .user {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    & > .user-name {
+      font-size: ${({ theme }) => theme.fonts.heading_bold_24px};
+    }
+    & > .user-type {
+      font-size: ${({ theme }) => theme.fonts.heading_medium_18px};
+    }
+  }
+
   .description {
     position: relative;
     height: 4vh;
-    width: 70%;
+    width: 90%;
     line-height: 110%;
 
     display: -webkit-box;
@@ -131,95 +166,24 @@ const DescriptionContainer = styled.div`
 
     &.expanded {
       margin-top: 1vh;
-      height: auto; /* 확장 시 높이 자동 */
-      -webkit-line-clamp: unset; /* 줄 수 제한 해제 */
+      height: auto;
+      -webkit-line-clamp: unset;
       width: 90%;
-    }
-
-    .more-btn {
-      position: absolute;
-      white-space: nowrap;
-      text-align: center;
-      margin-bottom: auto;
-      bottom: -3px;
-      right: 0;
-      font-size: ${({ theme }) => theme.fonts.detail_medium_12px};
     }
   }
 `;
 
-const IconBox = ({
-  data,
-  isExpanded,
-  type,
-}: {
-  data: PostPropsType;
-  isExpanded: boolean;
-  type: string;
-}) => {
-  const [isMoreClicked, setIsMoreClicked] = useState<boolean>(false);
-
-  const handleClickHeart = (e: React.MouseEvent<SVGElement>) => {
-    e.stopPropagation();
-    console.log('Heart clicked', e);
-  };
-
-  const handleClickMore = (e: React.MouseEvent<SVGElement>) => {
-    e.stopPropagation();
-    setIsMoreClicked(true);
-  };
-
-  return (
-    <IconContainer isExpanded={isExpanded}>
-      <div className="heart">
-        {/* onClick event 설정 */}
-        {data.isLiked ? (
-          <FullHeart width={24} height={24} id="heart-liked" onClick={handleClickHeart} />
-        ) : (
-          <Heart width={24} height={24} id="heart-unliked" onClick={handleClickHeart} />
-        )}
-        <span>{data.likeCount}</span>
-      </div>
-      <div className="more-vertical">
-        {/* onClick event 설정 */}
-        <MoreVertical onClick={handleClickMore} />
-      </div>
-      {type === 'my' && (
-        <EditBottomSheet
-          isOpen={isMoreClicked}
-          onClose={() => setIsMoreClicked(false)}
-        ></EditBottomSheet>
-      )}
-    </IconContainer>
-  );
-};
-
-const IconContainer = styled.div<{ isExpanded: boolean }>`
-  width: 20%;
-  height: 100%;
+const DescriptionContainer = styled.div`
+  width: 10%;
   display: flex;
+  flex-direction: column;
+  position: absolute;
+  right: 0;
 
-  position: ${({ isExpanded }) => isExpanded && 'absolute'};
-  right: ${({ isExpanded }) => isExpanded && '0'};
-  bottom: ${({ isExpanded }) => isExpanded && '-5px'};
-
-  div {
-    width: 50%;
-    height: 200%;
-  }
-  .heart {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 3px;
-
-    span {
-      font-size: ${({ theme }) => theme.fonts.detail_medium_12px};
-    }
-  }
-
+  gap: 15px;
   .more-vertical {
-    text-align: center;
+    display: flex;
+    align-items: center;
   }
 `;
 

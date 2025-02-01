@@ -23,6 +23,7 @@ apiInstance.interceptors.request.use((config) => {
   if (accessToken) {
     (config.headers as Record<string, any>).Authorization = `Bearer ${accessToken}`;
   }
+  console.log(config);
   return config;
 });
 

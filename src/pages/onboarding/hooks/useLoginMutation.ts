@@ -17,6 +17,7 @@ const useLoginMutation = () => {
     },
     onSuccess: (data) => {
       const accessToken = data.result.accessToken;
+      console.log(accessToken);
       const registrationCompleted = data.result.registrationCompleted;
 
       const { setAccessToken } = useAuthStore.getState();
