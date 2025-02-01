@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ModalProps } from '@shared/types/my/modalProps';
@@ -67,6 +67,7 @@ export const CreateNewPostModal = ({
       setTextState(e.target.value);
     }, 500);
   };
+
   return ReactDOM.createPortal(
     <AnimatePresence>
       {isOpened && (
