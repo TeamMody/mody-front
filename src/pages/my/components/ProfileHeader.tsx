@@ -1,10 +1,11 @@
 import styled from 'styled-components';
-import { UserInfo } from '@pages/my/features/mocks/userInfo';
 import { UserImg } from '@pages/my/components/UserImg';
 import { IcEmptyProfile } from '@shared/assets/icon/ic-emptyProfileIcon';
-export const ProfileHeader = () => {
+import { MemberInfo } from '@shared/types/member/member';
+
+export const ProfileHeader = ({ myInfo }: { myInfo: MemberInfo }) => {
   const renderLikes = () => {
-    const like = UserInfo?.like;
+    const like = myInfo?.likeCount;
 
     if (like === undefined) {
       return <span>0</span>;
@@ -17,11 +18,11 @@ export const ProfileHeader = () => {
     }
   };
 
-  if (UserInfo)
+  if (myInfo)
     return (
       <Container>
-        {UserInfo.img ? (
-          <UserImg img={UserInfo.img} width="9.479vh" height="9.479vh" />
+        {myInfo?.profileImageUrl ? (
+          <UserImg img={myInfo?.profileImageUrl} width="9.479vh" height="9.479vh" />
         ) : (
           <EmptyProfile>
             <IcEmptyProfile width="9.479vh" height="9.479vh" />
@@ -29,12 +30,12 @@ export const ProfileHeader = () => {
         )}
         <UserInfoContaniner>
           <UserInfoSection>
-            <span className="responsive-div">{UserInfo.name}</span>
-            <span>{UserInfo.type || '체형 진단 결과가 없습니다'}</span>
+            <span className="responsive-div">{myInfo?.nickname}</span>
+            <span>{myInfo?.bodyType || '체형 진단 결과가 없습니다'}</span>
           </UserInfoSection>
           <ActivityStatus>
             <div>
-              <span>{UserInfo.result || 0}</span>
+              <span>{myInfo?.inspectedBodyTypeCount || 0}</span>
               <span>진단 결과</span>
             </div>
             <div>
@@ -90,7 +91,7 @@ const ActivityStatus = styled.div`
   width: auto;
   display: flex;
   justify-content: space-between;
-  gap: 3px;
+  gap: 9px;
   & > div:nth-child(1) {
     height: 7.7vh;
     display: flex;
