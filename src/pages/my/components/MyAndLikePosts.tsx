@@ -2,10 +2,10 @@ import styled from 'styled-components';
 import Post from '@pages/my/components/Post';
 import NoPosts from '@pages/my/components/NoPosts';
 import { PostData } from '@shared/types';
-import ClipLoader from 'react-spinners/ClipLoader';
 import useGetInfinitePosts from '../hooks/useGetInfinitePosts';
 import React, { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
+import { SmallLoading } from '@shared/ui/SmallLoading';
 
 const MyAndLikePosts = ({ activeTab }: { activeTab: string }) => {
   const {
@@ -56,9 +56,7 @@ const MyAndLikePosts = ({ activeTab }: { activeTab: string }) => {
       {posts?.pages.map((post: PostData) => (
         <Post key={post.postId} data={post} activeTab={activeTab} />
       ))}
-      {hasNextPage && (
-        <Bottom ref={ref}>{isFetchingNextPage && <ClipLoader color={'#fff'} />}</Bottom>
-      )}
+      {hasNextPage && <Bottom ref={ref}>{isFetchingNextPage && <SmallLoading />}</Bottom>}
     </MyAndLikePostsWrapper>
   ) : (
     <NoPosts activeTab={activeTab} />
@@ -79,7 +77,6 @@ const Bottom = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
-  padding-top: 1vh;
   grid-column: 1 / -1;
 `;
 
