@@ -2,13 +2,14 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useNavigate } from 'react-router';
 import { ModalProps } from '@shared/types/my/modalProps';
 import { IcLeftArrow } from '@shared/assets/icon/ic-left-arrow';
 import { CreateNewPostModal } from '@pages/post/components/modal/CreateNewPostModal';
-import { useNavigate } from 'react-router';
 import { SelectPhotoBottomSheetModal } from '@pages/post/components/modal/SelectPhotoBottomSheetModal';
 import { createPresignedUrl } from '@pages/post/apis/createPresignedUrl';
 import { presignedUrlProps } from '@pages/post/apis/createPresignedUrl';
+
 export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
   const [modalState, setModalState] = useState<boolean>(false);
   const [opened, setIsOpened] = useState<boolean>(isOpened);
@@ -19,7 +20,6 @@ export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
   const [presignedUrls, setPresignedUrls] = useState<presignedUrlProps[]>();
 
   const openModal = async (data: string[]) => {
-    console.log('하이');
     const urls = await createPresignedUrl(data);
     setPresignedUrls(urls);
     setModalState(true);
