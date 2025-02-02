@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { HeaderAction } from '@shared/types';
+import React from 'react';
 
 interface AppBarProps {
   title?: string;
@@ -12,23 +13,25 @@ const AppBar = ({ title, leftHeaderAction, rightHeaderActionArr }: AppBarProps) 
 
   return (
     <Wrapper>
-      <img
-        src={icon}
-        onClick={onClick ? onClick : undefined}
-        style={{ background: 'none' }}
-        alt="left-icon"
-      />
+      {/* 아이콘이 문자열이면 <img>, React 컴포넌트면 그대로 렌더링 */}
+      {typeof icon === 'string' ? (
+        <img src={icon} onClick={onClick} alt="left-icon" />
+      ) : (
+        <span onClick={onClick}>{React.createElement(icon)}</span>
+      )}
+
       <p>{title}</p>
+
       <div>
-        {rightHeaderActionArr?.map((action, index) => (
-          <img
-            key={index}
-            src={action.icon}
-            onClick={action.onClick}
-            style={{ background: 'none' }}
-            alt="right-icon"
-          />
-        ))}
+        {rightHeaderActionArr?.map((action, index) =>
+          typeof action.icon === 'string' ? (
+            <img key={index} src={action.icon} onClick={action.onClick} alt="right-icon" />
+          ) : (
+            <span key={index} onClick={action.onClick}>
+              {React.createElement(action.icon)}
+            </span>
+          ),
+        )}
       </div>
     </Wrapper>
   );

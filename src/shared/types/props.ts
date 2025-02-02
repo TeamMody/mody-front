@@ -6,7 +6,7 @@ export interface ActiveProps {
 }
 
 export type HeaderAction = {
-  icon: string;
+  icon: string | React.ElementType;
   onClick?: () => void;
 };
 
