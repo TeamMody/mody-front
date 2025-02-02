@@ -3,13 +3,16 @@ import CustomButton from '@shared/ui/CustomButton.tsx';
 import { useLocation, useNavigate } from 'react-router';
 import BodyTypeContent from '@home/components/BodyTypeContent.tsx';
 import { BodyAnalysisResponse } from '@shared/types';
+import { ActiveIndex, useBottomNavigationStore } from '@shared/store/useBottomNavigationStore.ts';
 
 export const BodyTypePage = () => {
+  const { activeIndex } = useBottomNavigationStore();
   const navigate = useNavigate();
   const { result } = useLocation().state as { result: BodyAnalysisResponse };
 
   const handleNavigate = () => {
-    navigate('/', { replace: true });
+    const url = activeIndex === ActiveIndex.HOME ? '/' : '/my';
+    navigate(url, { replace: true });
   };
 
   if (!result) {
