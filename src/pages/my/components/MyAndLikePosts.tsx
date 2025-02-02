@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 import Post from '@pages/my/components/Post';
 import NoPosts from '@pages/my/components/NoPosts';
-
-import useGetInfinitePosts from '../hooks/useGetInfinitePosts';
+import useGetInfinitePosts from '../hooks/query/useGetInfinitePosts';
 import React, { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { SmallLoading } from '@shared/ui/SmallLoading';

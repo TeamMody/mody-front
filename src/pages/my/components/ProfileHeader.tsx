@@ -31,7 +31,7 @@ export const ProfileHeader = ({ myInfo }: { myInfo: MemberInfo }) => {
         <UserInfoContaniner>
           <UserInfoSection>
             <span className="responsive-div">{myInfo?.nickname}</span>
-            <span>{myInfo?.bodyType || '체형 진단 결과가 없습니다'}</span>
+            <span>{'#' + myInfo?.bodyType + ' 타입' || '체형 진단 결과가 없습니다'}</span>
           </UserInfoSection>
           <ActivityStatus>
             <div>
@@ -80,9 +80,11 @@ const UserInfoSection = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
   & > span:nth-child(1) {
     font-size: ${({ theme }) => theme.fonts.heading_bold_24px};
   }
+
   & > span:nth-child(2) {
     font-size: ${({ theme }) => theme.fonts.detail_medium_12px};
   }
@@ -91,7 +93,8 @@ const ActivityStatus = styled.div`
   width: auto;
   display: flex;
   justify-content: space-between;
-  gap: 9px;
+  gap: 24px;
+
   & > div:nth-child(1) {
     height: 7.7vh;
     display: flex;

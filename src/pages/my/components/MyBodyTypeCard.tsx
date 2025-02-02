@@ -2,16 +2,30 @@ import { IcRightArrow } from '@shared/assets/icon/ic-right-arrow';
 import { RecommendationModal } from '@pages/my/components/modal/RecommendationModal';
 import styled from 'styled-components';
 import { useState } from 'react';
-export const MyBodyTypeCard = ({ img }: { img?: undefined | string }) => {
+import { useNavigate } from 'react-router';
+import { BodyAnalysisResponse } from '@shared/types';
+
+interface MyBodyTypeCardProps {
+  img?: string;
+  bodyType?: string;
+  data: BodyAnalysisResponse | undefined;
+}
+
+export const MyBodyTypeCard = ({ img, bodyType, data }: MyBodyTypeCardProps) => {
+  const navigate = useNavigate();
   const [modalState, setModalState] = useState<boolean>(false);
+  const handleNavigate = () => {
+    navigate('/body-type', { state: { result: data } });
+  };
+
   return (
     <>
-      <Container>
+      <Container onClick={() => bodyType ? handleNavigate() : setModalState(true)}>
         <MyBodyType>
-          <span>나의 체형 타입은?</span>
-          <span>나의 체형 진단 받으러 가기</span>
+          <span>{bodyType ? bodyType + ' 타입' : '나의 체형 타입은?'}</span>
+          <span>{bodyType ? data?.bodyTypeAnalysis.description.slice(0, 16) + '...' : '나의 체형 진단 받으러 가기'}</span>
         </MyBodyType>
-        <button onClick={() => setModalState(true)}>
+        <button onClick={() => bodyType ? handleNavigate() : setModalState(true)}>
           <IcRightArrow />
         </button>
       </Container>
@@ -46,6 +60,7 @@ const MyBodyType = styled.div`
   & > span:nth-child(1) {
     font-size: ${({ theme }) => theme.fonts.body_bold_16px};
   }
+
   & > span:nth-child(2) {
     font-size: ${({ theme }) => theme.fonts.detail_medium_12px};
   }

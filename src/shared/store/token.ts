@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 interface TokenState {
   accessToken: string;
@@ -6,11 +7,23 @@ interface TokenState {
   logOut: () => void;
 }
 
-const useAuthStore = create<TokenState>((set) => ({
-  accessToken:
-    'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyNCIsImlhdCI6MTczODQyNDQ3MywiZXhwIjoxNzM4NDYwNDczfQ.muZ5nJevOXZzijDy-Qi-R7opIizz5b4cH5Z6TU6L3bs',
+/*const useAuthStore = create<TokenState>((set) => ({
+  accessToken: '',
   setAccessToken: (token: string) => set({ accessToken: token }),
   logOut: () => set({ accessToken: '' }),
-}));
+}));*/
+
+export const useAuthStore = create<TokenState>()(
+  persist(
+    (set) => ({
+      accessToken: '',
+      setAccessToken: (token: string) => set({ accessToken: token }),
+      logOut: () => set({ accessToken: ''}),
+    }),
+    {
+      name: 'access-token-storage',
+    },
+  ),
+);
 
 export default useAuthStore;
