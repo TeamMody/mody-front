@@ -1,4 +1,5 @@
 import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form';
+import { PostData } from './my/my';
 
 export interface ActiveProps {
   $active: boolean;
@@ -20,14 +21,6 @@ export interface FieldProps<T extends FieldValues> {
   touchedFields: FieldValues;
 }
 
-export interface FileData {
-  s3Url: string;
-}
-
-export interface PostData {
-  postId: number;
-  files: FileData[];
-}
 export interface PostProps {
   data: PostData;
   activeTab: string;
