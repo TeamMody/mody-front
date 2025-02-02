@@ -49,7 +49,13 @@ const MyAndLikePosts = ({ activeTab }: { activeTab: string }) => {
     }
   }, [userScrolled, hasNextPage, fetchNextPage, isFetchingNextPage]);
 
-  if (isLoading) return <p>로딩중</p>;
+  if (isLoading) {
+    return (
+      <LoadingWrapper>
+        <SmallLoading />
+      </LoadingWrapper>
+    );
+  }
   if (isError) return <p>에러</p>;
 
   return posts?.pages[0] ? (
@@ -63,6 +69,14 @@ const MyAndLikePosts = ({ activeTab }: { activeTab: string }) => {
     <NoPosts activeTab={activeTab} />
   );
 };
+
+const LoadingWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+`;
 
 const MyAndLikePostsWrapper = styled.div`
   display: grid;
