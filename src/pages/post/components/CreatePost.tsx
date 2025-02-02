@@ -2,11 +2,13 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useNavigate } from 'react-router';
 import { ModalProps } from '@shared/types/my/modalProps';
 import { IcLeftArrow } from '@shared/assets/icon/ic-left-arrow';
 import { CreateNewPostModal } from '@pages/post/components/modal/CreateNewPostModal';
-import { useNavigate } from 'react-router';
 import { SelectPhotoBottomSheetModal } from '@pages/post/components/modal/SelectPhotoBottomSheetModal';
+import { createPresignedUrl } from '@pages/post/apis/createPresignedUrl';
+import { presignedUrlProps } from '@pages/post/apis/createPresignedUrl';
 
 export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
   const [modalState, setModalState] = useState<boolean>(false);
@@ -15,9 +17,14 @@ export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
   const [selectedId, setSelectedIds] = useState<number[]>([]);
   const [imgZoom, setImgZoom] = useState<boolean>(false);
   const navigate = useNavigate();
-  const openModal = () => {
+  const [presignedUrls, setPresignedUrls] = useState<presignedUrlProps[]>();
+
+  const openModal = async (data: string[]) => {
+    const urls = await createPresignedUrl(data);
+    setPresignedUrls(urls);
     setModalState(true);
   };
+  console.log(presignedUrls);
   const closeModal = () => {
     setModalState(false);
     setImgZoom(false);
@@ -42,13 +49,20 @@ export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
             <button onClick={closePage}>
               <IcLeftArrow />
             </button>
-            <button onClick={openModal}>다음</button>
+            <NextButton
+              onClick={() => openModal(selectedImages)}
+              selectedImages={selectedImages}
+              disabled={selectedImages.length === 0}
+            >
+              다음
+            </NextButton>
             <CreateNewPostModal
               isOpened={modalState}
               onClose={closeModal}
               selectedImages={selectedImages}
               imgZoom={imgZoom}
               setImgZoom={setImgZoom}
+              presignedUrls={presignedUrls}
             />
           </TopBox>
           <BottomBox isOpened={isOpened}>
@@ -89,14 +103,14 @@ const TopBox = styled.div`
   & > button:nth-child(1) {
     height: 100%;
   }
-
-  & > button:nth-child(2) {
-    height: 100%;
-    color: white;
-    font-size: ${({ theme }) => theme.fonts.heading_medium_18px};
-    &:hover {
-      color: ${({ theme }) => theme.colors.green500};
-    }
+`;
+const NextButton = styled.button<{ selectedImages: string[] }>`
+  height: 100%;
+  font-size: ${({ theme }) => theme.fonts.heading_medium_18px};
+  color: ${({ selectedImages }) => (selectedImages.length > 0 ? 'white' : 'black')};
+  &:hover {
+    color: ${({ theme, selectedImages }) =>
+      selectedImages.length > 0 ? `${theme.colors.green500}` : 'none'};
   }
 `;
 

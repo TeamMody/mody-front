@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import AppBar from '@shared/ui/AppBar.tsx';
-import logo from '@shared/assets/icon/ic-logo.svg';
+import { IcLeftArrow } from '@shared/assets/icon/ic-left-arrow.tsx';
 import plus from '@shared/assets/icon/ic-plus.svg';
 import Post from '@shared/ui/Post.tsx';
 import TempImg1 from '@post/images/tempImg1.jpg';
@@ -35,7 +35,7 @@ export const mockData: PostPropsType[] = [
     name: '사람1',
     type: '네모형 체형',
     description:
-      '안녕하세요 ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋzzzzzzzzzzzz',
+      '안녕하세요 ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋzzzzzzzzzzzzzzzzzzzㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ',
     likeCount: 112,
     isLiked: true,
   },
@@ -68,19 +68,22 @@ export const mockData: PostPropsType[] = [
 export const PostPage = () => {
   const navigate = useNavigate();
 
-  const leftHeaderAction = { icon: logo, onClick: () => navigate('home') };
+  const leftHeaderAction = { icon: IcLeftArrow, onClick: () => navigate('home') };
   const rightHeaderActionArr = [{ icon: plus, onClick: () => navigate('createPost') }];
-
   // Post내부 Container 리렌더링 발생은 나중에 해결
   const memoizedData = useMemo(() => mockData, []);
 
   return (
     <>
-      <AppBar leftHeaderAction={leftHeaderAction} rightHeaderActionArr={rightHeaderActionArr} />
+      <AppBar
+        leftHeaderAction={leftHeaderAction}
+        title={'김모디'}
+        rightHeaderActionArr={rightHeaderActionArr}
+      />
 
       <Container>
         {memoizedData.map((data, index) => (
-          <Post key={index} data={data} type={'my'} />
+          <Post key={index} data={data} type={'public'} />
         ))}
       </Container>
     </>

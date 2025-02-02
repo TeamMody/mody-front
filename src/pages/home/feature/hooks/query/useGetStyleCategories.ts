@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import { getStyleCategories } from '@shared/apis/style.ts';
+import { fetchStyleCategories } from '@shared/apis/style/style.ts';
 
 export const useGetStyleCategories = () => {
   const result = useQuery({
     queryKey: ['styleCategories'],
-    queryFn: () => getStyleCategories(),
+    queryFn: () => fetchStyleCategories(),
     retry: 3,
   })
   return result;

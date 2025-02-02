@@ -2,38 +2,38 @@ import IcLogo from '@icon/ic-logo.svg';
 import CustomDivider from '@shared/ui/CustomDivider.tsx';
 import styled from 'styled-components';
 import React from 'react';
+import { BodyImage, BodyTypeAnalysis, FeatureBasedSuggestions } from '@shared/types';
 
 interface BodyTypeContentProps {
-  imageUrl: string;
-  bodyType: string;
-  detail: string;
-  emphasize: string;
-  supplementation: string;
+  bodyTypeAnalysis: BodyTypeAnalysis;
+  featureBasedSuggestions: FeatureBasedSuggestions;
 }
 
-const BodyTypeContent: React.FC<BodyTypeContentProps> = ({ imageUrl, bodyType, detail, emphasize, supplementation }) => {
+const BodyTypeContent: React.FC<BodyTypeContentProps> = ({ bodyTypeAnalysis, featureBasedSuggestions }) => {
+  const image = BodyImage[bodyTypeAnalysis.type];
+
   return (
     <>
       <BodyTypeContainer>
         <Logo src={IcLogo} />
-        <BodyTypeImage src={imageUrl} />
-        <BodyType>{bodyType} 타입</BodyType>
+        <BodyTypeImage src={image} />
+        <BodyType>{bodyTypeAnalysis.type} 타입</BodyType>
       </BodyTypeContainer>
       <DescriptionContainer>
         <CustomDivider width="100%" border="0.5px" />
         <Detail>
-          {detail}
+          {bodyTypeAnalysis.description}
         </Detail>
         <CustomDivider width="100%" border="0.5px" />
         <Bold>강조할 부분</Bold>
-        <Detail>{emphasize}</Detail>
+        <Detail>{featureBasedSuggestions.emphasize}</Detail>
         <CustomDivider width="100%" border="0.5px" />
         <Bold>보완할 부분</Bold>
-        <Detail>{supplementation}</Detail>
+        <Detail>{featureBasedSuggestions.enhance}</Detail>
       </DescriptionContainer>
     </>
   );
-}
+};
 
 export default BodyTypeContent;
 
@@ -51,6 +51,8 @@ const Logo = styled.img`
 `;
 
 const BodyTypeImage = styled.img`
+  width: 150px;
+  height: 180px;
   object-fit: cover;
   margin-top: 31px;
   margin-bottom: 25px;

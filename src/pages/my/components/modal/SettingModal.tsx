@@ -142,7 +142,6 @@ const BottomBox = styled.div`
   & > div:nth-child(1) > img:nth-child(1) {
     aspect-ratio: 1 / 1;
     width: 10.256vw;
-    border: 1px solid blue;
     border-radius: 50%;
     margin-left: 0.256vw;
   }
