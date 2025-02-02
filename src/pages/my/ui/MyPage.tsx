@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import AppBar from '@shared/ui/AppBar.tsx';
 import { HeaderAction } from '@shared/types';
@@ -11,7 +11,12 @@ import { ProfileHeader } from '@pages/my/components/ProfileHeader';
 import { SettingModal } from '@pages/my/components/modal/SettingModal';
 import { useNavigate } from 'react-router';
 import { useMyInfoStore } from '@shared/store/useMyInfoStore.ts';
+import { useGetBodyTypeResult } from '@my/hooks/mutate/useGetBodyTypeResult.ts';
+import { Loading } from '@shared/ui/Loading.tsx';
+
 export const MyPage = () => {
+  const { data, isLoading } = useGetBodyTypeResult();
+  const { myInfo } = useMyInfoStore();
   const [modalState, setModalState] = useState<boolean>(false);
   const navigate = useNavigate();
 
@@ -30,18 +35,17 @@ export const MyPage = () => {
       onClick: openModal,
     },
   ];
-  const { myInfo } = useMyInfoStore();
-  console.log(myInfo);
+
   return (
     <Wrapper>
       <AppBar leftHeaderAction={leftHeaderAction} rightHeaderActionArr={rightHeaderActionArr} />
-      <SettingModal
+      {isLoading ? <Loading /> : <SettingModal
         isOpened={modalState}
         onClose={closeModal}
         profileImg={myInfo?.profileImageUrl}
-      />
+      />}
       {myInfo && <ProfileHeader myInfo={myInfo} />}
-      <MyBodyTypeCard img={myInfo?.profileImageUrl} />
+      <MyBodyTypeCard img={myInfo?.profileImageUrl} bodyType={myInfo?.bodyType} data={data?.result} />
       <MyPageContentLayout />
     </Wrapper>
   );
