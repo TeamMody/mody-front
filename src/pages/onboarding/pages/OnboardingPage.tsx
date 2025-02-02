@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 
 export const OnboardingPage = () => {
   const navigate = useNavigate();
-  const handleAccount = (e: React.MouseEvent<HTMLSpanElement>) => {
+  const handleSignIn = (e: React.MouseEvent<HTMLSpanElement>) => {
     console.log(e);
   };
 
@@ -38,10 +38,13 @@ export const OnboardingPage = () => {
       </Button>
 
       <AccountContainer>
-        <span onClick={handleAccount} className="signin">
+        <span onClick={() => navigate('/onboarding/signin')} className="signin">
           이메일로 로그인
         </span>
-        |<span className="signup">이메일로 회원가입</span>
+        |
+        <span className="signup" onClick={() => navigate('/onboarding/signup')}>
+          이메일로 회원가입
+        </span>
       </AccountContainer>
       <Policy>
         계속 진행됨에 따라 <span className="link">이용약관</span>과 개인정보{' '}

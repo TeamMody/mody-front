@@ -3,11 +3,12 @@ import { useEffect, useState } from 'react';
 import ProgressBar from '@shared/ui/ProgressBar';
 import Logo from '@shared/assets/icon/ic-inputuser-logo.svg?react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router';
 import InputUserMain from '@onboarding/ui/InputUserMain';
 import { UserInfoSchema, UserInfoSchemaType } from '@onboarding/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
-
+import { apiInstance } from '@shared/apis/instance';
+import { useNavigate } from 'react-router';
+import { handleOnSubmit } from '@onboarding/utils/handleOnSubmit';
 export const InputUser = () => {
   const [curIdx, setCurIdx] = useState<number>(0);
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
@@ -34,12 +35,7 @@ export const InputUser = () => {
 
   const handleButtonClick = () => {
     if (curIdx < 3) setCurIdx((prev) => ++prev);
-  };
-  const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log('form submitted');
-    console.log(getValues());
-    // navigate('/body-survey');
+    if (curIdx === 3) navigate('/body-survey');
   };
 
   const handleIsValid = (curIdx: number): boolean => {
@@ -60,7 +56,7 @@ export const InputUser = () => {
 
   // 값이 바뀔 때마다 전체 값이 렌더링되는 현상 발생
   return (
-    <Wrapper onSubmit={handleOnSubmit}>
+    <Wrapper onSubmit={(e) => handleOnSubmit(e, curIdx, getValues)}>
       <ProgressBar length={4} curIdx={curIdx} />
       <CustomLogo />
       <InputUserMain
@@ -72,8 +68,8 @@ export const InputUser = () => {
       />
       <ButtonContainer>
         <Button
-          type={curIdx !== 3 ? 'button' : 'submit'}
-          onClick={curIdx !== 3 ? handleButtonClick : undefined}
+          type={curIdx !== 2 ? 'button' : 'submit'}
+          onClick={handleButtonClick}
           disabled={isButtonDisabled}
         >
           {curIdx !== 3 ? '다음' : '체형 분석하기'}
