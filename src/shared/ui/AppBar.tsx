@@ -6,7 +6,6 @@ interface AppBarProps {
   leftHeaderAction: HeaderAction;
   rightHeaderActionArr?: HeaderAction[];
 }
-
 const AppBar = ({ title, leftHeaderAction, rightHeaderActionArr }: AppBarProps) => {
   const { icon, onClick } = leftHeaderAction;
 
@@ -33,9 +32,7 @@ const AppBar = ({ title, leftHeaderAction, rightHeaderActionArr }: AppBarProps) 
     </Wrapper>
   );
 };
-
 export default AppBar;
-
 const Wrapper = styled.header`
   display: flex;
   justify-content: space-between;
@@ -46,11 +43,9 @@ const Wrapper = styled.header`
   align-items: center;
   padding: 0 20px;
   background: linear-gradient(to bottom, #121212, #262626);
-
   img {
     flex-shrink: 0;
   }
-
   p {
     position: absolute;
     left: 50%;
@@ -61,7 +56,6 @@ const Wrapper = styled.header`
     margin: 0;
     text-align: center;
   }
-
   div {
     display: flex;
     gap: 24px;
