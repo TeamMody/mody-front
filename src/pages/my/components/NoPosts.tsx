@@ -1,6 +1,10 @@
 import styled from 'styled-components';
+import { RecommendationModal } from './modal/RecommendationModal';
+import { useState } from 'react';
 
 const NoPosts = ({ activeTab }: { activeTab: string }) => {
+  const [modalState, setModalState] = useState<boolean>(false);
+
   return (
     <Wrapper>
       <NoPostsWrapper>
@@ -13,8 +17,16 @@ const NoPosts = ({ activeTab }: { activeTab: string }) => {
               : null}
       </NoPostsWrapper>
       {activeTab === 'recommend' ? (
-        <GetRecommendWrapper>추천 받으러 가기</GetRecommendWrapper>
+        <GetRecommendWrapper onClick={() => setModalState(true)}>
+          추천 받으러 가기
+        </GetRecommendWrapper>
       ) : null}
+      <RecommendationModal
+        isOpened={modalState}
+        content="스타일을 추천 받으러 가볼까요?"
+        btnText="스타일 추천 받기"
+        onClose={() => setModalState(false)}
+      />
     </Wrapper>
   );
 };

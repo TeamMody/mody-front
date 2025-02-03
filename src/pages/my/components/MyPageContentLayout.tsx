@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import RenderTabContent from '@pages/my/components/RenderTabContent.tsx';
 import { MiddleTabBar } from '@pages/my/components/MiddleTabBar.tsx';
 import IcHexagon from '@shared/assets/icon/ic-hexagon.tsx';
 import IcGrid from '@shared/assets/icon/ic-grid.tsx';
@@ -7,6 +6,8 @@ import IcHeart from '@shared/assets/icon/ic-heart.tsx';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import styled from 'styled-components';
+import MyAndLikePosts from './MyAndLikePosts';
+import RecommendResults from './RecommendResults';
 export const MyPageContentLayout = () => {
   const [activeTab, setActiveTab] = useState<string>('recommend');
 
@@ -31,10 +32,12 @@ export const MyPageContentLayout = () => {
         showThumbs={false} // 썸네일 표시 숨김
         showIndicators={false} // 인디케이터 숨김
         emulateTouch={true} // 터치 제스처 사용
+        swipeScrollTolerance={50}
+        preventMovementUntilSwipeScrollTolerance={true} // 설정된 거리까지 스와이프 대기
       >
-        <RenderTabContent activeTab={'recommend'} />
-        <RenderTabContent activeTab={'post'} />
-        <RenderTabContent activeTab={'like'} />
+        <RecommendResults activeTab={'recommend'} />
+        <MyAndLikePosts activeTab={'post'} />
+        <MyAndLikePosts activeTab={'like'} />
       </StyledCarousel>
     </>
   );

@@ -7,12 +7,20 @@ import StyleSurvey from '@home/components/StyleSurvey.tsx';
 import CustomButton from '@shared/ui/CustomButton.tsx';
 import { keywords, styleKeywords } from '@shared/apis/home/mocks.ts';
 import { useStyleSurveyStore } from '@home/feature/store/useStyleSurveyStore.ts';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
+import { useMyInfoStore } from '@shared/store/useMyInfoStore.ts';
+import { Loading } from '@home/components/Loading.tsx';
+import debounce from 'lodash/debounce';
+import { usePostFashionAnalysis } from '@home/feature/hooks/mutate/usePostFashionAnalysis.ts';
+import { usePostStyleAnalysis } from '@home/feature/hooks/mutate/usePostStyleAnalysis.ts';
 
 export const StyleSurveyPage = () => {
+  const { myInfo } = useMyInfoStore();
   const { resetKeywords } = useStyleSurveyStore();
   const { type } = useLocation().state as { type: RecommendationType };
   const navigate = useNavigate();
+  const { mutate: mutateStyle, isSuccess: isStyleSuccess, data: styleData, isPending: isStylePending } = usePostStyleAnalysis();
+  const { mutate: mutateFashion, isSuccess:isFashionSuccess, data: fashionData, isPending: isFashionPending } = usePostFashionAnalysis();
 
   useEffect(() => {
     resetKeywords();
@@ -22,9 +30,34 @@ export const StyleSurveyPage = () => {
     icon: IcLeftArrow, onClick: () => navigate(-1),
   };
 
-  const handleNavigate = () => {
-    navigate('/recommendation-result', { state: { type: type } });
+  const handleClick = () => {
+    if (type === RecommendationType.STYLE) {
+      mutateStyle();
+    } else {
+      mutateFashion();
+    }
   };
+
+  const debouncedApiRequest = useCallback(debounce(handleClick, 500), [handleClick]);
+
+  useEffect(() => {
+    if (myInfo && myInfo.bodyType === null) {
+      navigate(-1);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isStyleSuccess) {
+      navigate('/recommendation-result', { state: { type: type, result: styleData?.result } });
+    }
+    if (isFashionSuccess) {
+      navigate('/recommendation-fashion-result', { state: { type: type, result: fashionData?.result } });
+    }
+  }, [isStyleSuccess, isFashionSuccess]);
+
+  if (isStylePending || isFashionPending) {
+    return <Loading type={type} />;
+  }
 
   return (
     <Wrapper>
@@ -34,7 +67,8 @@ export const StyleSurveyPage = () => {
         <StyleSurvey category="disliked" keywords={keywords} />
         <StyleSurvey category="image" keywords={styleKeywords} />
         <ButtonContainer>
-        <CustomButton label="스타일 추천 받기" onClick={handleNavigate} active={true} paddingTop="19px" paddingBottom="19px" />
+          <CustomButton label="스타일 추천 받기" onClick={debouncedApiRequest} active={true} paddingTop="19px"
+                        paddingBottom="19px" />
         </ButtonContainer>
       </KeywordsContainer>
     </Wrapper>
