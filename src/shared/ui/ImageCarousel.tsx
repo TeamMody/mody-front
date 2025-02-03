@@ -3,6 +3,9 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a lo
 import ProgressBar from '@shared/ui/ProgressBar';
 import { Carousel } from 'react-responsive-carousel';
 
+interface ImgType {
+  s3Url: string;
+}
 const ImageCarousel = ({
   images,
   height = '60vh',
@@ -12,7 +15,7 @@ const ImageCarousel = ({
   marginTop,
   imgZoomed,
 }: {
-  images: string[];
+  images: ImgType[];
   height?: string;
   isExpanded?: boolean;
   imgIdx: number;
@@ -20,7 +23,6 @@ const ImageCarousel = ({
   marginTop?: string | undefined;
   imgZoomed?: boolean;
 }) => {
-  console.log(images);
   return (
     <>
       <StyledCarousel

@@ -6,11 +6,15 @@ import FullHeart from '@shared/assets/icon/ic-full-heart.svg?react';
 import ImageCarousel from '@shared/ui/ImageCarousel';
 import EditBottomSheet from './EditBottomSheetModal';
 import Report from '@pages/post/components/Report';
+import usePostLike from '@pages/post/hooks/usePostLike';
 
+interface ImgType {
+  s3Url: string;
+}
 interface PostPropsType {
   bodyType: string;
   content: string;
-  files: string[];
+  files: ImgType[];
   isLiked: boolean;
   isPublic: boolean;
   likeCount: number;
@@ -62,14 +66,16 @@ const Info = memo(
     setIsExpanded: React.Dispatch<React.SetStateAction<boolean>>;
   }) => {
     const [isMoreClicked, setIsMoreClicked] = useState<boolean>(false);
+    const postLikeMutation = usePostLike();
 
+    console.log(data);
     const handleClickMore = (e: React.MouseEvent<SVGElement>) => {
       e.stopPropagation();
       setIsMoreClicked(true);
     };
     const handleClickHeart = (e: React.MouseEvent<SVGElement>) => {
       e.stopPropagation();
-      console.log('Heart clicked', e);
+      postLikeMutation.mutate(data.postId);
     };
 
     return (

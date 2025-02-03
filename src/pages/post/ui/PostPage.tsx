@@ -11,11 +11,15 @@ import { useNavigate } from 'react-router';
 import { useRef } from 'react';
 import useGetPostData from '../hooks/useGetPostData';
 import useIntersectionObserver from '../hooks/useIntersectionObserver';
+import logo from '@shared/assets/icon/ic-logo.svg';
 
+interface ImgType {
+  s3Url: string;
+}
 interface PostPropsType {
   bodyType: string;
   content: string;
-  files: string[];
+  files: ImgType[];
   isLiked: boolean;
   isPublic: boolean;
   likeCount: number;
@@ -86,7 +90,7 @@ export const PostPage = () => {
   return (
     <>
       <AppBar
-        leftHeaderAction={leftHeaderAction}
+        leftHeaderAction={{ icon: logo, onClick: () => navigate('/home') }}
         title={'김모디'}
         rightHeaderActionArr={rightHeaderActionArr}
       />

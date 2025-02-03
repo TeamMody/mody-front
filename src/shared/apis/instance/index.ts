@@ -22,7 +22,6 @@ apiInstance.interceptors.request.use((config) => {
   if (apiURL && nonToken.includes(apiURL)) return config;
 
   const { accessToken } = useAuthStore.getState();
-  console.log(accessToken);
   if (accessToken) {
     (config.headers as Record<string, any>).Authorization = `Bearer ${accessToken}`;
   }
