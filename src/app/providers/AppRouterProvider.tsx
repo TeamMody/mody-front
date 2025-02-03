@@ -11,19 +11,5 @@ export const AppRouterProvider = () => {
     mutation.mutate();
   }, [accessToken]);
 
-  // useEffect(() => {
-  //   const testFetch = async () => {
-  //     const response = await fetch('https://kkoalla.app:8443/auth/reissue', {
-  //       method: 'POST',
-  //       credentials: 'include', // withCredentials 역할
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //     });
-
-  //     console.log(await response.json());
-  //   };
-  //   testFetch();
-  // }, [accessToken]);
   return <RouterProvider router={router} />;
 };

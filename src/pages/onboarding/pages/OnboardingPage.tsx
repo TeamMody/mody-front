@@ -2,33 +2,14 @@ import styled from 'styled-components';
 import Logo from '@shared/assets/icon/ic-onboarding-logo.svg?react';
 import KakaoLogo from '@pages/onboarding/icons/ic-kakao-logo.svg?react';
 import { useNavigate } from 'react-router';
-import axios from 'axios';
-import { apiInstance } from '@shared/apis/instance';
-import { useEffect } from 'react';
 
 export const OnboardingPage = () => {
   const navigate = useNavigate();
-  const handleSignIn = (e: React.MouseEvent<HTMLSpanElement>) => {
-    console.log(e);
-  };
 
   const handleKakaoLogin = () => {
-    window.location.href = `${import.meta.env.VITE_SERVER_ADDRESS}/oauth2/authorization/kakao`;
+    navigate(`${import.meta.env.VITE_SERVER_ADDRESS}/oauth2/authorization/kakao`);
   };
 
-  useEffect(() => {
-    const test = () => {
-      apiInstance
-        .get('/test')
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
-    test();
-  }, []);
   return (
     <Wrapper>
       <CustomLogo />

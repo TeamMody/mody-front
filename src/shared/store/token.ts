@@ -18,7 +18,7 @@ export const useAuthStore = create<TokenState>()(
     (set) => ({
       accessToken: '',
       setAccessToken: (token: string) => set({ accessToken: token }),
-      logOut: () => set({ accessToken: ''}),
+      logOut: () => set({ accessToken: '' }),
     }),
     {
       name: 'access-token-storage',

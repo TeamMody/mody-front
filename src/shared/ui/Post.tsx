@@ -6,23 +6,28 @@ import FullHeart from '@shared/assets/icon/ic-full-heart.svg?react';
 import ImageCarousel from '@shared/ui/ImageCarousel';
 import EditBottomSheet from './EditBottomSheetModal';
 import Report from '@pages/post/components/Report';
+import usePostLike from '@pages/post/hooks/usePostLike';
 
-interface PostPropsType {
-  images: string[];
-  name: string;
-  type: string;
-  description: string;
-  likeCount: number;
-  isLiked: boolean;
+interface ImgType {
+  s3Url: string;
 }
-
+interface PostPropsType {
+  bodyType: string;
+  content: string;
+  files: ImgType[];
+  isLiked: boolean;
+  isPublic: boolean;
+  likeCount: number;
+  postId: number;
+  writerId: number;
+  writerNickname: string;
+}
 const Post = memo(
-  ({ data, type }: { data: PostPropsType; type: string }) => {
+  ({ data }: { data: PostPropsType }) => {
     const [imgIdx, setImgIdx] = useState<number>(0);
     const [isExpanded, setIsExpanded] = useState<boolean>(false);
 
-    const images = data.images;
-
+    const images = data.files;
     return (
       <Container>
         <ImageCarousel
@@ -31,7 +36,7 @@ const Post = memo(
           imgIdx={imgIdx}
           setImgIdx={setImgIdx}
         />
-        <Info isExpanded={isExpanded} data={data} setIsExpanded={setIsExpanded} type={type} />
+        <Info isExpanded={isExpanded} data={data} setIsExpanded={setIsExpanded} />
       </Container>
     );
   },
@@ -55,31 +60,34 @@ const Info = memo(
     isExpanded,
     data,
     setIsExpanded,
-    type,
   }: {
     isExpanded: boolean;
     data: PostPropsType;
     setIsExpanded: React.Dispatch<React.SetStateAction<boolean>>;
-    type: string;
   }) => {
     const [isMoreClicked, setIsMoreClicked] = useState<boolean>(false);
+    const postLikeMutation = usePostLike();
 
+    console.log(data);
     const handleClickMore = (e: React.MouseEvent<SVGElement>) => {
       e.stopPropagation();
       setIsMoreClicked(true);
     };
     const handleClickHeart = (e: React.MouseEvent<SVGElement>) => {
       e.stopPropagation();
-      console.log('Heart clicked', e);
+      postLikeMutation.mutate(data.postId);
     };
+
     return (
-      <InfoContainer>
+      <InfoContainer id={data.postId}>
         <UserInfo isExpanded={isExpanded} onClick={() => setIsExpanded((prev) => !prev)}>
           <div className="user">
-            <span className="user-name">{data.name}</span>
-            <span className="user-type">{data.type}</span>
+            <span className="user-name" id={`${data.writerId}`}>
+              {data.writerNickname}
+            </span>
+            <span className="user-type">{data.bodyType}</span>
           </div>
-          <p className={`description ${isExpanded ? 'expanded' : ''}`}>{data.description}</p>
+          <p className={`description ${isExpanded ? 'expanded' : ''}`}>{data.content}</p>
         </UserInfo>
         <DescriptionContainer>
           <div className="heart">
@@ -95,13 +103,13 @@ const Info = memo(
             {/* onClick event 설정 */}
             <MoreVertical onClick={handleClickMore} />
           </div>
-          {type === 'my' && (
+          {data.isPublic && (
             <EditBottomSheet
               isOpen={isMoreClicked}
               onClose={() => setIsMoreClicked(false)}
             ></EditBottomSheet>
           )}
-          {type === 'public' && isMoreClicked && <Report />}
+          {!data.isPublic && isMoreClicked && <Report />}
         </DescriptionContainer>
       </InfoContainer>
     );
@@ -115,7 +123,7 @@ const Info = memo(
   },
 );
 
-const InfoContainer = styled.div`
+const InfoContainer = styled.div<{ id: number }>`
   width: 100%;
   height: 20%;
   background-color: transparent;
@@ -186,6 +194,12 @@ const DescriptionContainer = styled.div`
   .more-vertical {
     display: flex;
     align-items: center;
+  }
+  .heart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 15px;
   }
 `;
 

@@ -1,21 +1,17 @@
 import { apiInstance } from '@shared/apis/instance';
 import { useMutation } from '@tanstack/react-query';
-import useAuthStore from '@shared/store/token';
+
+// refresh 오류 처리를 굳이 interceptor로 할 필요가 있을까
 
 const useRefreshMutation = () => {
   const refreshMutation = useMutation({
     mutationFn: async () => {
       const response = await apiInstance.post('/auth/reissue');
-      return response;
+      console.log('성공');
+      return response.data;
     },
     onSuccess: (data) => {
-      console.log(data);
-      // const accessToken = data.headers.authorization.split(' ')[1];
-      // const { setAccessToken } = useAuthStore.getState();
-      // setAccessToken(accessToken);
-    },
-    onError: (err) => {
-      console.log(err);
+      return data.result.accessToken;
     },
   });
   return refreshMutation;

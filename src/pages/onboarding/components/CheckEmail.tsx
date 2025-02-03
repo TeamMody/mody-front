@@ -9,6 +9,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { StateProps } from '@shared/types';
 import useSignupStore from '../store/signup';
+import { sendVerify } from '../utils/sendVerify';
 
 interface CheckEmailProps extends StateProps<boolean> {}
 
@@ -28,6 +29,7 @@ const CheckEmail = ({ value: codeSent, setValue: setCodeSent }: CheckEmailProps)
   const { setEmail } = useSignupStore();
 
   const onSubmit = (data: EmailSchemaType) => {
+    sendVerify(data.email);
     setMessage('인증 코드가 전송되었어요.');
     setEmail(data.email);
     setCodeSent(true);
