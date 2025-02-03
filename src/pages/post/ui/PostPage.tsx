@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import AppBar from '@shared/ui/AppBar.tsx';
-import { IcLeftArrow } from '@shared/assets/icon/ic-left-arrow.tsx';
 import plus from '@shared/assets/icon/ic-plus.svg';
 import Post from '@shared/ui/Post.tsx';
 import TempImg1 from '@post/images/tempImg1.jpg';
@@ -67,8 +66,6 @@ export const mockData: PostPropsType[] = [
 
 export const PostPage = () => {
   const navigate = useNavigate();
-
-  const leftHeaderAction = { icon: IcLeftArrow, onClick: () => navigate('home') };
   const rightHeaderActionArr = [{ icon: plus, onClick: () => navigate('createPost') }];
   // Post내부 Container 리렌더링 발생은 나중에 해결
   const memoizedData = useMemo(() => mockData, []);
@@ -76,7 +73,6 @@ export const PostPage = () => {
   return (
     <>
       <AppBar
-        leftHeaderAction={leftHeaderAction}
         title={'김모디'}
         rightHeaderActionArr={rightHeaderActionArr}
       />
