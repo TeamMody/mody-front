@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import { ToggleButton } from '@shared/ui/ToggleButton';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { ConfirmationModal } from './modal/ConfirmationModal';
+import { useModalStore } from '@my/features/store/useModalState.ts';
 
 interface BottomSheetItemProps {
   content: '수정하기' | '삭제하기' | '나만보기';
@@ -19,14 +20,7 @@ const BottomSheetItem = ({ content, icon, setButtonState }: BottomSheetItemProps
     if (setButtonState) setButtonState(!isOn);
   };
 
-  // 모달 상태 관리
-  const [modalState, setModalState] = useState<boolean>(false);
-  const openModal = () => {
-    setModalState(true);
-  };
-  const closeModal = () => {
-    setModalState(false);
-  };
+  const { modalState, closeModal, openModal } = useModalStore()
 
   const handleOnClick = () => {
     if (content === '수정하기') {
@@ -38,9 +32,6 @@ const BottomSheetItem = ({ content, icon, setButtonState }: BottomSheetItemProps
     }
   };
 
-  useEffect(() => {
-    console.log(modalState);
-  }, [modalState]);
   return (
     <SheetContentItem onClick={handleOnClick}>
       <Content>{content}</Content>
@@ -51,7 +42,7 @@ const BottomSheetItem = ({ content, icon, setButtonState }: BottomSheetItemProps
       )}
       {modalState && (
         <ConfirmationModal
-          isOpened={true}
+          isOpened={modalState}
           content="이 게시글을 삭제할까요?"
           onClose={closeModal}
           index={2}
