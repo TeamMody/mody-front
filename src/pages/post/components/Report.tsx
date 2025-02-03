@@ -1,8 +1,9 @@
 import ReportIcon from '@shared/assets/icon/ic-report.svg?react';
 import styled from 'styled-components';
 const Report = () => {
+  const handleReport = () => {};
   return (
-    <Container>
+    <Container onClick={handleReport}>
       <ReportIcon />
       <span>신고하기</span>
     </Container>

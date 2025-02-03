@@ -187,6 +187,12 @@ const DescriptionContainer = styled.div`
     display: flex;
     align-items: center;
   }
+  .heart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 15px;
+  }
 `;
 
 export default Post;

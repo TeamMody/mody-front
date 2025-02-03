@@ -8,6 +8,9 @@ import TempImg2 from '@post/images/tempImg2.jpg';
 import TempImg3 from '@post/images/tempImg3.png';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router';
+import { useRef } from 'react';
+import useGetPostData from '../hooks/useGetPostData';
+import useIntersectionObserver from '../hooks/useIntersectionObserver';
 
 interface PostPropsType {
   images: string[];
@@ -56,7 +59,7 @@ export const mockData: PostPropsType[] = [
     isLiked: false,
   },
   {
-    images: [TempImg1, TempImg2],
+    images: [TempImg1],
     name: '사람2',
     type: '네모형 체형',
     description: '테스트 데이터입니다. ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ',
@@ -73,6 +76,11 @@ export const PostPage = () => {
   // Post내부 Container 리렌더링 발생은 나중에 해결
   const memoizedData = useMemo(() => mockData, []);
 
+  const bottomRef = useRef<HTMLDivElement | null>(null);
+  const { data: postData, isLoading, error, fetchNextPage } = useGetPostData();
+  useIntersectionObserver(bottomRef, fetchNextPage);
+
+  console.log(postData);
   return (
     <>
       <AppBar
@@ -85,7 +93,9 @@ export const PostPage = () => {
         {memoizedData.map((data, index) => (
           <Post key={index} data={data} type={'public'} />
         ))}
+        {isLoading && <div>로딩중</div>}
       </Container>
+      {/* <BottomRef className="bottomRef" ref={bottomRef}></BottomRef> */}
     </>
   );
 };
@@ -95,6 +105,12 @@ const Container = styled.div`
   height: calc(100vh - 9vh - 64px);
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
+  position: relative;
 `;
 
+const BottomRef = styled.div`
+  width: 100%;
+  height: 5vh;
+  border: 1px solid red;
+`;
 export default PostPage;
