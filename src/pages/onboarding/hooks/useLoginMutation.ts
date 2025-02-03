@@ -25,13 +25,13 @@ const useLoginMutation = () => {
 
       const { setAccessToken } = useAuthStore.getState();
       setAccessToken(accessToken);
-      // setTimeout(() => {
-      //   if (registrationCompleted) {
-      //     navigate('/');
-      //   } else {
-      //     navigate('/onboarding/inputuser');
-      //   }
-      // }, 1000);
+      setTimeout(() => {
+        if (registrationCompleted) {
+          navigate('/');
+        } else {
+          navigate('/onboarding/inputuser');
+        }
+      }, 500);
     },
     onError: (error: AxiosError) => {
       const axiosError = error as AxiosError<ErrorResponse>;

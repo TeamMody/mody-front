@@ -20,6 +20,7 @@ const ImageCarousel = ({
   marginTop?: string | undefined;
   imgZoomed?: boolean;
 }) => {
+  console.log(images);
   return (
     <>
       <StyledCarousel
@@ -38,7 +39,7 @@ const ImageCarousel = ({
         {images.map((img, idx) => {
           return (
             <div key={idx}>
-              <img src={img} />;
+              <img src={img.s3Url} />;
             </div>
           );
         })}

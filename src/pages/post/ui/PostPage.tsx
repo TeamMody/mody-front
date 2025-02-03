@@ -13,12 +13,15 @@ import useGetPostData from '../hooks/useGetPostData';
 import useIntersectionObserver from '../hooks/useIntersectionObserver';
 
 interface PostPropsType {
-  images: string[];
-  name: string;
-  type: string;
-  description: string;
-  likeCount: number;
+  bodyType: string;
+  content: string;
+  files: string[];
   isLiked: boolean;
+  isPublic: boolean;
+  likeCount: number;
+  postId: number;
+  writerId: number;
+  writerNickname: string;
 }
 
 export const mockData: PostPropsType[] = [
@@ -80,7 +83,6 @@ export const PostPage = () => {
   const { data: postData, isLoading, error, fetchNextPage } = useGetPostData();
   useIntersectionObserver(bottomRef, fetchNextPage);
 
-  console.log(postData);
   return (
     <>
       <AppBar
@@ -90,9 +92,7 @@ export const PostPage = () => {
       />
 
       <Container>
-        {memoizedData.map((data, index) => (
-          <Post key={index} data={data} type={'public'} />
-        ))}
+        {postData && postData.map((data, index) => <Post key={index} data={data} />)}
         {isLoading && <div>로딩중</div>}
       </Container>
       {/* <BottomRef className="bottomRef" ref={bottomRef}></BottomRef> */}
