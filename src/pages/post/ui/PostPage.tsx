@@ -10,67 +10,63 @@ import { useNavigate } from 'react-router';
 import { useRef } from 'react';
 import useGetPostData from '../hooks/useGetPostData';
 import useIntersectionObserver from '../hooks/useIntersectionObserver';
-import logo from '@shared/assets/icon/ic-logo.svg';
+import { FileData, PostData } from '@shared/types/my/my';
 
-interface ImgType {
-  s3Url: string;
-}
-interface PostPropsType {
-  bodyType: string;
-  content: string;
-  files: ImgType[];
-  isLiked: boolean;
-  isPublic: boolean;
-  likeCount: number;
-  postId: number;
-  writerId: number;
-  writerNickname: string;
-}
+const file1: FileData = {
+  s3Url: TempImg1,
+};
+const file2: FileData = {
+  s3Url: TempImg2,
+};
+const file3: FileData = {
+  s3Url: TempImg3,
+};
 
-export const mockData: PostPropsType[] = [
+export const mockData: PostData[] = [
   {
-    images: [
-      TempImg3,
-      TempImg2,
-      TempImg3,
-      TempImg1,
-      TempImg1,
-      TempImg1,
-      TempImg1,
-      TempImg3,
-      TempImg2,
-      TempImg3,
-    ],
-    name: '사람1',
-    type: '네모형 체형',
-    description:
+    files: [file3, file2, file3, file1, file1, file1, file1, file3, file2, file3],
+    writerNickname: '사람1',
+    bodyType: '네모형 체형',
+    content:
       '안녕하세요 ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋzzzzzzzzzzzzzzzzzzzㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ',
     likeCount: 112,
     isLiked: true,
+    postId: 1,
+    writerId: 1,
+    isPublic: true,
   },
   {
-    images: [TempImg1, TempImg2],
-    name: '사람2',
-    type: '네모형 체형',
-    description: '테스트 데이터입니다. ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ',
+    files: [file1, file2],
+    writerNickname: '사람2',
+    bodyType: '네모형 체형',
+    content: '테스트 데이터입니다. ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ',
     likeCount: 98,
     isLiked: false,
+    postId: 2,
+    writerId: 1,
+    isPublic: true,
   },
   {
-    images: [TempImg1, TempImg2],
-    name: '사람2',
-    type: '네모형 체형',
-    description: '테스트 데이터입니다. ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ',
+    files: [file1, file2],
+    writerNickname: '사람2',
+    bodyType: '네모형 체형',
+    content: '테스트 데이터입니다. ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ',
     likeCount: 98,
     isLiked: false,
+    postId: 3,
+    writerId: 1,
+    isPublic: true,
   },
   {
-    images: [TempImg1],
-    name: '사람2',
-    type: '네모형 체형',
-    description: '테스트 데이터입니다. ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ',
+    files: [file1],
+    writerNickname: '사람2',
+    bodyType: '네모형 체형',
+    content: '테스트 데이터입니다. ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ',
     likeCount: 98,
     isLiked: false,
+    postId: 4,
+    writerId: 1,
+    isPublic: true,
   },
 ];
 
@@ -86,13 +82,10 @@ export const PostPage = () => {
 
   return (
     <>
-      <AppBar
-        title={'김모디'}
-        rightHeaderActionArr={rightHeaderActionArr}
-      />
+      <AppBar title={'김모디'} rightHeaderActionArr={rightHeaderActionArr} />
 
       <Container>
-        {postData && postData.map((data, index) => <Post key={index} data={data} />)}
+        {postData && postData.map((data, index) => <Post key={index} data={data} type={'all'} />)}
         {isLoading && <div>로딩중</div>}
       </Container>
       {/* <BottomRef className="bottomRef" ref={bottomRef}></BottomRef> */}

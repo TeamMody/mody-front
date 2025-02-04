@@ -5,15 +5,6 @@ import Post from '@shared/ui/Post.tsx';
 import { useLocation, useNavigate } from 'react-router';
 import { HeaderAction } from '@shared/types';
 
-interface PostPropsType {
-  images: string[];
-  name: string;
-  type: string;
-  description: string;
-  likeCount: number;
-  isLiked: boolean;
-}
-
 export const PostDetailPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -24,9 +15,7 @@ export const PostDetailPage = () => {
     <>
       <AppBar leftHeaderAction={leftHeaderAction} title={title} />
       <Container>
-        {data.map((data: PostPropsType, index: number) => (
-          <Post key={index} data={data} type={'my'} />
-        ))}
+        <Post data={data} type={'my'} />
       </Container>
     </>
   );
