@@ -1,19 +1,20 @@
 import styled from 'styled-components';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ModalProps } from '@shared/types/my/modalProps';
 import { IcLeftArrow } from '@shared/assets/icon/ic-left-arrow';
 import CustomDivider from '@shared/ui/CustomDivider';
 import { ToggleButton } from '@pages/post/components/toggleButton';
-import ImageCarousel from '@shared/ui/ImageCarousel';
-import IcZoom from '@shared/assets/icon/ic-zoom.svg?react';
+import ImageCarousel2 from '@shared/ui/ImageCarousel2';
+import IcZoomIn from '@shared/assets/icon/ic-zoom-in.svg?react';
+import IcZoomOut from '@shared/assets/icon/ic-zoom-out.svg?react';
 import { createS3url } from '@pages/post/apis/createS3Url';
 import { presignedUrlProps } from '@pages/post/apis/createPresignedUrl';
 import { useCreatePost } from '@pages/post/hooks/useCreatePost';
 
 interface ImgModalProps extends ModalProps {
-  selectedImages: string[];
+  selectedImages: (string | undefined)[];
   imgZoom: boolean;
   setImgZoom: React.Dispatch<React.SetStateAction<boolean>>;
   presignedUrls: presignedUrlProps[] | undefined;
@@ -31,12 +32,12 @@ export const CreateNewPostModal = ({
   const [textState, setTextState] = useState<string | undefined>(undefined);
   const [buttonState, setButtonState] = useState<boolean>(false);
   const { mutate } = useCreatePost();
-
+  console.log(selectedImages);
   const handleClose = async () => {
     try {
       if (presignedUrls) {
         const S3Urls = await createS3url({ selectedImages, presignedUrls });
-
+        console.log(S3Urls);
         mutate({
           content: textState,
           isPublic: buttonState,
@@ -85,7 +86,7 @@ export const CreateNewPostModal = ({
           </TopBox>
           <BottomBox>
             <BottomImgContainer imgZoom={imgZoom}>
-              <ImageCarousel
+              <ImageCarousel2
                 images={selectedImages}
                 isExpanded={undefined}
                 imgIdx={imgIdx}
@@ -95,9 +96,15 @@ export const CreateNewPostModal = ({
               />
             </BottomImgContainer>
 
-            <ZoomButton onClick={handleImgZoom} imgZoom={imgZoom}>
-              <IcZoomStyle />
-            </ZoomButton>
+            {imgZoom ? (
+              <ZoomButton onClick={handleImgZoom} imgZoom={imgZoom}>
+                <IcZoomOutStyle />
+              </ZoomButton>
+            ) : (
+              <ZoomButton onClick={handleImgZoom} imgZoom={imgZoom}>
+                <IcZoomInStyle />
+              </ZoomButton>
+            )}
 
             <TextArea
               placeholder="게시글을 작성해주세요."
@@ -211,7 +218,14 @@ const SaveStyleButton = styled.button<{ textState: boolean | undefined }>`
   color: black;
 `;
 
-const IcZoomStyle = styled(IcZoom)`
+const IcZoomInStyle = styled(IcZoomIn)`
+  &:hover {
+    path {
+      stroke: ${({ theme }) => theme.colors.green500};
+    }
+  }
+`;
+const IcZoomOutStyle = styled(IcZoomOut)`
   &:hover {
     path {
       stroke: ${({ theme }) => theme.colors.green500};

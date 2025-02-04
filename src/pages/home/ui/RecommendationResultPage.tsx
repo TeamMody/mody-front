@@ -14,7 +14,7 @@ import { usePostLikeEvent } from '@home/feature/hooks/mutate/usePostLikeEvent.ts
 export const RecommendationResultPage: React.FC = () => {
   const { type, result } = useLocation().state as { type: RecommendationType, result: StyleAnalysisResponse };
   const navigate = useNavigate();
-  const { mutate } = usePostLikeEvent();
+  const { mutate } = usePostLikeEvent(type);
   const leftHeaderAction: HeaderAction = {
     icon: IcLeftArrow, onClick: () => navigate(-1),
   };

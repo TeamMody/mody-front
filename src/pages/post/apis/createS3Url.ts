@@ -1,32 +1,36 @@
 import { presignedUrlProps } from '@pages/post/apis/createPresignedUrl';
+
 export const createS3url = async ({
   selectedImages,
   presignedUrls,
 }: {
-  selectedImages: string[];
-  presignedUrls: presignedUrlProps[] | undefined;
-}): Promise<string[] | undefined> => {
+  selectedImages: (string | undefined)[];
+  presignedUrls: presignedUrlProps[];
+}): Promise<(string | undefined)[] | undefined> => {
   try {
-    if (presignedUrls) {
+    if (presignedUrls && selectedImages) {
       const uploadPromises = selectedImages.map(async (file, index) => {
         const presignedUrl = presignedUrls[index];
-
-        const fileType = await fetch(file);
-        const blob = await fileType.blob();
-
-        const response = await fetch(presignedUrl.presignedUrl, {
-          method: 'PUT',
-          headers: { 'Content-Type': blob.type },
-          body: blob,
-        });
-
-        if (!response.ok) {
-          throw new Error(`업로드 실패: ${response.statusText}`);
+        if (file) {
+          const uploadFile = await fetch(file);
+          const blob = await uploadFile.blob();
+          console.log(blob);
+          const response = await fetch(presignedUrl.presignedUrl, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': blob.type, // MIME 타입 설정
+            },
+            body: blob,
+          });
+          console.log(response);
+          if (!response.ok) {
+            throw new Error(`업로드 실패: ${response.statusText}`);
+          }
+          return presignedUrl.presignedUrl.split('?')[0];
         }
-        return presignedUrl.presignedUrl.split('?')[0];
       });
       const results = await Promise.all(uploadPromises);
-
+      console.log(results);
       console.log('upload 완료');
 
       return results;

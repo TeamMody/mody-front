@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import Post from '@pages/my/components/Post';
 import NoPosts from '@pages/my/components/NoPosts';
-import { PostData } from '@shared/types';
-import useGetInfinitePosts from '../hooks/useGetInfinitePosts';
+import useGetInfinitePosts from '../hooks/query/useGetInfinitePosts';
 import React, { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { SmallLoading } from '@shared/ui/SmallLoading';
+import { PostData } from '@shared/types/my/my';
 
 const MyAndLikePosts = ({ activeTab }: { activeTab: string }) => {
   const {
@@ -48,10 +48,16 @@ const MyAndLikePosts = ({ activeTab }: { activeTab: string }) => {
     }
   }, [userScrolled, hasNextPage, fetchNextPage, isFetchingNextPage]);
 
-  if (isLoading) return <p>로딩중</p>;
+  if (isLoading) {
+    return (
+      <LoadingWrapper>
+        <SmallLoading />
+      </LoadingWrapper>
+    );
+  }
   if (isError) return <p>에러</p>;
 
-  return (posts?.pages?.length ?? 0 > 0) ? (
+  return posts?.pages[0] ? (
     <MyAndLikePostsWrapper ref={containerRef}>
       {posts?.pages.map((post: PostData) => (
         <Post key={post.postId} data={post} activeTab={activeTab} />
@@ -62,6 +68,14 @@ const MyAndLikePosts = ({ activeTab }: { activeTab: string }) => {
     <NoPosts activeTab={activeTab} />
   );
 };
+
+const LoadingWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+`;
 
 const MyAndLikePostsWrapper = styled.div`
   display: grid;

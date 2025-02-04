@@ -7,7 +7,16 @@ export const fetchBodyAnalysis = async (body: BodyAnalysisRequest): Promise<Base
       timeout: 10000,
     });
     return response.data;
-  } catch (err) {
+  } catch ( err ) {
     console.error('Failed to fetch body analysis:', err);
   }
-}
+};
+
+export const fetchBodyAnalysisResult = async (): Promise<BaseResponse<BodyAnalysisResponse> | undefined> => {
+  try {
+    const response = await apiInstance.get<BaseResponse<BodyAnalysisResponse>>('/body-analysis/result');
+    return response.data;
+  } catch ( err ) {
+    console.error('Failed to fetch body analysis result');
+  }
+};

@@ -3,6 +3,7 @@ import { apiInstance } from '@shared/apis/instance';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import useAuthStore from '@shared/store/token';
+import { useNavigate } from 'react-router';
 
 interface ErrorResponse {
   message: string;
@@ -10,16 +11,27 @@ interface ErrorResponse {
 }
 
 const useLoginMutation = () => {
+  const navigate = useNavigate();
   const loginMutation = useMutation({
     mutationFn: async (data: LoginSchemaType) => {
       const response = await apiInstance.post('/auth/login', data);
-      return response;
+      return response.data;
     },
     onSuccess: (data) => {
-      const accessToken = data.data.result.accessToken;
+      const accessToken = data.result.accessToken;
+      const registrationCompleted = data.result.registrationCompleted;
+
+      console.log(accessToken);
+
       const { setAccessToken } = useAuthStore.getState();
       setAccessToken(accessToken);
-      window.location.href = '/';
+      setTimeout(() => {
+        if (registrationCompleted) {
+          navigate('/');
+        } else {
+          navigate('/onboarding/inputuser');
+        }
+      }, 500);
     },
     onError: (error: AxiosError) => {
       const axiosError = error as AxiosError<ErrorResponse>;
