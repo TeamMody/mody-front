@@ -44,7 +44,7 @@ export const SelectPhotoBottomSheetModal = ({
   const setImges = (e: ChangeEvent<HTMLInputElement>) => {
     const img = e.target.files?.[0];
     if (img) {
-      console.log(img);
+      // console.log(img);
       const imgUrl = URL.createObjectURL(img);
       setSelectedImages((prev) => {
         console.log(prev);
