@@ -20,6 +20,7 @@ export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
   const [presignedUrls, setPresignedUrls] = useState<presignedUrlProps[]>();
 
   const openModal = async (data: string[]) => {
+    console.log(data);
     const urls = await createPresignedUrl(data);
     setPresignedUrls(urls);
     setModalState(true);
