@@ -20,7 +20,7 @@ const BottomSheetItem = ({ content, icon, setButtonState }: BottomSheetItemProps
     if (setButtonState) setButtonState(!isOn);
   };
 
-  const { modalState, closeModal, openModal } = useModalStore()
+  const { modalState, closeModal, openModal } = useModalStore();
 
   const handleOnClick = () => {
     if (content === '수정하기') {
