@@ -18,7 +18,7 @@ export const createS3url = async ({
           const response = await fetch(presignedUrl.presignedUrl, {
             method: 'PUT',
             headers: {
-              'Content-Type': blob.type, // MIME 타입 설정
+              'Content-Type': blob.type,
             },
             body: blob,
           });
