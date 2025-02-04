@@ -1,4 +1,4 @@
-import { BaseResponse, PaginationProps } from '@shared/types';
+import { BaseResponse, PaginationProps, RecommendationsResponse } from '@shared/types';
 import { apiInstance } from './instance';
 import { PostData, PostResponse } from '@shared/types/my/my';
 
@@ -42,9 +42,7 @@ const getLikedPosts = async ({
 
 const getDetailPost = async (postId: number): Promise<BaseResponse<PostData>> => {
   try {
-    const response = await apiInstance.get<BaseResponse<Omit<PostData, 'cursorPagination'>>>(
-      `/posts/${postId}`,
-    );
+    const response = await apiInstance.get<BaseResponse<PostData>>(`/posts/${postId}`);
     return response.data;
   } catch (err) {
     console.error('Failed to get detail post:', err);
@@ -65,4 +63,21 @@ const deletePost = async (postId: number): Promise<Omit<BaseResponse<String>, 'r
   }
 };
 
-export { getMyPosts, getLikedPosts, getDetailPost, deletePost };
+const getRecommendationResults = async ({
+  cursor,
+  size,
+}: PaginationProps): Promise<BaseResponse<RecommendationsResponse>> => {
+  try {
+    const queryParams = new URLSearchParams({ size: size.toString() });
+    if (cursor) queryParams.append('cursor', cursor.toString());
+    const response = await apiInstance.get<BaseResponse<RecommendationsResponse>>(
+      `/recommendations?${queryParams.toString()}`,
+    );
+    return response.data;
+  } catch (err) {
+    console.error('Failed to get recommendation results:', err);
+    throw err;
+  }
+};
+
+export { getMyPosts, getLikedPosts, getDetailPost, deletePost, getRecommendationResults };
