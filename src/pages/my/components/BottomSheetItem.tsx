@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 import { ToggleButton } from '@shared/ui/ToggleButton';
 import React, { useState } from 'react';
+import { ConfirmationModal } from './modal/ConfirmationModal';
+import { useModalStore } from '@my/features/store/useModalState.ts';
 
 interface BottomSheetItemProps {
-  content: string;
+  content: '수정하기' | '삭제하기' | '나만보기';
   icon?: string;
   setButtonState?: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -17,13 +19,34 @@ const BottomSheetItem = ({ content, icon, setButtonState }: BottomSheetItemProps
     setIsOn((prevState) => !prevState);
     if (setButtonState) setButtonState(!isOn);
   };
+
+  const { modalState, closeModal, openModal } = useModalStore()
+
+  const handleOnClick = () => {
+    if (content === '수정하기') {
+      console.log('수정하기');
+    } else if (content === '삭제하기') {
+      openModal();
+    } else if (content === '나만보기') {
+      console.log('나만보기');
+    }
+  };
+
   return (
-    <SheetContentItem>
+    <SheetContentItem onClick={handleOnClick}>
       <Content>{content}</Content>
       {content === '나만보기' ? (
         <ToggleButton $isOn={isOn} onSetToggle={toggleState} />
       ) : (
         <img src={icon}></img>
+      )}
+      {modalState && (
+        <ConfirmationModal
+          isOpened={modalState}
+          content="이 게시글을 삭제할까요?"
+          onClose={closeModal}
+          index={2}
+        />
       )}
     </SheetContentItem>
   );

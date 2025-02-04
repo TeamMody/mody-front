@@ -1,5 +1,5 @@
 import AppBar from '@shared/ui/AppBar.tsx';
-import { HeaderAction, RecommendationType, StyleAnalysisResponse } from '@shared/types';
+import { HeaderAction, RecommendationType } from '@shared/types';
 import IcLeftArrow from '@icon/ic-left-arrow.svg';
 import { useLocation, useNavigate } from 'react-router';
 import styled from 'styled-components';
@@ -10,16 +10,17 @@ import { Loading } from '@home/components/Loading.tsx';
 import IcHeart from '@icon/ic-heart.svg';
 import IcHeartFill from '@icon/ic-heart-fill.svg';
 import { usePostLikeEvent } from '@home/feature/hooks/mutate/usePostLikeEvent.ts';
+import { FashionItemResponse } from '@shared/types/fashion/fashion.ts';
 
-export const RecommendationResultPage: React.FC = () => {
-  const { type, result } = useLocation().state as { type: RecommendationType, result: StyleAnalysisResponse };
+export const RecommendationFashionResultPage: React.FC = () => {
+  const { type, result } = useLocation().state as { type: RecommendationType, result: FashionItemResponse };
   const navigate = useNavigate();
   const { mutate } = usePostLikeEvent(type);
   const leftHeaderAction: HeaderAction = {
     icon: IcLeftArrow, onClick: () => navigate(-1),
   };
   const isSuccess: boolean = result !== undefined;
-  const [liked, setLiked] = useState<boolean>(result.isLiked);
+  const [liked, setLiked] = useState<boolean>(false);
 
   const rightHeaderActions: HeaderAction[] = [
     { icon: liked ? IcHeartFill : IcHeart, onClick: () => onCLickLike() },
@@ -31,7 +32,7 @@ export const RecommendationResultPage: React.FC = () => {
     } else {
       setLiked(true);
     }
-    mutate(result.styleId);
+    mutate(1);
   }
 
   const title = type === RecommendationType.STYLE ? '스타일 추천 결과' : '패션 추천 결과';
@@ -41,15 +42,13 @@ export const RecommendationResultPage: React.FC = () => {
     return <Loading type={type} />;
   }
 
-  const description = isSuccess ? `${result.introduction}\n\n${result.styleDirection}\n\n${result.practicalStylingTips}` : '에러 발생';
-
   return (
     <Wrapper>
       <AppBar leftHeaderAction={leftHeaderAction} title={title} rightHeaderActionArr={rightHeaderActions} />
       {isSuccess ? <Container>
           <Image src={ImgBannerBodyType} />
-          <BoldText>{result.recommendedStyle}</BoldText>
-          <Description>{description}</Description>
+          <BoldText>{result.itemGptResponse.item}</BoldText>
+          <Description>{result.itemGptResponse.description}</Description>
           <ButtonContainer>
             <CustomButton
               label="완료" onClick={() => navigate('/', { replace: true })}

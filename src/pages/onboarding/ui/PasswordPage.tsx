@@ -7,6 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import DoubleChekPassword from '../components/DoubleCheckPassword';
 import Message from '../components/Message';
 import { StateProps } from '@shared/types';
+import useSignupStore from '@onboarding/store/signup';
 
 interface PasswordPageProps extends StateProps<boolean> {}
 
@@ -24,9 +25,11 @@ const PasswordPage = ({ value: buttonActive, setValue: setButtonActive }: Passwo
     mode: 'onChange',
   });
   const { password, passwordConfirm } = watch();
+  const { setPassword } = useSignupStore();
 
   useEffect(() => {
     if (!errors.password && !errors.passwordConfirm && passwordConfirm === password) {
+      setPassword(password);
       setButtonActive(true);
     } else {
       setButtonActive(false);
