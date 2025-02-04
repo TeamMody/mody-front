@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import IcCamera from '@shared/assets/icon/ic-camera.svg?react';
 import IcGallery from '@shared/assets/icon/ic-gallery.svg?react';
 import { ImgLayout } from '@pages/post/components/ImgLayout';
-import { mockData } from '@pages/post/ui/PostPage';
+// import { mockData } from '@pages/post/ui/PostPage';
 import { useNavigate } from 'react-router';
 interface SelectPhotoBottomModalProps {
   isOpened: boolean;
@@ -22,7 +22,7 @@ export const SelectPhotoBottomSheetModal = ({
   setSelectedIds,
 }: SelectPhotoBottomModalProps) => {
   const ref = useRef<SheetRef>(null);
-  const mockImages = mockData.map((data) => data.images)[0];
+  // const mockImages = mockData.map((data) => data.images)[0];
   const navigate = useNavigate();
   const handleImageClick = (id: number, imgUrl: string) => {
     setSelectedIds((prev) => {
@@ -56,6 +56,8 @@ export const SelectPhotoBottomSheetModal = ({
             </div>
           </div>
           <div>
+            {/* 
+            // 이건 추후에 어떻게 할지 결정하고 주석 지우겠습니다
             {mockImages?.map((Img, Idx) => (
               <ImgLayout
                 ImgUrl={Img}
@@ -63,7 +65,7 @@ export const SelectPhotoBottomSheetModal = ({
                 order={selectedId.indexOf(Idx) + 1}
                 onClick={() => handleImageClick(Idx, Img)}
               />
-            ))}
+            ))} */}
           </div>
         </SheetContent>
       </SheetContainer>
