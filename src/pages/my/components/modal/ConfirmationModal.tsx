@@ -2,6 +2,7 @@ import { useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import ReactDOM from 'react-dom';
+import { useLogOut } from '@pages/my/hooks/query/useLogOut';
 interface ModalProps {
   isOpened: boolean;
   onClose: () => void;
@@ -31,8 +32,9 @@ export const ConfirmationModal = ({ isOpened, content, onClose, index }: ModalPr
   const handleClose = (index: number = 0) => {
     if (onClose) {
       if (index === 1) {
+        useLogOut();
         onClose();
-        navigate('/onboarding');
+        // navigate('/onboarding');
       } else if (index === 2) {
         onClose();
         navigate('/my'); // 삭제하기 모달에서 예를 눌렀을 때 라우팅 설정
