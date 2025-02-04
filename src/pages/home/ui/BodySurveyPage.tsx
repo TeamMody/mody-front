@@ -9,7 +9,7 @@ import CustomButton from '@shared/ui/CustomButton.tsx';
 import { useCallback, useEffect, useRef } from 'react';
 import { usePostBodyAnalysis } from '@home/feature/hooks/mutate/usePostBodyAnalysis.ts';
 import { BodyAnalysisRequest, RecommendationType } from '@shared/types';
-import { Loading } from '@home/components/Loading.tsx';
+import { RecommendationLoading } from '@home/components/RecommendationLoading.tsx';
 import debounce from 'lodash/debounce';
 
 export const BodySurveyPage = () => {
@@ -52,7 +52,7 @@ export const BodySurveyPage = () => {
   }, [isSuccess]);
 
   if (isPending) {
-    return <Loading type={RecommendationType.BODY_TYPE} />;
+    return <RecommendationLoading type={RecommendationType.BODY_TYPE} />;
   }
 
   return (

@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { fetchStyleCategories } from '@shared/apis/style/style.ts';
+import { fetchStyleCategories } from '@shared/apis/recommendations/recommendations.ts';
 
 export const useGetStyleCategories = () => {
   const result = useQuery({

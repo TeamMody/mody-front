@@ -1,25 +1,25 @@
 import AppBar from '@shared/ui/AppBar.tsx';
-import { HeaderAction, RecommendationType, StyleAnalysisResponse } from '@shared/types';
+import { HeaderAction, RecommendationResponse, RecommendationType } from '@shared/types';
 import IcLeftArrow from '@icon/ic-left-arrow.svg';
 import { useLocation, useNavigate } from 'react-router';
 import styled from 'styled-components';
 import CustomButton from '@shared/ui/CustomButton.tsx';
 import React, { useState } from 'react';
 import ImgBannerBodyType from '@shared/assets/img/img-banner-body-type.png';
-import { Loading } from '@home/components/Loading.tsx';
+import { RecommendationLoading } from '@home/components/RecommendationLoading.tsx';
 import IcHeart from '@icon/ic-heart.svg';
 import IcHeartFill from '@icon/ic-heart-fill.svg';
 import { usePostLikeEvent } from '@home/feature/hooks/mutate/usePostLikeEvent.ts';
 
 export const RecommendationResultPage: React.FC = () => {
-  const { type, result } = useLocation().state as { type: RecommendationType, result: StyleAnalysisResponse };
+  const { type, result } = useLocation().state as { type: RecommendationType, result: RecommendationResponse };
   const navigate = useNavigate();
-  const { mutate } = usePostLikeEvent(type);
+  const { mutate } = usePostLikeEvent();
   const leftHeaderAction: HeaderAction = {
     icon: IcLeftArrow, onClick: () => navigate(-1),
   };
   const isSuccess: boolean = result !== undefined;
-  const [liked, setLiked] = useState<boolean>(result.isLiked);
+  const [liked, setLiked] = useState<boolean>(result.liked);
 
   const rightHeaderActions: HeaderAction[] = [
     { icon: liked ? IcHeartFill : IcHeart, onClick: () => onCLickLike() },
@@ -31,24 +31,26 @@ export const RecommendationResultPage: React.FC = () => {
     } else {
       setLiked(true);
     }
-    mutate(result.styleId);
+    mutate(result.recommendationId);
   }
 
   const title = type === RecommendationType.STYLE ? '스타일 추천 결과' : '패션 추천 결과';
   const isLoading = false;
 
   if (isLoading) {
-    return <Loading type={type} />;
+    return <RecommendationLoading type={type} />;
   }
 
-  const description = isSuccess ? `${result.introduction}\n\n${result.styleDirection}\n\n${result.practicalStylingTips}` : '에러 발생';
+  const content = type === RecommendationType.STYLE ? JSON.parse(result.content) : result.content;
+
+  const description = type === RecommendationType.STYLE ? `${content.introduction}\n\n${content.practicalStylingTips}\n\n${content.styleDirection}` : content;
 
   return (
     <Wrapper>
       <AppBar leftHeaderAction={leftHeaderAction} title={title} rightHeaderActionArr={rightHeaderActions} />
       {isSuccess ? <Container>
           <Image src={ImgBannerBodyType} />
-          <BoldText>{result.recommendedStyle}</BoldText>
+          <BoldText>{result.title}</BoldText>
           <Description>{description}</Description>
           <ButtonContainer>
             <CustomButton
