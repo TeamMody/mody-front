@@ -85,7 +85,7 @@ export const PostPage = () => {
       <AppBar title={'김모디'} rightHeaderActionArr={rightHeaderActionArr} />
 
       <Container>
-        {postData && postData.map((data, index) => <Post key={index} data={data} type={'all'} />)}
+        {postData && postData.map((data, index) => <Post key={index} data={data} type={'post'} />)}
         {isLoading && <div>로딩중</div>}
       </Container>
       {/* <BottomRef className="bottomRef" ref={bottomRef}></BottomRef> */}

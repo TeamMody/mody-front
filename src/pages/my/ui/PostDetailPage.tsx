@@ -4,8 +4,10 @@ import IcLeftArrow from '@shared/assets/icon/ic-left-arrow.svg';
 import Post from '@shared/ui/Post.tsx';
 import { useLocation, useNavigate } from 'react-router';
 import { HeaderAction } from '@shared/types';
-import { SmallLoading } from '@shared/ui/SmallLoading';
 import useGetDetailPost from '../hooks/query/useGetDetailPost';
+import { Loading } from '@shared/ui/Loading';
+import { usePostIdStore } from '../features/store/usePostId';
+import { useEffect } from 'react';
 
 export const PostDetailPage = () => {
   const navigate = useNavigate();
@@ -14,7 +16,14 @@ export const PostDetailPage = () => {
   const { data, isPending, isError } = useGetDetailPost(postId);
   const leftHeaderAction: HeaderAction = { icon: IcLeftArrow, onClick: () => navigate(-1) };
 
-  if (isPending) return <SmallLoading />;
+  // postId 상태 관리
+  const { setPostId } = usePostIdStore();
+
+  useEffect(() => {
+    if (postId) setPostId(postId);
+  }, [postId, setPostId]);
+
+  if (isPending) return <Loading />;
   if (isError) return <div>에러</div>;
 
   return (

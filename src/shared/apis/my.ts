@@ -52,4 +52,17 @@ const getDetailPost = async (postId: number): Promise<BaseResponse<PostData>> =>
   }
 };
 
-export { getMyPosts, getLikedPosts, getDetailPost };
+const deletePost = async (postId: number): Promise<Omit<BaseResponse<String>, 'result'>> => {
+  try {
+    const response = await apiInstance.delete<Omit<BaseResponse<String>, 'result'>>(
+      `/posts/${postId}`,
+    );
+    console.log('response', response);
+    return response.data;
+  } catch (err) {
+    console.error('Failed to delete post:', err);
+    throw err;
+  }
+};
+
+export { getMyPosts, getLikedPosts, getDetailPost, deletePost };
