@@ -12,7 +12,6 @@ export interface PostData {
   bodyType: string;
   isPublic: boolean;
   files: FileData[];
-  isPublic: boolean;
 }
 
 export interface PostResponse {

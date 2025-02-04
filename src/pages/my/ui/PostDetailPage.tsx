@@ -12,16 +12,16 @@ import { useEffect } from 'react';
 export const PostDetailPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { postId, title } = location.state;
-  const { data, isPending, isError } = useGetDetailPost(postId);
+  const { id, title } = location.state;
+  const { data, isPending, isError } = useGetDetailPost(id);
   const leftHeaderAction: HeaderAction = { icon: IcLeftArrow, onClick: () => navigate(-1) };
 
   // postId 상태 관리
   const { setPostId } = usePostIdStore();
 
   useEffect(() => {
-    if (postId) setPostId(postId);
-  }, [postId, setPostId]);
+    if (id) setPostId(id);
+  }, [id, setPostId]);
 
   if (isPending) return <Loading />;
   if (isError) return <div>에러</div>;
