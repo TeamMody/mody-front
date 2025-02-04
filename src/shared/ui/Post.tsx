@@ -60,6 +60,7 @@ const Info = memo(
     const handleClickMore = (e: React.MouseEvent<SVGElement>) => {
       e.stopPropagation();
       setIsMoreClicked(true);
+      console.log(data);
     };
     const handleClickHeart = (e: React.MouseEvent<SVGElement>) => {
       e.stopPropagation();
@@ -97,7 +98,7 @@ const Info = memo(
               onClose={() => setIsMoreClicked(false)}
             ></EditBottomSheet>
           )}
-          {!data.isPublic && isMoreClicked && <Report />}
+          {type === 'post' && isMoreClicked && <Report postId={data.postId} />}
         </DescriptionContainer>
       </InfoContainer>
     );

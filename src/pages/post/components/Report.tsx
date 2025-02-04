@@ -1,7 +1,11 @@
 import ReportIcon from '@shared/assets/icon/ic-report.svg?react';
 import styled from 'styled-components';
-const Report = () => {
-  const handleReport = () => {};
+import { usePostReport } from '@post/hooks/usePostReport';
+const Report = ({ postId }: { postId: number }) => {
+  const handleReport = async () => {
+    usePostReport({ postId });
+  };
+
   return (
     <Container onClick={handleReport}>
       <ReportIcon />
@@ -19,7 +23,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: space-between;
   position: absolute;
-  bottom: -30px;
+  bottom: -25px;
   right: -5px;
   span {
     font-size: ${({ theme }) => theme.fonts.detail_medium_12px};
