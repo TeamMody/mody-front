@@ -20,3 +20,8 @@ export interface RecommendationResponse {
   imageUrl: string;
   liked: boolean;
 }
+
+export interface StyleKeywordResponse {
+  styleCategories: string[];
+  appealCategories: string[];
+}
