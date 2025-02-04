@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import CustomButton from '@shared/ui/CustomButton.tsx';
 import React, { useState } from 'react';
 import ImgBannerBodyType from '@shared/assets/img/img-banner-body-type.png';
-import { Loading } from '@home/components/Loading.tsx';
+import { RecommendationLoading } from '@home/components/RecommendationLoading.tsx';
 import IcHeart from '@icon/ic-heart.svg';
 import IcHeartFill from '@icon/ic-heart-fill.svg';
 import { usePostLikeEvent } from '@home/feature/hooks/mutate/usePostLikeEvent.ts';
@@ -38,7 +38,7 @@ export const RecommendationResultPage: React.FC = () => {
   const isLoading = false;
 
   if (isLoading) {
-    return <Loading type={type} />;
+    return <RecommendationLoading type={type} />;
   }
 
   const content = type === RecommendationType.STYLE ? JSON.parse(result.content) : result.content;
