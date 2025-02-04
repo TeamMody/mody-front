@@ -4,18 +4,24 @@ import IcLeftArrow from '@shared/assets/icon/ic-left-arrow.svg';
 import Post from '@shared/ui/Post.tsx';
 import { useLocation, useNavigate } from 'react-router';
 import { HeaderAction } from '@shared/types';
+import { SmallLoading } from '@shared/ui/SmallLoading';
+import useGetDetailPost from '../hooks/query/useGetDetailPost';
 
 export const PostDetailPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { data, title } = location.state || {};
+  const { postId, title } = location.state;
+  const { data, isPending, isError } = useGetDetailPost(postId);
   const leftHeaderAction: HeaderAction = { icon: IcLeftArrow, onClick: () => navigate(-1) };
+
+  if (isPending) return <SmallLoading />;
+  if (isError) return <div>에러</div>;
 
   return (
     <>
       <AppBar leftHeaderAction={leftHeaderAction} title={title} />
       <Container>
-        <Post data={data} type={'my'} />
+        <Post data={data.result} type={'my'} />
       </Container>
     </>
   );

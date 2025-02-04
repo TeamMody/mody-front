@@ -1,6 +1,6 @@
 import { BaseResponse, PaginationProps } from '@shared/types';
 import { apiInstance } from './instance';
-import { PostResponse } from '@shared/types/my/my';
+import { PostData, PostResponse } from '@shared/types/my/my';
 
 const getMyPosts = async ({
   cursor,
@@ -40,4 +40,16 @@ const getLikedPosts = async ({
   }
 };
 
-export { getMyPosts, getLikedPosts };
+const getDetailPost = async (postId: number): Promise<BaseResponse<PostData>> => {
+  try {
+    const response = await apiInstance.get<BaseResponse<Omit<PostData, 'cursorPagination'>>>(
+      `/posts/${postId}`,
+    );
+    return response.data;
+  } catch (err) {
+    console.error('Failed to get detail post:', err);
+    throw err;
+  }
+};
+
+export { getMyPosts, getLikedPosts, getDetailPost };

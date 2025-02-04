@@ -3,8 +3,9 @@ import { PostProps } from '@shared/types';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 
-const Post = ({ data, activeTab }: PostProps) => {
+const Post = ({ postId, s3Url, activeTab }: PostProps) => {
   const navigate = useNavigate();
+
   //임시로 좋아요 상태를 true로 설정
   const like = true;
 
@@ -12,22 +13,23 @@ const Post = ({ data, activeTab }: PostProps) => {
     if (activeTab === 'post')
       navigate('/my/mypost', {
         state: {
-          data: data,
+          postId,
           title: '내 게시글',
         },
       });
     else if (activeTab === 'like') {
       navigate('/my/likepost', {
         state: {
-          data: data,
+          postId,
           title: '좋아요',
         },
       });
     }
   };
+
   return (
     <PostWrapper onClick={handleOnClick}>
-      <Image src={data.files[0].s3Url} alt="게시물" />
+      <Image src={s3Url} alt="게시물" />
       {like && activeTab === 'recommend' && <HeartIcon src={IcHeart} alt="좋아요 아이콘" />}
     </PostWrapper>
   );

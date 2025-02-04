@@ -60,7 +60,12 @@ const MyAndLikePosts = ({ activeTab }: { activeTab: string }) => {
   return posts?.pages[0] ? (
     <MyAndLikePostsWrapper ref={containerRef}>
       {posts?.pages.map((post: PostData) => (
-        <Post key={post.postId} data={post} activeTab={activeTab} />
+        <Post
+          key={post.postId}
+          postId={post.postId}
+          s3Url={post.files[0].s3Url}
+          activeTab={activeTab}
+        />
       ))}
       {hasNextPage && <Bottom ref={ref}>{isFetchingNextPage && <SmallLoading />}</Bottom>}
     </MyAndLikePostsWrapper>

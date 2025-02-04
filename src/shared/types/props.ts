@@ -22,7 +22,8 @@ export interface FieldProps<T extends FieldValues> {
 }
 
 export interface PostProps {
-  data: PostData;
+  postId: number;
+  s3Url: string;
   activeTab: string;
 }
 

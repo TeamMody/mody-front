@@ -57,7 +57,6 @@ const Info = memo(
     const [isMoreClicked, setIsMoreClicked] = useState<boolean>(false);
     const postLikeMutation = usePostLike();
 
-    console.log(data);
     const handleClickMore = (e: React.MouseEvent<SVGElement>) => {
       e.stopPropagation();
       setIsMoreClicked(true);
