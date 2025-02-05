@@ -10,14 +10,16 @@ export interface PostData {
   likeCount: number;
   isLiked: boolean;
   bodyType: string;
-  files: FileData[];
   isPublic: boolean;
+  files: FileData[];
 }
 
 export interface PostResponse {
   postResponses: PostData[];
-  cursorPagination: {
-    hasNext: boolean;
-    cursor: null;
-  };
+  cursorPagination: CursorPagination;
+}
+
+export interface CursorPagination {
+  hasNext: boolean;
+  cursor: null;
 }

@@ -2,72 +2,41 @@ import IcHeart from '@shared/assets/icon/ic-full-heart.svg';
 import { PostProps } from '@shared/types';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
-import TempImg1 from '@post/images/tempImg1.jpg';
-import TempImg2 from '@post/images/tempImg2.jpg';
-import TempImg3 from '@post/images/tempImg3.png';
-import { useMemo } from 'react';
 
-interface PostPropsType {
-  images: string[];
-  name: string;
-  type: string;
-  description: string;
-  likeCount: number;
-  isLiked: boolean;
-}
-
-const Post = ({ data, activeTab }: PostProps) => {
+const Post = ({ id, imageUrl, activeTab, recommendType, result }: PostProps) => {
   const navigate = useNavigate();
-  //임시로 좋아요 상태를 true로 설정
-  const like = true;
 
-  //임시 데이터
-  const mockData: PostPropsType[] = [
-    {
-      images: [
-        TempImg3,
-        TempImg2,
-        TempImg3,
-        TempImg1,
-        TempImg1,
-        TempImg1,
-        TempImg1,
-        TempImg3,
-        TempImg2,
-        TempImg3,
-      ],
-      name: '사람1',
-      type: '네모형 체형',
-      description:
-        '안녕하세요 ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋzzzzzzzzzzzzzzzzzzzㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ',
-      likeCount: 112,
-      isLiked: true,
-    },
-  ];
-  const memoizedData = useMemo(() => mockData, []);
-
-  //
   const handleOnClick = () => {
     if (activeTab === 'post')
       navigate('/my/mypost', {
         state: {
-          data: memoizedData,
+          id,
           title: '내 게시글',
         },
       });
     else if (activeTab === 'like') {
       navigate('/my/likepost', {
         state: {
-          data: memoizedData,
+          id,
           title: '좋아요',
+        },
+      });
+    } else if (activeTab === 'recommend') {
+      navigate('/recommendation-result', {
+        state: {
+          type: recommendType,
+          result: result,
         },
       });
     }
   };
+
   return (
     <PostWrapper onClick={handleOnClick}>
-      <Image src={data.files[0].s3Url} alt="게시물" />
-      {like && activeTab === 'recommend' && <HeartIcon src={IcHeart} alt="좋아요 아이콘" />}
+      <Image src={imageUrl} alt="게시물" />
+      {result && result.liked && activeTab === 'recommend' && (
+        <HeartIcon src={IcHeart} alt="좋아요 아이콘" />
+      )}
     </PostWrapper>
   );
 };
