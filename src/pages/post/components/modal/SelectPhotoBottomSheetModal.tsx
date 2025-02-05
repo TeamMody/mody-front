@@ -3,6 +3,7 @@ import { Sheet, SheetRef } from 'react-modal-sheet';
 import styled from 'styled-components';
 import IcCamera from '@shared/assets/icon/ic-camera.svg?react';
 import IcGallery from '@shared/assets/icon/ic-gallery.svg?react';
+// import { mockData } from '@pages/post/ui/PostPage';
 // import { ImgLayout } from '@pages/post/components/ImgLayout';
 import { useNavigate } from 'react-router';
 interface SelectPhotoBottomModalProps {
@@ -21,7 +22,7 @@ export const SelectPhotoBottomSheetModal = ({
   setSelectedIds,
 }: SelectPhotoBottomModalProps) => {
   const ref = useRef<SheetRef>(null);
-
+  // const mockImages = mockData.map((data) => data.images)[0];
   const navigate = useNavigate();
 
   // 아래 코드는 하단에 모달이 확정되면 지우겠습니다.
@@ -69,7 +70,8 @@ export const SelectPhotoBottomSheetModal = ({
             </div>
           </div>
           <div>
-            {/* 이 코드도 바텀 모달 시트가 확정 되면 지우겠습니다
+            {/* 
+            // 이건 추후에 어떻게 할지 결정하고 주석 지우겠습니다
             {mockImages?.map((Img, Idx) => (
               <ImgLayout
                 ImgUrl={Img}

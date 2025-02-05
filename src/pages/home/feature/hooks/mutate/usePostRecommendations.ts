@@ -1,12 +1,12 @@
 import { useMutation } from '@tanstack/react-query';
-import { StyleAnalysisRequest } from '@shared/types';
-import { fetchPostStyleAnalysis } from '@shared/apis/style/style.ts';
+import { RecommendationRequest, RecommendationType } from '@shared/types';
+import { fetchPostRecommendations } from '@shared/apis/recommendations/recommendations.ts';
 import { useStyleSurveyStore } from '@home/feature/store/useStyleSurveyStore.ts';
 import { useEffect } from 'react';
 
-export const usePostStyleAnalysis = () => {
+export const usePostRecommendations = () => {
   const selectedKeywords = useStyleSurveyStore().selectedKeywords;
-  let request: StyleAnalysisRequest = {
+  let request: RecommendationRequest = {
     preferredStyles: [],
     dislikedStyles: [],
     appealedImage: [],
@@ -22,7 +22,7 @@ export const usePostStyleAnalysis = () => {
   }, [selectedKeywords]);
 
   const result = useMutation({
-      mutationFn: () => fetchPostStyleAnalysis(request),
+      mutationFn: (type: RecommendationType) => fetchPostRecommendations(request, type),
     },
   );
   return result;

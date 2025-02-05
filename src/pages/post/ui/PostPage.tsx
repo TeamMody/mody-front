@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router';
 import { useRef } from 'react';
 import useGetPostData from '../hooks/useGetPostData';
 import useIntersectionObserver from '../hooks/useIntersectionObserver';
-import logo from '@shared/assets/icon/ic-logo.svg';
 
 export const PostPage = () => {
   const navigate = useNavigate();
@@ -21,7 +20,7 @@ export const PostPage = () => {
       <AppBar title={'김모디'} rightHeaderActionArr={rightHeaderActionArr} />
 
       <Container>
-        {postData && postData.map((data, index) => <Post key={index} data={data} />)}
+        {postData && postData.map((data, index) => <Post key={index} data={data} type="post" />)}
         {isLoading && <div>로딩중</div>}
       </Container>
       {/* <BottomRef className="bottomRef" ref={bottomRef}></BottomRef> */}
