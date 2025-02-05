@@ -7,6 +7,5 @@ export const createPresignedUrl = async (
   data: (string | undefined)[],
 ): Promise<presignedUrlProps[]> => {
   const res = await apiInstance.post('/image/upload/posts', { filenames: data });
-  console.log(res.data.result);
   return res.data.result;
 };

@@ -14,7 +14,7 @@ export const createS3url = async ({
         if (file) {
           const uploadFile = await fetch(file);
           const blob = await uploadFile.blob();
-          console.log(blob);
+
           const response = await fetch(presignedUrl.presignedUrl, {
             method: 'PUT',
             headers: {
@@ -22,7 +22,7 @@ export const createS3url = async ({
             },
             body: blob,
           });
-          console.log(response);
+
           if (!response.ok) {
             throw new Error(`업로드 실패: ${response.statusText}`);
           }
@@ -30,7 +30,7 @@ export const createS3url = async ({
         }
       });
       const results = await Promise.all(uploadPromises);
-      console.log(results);
+
       console.log('upload 완료');
 
       return results;
