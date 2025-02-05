@@ -55,7 +55,9 @@ export const SelectPhotoBottomSheetModal = ({
             </div>
           </div>
           <div>
-            {/* {mockImages?.map((Img, Idx) => (
+            {/* 
+            // 이건 추후에 어떻게 할지 결정하고 주석 지우겠습니다
+            {mockImages?.map((Img, Idx) => (
               <ImgLayout
                 ImgUrl={Img}
                 key={Idx}

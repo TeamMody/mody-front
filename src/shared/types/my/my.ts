@@ -11,6 +11,7 @@ export interface PostData {
   isLiked: boolean;
   bodyType: string;
   files: FileData[];
+  isPublic: boolean;
 }
 
 export interface PostResponse {
