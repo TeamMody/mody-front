@@ -32,7 +32,6 @@ export const CreateNewPostModal = ({
   const [textState, setTextState] = useState<string | undefined>(undefined);
   const [buttonState, setButtonState] = useState<boolean>(false);
   const { mutate } = useCreatePost();
-  console.log(selectedImages);
   const handleClose = async () => {
     try {
       if (presignedUrls) {
@@ -96,15 +95,9 @@ export const CreateNewPostModal = ({
               />
             </BottomImgContainer>
 
-            {imgZoom ? (
-              <ZoomButton onClick={handleImgZoom} imgZoom={imgZoom}>
-                <IcZoomOutStyle />
-              </ZoomButton>
-            ) : (
-              <ZoomButton onClick={handleImgZoom} imgZoom={imgZoom}>
-                <IcZoomInStyle />
-              </ZoomButton>
-            )}
+            <ZoomButton onClick={handleImgZoom} imgZoom={imgZoom}>
+              {imgZoom ? <IcZoomOutStyle /> : <IcZoomInStyle />}
+            </ZoomButton>
 
             <TextArea
               placeholder="게시글을 작성해주세요."
@@ -189,7 +182,12 @@ const ZoomButton = styled.button<{ imgZoom: boolean }>`
   height: 5.924vh;
   margin-left: 1.5vw;
   position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   z-index: 10001;
+  border-radius: 50%;
+  background-color: ${({ theme }) => theme.colors.gray800};
   top: ${({ imgZoom }) => (imgZoom === false ? '46vh' : '50.5vh')};
 `;
 

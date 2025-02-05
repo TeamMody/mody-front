@@ -20,7 +20,6 @@ const ImageCarousel2 = ({
   marginTop?: string | undefined;
   imgZoomed?: boolean;
 }) => {
-  console.log(images);
   return (
     <>
       <StyledCarousel
