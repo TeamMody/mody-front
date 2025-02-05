@@ -9,7 +9,7 @@ interface LoadingProps {
   type: RecommendationType;
 }
 
-export const Loading: React.FC<LoadingProps> = ({ type }) => {
+export const RecommendationLoading: React.FC<LoadingProps> = ({ type }) => {
   const name = '이름';
   const image = type === RecommendationType.STYLE ? IcLoadingStyle : IcLoading;
 

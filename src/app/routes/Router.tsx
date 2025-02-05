@@ -6,7 +6,6 @@ import {
   BodyTypePage,
   StyleSurveyPage,
   RecommendationResultPage,
-  RecommendationFashionResultPage,
 } from '@pages/home';
 import { MyPage } from '@pages/my';
 import { OnboardingPage, InputUser } from '@pages/onboarding';
@@ -83,15 +82,11 @@ export const router = createBrowserRouter([
     element: <BodyTypePage />,
   },
   {
-    path: 'style-survey',
+    path: 'recommendations-survey',
     element: <StyleSurveyPage />,
   },
   {
     path: 'recommendation-result',
     element: <RecommendationResultPage />,
-  },
-  {
-    path: 'recommendation-fashion-result',
-    element: <RecommendationFashionResultPage />,
   },
 ]);

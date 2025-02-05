@@ -5,22 +5,22 @@ import IcLeftArrow from '@icon/ic-left-arrow.svg';
 import { useLocation, useNavigate } from 'react-router';
 import StyleSurvey from '@home/components/StyleSurvey.tsx';
 import CustomButton from '@shared/ui/CustomButton.tsx';
-import { keywords, styleKeywords } from '@shared/apis/home/mocks.ts';
 import { useStyleSurveyStore } from '@home/feature/store/useStyleSurveyStore.ts';
 import { useCallback, useEffect } from 'react';
 import { useMyInfoStore } from '@shared/store/useMyInfoStore.ts';
-import { Loading } from '@home/components/Loading.tsx';
+import { RecommendationLoading } from '@home/components/RecommendationLoading.tsx';
+import { Loading } from '@shared/ui/Loading.tsx';
 import debounce from 'lodash/debounce';
-import { usePostFashionAnalysis } from '@home/feature/hooks/mutate/usePostFashionAnalysis.ts';
-import { usePostStyleAnalysis } from '@home/feature/hooks/mutate/usePostStyleAnalysis.ts';
+import { usePostRecommendations } from '@home/feature/hooks/mutate/usePostRecommendations.ts';
+import { useGetStyleCategories } from '@home/feature/hooks/query/useGetStyleCategories.ts';
 
 export const StyleSurveyPage = () => {
   const { myInfo } = useMyInfoStore();
   const { resetKeywords } = useStyleSurveyStore();
   const { type } = useLocation().state as { type: RecommendationType };
   const navigate = useNavigate();
-  const { mutate: mutateStyle, isSuccess: isStyleSuccess, data: styleData, isPending: isStylePending } = usePostStyleAnalysis();
-  const { mutate: mutateFashion, isSuccess:isFashionSuccess, data: fashionData, isPending: isFashionPending } = usePostFashionAnalysis();
+  const { mutate, isSuccess, data, isPending } = usePostRecommendations();
+  const { data: categories, isPending: isCategoriesPending, isError: isCategoriesError } = useGetStyleCategories();
 
   useEffect(() => {
     resetKeywords();
@@ -31,11 +31,7 @@ export const StyleSurveyPage = () => {
   };
 
   const handleClick = () => {
-    if (type === RecommendationType.STYLE) {
-      mutateStyle();
-    } else {
-      mutateFashion();
-    }
+    mutate(type);
   };
 
   const debouncedApiRequest = useCallback(debounce(handleClick, 500), [handleClick]);
@@ -47,30 +43,33 @@ export const StyleSurveyPage = () => {
   }, []);
 
   useEffect(() => {
-    if (isStyleSuccess) {
-      navigate('/recommendation-result', { state: { type: type, result: styleData?.result } });
+    if (isSuccess) {
+      navigate('/recommendation-result', { state: { type: type, result: data?.result } });
     }
-    if (isFashionSuccess) {
-      navigate('/recommendation-fashion-result', { state: { type: type, result: fashionData?.result } });
-    }
-  }, [isStyleSuccess, isFashionSuccess]);
+  }, [isSuccess]);
 
-  if (isStylePending || isFashionPending) {
-    return <Loading type={type} />;
+  if (isPending) {
+    return <RecommendationLoading type={type} />;
+  }
+
+  if (isCategoriesError) {
+    return <div>에러가 발생했습니다.</div>;
   }
 
   return (
     <Wrapper>
       <AppBar leftHeaderAction={leftHeaderAction} title={type} />
-      <KeywordsContainer>
-        <StyleSurvey category="liked" keywords={keywords} />
-        <StyleSurvey category="disliked" keywords={keywords} />
-        <StyleSurvey category="image" keywords={styleKeywords} />
-        <ButtonContainer>
-          <CustomButton label="스타일 추천 받기" onClick={debouncedApiRequest} active={true} paddingTop="19px"
-                        paddingBottom="19px" />
-        </ButtonContainer>
-      </KeywordsContainer>
+      {!isCategoriesPending ? <KeywordsContainer>
+          <StyleSurvey category="liked" keywords={categories?.result.styleCategories!} />
+          <StyleSurvey category="disliked" keywords={categories?.result.styleCategories!} />
+          <StyleSurvey category="image" keywords={categories?.result.appealCategories!} />
+          <ButtonContainer>
+            <CustomButton label="스타일 추천 받기" onClick={debouncedApiRequest} active={true} paddingTop="19px"
+                          paddingBottom="19px" />
+          </ButtonContainer>
+        </KeywordsContainer>
+        : <Loading />
+      }
     </Wrapper>
   );
 };
