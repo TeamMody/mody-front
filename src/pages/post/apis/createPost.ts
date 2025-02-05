@@ -10,6 +10,6 @@ export const createPost = async ({ content, isPublic, s3Urls }: PostData) => {
     isPublic: isPublic,
     s3Urls: s3Urls,
   });
-  console.log(res);
+
   return res.data;
 };

@@ -12,6 +12,7 @@ import IcZoomOut from '@shared/assets/icon/ic-zoom-out.svg?react';
 import { createS3url } from '@pages/post/apis/createS3Url';
 import { presignedUrlProps } from '@pages/post/apis/createPresignedUrl';
 import { useCreatePost } from '@pages/post/hooks/useCreatePost';
+import { useNavigate } from 'react-router';
 
 interface ImgModalProps extends ModalProps {
   selectedImages: (string | undefined)[];
@@ -32,6 +33,7 @@ export const CreateNewPostModal = ({
   const [textState, setTextState] = useState<string | undefined>(undefined);
   const [buttonState, setButtonState] = useState<boolean>(false);
   const { mutate } = useCreatePost();
+  const navigate = useNavigate();
   const handleClose = async () => {
     try {
       if (presignedUrls) {
@@ -43,10 +45,11 @@ export const CreateNewPostModal = ({
           s3Urls: S3Urls,
         });
       }
+      setTextState(undefined);
+      navigate(-1);
     } catch (error) {
       console.error('게시물 생성 실패:', error);
     }
-    setTextState(undefined);
   };
 
   const moveBeforePage = () => {

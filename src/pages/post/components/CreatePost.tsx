@@ -3,7 +3,6 @@ import { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useNavigate } from 'react-router';
-import { ModalProps } from '@shared/types/my/modalProps';
 import { IcLeftArrow } from '@shared/assets/icon/ic-left-arrow';
 import { CreateNewPostModal } from '@pages/post/components/modal/CreateNewPostModal';
 import { SelectPhotoBottomSheetModal } from '@pages/post/components/modal/SelectPhotoBottomSheetModal';
@@ -31,9 +30,7 @@ export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
   };
   const closePage = () => {
     setIsOpened(false);
-    setTimeout(() => {
-      navigate('/post');
-    }, 500);
+    navigate(-1);
   };
 
   return ReactDOM.createPortal(
