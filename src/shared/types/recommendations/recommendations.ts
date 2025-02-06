@@ -1,8 +1,9 @@
+import { CursorPagination } from '../my/my';
+
 export interface LikeResponse {
   itemId: number;
   liked: boolean;
 }
-
 
 export interface RecommendationRequest {
   preferredStyles: string[];
@@ -24,4 +25,9 @@ export interface RecommendationResponse {
 export interface StyleKeywordResponse {
   styleCategories: string[];
   appealCategories: string[];
+}
+
+export interface RecommendationsResponse {
+  recommendResponseList: RecommendationResponse[];
+  cursorPagination: CursorPagination;
 }

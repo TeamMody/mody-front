@@ -1,8 +1,51 @@
 import styled from 'styled-components';
 import NoPosts from '@pages/my/components/NoPosts';
+import useGetInfiniteRecommendations from '../hooks/query/useGetInfiniteRecommendations';
+import { useInView } from 'react-intersection-observer';
+import useInfiniteScroll from '../hooks/useInfiniteScroll';
+import { SmallLoading } from '@shared/ui/SmallLoading';
+import { RecommendationResponse, RecommendationType } from '@shared/types';
+import Post from './Post';
 
 const RecommendResults = ({ activeTab }: { activeTab: string }) => {
-  return <NoPosts activeTab={activeTab} />;
+  const {
+    data: results,
+    isLoading,
+    isError,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useGetInfiniteRecommendations();
+  const { ref, inView } = useInView({ threshold: 0 });
+
+  const { containerRef } = useInfiniteScroll({ hasNextPage, isFetchingNextPage, fetchNextPage }); // 스크롤 감지
+
+  if (isLoading) {
+    return (
+      <LoadingWrapper>
+        <SmallLoading />
+      </LoadingWrapper>
+    );
+  }
+  if (isError) return <p>에러</p>;
+
+  return results?.pages[0] ? (
+    <RecommendResultsWrapper ref={containerRef}>
+      {results?.pages.map((post: RecommendationResponse) => (
+        <Post
+          key={post.recommendationId}
+          id={post.recommendationId}
+          imageUrl={post.imageUrl}
+          recommendType={RecommendationType[post.recommendType as keyof typeof RecommendationType]}
+          result={post}
+          activeTab={activeTab}
+        />
+      ))}
+      {hasNextPage && <Bottom ref={ref}>{isFetchingNextPage && <SmallLoading />}</Bottom>}
+    </RecommendResultsWrapper>
+  ) : (
+    <NoPosts activeTab={activeTab} />
+  );
 };
 
 const RecommendResultsWrapper = styled.div`
@@ -13,6 +56,21 @@ const RecommendResultsWrapper = styled.div`
   height: 100%;
   gap: 0.7vw;
   overflow-y: auto;
+`;
+
+const LoadingWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+`;
+
+const Bottom = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  grid-column: 1 / -1;
 `;
 
 export default RecommendResults;
