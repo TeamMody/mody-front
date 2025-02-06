@@ -8,11 +8,14 @@ import { useForm } from 'react-hook-form';
 import { CodeSchema, CodeSchemaType } from '@onboarding/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { StateProps } from '@shared/types';
+import { useVerifyEmail } from '@onboarding/hooks/useVerifyEmail.ts';
+import useSignupStore from '@onboarding/store/signup.ts';
 
 interface CheckCodeProps extends StateProps<boolean> {}
 
 const CheckCode = ({ value: buttonActive, setValue: setButtonActive }: CheckCodeProps) => {
   const [message, setMessage] = useState<string>('');
+  const { email } = useSignupStore();
   // 인증코드 유효성 체크
   const [isValid, setIsValid] = useState<boolean>(false);
   // 인증코드 일치 여부 체크
@@ -28,11 +31,13 @@ const CheckCode = ({ value: buttonActive, setValue: setButtonActive }: CheckCode
     mode: 'onChange',
   });
 
+  const { mutate, isSuccess } = useVerifyEmail(email)
+
   const code = watch('code'); // 인증코드 값을 실시간으로 추적
 
   // 인증코드가 변경될 때마다 메시지 초기화
   useEffect(() => {
-    if (code?.length === 8) {
+    if (code?.length === 6) {
       setIsValid(true);
     } else {
       setIsValid(false);
@@ -43,7 +48,11 @@ const CheckCode = ({ value: buttonActive, setValue: setButtonActive }: CheckCode
 
   const onSubmit = (data: CodeSchemaType) => {
     //임시로 인증코드를 12345678로 설정
-    if (data.code === '12345678') {
+    mutate(data.code);
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
       setCodeConfirmed(true);
       setButtonActive(true);
       setMessage('인증 코드가 확인 됐어요.');
@@ -52,7 +61,8 @@ const CheckCode = ({ value: buttonActive, setValue: setButtonActive }: CheckCode
       setCodeConfirmed(false);
       setMessage('인증 코드가 일치하지 않아요.');
     }
-  };
+  }, [isSuccess]);
+
   return (
     <Wrapper>
       <Form onSubmit={handleSubmit(onSubmit)}>

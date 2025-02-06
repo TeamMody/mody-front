@@ -2,10 +2,10 @@ import styled from 'styled-components';
 import Post from '@pages/my/components/Post';
 import NoPosts from '@pages/my/components/NoPosts';
 import useGetInfinitePosts from '../hooks/query/useGetInfinitePosts';
-import React, { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { SmallLoading } from '@shared/ui/SmallLoading';
 import { PostData } from '@shared/types/my/my';
+import useInfiniteScroll from '../hooks/useInfiniteScroll';
 
 const MyAndLikePosts = ({ activeTab }: { activeTab: string }) => {
   const {
@@ -18,35 +18,8 @@ const MyAndLikePosts = ({ activeTab }: { activeTab: string }) => {
   } = useGetInfinitePosts({ activeTab });
 
   const { ref, inView } = useInView({ threshold: 0 });
-  const [userScrolled, setUserScrolled] = useState(false);
 
-  const containerRef = React.useRef<HTMLDivElement>(null);
-
-  // 스크롤 감지 핸들러
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    const handleScroll = () => {
-      // 스크롤이 맨 아래에 도달했을 때
-      const isAtBottom =
-        container.scrollTop + container.clientHeight >=
-        container.scrollHeight - container.clientHeight * 0.4;
-      if (isAtBottom && hasNextPage && !isFetchingNextPage) {
-        setUserScrolled(true);
-      }
-    };
-    container.addEventListener('scroll', handleScroll);
-    return () => container.removeEventListener('scroll', handleScroll);
-  }, [hasNextPage, isFetchingNextPage]);
-
-  // 스크롤이 맨 아래에 도달했을 때 fetch 실행
-  useEffect(() => {
-    if (userScrolled && hasNextPage && !isFetchingNextPage) {
-      fetchNextPage();
-      setUserScrolled(false);
-    }
-  }, [userScrolled, hasNextPage, fetchNextPage, isFetchingNextPage]);
+  const { containerRef } = useInfiniteScroll({ hasNextPage, isFetchingNextPage, fetchNextPage }); // 스크롤 감지
 
   if (isLoading) {
     return (
@@ -60,7 +33,12 @@ const MyAndLikePosts = ({ activeTab }: { activeTab: string }) => {
   return posts?.pages[0] ? (
     <MyAndLikePostsWrapper ref={containerRef}>
       {posts?.pages.map((post: PostData) => (
-        <Post key={post.postId} data={post} activeTab={activeTab} />
+        <Post
+          key={post.postId}
+          id={post.postId}
+          imageUrl={post.files[0].s3Url}
+          activeTab={activeTab}
+        />
       ))}
       {hasNextPage && <Bottom ref={ref}>{isFetchingNextPage && <SmallLoading />}</Bottom>}
     </MyAndLikePostsWrapper>
