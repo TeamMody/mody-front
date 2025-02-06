@@ -41,7 +41,7 @@ const ImageCarousel = ({
         {images.map((img, idx) => {
           return (
             <div key={idx}>
-              <img src={img.s3Url} />;
+              <img src={img.s3Url} />
             </div>
           );
         })}

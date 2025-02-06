@@ -4,29 +4,33 @@ import IcLeftArrow from '@shared/assets/icon/ic-left-arrow.svg';
 import Post from '@shared/ui/Post.tsx';
 import { useLocation, useNavigate } from 'react-router';
 import { HeaderAction } from '@shared/types';
-
-interface PostPropsType {
-  images: string[];
-  name: string;
-  type: string;
-  description: string;
-  likeCount: number;
-  isLiked: boolean;
-}
+import useGetDetailPost from '../hooks/query/useGetDetailPost';
+import { Loading } from '@shared/ui/Loading';
+import { usePostIdStore } from '../features/store/usePostId';
+import { useEffect } from 'react';
 
 export const PostDetailPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { data, title } = location.state || {};
+  const { id, title } = location.state;
+  const { data, isPending, isError } = useGetDetailPost(id);
   const leftHeaderAction: HeaderAction = { icon: IcLeftArrow, onClick: () => navigate(-1) };
+
+  // postId 상태 관리
+  const { setPostId } = usePostIdStore();
+
+  useEffect(() => {
+    if (id) setPostId(id);
+  }, [id, setPostId]);
+
+  if (isPending) return <Loading />;
+  if (isError) return <div>에러</div>;
 
   return (
     <>
       <AppBar leftHeaderAction={leftHeaderAction} title={title} />
       <Container>
-        {data.map((data: PostPropsType, index: number) => (
-          <Post key={index} data={data} type={'my'} />
-        ))}
+        <Post data={data.result} type={'my'} />
       </Container>
     </>
   );
