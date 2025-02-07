@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ModalProps } from '@shared/types/my/modalProps';
@@ -86,7 +86,7 @@ export const CreateNewPostModal = ({
           <BottomBox>
             <BottomImgContainer imgZoom={imgZoom}>
               <ImageCarousel
-                images={selectedImages}
+                images={selectedImages.map((url) => ({ s3Url: url }))}
                 isExpanded={undefined}
                 imgIdx={imgIdx}
                 setImgIdx={setImgIdx}
@@ -94,7 +94,6 @@ export const CreateNewPostModal = ({
                 imgZoomed={imgZoom}
               />
             </BottomImgContainer>
-
             <ZoomButton onClick={handleImgZoom} imgZoom={imgZoom}>
               <IcZoomStyle />
             </ZoomButton>
