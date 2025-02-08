@@ -3,7 +3,7 @@ import { apiInstance } from '@shared/apis/instance';
 export const uploadImageToS3 = async (image: File): Promise<string> => {
   try {
     const { data } = await apiInstance.post('/image/upload/profiles', {
-      fileName: image.name,
+      filename: image.name,
     });
 
     const presignedUrl = data.result.presignedUrl;
