@@ -14,15 +14,15 @@ export const HomePage = () => {
   const leftHeaderAction: HeaderAction = { icon: logo, onClick: () => console.log('') };
 
   useEffect(() => {
-    if ((data && isSuccess) && data?.result !== myInfo) {
+    if (data && isSuccess && data?.result !== myInfo) {
       setMyInfo(data?.result);
     }
   }, [isSuccess, data?.result, setMyInfo]);
 
-  if (isLoading) return <Loading />;
-  if (isError) {
-    alert('서버에 문제가 발생했습니다');
-  }
+  // if (isLoading) return <Loading />;
+  // if (isError) {
+  //   alert('서버에 문제가 발생했습니다');
+  // }
 
   return (
     <>
