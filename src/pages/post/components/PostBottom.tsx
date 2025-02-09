@@ -2,16 +2,22 @@ import CustomDivider from '@shared/ui/CustomDivider';
 import { ToggleButton } from './toggleButton';
 import styled from 'styled-components';
 import IcZoom from '@shared/assets/icon/ic-zoom.svg?react';
-import { useState } from 'react';
 
 interface PostBottomProps {
   imgZoom: boolean;
   setImgZoom: React.Dispatch<React.SetStateAction<boolean>>;
   handleClose: () => void;
   textStateRef: React.MutableRefObject<string | undefined>;
+  setButtonState: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const PostBottom = ({ imgZoom, setImgZoom, handleClose, textStateRef }: PostBottomProps) => {
+const PostBottom = ({
+  imgZoom,
+  setImgZoom,
+  handleClose,
+  textStateRef,
+  setButtonState,
+}: PostBottomProps) => {
   const handleImgZoom = () => {
     if (imgZoom) {
       setImgZoom(false);
@@ -19,7 +25,6 @@ const PostBottom = ({ imgZoom, setImgZoom, handleClose, textStateRef }: PostBott
       setImgZoom(true);
     }
   };
-  const [buttonState, setButtonState] = useState<boolean>(false);
 
   const changeTextArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     textStateRef.current = e.target.value;

@@ -6,18 +6,26 @@ import { useLocation, useNavigate } from 'react-router';
 import AppBar from '@shared/ui/AppBar';
 import { HeaderAction } from '@shared/types';
 import IcLeftArrow from '@shared/assets/icon/ic-left-arrow.svg';
+import usePatchPost from '../hooks/usePatchPost';
 const EditPostPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { data } = location.state;
   const [imgZoom, setImgZoom] = useState(false);
   const textStateRef = useRef<string | undefined>(data.content); // 리렌더링을 방지하기 위해 useRef 사용
-  const handleClose = () => {};
+  const { mutate } = usePatchPost();
   const [imgIdx, setImgIdx] = useState<number>(0);
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
+  const [buttonState, setButtonState] = useState<boolean>(data.isPublic);
+
   const leftHeaderAction: HeaderAction = { icon: IcLeftArrow, onClick: () => navigate(-1) };
+
   const title = '내 게시글';
   const images = data.files;
+
+  const handleClose = () => {
+    mutate({ content: textStateRef.current, postId: data.postId, isPublic: buttonState });
+  };
 
   return (
     <>
@@ -36,6 +44,7 @@ const EditPostPage = () => {
           setImgZoom={setImgZoom}
           handleClose={handleClose}
           textStateRef={textStateRef}
+          setButtonState={setButtonState}
         />
       </Container>
     </>
@@ -48,6 +57,7 @@ const Container = styled.main`
   height: calc(100vh - 64px);
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
+  background-color: ${({ theme }) => theme.colors.gray900};
 `;
 
 const ImageWrapper = styled.div`
