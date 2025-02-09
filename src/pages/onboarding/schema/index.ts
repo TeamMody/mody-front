@@ -32,7 +32,7 @@ export const EmailSchema = z.object({
 });
 
 export const CodeSchema = z.object({
-  code: z.string().length(8, '인증번호는 8자리여야 합니다.'),
+  code: z.string().length(6, '인증번호는 6자리여야 합니다.'),
 });
 
 export const PasswordSchema = z
