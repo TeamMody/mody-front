@@ -27,7 +27,7 @@ const RecommendResults = ({ activeTab }: { activeTab: string }) => {
       </LoadingWrapper>
     );
   }
-  if (isError) return <p>에러</p>;
+  if (isError) return <NoPosts activeTab={activeTab} />;
 
   return results?.pages[0] ? (
     <RecommendResultsWrapper ref={containerRef}>
