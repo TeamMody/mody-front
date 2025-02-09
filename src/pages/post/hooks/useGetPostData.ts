@@ -2,7 +2,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { apiInstance } from '@shared/apis/instance';
 
 const useGetPostData = () => {
-  const { data, isLoading, error, fetchNextPage } = useInfiniteQuery({
+  const { data, isLoading, error, fetchNextPage, hasNextPage } = useInfiniteQuery({
     queryKey: ['post'],
     queryFn: async ({ pageParam }) => {
       const url = pageParam === 0 ? '/posts?size=15' : `/posts?cursor=${pageParam}&size=15`;
@@ -18,7 +18,7 @@ const useGetPostData = () => {
       return data?.pages?.flatMap((page) => page.postResponses || []);
     },
   });
-  return { data, isLoading, error, fetchNextPage };
+  return { data, isLoading, error, fetchNextPage, hasNextPage };
 };
 
 export default useGetPostData;

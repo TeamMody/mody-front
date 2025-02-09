@@ -1,17 +1,16 @@
 import styled from 'styled-components';
 import AppBar from '@shared/ui/AppBar.tsx';
-import { IcLeftArrow } from '@shared/assets/icon/ic-left-arrow.tsx';
 import plus from '@shared/assets/icon/ic-plus.svg';
 import Post from '@shared/ui/Post.tsx';
 import TempImg1 from '@post/images/tempImg1.jpg';
 import TempImg2 from '@post/images/tempImg2.jpg';
 import TempImg3 from '@post/images/tempImg3.png';
-import { useMemo } from 'react';
 import { useNavigate } from 'react-router';
 import { useRef } from 'react';
 import useGetPostData from '../hooks/useGetPostData';
 import useIntersectionObserver from '../hooks/useIntersectionObserver';
 import logo from '@shared/assets/icon/ic-logo.svg';
+import BottomArrow from '@shared/assets/icon/ic-bottom-arrow.svg?react';
 
 interface ImgType {
   s3Url: string;
@@ -78,14 +77,13 @@ export const mockData: PostPropsType[] = [
 export const PostPage = () => {
   const navigate = useNavigate();
 
-  const leftHeaderAction = { icon: IcLeftArrow, onClick: () => navigate('home') };
   const rightHeaderActionArr = [{ icon: plus, onClick: () => navigate('createPost') }];
   // Post내부 Container 리렌더링 발생은 나중에 해결
-  const memoizedData = useMemo(() => mockData, []);
 
   const bottomRef = useRef<HTMLDivElement | null>(null);
-  const { data: postData, isLoading, error, fetchNextPage } = useGetPostData();
+  const { data: postData, isLoading, error, fetchNextPage, hasNextPage } = useGetPostData();
   useIntersectionObserver(bottomRef, fetchNextPage);
+  console.log(hasNextPage);
 
   return (
     <>
@@ -97,12 +95,36 @@ export const PostPage = () => {
 
       <Container>
         {postData && postData.map((data, index) => <Post key={index} data={data} />)}
-        {isLoading && <div>로딩중</div>}
+        {/* {!hasNextPage && <ScrollTop />} */}
+        <BottomRef className="bottomRef" ref={bottomRef}></BottomRef>
       </Container>
-      {/* <BottomRef className="bottomRef" ref={bottomRef}></BottomRef> */}
     </>
   );
 };
+
+const ScrollTop = () => {
+  return (
+    <ScrollTopContainer>
+      <span>처음으로 돌아가기</span>
+      <BottomArrow width={'20px'} height={17} />
+    </ScrollTopContainer>
+  );
+};
+
+const ScrollTopContainer = styled.div`
+  width: 100%;
+  border: 1px solid red;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 6vh;
+  gap: 16px;
+  position: absolute;
+
+  span {
+    font-size: ${({ theme }) => theme.fonts.caption_bold_14px};
+  }
+`;
 
 const Container = styled.div`
   width: 100%;
@@ -115,6 +137,5 @@ const Container = styled.div`
 const BottomRef = styled.div`
   width: 100%;
   height: 5vh;
-  border: 1px solid red;
 `;
 export default PostPage;

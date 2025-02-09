@@ -1,9 +1,7 @@
 import styled from 'styled-components';
-import Human from '@onboarding/icons/ic-human.svg?react';
-import { ThirdPageProps } from '@onboarding/types';
+import Icon from '@shared/assets/icon/ic-third-page.svg?react';
 
-const ThirdPage = ({ getValues }: ThirdPageProps) => {
-  const previewImage = getValues('previewImage');
+const ThirdPage = () => {
   return (
     <>
       <Text>
@@ -11,7 +9,7 @@ const ThirdPage = ({ getValues }: ThirdPageProps) => {
       </Text>
 
       <ImageContainer>
-        {!previewImage ? <Human /> : <Image src={previewImage} alt="" />}
+        <Icon width={245} height={184} />
       </ImageContainer>
       {/* <Image src={previewImage} alt="" /> */}
     </>
@@ -26,19 +24,11 @@ const Text = styled.span`
 `;
 
 const ImageContainer = styled.div`
-  width: 20vh;
-  height: 20vh;
-  border-radius: 100%;
-  background-color: #808080;
-  margin-top: 5vh;
+  margin-top: 145px;
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
-const Image = styled.img`
-  width: 100%;
-  height: 100%;
-`;
 export default ThirdPage;
