@@ -5,11 +5,11 @@ import useRefreshMutation from '@shared/hooks/useRefreshMutation';
 import { useEffect } from 'react';
 
 export const AppRouterProvider = () => {
-  const { accessToken } = useAuthStore();
-  const mutation = useRefreshMutation();
-  useEffect(() => {
-    mutation.mutate();
-  }, [accessToken]);
+  // const { accessToken } = useAuthStore();
+  // const mutation = useRefreshMutation();
+  // useEffect(() => {
+  //   mutation.mutate();
+  // }, [accessToken]);
 
   return <RouterProvider router={router} />;
 };

@@ -7,9 +7,8 @@ export const OnboardingPage = () => {
   const navigate = useNavigate();
 
   const handleKakaoLogin = () => {
-    navigate(`${import.meta.env.VITE_SERVER_ADDRESS}/oauth2/authorization/kakao`);
+    window.location.href = `${import.meta.env.VITE_SERVER_ADDRESS}/oauth2/authorization/kakao`;
   };
-
   return (
     <Wrapper>
       <CustomLogo />

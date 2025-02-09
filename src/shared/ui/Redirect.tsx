@@ -1,9 +1,7 @@
-import React from 'react';
-import { useParams } from 'react-router';
+import { useSearchParams } from 'react-router';
 
 const Redirect = () => {
-  const params = useParams();
-  console.log(params);
+  const params = useSearchParams();
   return <div>Redirect</div>;
 };
 

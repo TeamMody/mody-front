@@ -21,8 +21,6 @@ const useLoginMutation = () => {
       const accessToken = data.result.accessToken;
       const registrationCompleted = data.result.registrationCompleted;
 
-      console.log(accessToken);
-
       const { setAccessToken } = useAuthStore.getState();
       setAccessToken(accessToken);
       setTimeout(() => {

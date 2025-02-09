@@ -7,7 +7,6 @@ const useRefreshMutation = () => {
   const refreshMutation = useMutation({
     mutationFn: async () => {
       const response = await apiInstance.post('/auth/reissue');
-      console.log('성공');
       return response.data;
     },
     onSuccess: (data) => {
