@@ -34,3 +34,9 @@ export interface PaginationProps {
   cursor: number | null;
   size: number;
 }
+
+export interface PatchPostProps {
+  isPublic: boolean;
+  content: string | undefined;
+  postId: number;
+}

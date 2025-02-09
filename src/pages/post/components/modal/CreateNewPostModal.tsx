@@ -88,8 +88,8 @@ export const CreateNewPostModal = ({
           </TopBox>
           <BottomBox>
             <BottomImgContainer imgZoom={imgZoom}>
-              <ImageCarousel2
-                images={selectedImages}
+              <ImageCarousel
+                images={selectedImages.map((url) => ({ s3Url: url }))}
                 isExpanded={undefined}
                 imgIdx={imgIdx}
                 setImgIdx={setImgIdx}
@@ -97,7 +97,6 @@ export const CreateNewPostModal = ({
                 imgZoomed={imgZoom}
               />
             </BottomImgContainer>
-
             <ZoomButton onClick={handleImgZoom} imgZoom={imgZoom}>
               {imgZoom ? <IcZoomOutStyle /> : <IcZoomInStyle />}
             </ZoomButton>
