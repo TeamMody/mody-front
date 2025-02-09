@@ -39,13 +39,21 @@ export const MyPage = () => {
   return (
     <Wrapper>
       <AppBar leftHeaderAction={leftHeaderAction} rightHeaderActionArr={rightHeaderActionArr} />
-      {isLoading ? <Loading /> : <SettingModal
-        isOpened={modalState}
-        onClose={closeModal}
-        profileImg={myInfo?.profileImageUrl}
-      />}
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <SettingModal
+          isOpened={modalState}
+          onClose={closeModal}
+          profileImg={myInfo?.profileImageUrl}
+        />
+      )}
       {myInfo && <ProfileHeader myInfo={myInfo} />}
-      <MyBodyTypeCard img={myInfo?.profileImageUrl} bodyType={myInfo?.bodyType} data={data?.result} />
+      <MyBodyTypeCard
+        img={myInfo?.profileImageUrl}
+        bodyType={myInfo?.bodyType}
+        data={data?.result}
+      />
       <MyPageContentLayout />
     </Wrapper>
   );

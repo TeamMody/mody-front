@@ -3,12 +3,11 @@ import { HeaderAction } from '@shared/types';
 
 interface AppBarProps {
   title?: string;
-  leftHeaderAction: HeaderAction;
+  leftHeaderAction?: HeaderAction;
   rightHeaderActionArr?: HeaderAction[];
 }
-
 const AppBar = ({ title, leftHeaderAction, rightHeaderActionArr }: AppBarProps) => {
-  const { icon, onClick } = leftHeaderAction;
+  const { icon, onClick } = leftHeaderAction? leftHeaderAction : { icon: '', onClick: undefined };
 
   return (
     <Wrapper>
@@ -16,7 +15,6 @@ const AppBar = ({ title, leftHeaderAction, rightHeaderActionArr }: AppBarProps) 
         src={icon}
         onClick={onClick ? onClick : undefined}
         style={{ background: 'none' }}
-        alt="left-icon"
       />
       <p>{title}</p>
       <div>
@@ -33,9 +31,7 @@ const AppBar = ({ title, leftHeaderAction, rightHeaderActionArr }: AppBarProps) 
     </Wrapper>
   );
 };
-
 export default AppBar;
-
 const Wrapper = styled.header`
   display: flex;
   justify-content: space-between;
@@ -46,22 +42,18 @@ const Wrapper = styled.header`
   align-items: center;
   padding: 0 20px;
   background: linear-gradient(to bottom, #121212, #262626);
-
   img {
     flex-shrink: 0;
   }
-
   p {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
     color: white;
-    font-size: 16px;
-    font-weight: bold;
+    font: ${({ theme }) => theme.fonts.heading_bold_22px};
     margin: 0;
     text-align: center;
   }
-
   div {
     display: flex;
     gap: 24px;

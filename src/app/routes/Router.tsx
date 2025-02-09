@@ -5,7 +5,7 @@ import {
   BodySurveyPage,
   BodyTypePage,
   StyleSurveyPage,
-  RecommendationResultPage, RecommendationFashionResultPage,
+  RecommendationResultPage,
 } from '@pages/home';
 import { MyPage } from '@pages/my';
 import { OnboardingPage, InputUser } from '@pages/onboarding';
@@ -13,6 +13,8 @@ import SignUpPage from '@pages/onboarding/ui/SignUpMain';
 import SignInPage from '@pages/onboarding/pages/SignInPage';
 import { PostPage, CreatePost, CameraPage, CapturedImgPage } from '@pages/post';
 import Redirect from '@shared/ui/Redirect';
+import PostDetailPage from '@pages/my/ui/PostDetailPage';
+import EditPostPage from '@pages/post/ui/EditPostPage';
 
 export const router = createBrowserRouter([
   {
@@ -41,6 +43,8 @@ export const router = createBrowserRouter([
         children: [
           { index: true, element: <MyPage /> },
           { path: 'createpost', element: <CreatePost isOpened={true} /> },
+          { path: 'mypost', element: <PostDetailPage /> },
+          { path: 'likepost', element: <PostDetailPage /> },
         ],
       },
       {
@@ -79,7 +83,7 @@ export const router = createBrowserRouter([
     element: <BodyTypePage />,
   },
   {
-    path: 'style-survey',
+    path: 'recommendations-survey',
     element: <StyleSurveyPage />,
   },
   {
@@ -87,7 +91,7 @@ export const router = createBrowserRouter([
     element: <RecommendationResultPage />,
   },
   {
-    path: 'recommendation-fashion-result',
-    element: <RecommendationFashionResultPage />,
+    path: 'post/editpost',
+    element: <EditPostPage />,
   },
 ]);

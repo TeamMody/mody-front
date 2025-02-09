@@ -1,5 +1,6 @@
 import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form';
-import { PostData } from './my/my';
+import { RecommendationResponse } from './recommendations/recommendations';
+import { RecommendationType } from './home/home';
 
 export interface ActiveProps {
   $active: boolean;
@@ -22,11 +23,20 @@ export interface FieldProps<T extends FieldValues> {
 }
 
 export interface PostProps {
-  data: PostData;
+  id: number;
+  imageUrl: string;
   activeTab: string;
+  recommendType?: RecommendationType;
+  result?: RecommendationResponse;
 }
 
 export interface PaginationProps {
   cursor: number | null;
   size: number;
+}
+
+export interface PatchPostProps {
+  isPublic: boolean;
+  content: string | undefined;
+  postId: number;
 }

@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 import { RecommendationModal } from './modal/RecommendationModal';
 import { useState } from 'react';
+import { useMyInfoStore } from '@shared/store/useMyInfoStore';
 
 const NoPosts = ({ activeTab }: { activeTab: string }) => {
   const [modalState, setModalState] = useState<boolean>(false);
+  const { myInfo } = useMyInfoStore();
 
   return (
     <Wrapper>
@@ -26,6 +28,7 @@ const NoPosts = ({ activeTab }: { activeTab: string }) => {
         content="스타일을 추천 받으러 가볼까요?"
         btnText="스타일 추천 받기"
         onClose={() => setModalState(false)}
+        img={myInfo?.profileImageUrl}
       />
     </Wrapper>
   );

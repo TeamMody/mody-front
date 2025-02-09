@@ -7,26 +7,12 @@ import ImageCarousel from '@shared/ui/ImageCarousel';
 import EditBottomSheet from './EditBottomSheetModal';
 import Report from '@pages/post/components/Report';
 import usePostLike from '@pages/post/hooks/usePostLike';
+import { PostData } from '@shared/types/my/my';
 
-interface ImgType {
-  s3Url: string;
-}
-interface PostPropsType {
-  bodyType: string;
-  content: string;
-  files: ImgType[];
-  isLiked: boolean;
-  isPublic: boolean;
-  likeCount: number;
-  postId: number;
-  writerId: number;
-  writerNickname: string;
-}
 const Post = memo(
-  ({ data }: { data: PostPropsType }) => {
+  ({ data, type }: { data: PostData; type: String }) => {
     const [imgIdx, setImgIdx] = useState<number>(0);
     const [isExpanded, setIsExpanded] = useState<boolean>(false);
-
     const images = data.files;
     return (
       <Container>
@@ -36,7 +22,7 @@ const Post = memo(
           imgIdx={imgIdx}
           setImgIdx={setImgIdx}
         />
-        <Info isExpanded={isExpanded} data={data} setIsExpanded={setIsExpanded} />
+        <Info isExpanded={isExpanded} data={data} setIsExpanded={setIsExpanded} type={type} />
       </Container>
     );
   },
@@ -60,10 +46,12 @@ const Info = memo(
     isExpanded,
     data,
     setIsExpanded,
+    type,
   }: {
     isExpanded: boolean;
-    data: PostPropsType;
+    data: PostData;
     setIsExpanded: React.Dispatch<React.SetStateAction<boolean>>;
+    type: String;
   }) => {
     const [isMoreClicked, setIsMoreClicked] = useState<boolean>(false);
     const postLikeMutation = usePostLike();
@@ -71,6 +59,7 @@ const Info = memo(
     const handleClickMore = (e: React.MouseEvent<SVGElement>) => {
       e.stopPropagation();
       setIsMoreClicked(true);
+      console.log(data);
     };
     const handleClickHeart = (e: React.MouseEvent<SVGElement>) => {
       e.stopPropagation();
@@ -102,13 +91,14 @@ const Info = memo(
             {/* onClick event 설정 */}
             <MoreVertical onClick={handleClickMore} />
           </div>
-          {data.isPublic && (
+          {type === 'my' && (
             <EditBottomSheet
               isOpen={isMoreClicked}
               onClose={() => setIsMoreClicked(false)}
+              data={data}
             ></EditBottomSheet>
           )}
-          {!data.isPublic && isMoreClicked && <Report />}
+          {type === 'post' && isMoreClicked && <Report postId={data.postId} />}
         </DescriptionContainer>
       </InfoContainer>
     );

@@ -1,12 +1,11 @@
 import Keyword from '@home/components/Keyword.tsx';
 import styled from 'styled-components';
-import { StyleKeywordType, ImageKeyword } from '@shared/types'
 import React from 'react';
 import { useStyleSurveyStore } from '@home/feature/store/useStyleSurveyStore.ts';
 
 interface SurveyProps {
   category: 'liked' | 'disliked' | 'image';
-  keywords: StyleKeywordType[] | ImageKeyword[];
+  keywords: string[];
 }
 
 enum SurveyType {
@@ -37,18 +36,19 @@ const StyleSurvey: React.FC<SurveyProps> = ({ category, keywords }) => {
           <Description>최대 3개 선택 가능</Description>
         </Title>
         <KeywordsWrapper>
-          {keywords.map((keyword) => (
+          {keywords.map((keyword, index) => (
             <Keyword
-              key={keyword.id}
+              key={index}
+              label={keyword}
               validateMaximum={validateMaximum}
-              changeCount={(active) => changeCount(active, keyword.label)}
-              {...keyword} />
+              changeCount={(active) => changeCount(active, keyword)}
+            />
           ))}
         </KeywordsWrapper>
       </Section>
     </>
   );
-}
+};
 
 export default StyleSurvey;
 
