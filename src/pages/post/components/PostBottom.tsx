@@ -1,7 +1,7 @@
 import CustomDivider from '@shared/ui/CustomDivider';
 import { ToggleButton } from './toggleButton';
 import styled from 'styled-components';
-import IcZoom from '@shared/assets/icon/ic-zoom.svg?react';
+import IcZoomIn from '@shared/assets/icon/ic-zoom-in.svg?react';
 
 interface PostBottomProps {
   imgZoom: boolean;
@@ -88,7 +88,7 @@ const SaveStyleButton = styled.button<{ textState: boolean | undefined }>`
   color: black;
 `;
 
-const IcZoomStyle = styled(IcZoom)`
+const IcZoomStyle = styled(IcZoomIn)`
   &:hover {
     path {
       stroke: ${({ theme }) => theme.colors.green500};
