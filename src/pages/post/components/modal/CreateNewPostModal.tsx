@@ -6,14 +6,16 @@ import { ModalProps } from '@shared/types/my/modalProps';
 import { IcLeftArrow } from '@shared/assets/icon/ic-left-arrow';
 import CustomDivider from '@shared/ui/CustomDivider';
 import { ToggleButton } from '@pages/post/components/toggleButton';
-import ImageCarousel from '@shared/ui/ImageCarousel';
-import IcZoom from '@shared/assets/icon/ic-zoom.svg?react';
+import ImageCarousel2 from '@shared/ui/ImageCarousel2';
+import IcZoomIn from '@shared/assets/icon/ic-zoom-in.svg?react';
+import IcZoomOut from '@shared/assets/icon/ic-zoom-out.svg?react';
 import { createS3url } from '@pages/post/apis/createS3Url';
 import { presignedUrlProps } from '@pages/post/apis/createPresignedUrl';
 import { useCreatePost } from '@pages/post/hooks/useCreatePost';
+import { useNavigate } from 'react-router';
 
 interface ImgModalProps extends ModalProps {
-  selectedImages: string[];
+  selectedImages: (string | undefined)[];
   imgZoom: boolean;
   setImgZoom: React.Dispatch<React.SetStateAction<boolean>>;
   presignedUrls: presignedUrlProps[] | undefined;
@@ -31,22 +33,23 @@ export const CreateNewPostModal = ({
   const [textState, setTextState] = useState<string | undefined>(undefined);
   const [buttonState, setButtonState] = useState<boolean>(false);
   const { mutate } = useCreatePost();
-
+  const navigate = useNavigate();
   const handleClose = async () => {
     try {
       if (presignedUrls) {
         const S3Urls = await createS3url({ selectedImages, presignedUrls });
-
+        console.log(S3Urls);
         mutate({
           content: textState,
           isPublic: buttonState,
           s3Urls: S3Urls,
         });
       }
+      setTextState(undefined);
+      navigate(-1);
     } catch (error) {
       console.error('게시물 생성 실패:', error);
     }
-    setTextState(undefined);
   };
 
   const moveBeforePage = () => {
@@ -95,7 +98,7 @@ export const CreateNewPostModal = ({
               />
             </BottomImgContainer>
             <ZoomButton onClick={handleImgZoom} imgZoom={imgZoom}>
-              <IcZoomStyle />
+              {imgZoom ? <IcZoomOutStyle /> : <IcZoomInStyle />}
             </ZoomButton>
 
             <TextArea
@@ -181,7 +184,12 @@ const ZoomButton = styled.button<{ imgZoom: boolean }>`
   height: 5.924vh;
   margin-left: 1.5vw;
   position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   z-index: 10001;
+  border-radius: 50%;
+  background-color: ${({ theme }) => theme.colors.gray800};
   top: ${({ imgZoom }) => (imgZoom === false ? '46vh' : '50.5vh')};
 `;
 
@@ -210,7 +218,14 @@ const SaveStyleButton = styled.button<{ textState: boolean | undefined }>`
   color: black;
 `;
 
-const IcZoomStyle = styled(IcZoom)`
+const IcZoomInStyle = styled(IcZoomIn)`
+  &:hover {
+    path {
+      stroke: ${({ theme }) => theme.colors.green500};
+    }
+  }
+`;
+const IcZoomOutStyle = styled(IcZoomOut)`
   &:hover {
     path {
       stroke: ${({ theme }) => theme.colors.green500};

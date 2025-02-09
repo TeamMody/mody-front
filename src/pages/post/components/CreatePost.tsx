@@ -3,7 +3,6 @@ import { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useNavigate } from 'react-router';
-import { ModalProps } from '@shared/types/my/modalProps';
 import { IcLeftArrow } from '@shared/assets/icon/ic-left-arrow';
 import { CreateNewPostModal } from '@pages/post/components/modal/CreateNewPostModal';
 import { SelectPhotoBottomSheetModal } from '@pages/post/components/modal/SelectPhotoBottomSheetModal';
@@ -13,27 +12,25 @@ import { presignedUrlProps } from '@pages/post/apis/createPresignedUrl';
 export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
   const [modalState, setModalState] = useState<boolean>(false);
   const [opened, setIsOpened] = useState<boolean>(isOpened);
-  const [selectedImages, setSelectedImages] = useState<string[]>([]);
+  const [selectedImages, setSelectedImages] = useState<(string | undefined)[]>([]);
   const [selectedId, setSelectedIds] = useState<number[]>([]);
   const [imgZoom, setImgZoom] = useState<boolean>(false);
   const navigate = useNavigate();
   const [presignedUrls, setPresignedUrls] = useState<presignedUrlProps[]>();
 
-  const openModal = async (data: string[]) => {
+  const openModal = async (data: (string | undefined)[]) => {
     const urls = await createPresignedUrl(data);
     setPresignedUrls(urls);
     setModalState(true);
   };
-  console.log(presignedUrls);
+
   const closeModal = () => {
     setModalState(false);
     setImgZoom(false);
   };
   const closePage = () => {
     setIsOpened(false);
-    setTimeout(() => {
-      navigate('/post');
-    }, 500);
+    navigate(-1);
   };
 
   return ReactDOM.createPortal(
@@ -49,13 +46,15 @@ export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
             <button onClick={closePage}>
               <IcLeftArrow />
             </button>
-            <NextButton
-              onClick={() => openModal(selectedImages)}
-              selectedImages={selectedImages}
-              disabled={selectedImages.length === 0}
-            >
-              다음
-            </NextButton>
+            {selectedImages && (
+              <NextButton
+                onClick={() => openModal(selectedImages)}
+                selectedImages={selectedImages}
+                disabled={selectedImages.length === 0}
+              >
+                다음
+              </NextButton>
+            )}
             <CreateNewPostModal
               isOpened={modalState}
               onClose={closeModal}
@@ -65,9 +64,7 @@ export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
               presignedUrls={presignedUrls}
             />
           </TopBox>
-          <BottomBox isOpened={isOpened}>
-            {selectedImages ? <ChooseImg src={selectedImages.slice(-1)[0]} /> : <></>}
-          </BottomBox>
+          <BottomBox>{selectedImages && <ChooseImg src={selectedImages.slice(-1)[0]} />}</BottomBox>
           <SelectPhotoBottomSheetModal
             isOpened={isOpened}
             onClose={closePage}
@@ -104,7 +101,7 @@ const TopBox = styled.div`
     height: 100%;
   }
 `;
-const NextButton = styled.button<{ selectedImages: string[] }>`
+const NextButton = styled.button<{ selectedImages: (string | undefined)[] }>`
   height: 100%;
   font-size: ${({ theme }) => theme.fonts.heading_medium_18px};
   color: ${({ selectedImages }) => (selectedImages.length > 0 ? 'white' : 'black')};
@@ -114,9 +111,7 @@ const NextButton = styled.button<{ selectedImages: string[] }>`
   }
 `;
 
-type StyledProps = Pick<ModalProps, 'isOpened'>;
-
-const BottomBox = styled.div<StyledProps>`
+const BottomBox = styled.div`
   max-width: 440px;
   width: 100%;
   height: 92.417vh;

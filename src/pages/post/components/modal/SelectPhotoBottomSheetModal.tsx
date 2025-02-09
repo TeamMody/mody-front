@@ -1,15 +1,15 @@
-import { useRef } from 'react';
+import { ChangeEvent, useRef } from 'react';
 import { Sheet, SheetRef } from 'react-modal-sheet';
 import styled from 'styled-components';
 import IcCamera from '@shared/assets/icon/ic-camera.svg?react';
 import IcGallery from '@shared/assets/icon/ic-gallery.svg?react';
-import { ImgLayout } from '@pages/post/components/ImgLayout';
 // import { mockData } from '@pages/post/ui/PostPage';
+// import { ImgLayout } from '@pages/post/components/ImgLayout';
 import { useNavigate } from 'react-router';
 interface SelectPhotoBottomModalProps {
   isOpened: boolean;
   onClose: () => void | undefined;
-  setSelectedImages: React.Dispatch<React.SetStateAction<string[]>>;
+  setSelectedImages: React.Dispatch<React.SetStateAction<(string | undefined)[]>>;
   selectedId: number[];
   setSelectedIds: React.Dispatch<React.SetStateAction<number[]>>;
 }
@@ -24,29 +24,41 @@ export const SelectPhotoBottomSheetModal = ({
   const ref = useRef<SheetRef>(null);
   // const mockImages = mockData.map((data) => data.images)[0];
   const navigate = useNavigate();
-  const handleImageClick = (id: number, imgUrl: string) => {
-    setSelectedIds((prev) => {
-      if (prev.includes(id)) {
-        return prev.filter((selectedId) => selectedId !== id);
-      }
-      return [...prev, id];
-    });
 
-    setSelectedImages((prev) => {
-      if (selectedId.includes(id)) {
-        return prev.filter((_, index) => selectedId[index] !== id);
-      }
-      return [...prev, imgUrl];
-    });
+  // 아래 코드는 하단에 모달이 확정되면 지우겠습니다.
+  // const handleImageClick = (id: number, imgUrl: string) => {
+  //   setSelectedIds((prev) => {
+  //     if (prev.includes(id)) {
+  //       return prev.filter((selectedId) => selectedId !== id);
+  //     }
+  //     return [...prev, id];
+  //   });
+
+  //   setSelectedImages((prev) => {
+  //     if (selectedId.includes(id)) {
+  //       return prev.filter((_, index) => selectedId[index] !== id);
+  //     }
+  //     return [...prev, imgUrl];
+  //   });
+  // };
+
+  const setImges = (e: ChangeEvent<HTMLInputElement>) => {
+    const img = e.target.files?.[0];
+    if (img) {
+      const imgUrl = URL.createObjectURL(img);
+      setSelectedImages((prev) => {
+        return [...prev, imgUrl];
+      });
+    }
   };
-
   return (
     <Sheet isOpen={isOpened} onClose={onClose} ref={ref}>
       <SheetContainer>
         <SheetContent>
           <div>
             <div>갤러리에서 선택하기</div>
-            <input type="file" id="Gallary"></input>
+            <input type="file" id="Gallary" onChange={setImges} />
+
             <label htmlFor="Gallary">
               <GalleryIcon />
             </label>
