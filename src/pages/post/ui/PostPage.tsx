@@ -4,8 +4,8 @@ import plus from '@shared/assets/icon/ic-plus.svg';
 import Post from '@shared/ui/Post.tsx';
 import { useNavigate } from 'react-router';
 import { useRef } from 'react';
-import useGetPostData from '../hooks/useGetPostData';
-import useIntersectionObserver from '../hooks/useIntersectionObserver';
+import useGetPostData from '@post/hooks/useGetPostData';
+import useIntersectionObserver from '@post/hooks/useIntersectionObserver';
 
 export const PostPage = () => {
   const navigate = useNavigate();
