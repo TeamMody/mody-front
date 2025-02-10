@@ -33,8 +33,12 @@ apiInstance.interceptors.response.use(
     const originalRequest = error.config;
     const statusCode = error.response.data.code;
 
-    if (statusCode === 'REFRESH_TOKEN404') {
-      console.log('refresh token 만료');
+    console.log(error);
+
+    if (
+      statusCode === 'REFRESH_TOKEN404' ||
+      (error.response.config.url === '/auth/reissue' && error.status === 400)
+    ) {
       return (window.location.href = `${import.meta.env.VITE_LOCAL_ADDRESS}/onboarding`);
     }
 
