@@ -7,6 +7,7 @@ const useGetInfiniteRecommendations = () => {
   return useInfiniteQuery({
     queryKey: ['recommendation', size],
     queryFn: ({ pageParam }) => getRecommendationResults({ cursor: pageParam, size }),
+    retry: false,
     initialPageParam: null, // 첫 요청은 cursor 없이
     getNextPageParam: (lastPage) => {
       return lastPage.result.cursorPagination.hasNext
