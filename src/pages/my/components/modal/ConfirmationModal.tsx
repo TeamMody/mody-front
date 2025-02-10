@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import ReactDOM from 'react-dom';
 import { deletePostMutation } from '@pages/my/hooks/mutate/useDeletePost';
 import { usePostIdStore } from '@pages/my/features/store/usePostId';
+import { useLogOut } from '@pages/my/hooks/query/useLogOut';
 interface ModalProps {
   isOpened: boolean;
   onClose: () => void;
@@ -38,6 +39,7 @@ export const ConfirmationModal = ({ isOpened, content, onClose, index }: ModalPr
   const handleClose = (index: number = 0) => {
     if (onClose) {
       if (index === 1) {
+        useLogOut();
         onClose();
         navigate('/onboarding');
       } else if (index === 2) {

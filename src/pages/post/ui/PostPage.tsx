@@ -4,16 +4,17 @@ import plus from '@shared/assets/icon/ic-plus.svg';
 import Post from '@shared/ui/Post.tsx';
 import { useNavigate } from 'react-router';
 import { useRef } from 'react';
-import useGetPostData from '../hooks/useGetPostData';
-import useIntersectionObserver from '../hooks/useIntersectionObserver';
+import useGetPostData from '@post/hooks/useGetPostData';
+import useIntersectionObserver from '@post/hooks/useIntersectionObserver';
 
 export const PostPage = () => {
   const navigate = useNavigate();
   const rightHeaderActionArr = [{ icon: plus, onClick: () => navigate('createPost') }];
 
   const bottomRef = useRef<HTMLDivElement | null>(null);
-  const { data: postData, isLoading, error, fetchNextPage } = useGetPostData();
+  const { data: postData, isLoading, error, fetchNextPage, hasNextPage } = useGetPostData();
   useIntersectionObserver(bottomRef, fetchNextPage);
+  console.log(hasNextPage);
 
   return (
     <>
@@ -23,10 +24,33 @@ export const PostPage = () => {
         {postData && postData.map((data, index) => <Post key={index} data={data} type="post" />)}
         {isLoading && <div>로딩중</div>}
       </Container>
-      {/* <BottomRef className="bottomRef" ref={bottomRef}></BottomRef> */}
     </>
   );
 };
+
+// const ScrollTop = () => {
+//   return (
+//     <ScrollTopContainer>
+//       <span>처음으로 돌아가기</span>
+//       <BottomArrow width={'20px'} height={17} />
+//     </ScrollTopContainer>
+//   );
+// };
+
+const ScrollTopContainer = styled.div`
+  width: 100%;
+  border: 1px solid red;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 6vh;
+  gap: 16px;
+  position: absolute;
+
+  span {
+    font-size: ${({ theme }) => theme.fonts.caption_bold_14px};
+  }
+`;
 
 const Container = styled.div`
   width: 100%;
@@ -39,6 +63,5 @@ const Container = styled.div`
 const BottomRef = styled.div`
   width: 100%;
   height: 5vh;
-  border: 1px solid red;
 `;
 export default PostPage;

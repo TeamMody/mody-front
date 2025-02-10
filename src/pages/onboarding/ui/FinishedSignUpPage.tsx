@@ -1,11 +1,14 @@
 import styled from 'styled-components';
+import SignUpCompleteIcon from '@shared/assets/icon/ic-signup-complete.svg?react';
 
 const FinishedSignUpPage = () => {
   return (
     <Wrapper>
       <Text>모디 회원가입이</Text>
       <Text>완료되었어요!</Text>
-      <ImageWrapper></ImageWrapper>
+      <ImageWrapper>
+        <SignUpCompleteIcon />
+      </ImageWrapper>
     </Wrapper>
   );
 };
@@ -25,10 +28,8 @@ const Text = styled.div`
 `;
 
 const ImageWrapper = styled.div`
-  margin-top: 9.48vh;
-  width: 176px;
-  height: 176px;
-  border-radius: 50%;
-  background-color: ${({ theme }) => theme.colors.gray800};
+  margin-top: 12vh;
+  display: flex;
+  justify-content: center;
 `;
 export default FinishedSignUpPage;

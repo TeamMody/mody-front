@@ -14,6 +14,7 @@ import SignInPage from '@pages/onboarding/pages/SignInPage';
 import { PostPage, CreatePost, CameraPage, CapturedImgPage } from '@pages/post';
 import Redirect from '@shared/ui/Redirect';
 import PostDetailPage from '@pages/my/ui/PostDetailPage';
+import EditPostPage from '@pages/post/ui/EditPostPage';
 
 export const router = createBrowserRouter([
   {
@@ -88,5 +89,9 @@ export const router = createBrowserRouter([
   {
     path: 'recommendation-result',
     element: <RecommendationResultPage />,
+  },
+  {
+    path: 'post/editpost',
+    element: <EditPostPage />,
   },
 ]);

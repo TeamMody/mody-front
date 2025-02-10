@@ -93,6 +93,8 @@ const Wrapper = styled.form`
 
 const CustomLogo = styled(Logo)`
   margin-top: 16px;
+  width: 104px;
+  height: 33px;
 `;
 
 const ButtonContainer = styled.div`

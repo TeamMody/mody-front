@@ -13,7 +13,6 @@ const Post = memo(
   ({ data, type }: { data: PostData; type: String }) => {
     const [imgIdx, setImgIdx] = useState<number>(0);
     const [isExpanded, setIsExpanded] = useState<boolean>(false);
-
     const images = data.files;
     return (
       <Container>
@@ -96,6 +95,7 @@ const Info = memo(
             <EditBottomSheet
               isOpen={isMoreClicked}
               onClose={() => setIsMoreClicked(false)}
+              data={data}
             ></EditBottomSheet>
           )}
           {type === 'post' && isMoreClicked && <Report postId={data.postId} />}
