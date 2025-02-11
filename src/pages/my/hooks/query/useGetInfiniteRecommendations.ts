@@ -2,7 +2,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { getRecommendationResults } from '@shared/apis/my';
 
 const useGetInfiniteRecommendations = () => {
-  const size = 6;
+  const size = 12;
 
   return useInfiniteQuery({
     queryKey: ['recommendation', size],

@@ -5,7 +5,6 @@ import { useLocation, useNavigate } from 'react-router';
 import styled from 'styled-components';
 import CustomButton from '@shared/ui/CustomButton.tsx';
 import React, { useState } from 'react';
-import ImgBannerBodyType from '@shared/assets/img/img-banner-body-type.png';
 import { RecommendationLoading } from '@home/components/RecommendationLoading.tsx';
 import IcHeart from '@icon/ic-heart.svg';
 import IcHeartFill from '@icon/ic-heart-fill.svg';
@@ -49,7 +48,7 @@ export const RecommendationResultPage: React.FC = () => {
     <Wrapper>
       <AppBar leftHeaderAction={leftHeaderAction} title={title} rightHeaderActionArr={rightHeaderActions} />
       {isSuccess ? <Container>
-          <Image src={ImgBannerBodyType} />
+          <Image src={result.imageUrl} />
           <BoldText>{result.title}</BoldText>
           <Description>{description}</Description>
           <ButtonContainer>
