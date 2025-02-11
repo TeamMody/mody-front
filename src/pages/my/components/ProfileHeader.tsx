@@ -31,7 +31,7 @@ export const ProfileHeader = ({ myInfo }: { myInfo: MemberInfo }) => {
         <UserInfoContaniner>
           <UserInfoSection>
             <span className="responsive-div">{myInfo?.nickname}</span>
-            <span>{'#' + myInfo?.bodyType + ' 타입' || '체형 진단 결과가 없습니다'}</span>
+            <span>{myInfo.bodyType !== null ? '#' + myInfo?.bodyType + ' 타입' : '체형 진단 결과가 없습니다'}</span>
           </UserInfoSection>
           <ActivityStatus>
             <div>
