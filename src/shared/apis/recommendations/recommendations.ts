@@ -11,7 +11,7 @@ export const fetchPostRecommendations = async (data: RecommendationRequest, type
   try {
     const url = type === RecommendationType.STYLE ? 'style-analysis' : 'fashion-item-analysis';
     const response = await apiInstance.post<BaseResponse<RecommendationResponse>>(`/recommendations/${url}`, data, {
-      timeout: 10000,
+      timeout: 50000,
     });
     return response.data;
   } catch ( error ) {
