@@ -33,8 +33,6 @@ apiInstance.interceptors.response.use(
     const originalRequest = error.config;
     const statusCode = error.response.data.code;
 
-    console.log(error);
-
     if (
       statusCode === 'REFRESH_TOKEN404' ||
       (error.response.config.url === '/auth/reissue' && error.status === 400)
@@ -46,7 +44,6 @@ apiInstance.interceptors.response.use(
       const res = await apiInstance.post('/auth/reissue');
       const newAccessToken = res.data.result.accessToken;
 
-      // ✅ 새 토큰을 저장하고 요청 헤더 업데이트 후 재시도
       const { setAccessToken } = useAuthStore.getState();
       setAccessToken(newAccessToken);
       originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;

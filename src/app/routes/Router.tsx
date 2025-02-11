@@ -12,7 +12,6 @@ import { OnboardingPage, InputUser } from '@pages/onboarding';
 import SignUpPage from '@pages/onboarding/ui/SignUpMain';
 import SignInPage from '@pages/onboarding/pages/SignInPage';
 import { PostPage, CreatePost, CameraPage, CapturedImgPage } from '@pages/post';
-import Redirect from '@shared/ui/Redirect';
 import PostDetailPage from '@pages/my/ui/PostDetailPage';
 import EditPostPage from '@pages/post/ui/EditPostPage';
 
@@ -46,10 +45,6 @@ export const router = createBrowserRouter([
           { path: 'mypost', element: <PostDetailPage /> },
           { path: 'likepost', element: <PostDetailPage /> },
         ],
-      },
-      {
-        path: 'redirect',
-        element: <Redirect />,
       },
     ],
   },

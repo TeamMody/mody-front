@@ -11,7 +11,7 @@ const useGetPostData = () => {
     },
     initialPageParam: 0,
     getNextPageParam: (lastPage) => {
-      return lastPage.cursorPagination.hasNext ? lastPage.cursorPagination.cursor : undefined;
+      return lastPage.cursorPagination.hasNext ? lastPage.cursorPagination.cursor : 0;
     },
     select: (data) => {
       // 모든 페이지의 postResponses를 하나의 배열로 평탄화(flatten)

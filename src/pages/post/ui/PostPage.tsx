@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router';
 import { useRef } from 'react';
 import useGetPostData from '@post/hooks/useGetPostData';
 import useIntersectionObserver from '@post/hooks/useIntersectionObserver';
+import { Loading } from '@shared/ui/Loading';
 
 export const PostPage = () => {
   const navigate = useNavigate();
@@ -14,7 +15,8 @@ export const PostPage = () => {
   const bottomRef = useRef<HTMLDivElement | null>(null);
   const { data: postData, isLoading, error, fetchNextPage, hasNextPage } = useGetPostData();
   useIntersectionObserver(bottomRef, fetchNextPage);
-  console.log(hasNextPage);
+
+  if (isLoading) return <Loading />;
 
   return (
     <>
@@ -22,7 +24,7 @@ export const PostPage = () => {
 
       <Container>
         {postData && postData.map((data, index) => <Post key={index} data={data} type="post" />)}
-        {isLoading && <div>로딩중</div>}
+        <BottomRef ref={bottomRef} />
       </Container>
     </>
   );
@@ -63,5 +65,6 @@ const Container = styled.div`
 const BottomRef = styled.div`
   width: 100%;
   height: 5vh;
+  border: 1px solid red;
 `;
 export default PostPage;
