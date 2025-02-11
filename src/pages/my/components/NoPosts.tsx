@@ -2,23 +2,25 @@ import styled from 'styled-components';
 import { RecommendationModal } from './modal/RecommendationModal';
 import { useState } from 'react';
 import { useMyInfoStore } from '@shared/store/useMyInfoStore';
+import { ActiveIndex, useTabBarStore } from '../features/store/useTabBarStore';
 
-const NoPosts = ({ activeTab }: { activeTab: string }) => {
+const NoPosts = () => {
   const [modalState, setModalState] = useState<boolean>(false);
   const { myInfo } = useMyInfoStore();
+  const { activeIndex } = useTabBarStore();
 
   return (
     <Wrapper>
       <NoPostsWrapper>
-        {activeTab === 'recommend'
+        {activeIndex === ActiveIndex.RECOMMEND
           ? '결과물이 없어요'
-          : activeTab === 'post'
+          : activeIndex === ActiveIndex.MY
             ? '게시물이 없어요'
-            : activeTab === 'like'
+            : activeIndex === ActiveIndex.LIKE
               ? '좋아요한 게시글이 없어요'
               : null}
       </NoPostsWrapper>
-      {activeTab === 'recommend' ? (
+      {activeIndex === ActiveIndex.RECOMMEND ? (
         <GetRecommendWrapper onClick={() => setModalState(true)}>
           추천 받으러 가기
         </GetRecommendWrapper>

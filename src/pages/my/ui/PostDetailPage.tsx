@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from 'react-router';
 import { HeaderAction } from '@shared/types';
 import useGetDetailPost from '../hooks/query/useGetDetailPost';
 import { Loading } from '@shared/ui/Loading';
-import { usePostIdStore } from '../features/store/usePostId';
+import { usePostIdStore } from '../features/store/usePostIdStore';
 import { useEffect } from 'react';
 
 export const PostDetailPage = () => {
