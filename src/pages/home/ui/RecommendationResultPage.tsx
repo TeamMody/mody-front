@@ -55,7 +55,7 @@ export const RecommendationResultPage: React.FC = () => {
           <Description>{description}</Description>
           <ButtonContainer>
             <CustomButton
-              label="완료" onClick={() => navigate( activeIndex === ActiveIndex.HOME ?'/' : '/my', { replace: true })}
+              label="완료" onClick={() => navigate( activeIndex === ActiveIndex.HOME ?'/home' : '/my', { replace: true })}
               active={true}
               paddingTop="19px"
               paddingBottom="19px"
