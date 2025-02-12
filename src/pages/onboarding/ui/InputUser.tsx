@@ -6,7 +6,6 @@ import { useForm } from 'react-hook-form';
 import InputUserMain from '@onboarding/ui/InputUserMain';
 import { UserInfoSchema, UserInfoSchemaType } from '@onboarding/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { apiInstance } from '@shared/apis/instance';
 import { useNavigate } from 'react-router';
 import { handleOnSubmit } from '@onboarding/utils/handleOnSubmit';
 export const InputUser = () => {
@@ -35,7 +34,7 @@ export const InputUser = () => {
 
   const handleButtonClick = () => {
     if (curIdx < 3) setCurIdx((prev) => ++prev);
-    if (curIdx === 3) navigate('/body-survey');
+    if (curIdx === 3) navigate('/home/body-survey');
   };
 
   const handleIsValid = (curIdx: number): boolean => {

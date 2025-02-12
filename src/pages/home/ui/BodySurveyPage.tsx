@@ -98,9 +98,7 @@ const Container = styled.div`
   padding-top: 20px;
   overflow-y: scroll;
   height: 100%;
-
 `;
-
 
 const QuestionsContainer = styled.div`
   display: flex;

@@ -25,9 +25,9 @@ const useLoginMutation = () => {
       setAccessToken(accessToken);
       setTimeout(() => {
         if (registrationCompleted) {
-          navigate('/');
+          navigate('/home');
         } else {
-          navigate('/onboarding/inputuser');
+          navigate('inputuser');
         }
       }, 500);
     },

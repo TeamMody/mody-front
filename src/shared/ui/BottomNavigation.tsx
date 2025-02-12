@@ -1,20 +1,32 @@
-import { Link } from 'react-router';
+import { Link, useLocation } from 'react-router';
 import styled from 'styled-components';
 import IcHome from '@shared/assets/icon/ic-home.tsx';
 import IcInbox from '@shared/assets/icon/ic-inbox.tsx';
 import IcUser from '@shared/assets/icon/ic-user';
 import { ActiveProps } from '@shared/types';
 import { ActiveIndex, useBottomNavigationStore } from '@shared/store/useBottomNavigationStore.ts';
+import { useEffect } from 'react';
 
 const BottomNavigation = () => {
   const { activeIndex, setActiveIndex } = useBottomNavigationStore();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname === '/home') {
+      setActiveIndex(ActiveIndex.HOME);
+    } else if (location.pathname === '/post') {
+      setActiveIndex(ActiveIndex.POST);
+    } else if (location.pathname === '/my') {
+      setActiveIndex(ActiveIndex.PROFILE);
+    }
+  }, [location.pathname]);
 
   return (
     <Wrapper>
       <Container>
         <BottomLink
           onClick={() => setActiveIndex(ActiveIndex.HOME)}
-          to="/"
+          to="/home"
           $active={activeIndex === ActiveIndex.HOME}
         >
           <IcHome $active={activeIndex === ActiveIndex.HOME} />홈

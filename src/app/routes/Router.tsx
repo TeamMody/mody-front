@@ -12,49 +12,12 @@ import { OnboardingPage, InputUser } from '@pages/onboarding';
 import SignUpPage from '@pages/onboarding/ui/SignUpMain';
 import SignInPage from '@pages/onboarding/pages/SignInPage';
 import { PostPage, CreatePost, CameraPage, CapturedImgPage } from '@pages/post';
-import Redirect from '@shared/ui/Redirect';
 import PostDetailPage from '@pages/my/ui/PostDetailPage';
 import EditPostPage from '@pages/post/ui/EditPostPage';
 
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <RootLayout />,
-    children: [
-      {
-        index: true,
-        element: <HomePage />,
-      },
-      {
-        path: 'home',
-        element: <HomePage />,
-      },
-      {
-        path: 'post',
-        children: [
-          { index: true, element: <PostPage /> },
-          { path: 'createpost', element: <CreatePost isOpened={true} /> },
-          { path: 'camerapage', element: <CameraPage /> },
-          { path: 'capturedimgpage', element: <CapturedImgPage /> },
-        ],
-      },
-      {
-        path: 'my',
-        children: [
-          { index: true, element: <MyPage /> },
-          { path: 'createpost', element: <CreatePost isOpened={true} /> },
-          { path: 'mypost', element: <PostDetailPage /> },
-          { path: 'likepost', element: <PostDetailPage /> },
-        ],
-      },
-      {
-        path: 'redirect',
-        element: <Redirect />,
-      },
-    ],
-  },
-  {
-    path: 'onboarding',
     children: [
       {
         index: true,
@@ -71,6 +34,59 @@ export const router = createBrowserRouter([
       {
         path: 'signin',
         element: <SignInPage />,
+      },
+    ],
+  },
+  {
+    path: 'home',
+    element: <RootLayout />,
+    children: [
+      {
+        index: true,
+        element: <HomePage />,
+      },
+    ],
+  },
+  {
+    path: 'post',
+    element: <RootLayout />,
+    children: [
+      {
+        index: true,
+        element: <PostPage />,
+      },
+      {
+        path: 'createpost',
+        element: <CreatePost isOpened={true} />,
+      },
+      {
+        path: 'camerapage',
+        element: <CameraPage />,
+      },
+      {
+        path: 'capturedimgpage',
+        element: <CapturedImgPage />,
+      },
+    ],
+  },
+  {
+    path: 'my',
+    element: <RootLayout />,
+    children: [
+      {
+        index: true, element: <MyPage />,
+      },
+      {
+        path: 'createpost',
+        element: <CreatePost isOpened={true} />,
+      },
+      {
+        path: 'mypost',
+        element: <PostDetailPage />,
+      },
+      {
+        path: 'likepost',
+        element: <PostDetailPage />,
       },
     ],
   },
