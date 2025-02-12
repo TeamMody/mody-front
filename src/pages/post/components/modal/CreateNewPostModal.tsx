@@ -38,7 +38,6 @@ export const CreateNewPostModal = ({
     try {
       if (presignedUrls) {
         const S3Urls = await createS3url({ selectedImages, presignedUrls });
-        console.log(S3Urls);
         mutate({
           content: textState,
           isPublic: buttonState,
