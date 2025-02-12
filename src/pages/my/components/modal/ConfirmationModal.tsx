@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import ReactDOM from 'react-dom';
 import { deletePostMutation } from '@pages/my/hooks/mutate/useDeletePost';
-import { usePostIdStore } from '@pages/my/features/store/usePostId';
+import { usePostIdStore } from '@pages/my/features/store/usePostIdStore';
 import { useLogOut } from '@pages/my/hooks/query/useLogOut';
 interface ModalProps {
   isOpened: boolean;
