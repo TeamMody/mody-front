@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState, memo } from 'react';
+import { useState, memo, forwardRef } from 'react';
 import Heart from '@shared/assets/icon/ic-heart.svg?react';
 import MoreVertical from '@shared/assets/icon/ic-more-vertical.svg?react';
 import FullHeart from '@shared/assets/icon/ic-full-heart.svg?react';
@@ -10,12 +10,13 @@ import usePostLike from '@pages/post/hooks/usePostLike';
 import { PostData } from '@shared/types/my/my';
 
 const Post = memo(
-  ({ data, type }: { data: PostData; type: String }) => {
+  forwardRef<HTMLDivElement, { data: PostData; type: string }>(({ data, type }, ref) => {
     const [imgIdx, setImgIdx] = useState<number>(0);
     const [isExpanded, setIsExpanded] = useState<boolean>(false);
     const images = data.files;
+
     return (
-      <Container>
+      <Container ref={ref}>
         <ImageCarousel
           images={images}
           isExpanded={isExpanded}
@@ -25,11 +26,7 @@ const Post = memo(
         <Info isExpanded={isExpanded} data={data} setIsExpanded={setIsExpanded} type={type} />
       </Container>
     );
-  },
-  (prevProps, nextProps) => {
-    // props 비교 함수: 데이터가 동일하면 리렌더링 방지
-    return prevProps.data === nextProps.data;
-  },
+  }),
 );
 
 const Container = styled.main`
@@ -51,7 +48,7 @@ const Info = memo(
     isExpanded: boolean;
     data: PostData;
     setIsExpanded: React.Dispatch<React.SetStateAction<boolean>>;
-    type: String;
+    type: string;
   }) => {
     const [isMoreClicked, setIsMoreClicked] = useState<boolean>(false);
     const postLikeMutation = usePostLike();
@@ -59,27 +56,26 @@ const Info = memo(
     const handleClickMore = (e: React.MouseEvent<SVGElement>) => {
       e.stopPropagation();
       setIsMoreClicked(true);
-      console.log(data);
     };
+
     const handleClickHeart = (e: React.MouseEvent<SVGElement>) => {
       e.stopPropagation();
       postLikeMutation.mutate(data.postId);
     };
 
     return (
-      <InfoContainer id={data.postId}>
+      <InfoContainer id={data.postId.toString()}>
         <UserInfo isExpanded={isExpanded} onClick={() => setIsExpanded((prev) => !prev)}>
           <div className="user">
             <span className="user-name" id={`${data.writerId}`}>
               {data.writerNickname}
             </span>
-            <span className="user-type">{data.bodyType}</span>
+            <span className="user-type">{data.bodyType} 타입</span>
           </div>
           <p className={`description ${isExpanded ? 'expanded' : ''}`}>{data.content}</p>
         </UserInfo>
         <DescriptionContainer>
           <div className="heart">
-            {/* onClick event 설정 */}
             {data.isLiked ? (
               <FullHeart width={24} height={24} id="heart-liked" onClick={handleClickHeart} />
             ) : (
@@ -88,7 +84,6 @@ const Info = memo(
             <span>{data.likeCount}</span>
           </div>
           <div className="more-vertical">
-            {/* onClick event 설정 */}
             <MoreVertical onClick={handleClickMore} />
           </div>
           {type === 'my' && (
@@ -96,23 +91,16 @@ const Info = memo(
               isOpen={isMoreClicked}
               onClose={() => setIsMoreClicked(false)}
               data={data}
-            ></EditBottomSheet>
+            />
           )}
           {type === 'post' && isMoreClicked && <Report postId={data.postId} />}
         </DescriptionContainer>
       </InfoContainer>
     );
   },
-  (prevProps, nextProps) => {
-    return (
-      prevProps.isExpanded === nextProps.isExpanded &&
-      prevProps.data === nextProps.data &&
-      prevProps.setIsExpanded === nextProps.setIsExpanded
-    );
-  },
 );
 
-const InfoContainer = styled.div<{ id: number }>`
+const InfoContainer = styled.div`
   width: 100%;
   height: 20%;
   background-color: transparent;
@@ -134,8 +122,6 @@ const UserInfo = styled.div<{ isExpanded: boolean }>`
   transition:
     transform 0.7s ease,
     height 0.7s ease;
-
-  /* 위로 확장되도록 transform 적용 */
   transform: ${({ isExpanded }) => (isExpanded ? 'translateY(-25vh)' : 'translateY(0)')};
 
   .user {
@@ -155,7 +141,6 @@ const UserInfo = styled.div<{ isExpanded: boolean }>`
     height: 4vh;
     width: 90%;
     line-height: 110%;
-
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -178,8 +163,8 @@ const DescriptionContainer = styled.div`
   flex-direction: column;
   position: absolute;
   right: 0;
-
   gap: 15px;
+
   .more-vertical {
     display: flex;
     align-items: center;
