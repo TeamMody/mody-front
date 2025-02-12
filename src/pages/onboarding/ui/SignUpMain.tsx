@@ -27,7 +27,7 @@ const SignUpMain = () => {
     }
     if (slideIndex === 2) {
       // 회원가입 완료 시 페이지 이동
-      navigate('/onboarding');
+      navigate('/');
     }
     if (slideIndex === 0) {
       setButtonActive(false);

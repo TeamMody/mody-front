@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import ReactDOM from 'react-dom';
 import { deletePostMutation } from '@pages/my/hooks/mutate/useDeletePost';
-import { usePostIdStore } from '@pages/my/features/store/usePostId';
+import { usePostIdStore } from '@pages/my/features/store/usePostIdStore';
 import { useLogOut } from '@pages/my/hooks/query/useLogOut';
+
 interface ModalProps {
   isOpened: boolean;
   onClose: () => void;
@@ -41,10 +42,10 @@ export const ConfirmationModal = ({ isOpened, content, onClose, index }: ModalPr
       if (index === 1) {
         useLogOut();
         onClose();
-        navigate('/onboarding');
+        navigate('/', { replace: true });
       } else if (index === 2) {
         onClose();
-        navigate('/my'); // 삭제하기 모달에서 예를 눌렀을 때 라우팅 설정
+        navigate('/my', { replace: true }); // 삭제하기 모달에서 예를 눌렀을 때 라우팅 설정
         if (postId) {
           deletePost(postId);
         }
@@ -101,6 +102,7 @@ const Container = styled.div`
     margin-top: 9.123vh;
     width: 100%;
   }
+
   & > div:nth-child(2) > button:nth-child(1) {
     width: 38.462vw;
     height: 5.213vh;
@@ -108,6 +110,7 @@ const Container = styled.div`
     background-color: ${({ theme }) => theme.colors.green500};
     color: black;
   }
+
   & > div:nth-child(2) > button:nth-child(2) {
     width: 38.462vw;
     height: 5.213vh;

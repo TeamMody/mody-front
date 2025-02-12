@@ -1,31 +1,20 @@
-import { useState } from 'react';
-import { MiddleTabBar } from '@pages/my/components/MiddleTabBar.tsx';
-import IcHexagon from '@shared/assets/icon/ic-hexagon.tsx';
-import IcGrid from '@shared/assets/icon/ic-grid.tsx';
-import IcHeart from '@shared/assets/icon/ic-heart.tsx';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import styled from 'styled-components';
 import MyAndLikePosts from './MyAndLikePosts';
 import RecommendResults from './RecommendResults';
+import { ActiveIndex, useTabBarStore } from '../features/store/useTabBarStore';
+import MiddleTabBar from './MiddleTabBar';
 export const MyPageContentLayout = () => {
-  const [activeTab, setActiveTab] = useState<string>('recommend');
-
-  const tabs = [
-    { id: 'recommend', icon: IcHexagon, label: '추천 결과' },
-    { id: 'post', icon: IcGrid, label: '게시글' },
-    { id: 'like', icon: IcHeart, label: '좋아요' },
-  ];
-
-  const tabIndex = tabs.findIndex((tab) => tab.id === activeTab);
+  const { activeIndex, setActiveIndex } = useTabBarStore();
 
   return (
     <>
-      <MiddleTabBar tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />
+      <MiddleTabBar />
       <StyledCarousel
-        selectedItem={tabIndex} // 현재 슬라이드 인덱스
+        selectedItem={activeIndex - 1} // 현재 슬라이드 인덱스
         onChange={(index) => {
-          setActiveTab(tabs[index].id);
+          setActiveIndex(index + 1);
         }} // 슬라이드 변경 시 탭 동기화
         showArrows={false} // 화살표 숨김
         showStatus={false} // 상태 표시 숨김
@@ -35,9 +24,9 @@ export const MyPageContentLayout = () => {
         swipeScrollTolerance={50}
         preventMovementUntilSwipeScrollTolerance={true} // 설정된 거리까지 스와이프 대기
       >
-        <RecommendResults activeTab={'recommend'} />
-        <MyAndLikePosts activeTab={'post'} />
-        <MyAndLikePosts activeTab={'like'} />
+        <RecommendResults />
+        <MyAndLikePosts activeIndex={ActiveIndex.MY} />
+        <MyAndLikePosts activeIndex={ActiveIndex.LIKE} />
       </StyledCarousel>
     </>
   );

@@ -13,7 +13,7 @@ const FourthPage = () => {
         <Icon width={95} height={213} />
       </ImageContainer>
       {/* link */}
-      <LinkSpan onClick={() => navigate('/')}>분석 없이 써볼래요</LinkSpan>
+      <LinkSpan onClick={() => navigate('home', { replace: true })}>분석 없이 써볼래요</LinkSpan>
     </>
   );
 };

@@ -18,38 +18,6 @@ import EditPostPage from '@pages/post/ui/EditPostPage';
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <RootLayout />,
-    children: [
-      {
-        index: true,
-        element: <HomePage />,
-      },
-      {
-        path: 'home',
-        element: <HomePage />,
-      },
-      {
-        path: 'post',
-        children: [
-          { index: true, element: <PostPage /> },
-          { path: 'createpost', element: <CreatePost isOpened={true} /> },
-          { path: 'camerapage', element: <CameraPage /> },
-          { path: 'capturedimgpage', element: <CapturedImgPage /> },
-        ],
-      },
-      {
-        path: 'my',
-        children: [
-          { index: true, element: <MyPage /> },
-          { path: 'createpost', element: <CreatePost isOpened={true} /> },
-          { path: 'mypost', element: <PostDetailPage /> },
-          { path: 'likepost', element: <PostDetailPage /> },
-        ],
-      },
-    ],
-  },
-  {
-    path: 'onboarding',
     children: [
       {
         index: true,
@@ -66,6 +34,59 @@ export const router = createBrowserRouter([
       {
         path: 'signin',
         element: <SignInPage />,
+      },
+    ],
+  },
+  {
+    path: 'home',
+    element: <RootLayout />,
+    children: [
+      {
+        index: true,
+        element: <HomePage />,
+      },
+    ],
+  },
+  {
+    path: 'post',
+    element: <RootLayout />,
+    children: [
+      {
+        index: true,
+        element: <PostPage />,
+      },
+      {
+        path: 'createpost',
+        element: <CreatePost isOpened={true} />,
+      },
+      {
+        path: 'camerapage',
+        element: <CameraPage />,
+      },
+      {
+        path: 'capturedimgpage',
+        element: <CapturedImgPage />,
+      },
+    ],
+  },
+  {
+    path: 'my',
+    element: <RootLayout />,
+    children: [
+      {
+        index: true, element: <MyPage />,
+      },
+      {
+        path: 'createpost',
+        element: <CreatePost isOpened={true} />,
+      },
+      {
+        path: 'mypost',
+        element: <PostDetailPage />,
+      },
+      {
+        path: 'likepost',
+        element: <PostDetailPage />,
       },
     ],
   },
