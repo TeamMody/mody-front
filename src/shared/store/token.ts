@@ -13,17 +13,10 @@ interface TokenState {
 //   logOut: () => set({ accessToken: '' }),
 // }));
 
-export const useAuthStore = create<TokenState>()(
-  persist(
-    (set) => ({
-      accessToken: '',
-      setAccessToken: (token: string) => set({ accessToken: token }),
-      logOut: () => set({ accessToken: '' }),
-    }),
-    {
-      name: 'access-token-storage',
-    },
-  ),
-);
+const useAuthStore = create<TokenState>((set) => ({
+  accessToken: '',
+  setAccessToken: (token: string) => set({ accessToken: token }),
+  logOut: () => set({ accessToken: '' }),
+}));
 
 export default useAuthStore;
