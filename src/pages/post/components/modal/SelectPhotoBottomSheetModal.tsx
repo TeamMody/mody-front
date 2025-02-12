@@ -3,12 +3,8 @@ import { Sheet, SheetRef } from 'react-modal-sheet';
 import styled from 'styled-components';
 import IcCamera from '@shared/assets/icon/ic-camera.svg?react';
 import IcGallery from '@shared/assets/icon/ic-gallery.svg?react';
-<<<<<<< HEAD
-import { ImgLayout } from '@pages/post/components/ImgLayout';
-=======
 // import { mockData } from '@pages/post/ui/PostPage';
 // import { ImgLayout } from '@pages/post/components/ImgLayout';
->>>>>>> a08b93c92a9fcfebcd2953616a8b36592c085776
 import { useNavigate } from 'react-router';
 interface SelectPhotoBottomModalProps {
   isOpened: boolean;

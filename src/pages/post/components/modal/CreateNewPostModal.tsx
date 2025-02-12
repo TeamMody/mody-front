@@ -6,7 +6,7 @@ import { ModalProps } from '@shared/types/my/modalProps';
 import { IcLeftArrow } from '@shared/assets/icon/ic-left-arrow';
 import CustomDivider from '@shared/ui/CustomDivider';
 import { ToggleButton } from '@pages/post/components/toggleButton';
-import ImageCarousel from '@shared/ui/ImageCarousel2';
+import ImageCarousel2 from '@shared/ui/ImageCarousel2';
 import IcZoomIn from '@shared/assets/icon/ic-zoom-in.svg?react';
 import IcZoomOut from '@shared/assets/icon/ic-zoom-out.svg?react';
 import { createS3url } from '@pages/post/apis/createS3Url';
@@ -88,8 +88,8 @@ export const CreateNewPostModal = ({
           </TopBox>
           <BottomBox>
             <BottomImgContainer imgZoom={imgZoom}>
-              <ImageCarousel
-                images={selectedImages.map((url) => ({ s3Url: url }))}
+              <ImageCarousel2
+                images={selectedImages}
                 isExpanded={undefined}
                 imgIdx={imgIdx}
                 setImgIdx={setImgIdx}
