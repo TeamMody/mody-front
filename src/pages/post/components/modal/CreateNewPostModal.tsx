@@ -15,7 +15,7 @@ import { useCreatePost } from '@pages/post/hooks/useCreatePost';
 import { useNavigate } from 'react-router';
 
 interface ImgModalProps extends ModalProps {
-  selectedImages: (string | undefined)[];
+  selectedImages?: string[];
   imgZoom: boolean;
   setImgZoom: React.Dispatch<React.SetStateAction<boolean>>;
   presignedUrls: presignedUrlProps[] | undefined;

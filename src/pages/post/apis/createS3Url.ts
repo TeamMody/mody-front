@@ -4,7 +4,7 @@ export const createS3url = async ({
   selectedImages,
   presignedUrls,
 }: {
-  selectedImages: (string | undefined)[];
+  selectedImages?: string[];
   presignedUrls: presignedUrlProps[];
 }): Promise<(string | undefined)[] | undefined> => {
   try {
