@@ -12,7 +12,7 @@ const BottomNavigation = () => {
   const location = useLocation();
 
   useEffect(() => {
-    if (location.pathname === '/') {
+    if (location.pathname === '/home') {
       setActiveIndex(ActiveIndex.HOME);
     } else if (location.pathname === '/post') {
       setActiveIndex(ActiveIndex.POST);
@@ -26,7 +26,7 @@ const BottomNavigation = () => {
       <Container>
         <BottomLink
           onClick={() => setActiveIndex(ActiveIndex.HOME)}
-          to="/"
+          to="/home"
           $active={activeIndex === ActiveIndex.HOME}
         >
           <IcHome $active={activeIndex === ActiveIndex.HOME} />홈
