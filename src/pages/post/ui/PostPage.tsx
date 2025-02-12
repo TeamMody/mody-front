@@ -23,8 +23,15 @@ export const PostPage = () => {
       <AppBar title={'김모디'} rightHeaderActionArr={rightHeaderActionArr} />
 
       <Container>
-        {postData && postData.map((data, index) => <Post key={index} data={data} type="post" />)}
-        <BottomRef ref={bottomRef} />
+        {postData &&
+          postData.map((data, index) => (
+            <Post
+              key={index}
+              data={data}
+              type="post"
+              ref={index === postData.length - 2 ? bottomRef : undefined}
+            />
+          ))}
       </Container>
     </>
   );
@@ -64,7 +71,6 @@ const Container = styled.div`
 
 const BottomRef = styled.div`
   width: 100%;
-  height: 5vh;
-  border: 1px solid red;
+  // height: 5vh;
 `;
 export default PostPage;
