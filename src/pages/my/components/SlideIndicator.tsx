@@ -1,7 +1,9 @@
 import styled from 'styled-components';
+import { useTabBarStore } from '../features/store/useTabBarStore';
 
-const SlideIndicator = ({ activeTabIndex }: { activeTabIndex: number }) => {
-  return <IndicatorWrapper $activeTabIndex={activeTabIndex} />;
+const SlideIndicator = () => {
+  const { activeIndex } = useTabBarStore();
+  return <IndicatorWrapper $activeTabIndex={activeIndex - 1} />;
 };
 const IndicatorWrapper = styled.div<{ $activeTabIndex: number }>`
   position: absolute;
