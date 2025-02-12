@@ -27,7 +27,7 @@ const useLoginMutation = () => {
         if (registrationCompleted) {
           navigate('/home');
         } else {
-          navigate('inputuser');
+          navigate('/inputuser');
         }
       }, 500);
     },
