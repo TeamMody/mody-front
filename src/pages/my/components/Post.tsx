@@ -2,26 +2,28 @@ import IcHeart from '@shared/assets/icon/ic-full-heart.svg';
 import { PostProps } from '@shared/types';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
+import { ActiveIndex, useTabBarStore } from '../features/store/useTabBarStore';
 
-const Post = ({ id, imageUrl, activeTab, recommendType, result }: PostProps) => {
+const Post = ({ id, imageUrl, recommendType, result }: PostProps) => {
   const navigate = useNavigate();
+  const { activeIndex } = useTabBarStore();
 
   const handleOnClick = () => {
-    if (activeTab === 'post')
+    if (activeIndex === ActiveIndex.MY)
       navigate('/my/mypost', {
         state: {
           id,
           title: '내 게시글',
         },
       });
-    else if (activeTab === 'like') {
+    else if (activeIndex === ActiveIndex.LIKE) {
       navigate('/my/likepost', {
         state: {
           id,
           title: '좋아요',
         },
       });
-    } else if (activeTab === 'recommend') {
+    } else if (activeIndex === ActiveIndex.RECOMMEND) {
       navigate('/recommendation-result', {
         state: {
           type: recommendType,
@@ -34,7 +36,7 @@ const Post = ({ id, imageUrl, activeTab, recommendType, result }: PostProps) => 
   return (
     <PostWrapper onClick={handleOnClick}>
       <Image src={imageUrl} alt="게시물" />
-      {result && result.liked && activeTab === 'recommend' && (
+      {result && result.liked && activeIndex === ActiveIndex.RECOMMEND && (
         <HeartIcon src={IcHeart} alt="좋아요 아이콘" />
       )}
     </PostWrapper>

@@ -7,7 +7,7 @@ import { SmallLoading } from '@shared/ui/SmallLoading';
 import { RecommendationResponse, RecommendationType } from '@shared/types';
 import Post from './Post';
 
-const RecommendResults = ({ activeTab }: { activeTab: string }) => {
+const RecommendResults = () => {
   const {
     data: results,
     isLoading,
@@ -27,7 +27,7 @@ const RecommendResults = ({ activeTab }: { activeTab: string }) => {
       </LoadingWrapper>
     );
   }
-  if (isError) return <NoPosts activeTab={activeTab} />;
+  if (isError) return <NoPosts />;
 
   return results?.pages[0] ? (
     <RecommendResultsWrapper ref={containerRef}>
@@ -38,13 +38,12 @@ const RecommendResults = ({ activeTab }: { activeTab: string }) => {
           imageUrl={post.imageUrl}
           recommendType={RecommendationType[post.recommendType as keyof typeof RecommendationType]}
           result={post}
-          activeTab={activeTab}
         />
       ))}
       {hasNextPage && <Bottom ref={ref}>{isFetchingNextPage && <SmallLoading />}</Bottom>}
     </RecommendResultsWrapper>
   ) : (
-    <NoPosts activeTab={activeTab} />
+    <NoPosts />
   );
 };
 

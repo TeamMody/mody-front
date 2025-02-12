@@ -6,8 +6,9 @@ import { useInView } from 'react-intersection-observer';
 import { SmallLoading } from '@shared/ui/SmallLoading';
 import { PostData } from '@shared/types/my/my';
 import useInfiniteScroll from '../hooks/useInfiniteScroll';
+import { ActiveIndex } from '../features/store/useTabBarStore';
 
-const MyAndLikePosts = ({ activeTab }: { activeTab: string }) => {
+const MyAndLikePosts = ({ activeIndex }: { activeIndex: ActiveIndex }) => {
   const {
     data: posts,
     isLoading,
@@ -15,7 +16,7 @@ const MyAndLikePosts = ({ activeTab }: { activeTab: string }) => {
     hasNextPage,
     fetchNextPage,
     isFetchingNextPage,
-  } = useGetInfinitePosts({ activeTab });
+  } = useGetInfinitePosts(activeIndex);
 
   const { ref, inView } = useInView({ threshold: 0 });
 
@@ -33,17 +34,12 @@ const MyAndLikePosts = ({ activeTab }: { activeTab: string }) => {
   return posts?.pages[0] ? (
     <MyAndLikePostsWrapper ref={containerRef}>
       {posts?.pages.map((post: PostData) => (
-        <Post
-          key={post.postId}
-          id={post.postId}
-          imageUrl={post.files[0].s3Url}
-          activeTab={activeTab}
-        />
+        <Post key={post.postId} id={post.postId} imageUrl={post.files[0].s3Url} />
       ))}
       {hasNextPage && <Bottom ref={ref}>{isFetchingNextPage && <SmallLoading />}</Bottom>}
     </MyAndLikePostsWrapper>
   ) : (
-    <NoPosts activeTab={activeTab} />
+    <NoPosts />
   );
 };
 

@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router';
 import { useRef } from 'react';
 import useGetPostData from '@post/hooks/useGetPostData';
 import useIntersectionObserver from '@post/hooks/useIntersectionObserver';
+import { Loading } from '@shared/ui/Loading';
 
 export const PostPage = () => {
   const navigate = useNavigate();
@@ -14,15 +15,23 @@ export const PostPage = () => {
   const bottomRef = useRef<HTMLDivElement | null>(null);
   const { data: postData, isLoading, error, fetchNextPage, hasNextPage } = useGetPostData();
   useIntersectionObserver(bottomRef, fetchNextPage);
-  console.log(hasNextPage);
+
+  if (isLoading) return <Loading />;
 
   return (
     <>
       <AppBar title={'김모디'} rightHeaderActionArr={rightHeaderActionArr} />
 
       <Container>
-        {postData && postData.map((data, index) => <Post key={index} data={data} type="post" />)}
-        {isLoading && <div>로딩중</div>}
+        {postData &&
+          postData.map((data, index) => (
+            <Post
+              key={index}
+              data={data}
+              type="post"
+              ref={index === postData.length - 2 ? bottomRef : undefined}
+            />
+          ))}
       </Container>
     </>
   );
@@ -62,6 +71,6 @@ const Container = styled.div`
 
 const BottomRef = styled.div`
   width: 100%;
-  height: 5vh;
+  // height: 5vh;
 `;
 export default PostPage;

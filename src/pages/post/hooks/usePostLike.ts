@@ -1,51 +1,58 @@
-import { useMutation, useQueryClient, QueryKey } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiInstance } from '@shared/apis/instance';
 
 interface PostData {
+  postId: number;
   isLiked: boolean;
   likeCount: number;
+  files: string[]; // ✅ images 배열 유지
 }
 
 const usePostLike = () => {
   const queryClient = useQueryClient();
 
-  const postLikeMutation = useMutation<
-    number,
-    Error,
-    number,
-    { previousPost?: PostData; postId: number }
-  >({
+  const postLikeMutation = useMutation<number, Error, number>({
     mutationFn: async (postId: number): Promise<number> => {
       await apiInstance.post(`/posts/${postId}/like`);
       return postId;
     },
-    onMutate: async (postId: number) => {
-      const queryKey: QueryKey = ['post', postId]; // ✅ QueryKey 타입을 명확하게 지정
-      await queryClient.cancelQueries(queryKey);
+    onMutate: (postId: number) => {
+      const previousPosts = queryClient.getQueryData<{ pages: { postResponses: PostData[] }[] }>([
+        'posts',
+      ]);
 
-      const previousPost = queryClient.getQueryData<PostData>(queryKey);
+      if (!previousPosts) return { previousPosts, postId };
 
-      if (previousPost) {
-        // 낙관적 업데이트 적용
-        queryClient.setQueryData(queryKey, {
-          ...previousPost,
-          isLiked: !previousPost.isLiked,
-          likeCount: previousPost.isLiked ? previousPost.likeCount - 1 : previousPost.likeCount + 1,
-        });
-      }
+      // ✅ 무한 스크롤 데이터 구조 유지하며 업데이트
+      const updatedPosts = {
+        ...previousPosts,
+        pages: previousPosts.pages.map((page) => ({
+          ...page,
+          postResponses: page.postResponses.map((post) =>
+            post.postId === postId
+              ? {
+                  ...post,
+                  isLiked: !post.isLiked,
+                  likeCount: post.isLiked ? post.likeCount - 1 : post.likeCount + 1,
+                  files: [...post.files],
+                }
+              : post,
+          ),
+        })),
+      };
 
-      return { previousPost, postId };
+      // ✅ UI를 즉시 업데이트
+      queryClient.setQueryData(['posts'], updatedPosts);
+
+      return { previousPosts, postId };
     },
     onError: (_error, _variables, context) => {
-      if (context?.previousPost) {
-        const queryKey: QueryKey = ['post', context.postId];
-        queryClient.setQueryData(queryKey, context.previousPost);
+      if (context?.previousPosts) {
+        queryClient.setQueryData(['posts'], context.previousPosts);
       }
     },
-
-    onSettled: (_data, _error, postId) => {
-      const queryKey: QueryKey = ['post', postId];
-      queryClient.invalidateQueries(queryKey);
+    onSuccess: (_data, _error) => {
+      queryClient.refetchQueries(['posts']); // ✅ 최신 데이터를 다시 패칭
     },
   });
 

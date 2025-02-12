@@ -25,7 +25,6 @@ export interface FieldProps<T extends FieldValues> {
 export interface PostProps {
   id: number;
   imageUrl: string;
-  activeTab: string;
   recommendType?: RecommendationType;
   result?: RecommendationResponse;
 }
