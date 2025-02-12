@@ -3,6 +3,9 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a lo
 import ProgressBar from '@shared/ui/ProgressBar';
 import { Carousel } from 'react-responsive-carousel';
 
+interface ImgType {
+  s3Url: string;
+}
 const ImageCarousel = ({
   images,
   height = '60vh',
@@ -10,13 +13,15 @@ const ImageCarousel = ({
   imgIdx,
   setImgIdx,
   marginTop,
+  imgZoomed,
 }: {
-  images: string[];
+  images: ImgType[];
   height?: string;
   isExpanded?: boolean;
   imgIdx: number;
   setImgIdx: React.Dispatch<React.SetStateAction<number>>;
   marginTop?: string | undefined;
+  imgZoomed?: boolean;
 }) => {
   return (
     <>
@@ -31,11 +36,12 @@ const ImageCarousel = ({
         centerSlidePercentage={95}
         {...(isExpanded !== undefined && { isExpanded })}
         height={height}
+        imgZoomed={imgZoomed}
       >
         {images.map((img, idx) => {
           return (
             <div key={idx}>
-              <img src={img} />;
+              <img src={img.s3Url} />
             </div>
           );
         })}
@@ -45,14 +51,19 @@ const ImageCarousel = ({
         curIdx={imgIdx}
         size={7}
         marginTop={marginTop}
+        imgZoom={imgZoomed}
       ></ProgressBar>
     </>
   );
 };
 
-const StyledCarousel = styled(Carousel)<{ isExpanded: boolean; height: string }>`
+const StyledCarousel = styled(Carousel)<{
+  isExpanded: boolean;
+  height: string;
+  imgZoomed?: boolean;
+}>`
   width: 100%;
-  height: ${({ height }) => height};
+  height: ${({ imgZoomed, height }) => (imgZoomed ? '53.791vh' : height)};
   background-color: ${({ theme }) => theme.colors.gray500};
   filter: ${({ isExpanded }) => (isExpanded ? 'brightness(0.5)' : '')};
   div {

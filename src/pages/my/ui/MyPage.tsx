@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 import AppBar from '@shared/ui/AppBar.tsx';
 import { HeaderAction } from '@shared/types';
@@ -6,22 +5,17 @@ import logo from '@shared/assets/icon/ic-logo.svg';
 import plus from '@shared/assets/icon/ic-plus.svg';
 import hamburger from '@shared/assets/icon/ic-hamburger.svg';
 import { MyPageContentLayout } from '@pages/my/components/MyPageContentLayout';
-import { MyBodyTypeCard } from '@pages/my/components/MyBodyTypeCard';
-import { ProfileHeader } from '@pages/my/components/ProfileHeader';
-import { SettingModal } from '@pages/my/components/modal/SettingModal';
 import { useNavigate } from 'react-router';
+import { Loading } from '@shared/ui/Loading.tsx';
+import Profile from '@my/components/Profile.tsx';
+import { useControlModal } from '@my/hooks/useControlModal.ts';
+import { useGetMyInfo } from '@shared/hooks/useGetMyInfo.ts';
 
 export const MyPage = () => {
-  const [modalState, setModalState] = useState<boolean>(false);
   const navigate = useNavigate();
-  const openModal = () => {
-    setModalState(true);
-  };
-  const closeModal = () => {
-    setModalState(false);
-  };
-
-  const leftHeaderAction: HeaderAction = { icon: logo, onClick: () => console.log('') };
+  const { modalState, closeModal, openModal } = useControlModal();
+  const { data: fetchedInfo, isLoading } = useGetMyInfo();
+  const leftHeaderAction: HeaderAction = { icon: logo, onClick: () => navigate('/home') };
   const rightHeaderActionArr: HeaderAction[] = [
     { icon: plus, onClick: () => navigate('createPost') },
     {
@@ -33,10 +27,18 @@ export const MyPage = () => {
   return (
     <Wrapper>
       <AppBar leftHeaderAction={leftHeaderAction} rightHeaderActionArr={rightHeaderActionArr} />
-      <SettingModal isOpened={modalState} onClose={closeModal} />
-      <ProfileHeader />
-      <MyBodyTypeCard />
-      <MyPageContentLayout />
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <>
+          <Profile
+            modalState={modalState}
+            closeModal={closeModal}
+            fetchedInfo={fetchedInfo?.result!}
+          />
+          <MyPageContentLayout />
+        </>
+      )}
     </Wrapper>
   );
 };

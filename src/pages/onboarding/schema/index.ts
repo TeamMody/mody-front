@@ -32,7 +32,7 @@ export const EmailSchema = z.object({
 });
 
 export const CodeSchema = z.object({
-  code: z.string().length(8, '인증번호는 8자리여야 합니다.'),
+  code: z.string().length(6, '인증번호는 6자리여야 합니다.'),
 });
 
 export const PasswordSchema = z
@@ -48,7 +48,16 @@ export const PasswordSchema = z
     message: '비밀번호가 일치하지 않습니다.',
   });
 
+export const LoginSchema = z.object({
+  email: z.string().email('올바른 이메일 형식이 아닙니다.'),
+  password: z
+    .string()
+    .min(8, '비밀번호는 8자 이상이어야 합니다.')
+    .nonempty('비밀번호를 입력해주세요.'),
+});
+
 export type UserInfoSchemaType = z.infer<typeof UserInfoSchema>;
 export type EmailSchemaType = z.infer<typeof EmailSchema>;
 export type CodeSchemaType = z.infer<typeof CodeSchema>;
 export type PasswordSchemaType = z.infer<typeof PasswordSchema>;
+export type LoginSchemaType = z.infer<typeof LoginSchema>;

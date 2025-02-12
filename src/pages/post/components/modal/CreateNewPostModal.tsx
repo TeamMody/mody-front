@@ -5,32 +5,69 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { ModalProps } from '@shared/types/my/modalProps';
 import { IcLeftArrow } from '@shared/assets/icon/ic-left-arrow';
 import CustomDivider from '@shared/ui/CustomDivider';
-
-import BottomSheetItem from '@pages/my/components/BottomSheetItem';
-import ImageCarousel from '@shared/ui/ImageCarousel';
-import IcZoom from '@shared/assets/icon/ic-zoom.svg?react';
-
+import { ToggleButton } from '@pages/post/components/toggleButton';
+import ImageCarousel2 from '@shared/ui/ImageCarousel2';
+import IcZoomIn from '@shared/assets/icon/ic-zoom-in.svg?react';
+import IcZoomOut from '@shared/assets/icon/ic-zoom-out.svg?react';
+import { createS3url } from '@pages/post/apis/createS3Url';
+import { presignedUrlProps } from '@pages/post/apis/createPresignedUrl';
+import { useCreatePost } from '@pages/post/hooks/useCreatePost';
 import { useNavigate } from 'react-router';
 
 interface ImgModalProps extends ModalProps {
-  selectedImages: string[];
+  selectedImages: (string | undefined)[];
+  imgZoom: boolean;
+  setImgZoom: React.Dispatch<React.SetStateAction<boolean>>;
+  presignedUrls: presignedUrlProps[] | undefined;
 }
-export const CreateNewPostModal = ({ isOpened, onClose, selectedImages }: ImgModalProps) => {
-  const [imgIdx, setImgIdx] = useState<number>(0);
-  const [imgZoom, setImgZoom] = useState<boolean>(false);
-  const navigate = useNavigate();
 
-  const handleClose = () => {
-    setTimeout(() => {
+export const CreateNewPostModal = ({
+  isOpened,
+  onClose,
+  selectedImages,
+  imgZoom,
+  setImgZoom,
+  presignedUrls,
+}: ImgModalProps) => {
+  const [imgIdx, setImgIdx] = useState<number>(0);
+  const [textState, setTextState] = useState<string | undefined>(undefined);
+  const [buttonState, setButtonState] = useState<boolean>(false);
+  const { mutate } = useCreatePost();
+  const navigate = useNavigate();
+  const handleClose = async () => {
+    try {
+      if (presignedUrls) {
+        const S3Urls = await createS3url({ selectedImages, presignedUrls });
+        mutate({
+          content: textState,
+          isPublic: buttonState,
+          s3Urls: S3Urls,
+        });
+      }
+      setTextState(undefined);
       navigate(-1);
-    }, 500);
+    } catch (error) {
+      console.error('게시물 생성 실패:', error);
+    }
   };
+
+  const moveBeforePage = () => {
+    setTextState(undefined);
+    onClose();
+  };
+
   const handleImgZoom = () => {
     if (imgZoom) {
       setImgZoom(false);
     } else {
       setImgZoom(true);
     }
+  };
+
+  const changeTextArea = (e: React.ChangeEvent<HTMLTextAreaElement | null>) => {
+    setTimeout(() => {
+      setTextState(e.target.value);
+    }, 500);
   };
 
   return ReactDOM.createPortal(
@@ -40,55 +77,43 @@ export const CreateNewPostModal = ({ isOpened, onClose, selectedImages }: ImgMod
           initial={{ x: '100%' }}
           animate={{ x: '0%' }}
           exit={{ x: '100%' }}
-          transition={{ duration: 0.5, ease: 'easeOut' }}
+          transition={{ duration: 0.3, ease: 'easeOut' }}
         >
           <TopBox>
-            <button onClick={onClose}>
+            <button onClick={moveBeforePage}>
               <IcLeftArrow />
             </button>
             <div>새로운 게시물</div>
           </TopBox>
           <BottomBox>
-            {selectedImages.length === 0 ? (
-              <EmptyImgContainer></EmptyImgContainer>
-            ) : (
-              <>
-                {!imgZoom ? (
-                  <TmgContainer>
-                    <ImageCarousel
-                      images={selectedImages}
-                      isExpanded={undefined}
-                      imgIdx={imgIdx}
-                      setImgIdx={setImgIdx}
-                      height="45.735vh"
-                      marginTop="6.635vh"
-                    />
-                  </TmgContainer>
-                ) : (
-                  <ImageCarousel
-                    images={selectedImages}
-                    isExpanded={undefined}
-                    imgIdx={imgIdx}
-                    setImgIdx={setImgIdx}
-                    height="53.791vh"
-                    marginTop="2.725vh"
-                  />
-                )}
-              </>
-            )}
-            {selectedImages.length === 0 ? (
-              <></>
-            ) : (
-              <ZoomButton onClick={handleImgZoom}>
-                <IcZoom />
-              </ZoomButton>
-            )}
+            <BottomImgContainer imgZoom={imgZoom}>
+              <ImageCarousel2
+                images={selectedImages}
+                isExpanded={undefined}
+                imgIdx={imgIdx}
+                setImgIdx={setImgIdx}
+                height="45.735vh"
+                imgZoomed={imgZoom}
+              />
+            </BottomImgContainer>
+            <ZoomButton onClick={handleImgZoom} imgZoom={imgZoom}>
+              {imgZoom ? <IcZoomOutStyle /> : <IcZoomInStyle />}
+            </ZoomButton>
 
-            <TextArea placeholder="게시글을 작성해주세요."></TextArea>
+            <TextArea
+              placeholder="게시글을 작성해주세요."
+              onChange={(e) => changeTextArea(e)}
+            ></TextArea>
             <CustomDivider width="100%" border="1px" />
             <BottomDiv>
-              <BottomSheetItem content="나만보기" />
-              <SaveStyleButton onClick={handleClose}>스타일 저장하기</SaveStyleButton>
+              <ToggleButton setButtonState={setButtonState} />
+              <SaveStyleButton
+                onClick={handleClose}
+                disabled={textState === undefined}
+                textState={!!textState}
+              >
+                스타일 저장하기
+              </SaveStyleButton>
             </BottomDiv>
           </BottomBox>
         </Container>
@@ -97,6 +122,7 @@ export const CreateNewPostModal = ({ isOpened, onClose, selectedImages }: ImgMod
     document.body,
   );
 };
+
 const Container = styled(motion.div)`
   position: absolute;
   max-width: 440px;
@@ -137,29 +163,33 @@ const BottomBox = styled.div`
   background-color: ${({ theme }) => theme.colors.gray900};
   display: flex;
   flex-direction: column;
-  padding: 0px 0px 4.028vh 0px;
+  padding: 0px 1px 4.028vh 1px;
   position: absolute;
 `;
 
-const EmptyImgContainer = styled.div`
+const BottomImgContainer = styled.div<{ imgZoom: boolean }>`
   width: 100%;
-  border: 1px solid ${({ theme }) => theme.colors.green500};
-  border-radius: 20px;
-  padding: 0.5px;
-  height: 45.735vh;
-  margin: 4.147vh 0px 14.337vh 0px;
-`;
-const TmgContainer = styled.div`
-  padding: 4.147vh 0px 0px 0px;
+  height: 56.398vh;
+  padding-top: ${({ imgZoom }) => (imgZoom ? '0px' : '3.791vh')};
+  margin-bottom: 3vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: ${({ imgZoom }) => (imgZoom ? '0px' : '5.79vh')};
 `;
 
-const ZoomButton = styled.button`
+const ZoomButton = styled.button<{ imgZoom: boolean }>`
   width: 5.924vh;
   height: 5.924vh;
-  margin-left: 2.564vw;
+  margin-left: 1.5vw;
   position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   z-index: 10001;
-  top: 46.682vh;
+  border-radius: 50%;
+  background-color: ${({ theme }) => theme.colors.gray800};
+  top: ${({ imgZoom }) => (imgZoom === false ? '46vh' : '50.5vh')};
 `;
 
 const TextArea = styled.textarea`
@@ -177,10 +207,27 @@ const BottomDiv = styled.div`
   padding: 0px 5.128vw 0px 5.128vw;
   margin-top: 1.896vh;
 `;
-const SaveStyleButton = styled.button`
+const SaveStyleButton = styled.button<{ textState: boolean | undefined }>`
   width: 100%;
   height: 6.635vh;
   font-size: ${({ theme }) => theme.fonts.body_medium_16px};
-  background-color: ${({ theme }) => theme.colors.green500};
+  background-color: ${({ theme, textState }) =>
+    textState === false ? theme.colors.gray500 : theme.colors.green500};
   border-radius: 10px;
+  color: black;
+`;
+
+const IcZoomInStyle = styled(IcZoomIn)`
+  &:hover {
+    path {
+      stroke: ${({ theme }) => theme.colors.green500};
+    }
+  }
+`;
+const IcZoomOutStyle = styled(IcZoomOut)`
+  &:hover {
+    path {
+      stroke: ${({ theme }) => theme.colors.green500};
+    }
+  }
 `;

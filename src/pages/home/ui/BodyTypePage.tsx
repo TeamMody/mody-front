@@ -1,27 +1,27 @@
 import styled from 'styled-components';
 import CustomButton from '@shared/ui/CustomButton.tsx';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import BodyTypeContent from '@home/components/BodyTypeContent.tsx';
-import { bodyTypeResult } from '@shared/apis/home/mocks.ts';
-import { Loading } from '@home/components/Loading.tsx';
-import { RecommendationType } from '@shared/types';
+import { BodyAnalysisResponse } from '@shared/types';
+import { ActiveIndex, useBottomNavigationStore } from '@shared/store/useBottomNavigationStore.ts';
 
 export const BodyTypePage = () => {
+  const { activeIndex } = useBottomNavigationStore();
   const navigate = useNavigate();
+  const { result } = useLocation().state as { result: BodyAnalysisResponse };
 
   const handleNavigate = () => {
-    navigate('/', { replace: true });
+    const url = activeIndex === ActiveIndex.HOME ? '/' : '/my';
+    navigate(url, { replace: true });
   };
 
-  const isLoading = false;
-
-  if (isLoading) {
-    return <Loading type={RecommendationType.BODY_TYPE} />;
+  if (!result) {
+    return <div>에러 발생</div>;
   }
 
   return (
     <Wrapper>
-      <BodyTypeContent {...bodyTypeResult} />
+      <BodyTypeContent bodyTypeAnalysis={result.bodyTypeAnalysis} featureBasedSuggestions={result.bodyTypeAnalysis.featureBasedSuggestions} />
       <ButtonContainer>
         <CustomButton label="완료" onClick={handleNavigate} active={true} paddingTop="19px" paddingBottom="19px" />
       </ButtonContainer>
@@ -37,12 +37,11 @@ const Wrapper = styled.div`
   height: 100vh;
   padding: 0 20px;
   background-color: ${({ theme }) => theme.colors.gray900};
-  overflow-y: scroll;
+  overflow-y: auto;
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 36px;
-  margin-bottom: 56px;
 `;

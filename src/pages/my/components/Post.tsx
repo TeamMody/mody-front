@@ -1,18 +1,44 @@
 import IcHeart from '@shared/assets/icon/ic-full-heart.svg';
+import { PostProps } from '@shared/types';
+import { useNavigate } from 'react-router';
 import styled from 'styled-components';
+import { ActiveIndex, useTabBarStore } from '../features/store/useTabBarStore';
 
-interface PostProps {
-  img: string;
-  activeTab: string;
-}
+const Post = ({ id, imageUrl, recommendType, result }: PostProps) => {
+  const navigate = useNavigate();
+  const { activeIndex } = useTabBarStore();
 
-const Post = ({ img, activeTab }: PostProps) => {
-  //임시로 좋아요 상태를 true로 설정
-  const like = true;
+  const handleOnClick = () => {
+    if (activeIndex === ActiveIndex.MY)
+      navigate('/my/mypost', {
+        state: {
+          id,
+          title: '내 게시글',
+        },
+      });
+    else if (activeIndex === ActiveIndex.LIKE) {
+      navigate('/my/likepost', {
+        state: {
+          id,
+          title: '좋아요',
+        },
+      });
+    } else if (activeIndex === ActiveIndex.RECOMMEND) {
+      navigate('/recommendation-result', {
+        state: {
+          type: recommendType,
+          result: result,
+        },
+      });
+    }
+  };
+
   return (
-    <PostWrapper>
-      <Image src={img} alt="게시물" />
-      {like && activeTab === 'recommend' && <HeartIcon src={IcHeart} alt="좋아요 아이콘" />}
+    <PostWrapper onClick={handleOnClick}>
+      <Image src={imageUrl} alt="게시물" />
+      {result && result.liked && activeIndex === ActiveIndex.RECOMMEND && (
+        <HeartIcon src={IcHeart} alt="좋아요 아이콘" />
+      )}
     </PostWrapper>
   );
 };
@@ -24,6 +50,7 @@ const PostWrapper = styled.div`
   width: 100%;
   background-color: ${({ theme }) => theme.colors.gray900};
   height: 100%;
+  overflow: hidden;
   :hover {
     cursor: pointer;
   }

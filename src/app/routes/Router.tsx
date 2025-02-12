@@ -7,43 +7,17 @@ import {
   StyleSurveyPage,
   RecommendationResultPage,
 } from '@pages/home';
-import { PostPage } from '@pages/post';
 import { MyPage } from '@pages/my';
 import { OnboardingPage, InputUser } from '@pages/onboarding';
 import SignUpPage from '@pages/onboarding/ui/SignUpMain';
+import SignInPage from '@pages/onboarding/pages/SignInPage';
+import { PostPage, CreatePost, CameraPage, CapturedImgPage } from '@pages/post';
+import PostDetailPage from '@pages/my/ui/PostDetailPage';
+import EditPostPage from '@pages/post/ui/EditPostPage';
 
-import { CreatePost } from '@pages/post/components/CreatePost';
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <RootLayout />,
-    children: [
-      {
-        index: true,
-        element: <HomePage />,
-      },
-      {
-        path: 'home',
-        element: <HomePage />,
-      },
-      {
-        path: 'post',
-        children: [
-          { index: true, element: <PostPage /> },
-          { path: 'createPost', element: <CreatePost isOpened={true} /> },
-        ],
-      },
-      {
-        path: 'my',
-        children: [
-          { index: true, element: <MyPage /> },
-          { path: 'createPost', element: <CreatePost isOpened={true} /> },
-        ],
-      },
-    ],
-  },
-  {
-    path: '/onboarding',
     children: [
       {
         index: true,
@@ -57,6 +31,63 @@ export const router = createBrowserRouter([
         path: 'signup',
         element: <SignUpPage />,
       },
+      {
+        path: 'signin',
+        element: <SignInPage />,
+      },
+    ],
+  },
+  {
+    path: 'home',
+    element: <RootLayout />,
+    children: [
+      {
+        index: true,
+        element: <HomePage />,
+      },
+    ],
+  },
+  {
+    path: 'post',
+    element: <RootLayout />,
+    children: [
+      {
+        index: true,
+        element: <PostPage />,
+      },
+      {
+        path: 'createpost',
+        element: <CreatePost isOpened={true} />,
+      },
+      {
+        path: 'camerapage',
+        element: <CameraPage />,
+      },
+      {
+        path: 'capturedimgpage',
+        element: <CapturedImgPage />,
+      },
+    ],
+  },
+  {
+    path: 'my',
+    element: <RootLayout />,
+    children: [
+      {
+        index: true, element: <MyPage />,
+      },
+      {
+        path: 'createpost',
+        element: <CreatePost isOpened={true} />,
+      },
+      {
+        path: 'mypost',
+        element: <PostDetailPage />,
+      },
+      {
+        path: 'likepost',
+        element: <PostDetailPage />,
+      },
     ],
   },
   {
@@ -68,11 +99,15 @@ export const router = createBrowserRouter([
     element: <BodyTypePage />,
   },
   {
-    path: 'style-survey',
+    path: 'recommendations-survey',
     element: <StyleSurveyPage />,
   },
   {
     path: 'recommendation-result',
     element: <RecommendationResultPage />,
+  },
+  {
+    path: 'post/editpost',
+    element: <EditPostPage />,
   },
 ]);

@@ -2,6 +2,10 @@ import { useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import ReactDOM from 'react-dom';
+import { deletePostMutation } from '@pages/my/hooks/mutate/useDeletePost';
+import { usePostIdStore } from '@pages/my/features/store/usePostIdStore';
+import { useLogOut } from '@pages/my/hooks/query/useLogOut';
+
 interface ModalProps {
   isOpened: boolean;
   onClose: () => void;
@@ -13,6 +17,11 @@ export const ConfirmationModal = ({ isOpened, content, onClose, index }: ModalPr
   if (!isOpened) return null;
   const ModalRef = useRef<HTMLDialogElement>(null);
   const navigate = useNavigate();
+
+  //postId를 받아와서 삭제하기 버튼 클릭 시 모달창 띄우기
+  const { postId } = usePostIdStore();
+  const { mutate: deletePost } = deletePostMutation();
+
   useEffect(() => {
     const dialog = ModalRef.current;
     if (dialog) {
@@ -31,11 +40,15 @@ export const ConfirmationModal = ({ isOpened, content, onClose, index }: ModalPr
   const handleClose = (index: number = 0) => {
     if (onClose) {
       if (index === 1) {
+        useLogOut();
         onClose();
-        navigate('/onboarding');
+        navigate('/', { replace: true });
       } else if (index === 2) {
         onClose();
-        navigate('/my'); // 삭제하기 모달에서 예를 눌렀을 때 라우팅 설정
+        navigate('/my', { replace: true }); // 삭제하기 모달에서 예를 눌렀을 때 라우팅 설정
+        if (postId) {
+          deletePost(postId);
+        }
       } else {
         onClose();
       }
@@ -89,16 +102,20 @@ const Container = styled.div`
     margin-top: 9.123vh;
     width: 100%;
   }
+
   & > div:nth-child(2) > button:nth-child(1) {
     width: 38.462vw;
     height: 5.213vh;
     font-size: ${({ theme }) => theme.fonts.body_medium_16px};
     background-color: ${({ theme }) => theme.colors.green500};
+    color: black;
   }
+
   & > div:nth-child(2) > button:nth-child(2) {
     width: 38.462vw;
     height: 5.213vh;
     font-size: ${({ theme }) => theme.fonts.body_medium_16px};
     background-color: ${({ theme }) => theme.colors.gray300};
+    color: black;
   }
 `;

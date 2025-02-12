@@ -1,0 +1,9 @@
+import { apiInstance } from '@shared/apis/instance';
+
+export const useLogOut = async () => {
+  try {
+    await apiInstance.post('/auth/logout', {}, { withCredentials: true });
+  } catch (error) {
+    console.error;
+  }
+};

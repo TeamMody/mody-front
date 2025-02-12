@@ -7,22 +7,32 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import FinishedSignUpPage from './FinishedSignUpPage';
 import PasswordPage from './PasswordPage';
+import useSignupMutation from '@onboarding/hooks/useSignupMutation';
 const SignUpMain = () => {
   const [buttonActive, setButtonActive] = useState<boolean>(false);
   const [slideIndex, setSlideIndex] = useState<number>(0);
   const navigate = useNavigate();
   const topMargin = '6.4vh'; //노치 디자인 대응을 위한 상단 여백
+  const signupMutation = useSignupMutation();
 
-  const handleOnClick = () => {
+  const handleOnClick = async () => {
     if (slideIndex === 1) {
-      setButtonActive(true);
-    } else if (slideIndex === 2) {
-      // 회원가입 완료 시 페이지 이동
-      navigate('/onboarding/inputuser');
-    } else {
-      setButtonActive(false);
+      try {
+        const res = await signupMutation.mutateAsync();
+        if (res) {
+          setSlideIndex((prevIndex) => prevIndex + 1);
+        }
+      } catch (error) {}
+      return;
     }
-    setSlideIndex((prevIndex) => prevIndex + 1);
+    if (slideIndex === 2) {
+      // 회원가입 완료 시 페이지 이동
+      navigate('/');
+    }
+    if (slideIndex === 0) {
+      setButtonActive(false);
+      setSlideIndex((prevIndex) => prevIndex + 1);
+    }
   };
 
   // 인디케이터 표시 여부를 결정하는 함수

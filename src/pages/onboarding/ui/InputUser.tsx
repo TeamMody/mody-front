@@ -6,10 +6,12 @@ import { useForm } from 'react-hook-form';
 import InputUserMain from '@onboarding/ui/InputUserMain';
 import { UserInfoSchema, UserInfoSchemaType } from '@onboarding/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
-
+import { useNavigate } from 'react-router';
+import { handleOnSubmit } from '@onboarding/utils/handleOnSubmit';
 export const InputUser = () => {
   const [curIdx, setCurIdx] = useState<number>(0);
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -32,12 +34,7 @@ export const InputUser = () => {
 
   const handleButtonClick = () => {
     if (curIdx < 3) setCurIdx((prev) => ++prev);
-  };
-  const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log('form submitted');
-    console.log(getValues());
-    // navigate('/body-survey');
+    if (curIdx === 3) navigate('/home/body-survey');
   };
 
   const handleIsValid = (curIdx: number): boolean => {
@@ -58,7 +55,7 @@ export const InputUser = () => {
 
   // 값이 바뀔 때마다 전체 값이 렌더링되는 현상 발생
   return (
-    <Wrapper onSubmit={handleOnSubmit}>
+    <Wrapper onSubmit={(e) => handleOnSubmit(e, curIdx, getValues)}>
       <ProgressBar length={4} curIdx={curIdx} />
       <CustomLogo />
       <InputUserMain
@@ -70,8 +67,8 @@ export const InputUser = () => {
       />
       <ButtonContainer>
         <Button
-          type={curIdx !== 3 ? 'button' : 'submit'}
-          onClick={curIdx !== 3 ? handleButtonClick : undefined}
+          type={curIdx !== 2 ? 'button' : 'submit'}
+          onClick={handleButtonClick}
           disabled={isButtonDisabled}
         >
           {curIdx !== 3 ? '다음' : '체형 분석하기'}
@@ -95,6 +92,8 @@ const Wrapper = styled.form`
 
 const CustomLogo = styled(Logo)`
   margin-top: 16px;
+  width: 104px;
+  height: 33px;
 `;
 
 const ButtonContainer = styled.div`

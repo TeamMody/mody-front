@@ -18,10 +18,10 @@ const Banner = ({ type, title, imageUrl, isFocused }: BannerProps) => {
         navigate('/body-survey', { state: { type: RecommendationType.BODY_TYPE } });
         break;
       case RecommendationType.STYLE:
-        navigate('/style-survey', { state: { type: RecommendationType.STYLE } });
+        navigate('/recommendations-survey', { state: { type: RecommendationType.STYLE } });
         break;
-      case RecommendationType.FASHION:
-        navigate('/style-survey', { state: { type: RecommendationType.FASHION } });
+      case RecommendationType.FASHION_ITEM:
+        navigate('/recommendations-survey', { state: { type: RecommendationType.FASHION_ITEM } });
         break;
       default:
         break;

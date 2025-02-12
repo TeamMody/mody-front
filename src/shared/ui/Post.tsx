@@ -1,42 +1,32 @@
 import styled from 'styled-components';
-import { useState, memo } from 'react';
+import { useState, memo, forwardRef } from 'react';
 import Heart from '@shared/assets/icon/ic-heart.svg?react';
 import MoreVertical from '@shared/assets/icon/ic-more-vertical.svg?react';
 import FullHeart from '@shared/assets/icon/ic-full-heart.svg?react';
 import ImageCarousel from '@shared/ui/ImageCarousel';
-
-interface PostPropsType {
-  images: string[];
-  name: string;
-  type: string;
-  description: string;
-  likeCount: number;
-  isLiked: boolean;
-}
+import EditBottomSheet from './EditBottomSheetModal';
+import Report from '@pages/post/components/Report';
+import usePostLike from '@pages/post/hooks/usePostLike';
+import { PostData } from '@shared/types/my/my';
 
 const Post = memo(
-  ({ data }: { data: PostPropsType }) => {
+  forwardRef<HTMLDivElement, { data: PostData; type: string }>(({ data, type }, ref) => {
     const [imgIdx, setImgIdx] = useState<number>(0);
     const [isExpanded, setIsExpanded] = useState<boolean>(false);
-
-    const images = data.images;
+    const images = data.files;
 
     return (
-      <Container>
+      <Container ref={ref}>
         <ImageCarousel
           images={images}
           isExpanded={isExpanded}
           imgIdx={imgIdx}
           setImgIdx={setImgIdx}
         />
-        <Info isExpanded={isExpanded} data={data} setIsExpanded={setIsExpanded} />
+        <Info isExpanded={isExpanded} data={data} setIsExpanded={setIsExpanded} type={type} />
       </Container>
     );
-  },
-  (prevProps, nextProps) => {
-    // props 비교 함수: 데이터가 동일하면 리렌더링 방지
-    return prevProps.data === nextProps.data;
-  },
+  }),
 );
 
 const Container = styled.main`
@@ -53,72 +43,104 @@ const Info = memo(
     isExpanded,
     data,
     setIsExpanded,
+    type,
   }: {
     isExpanded: boolean;
-    data: PostPropsType;
+    data: PostData;
     setIsExpanded: React.Dispatch<React.SetStateAction<boolean>>;
+    type: string;
   }) => {
+    const [isMoreClicked, setIsMoreClicked] = useState<boolean>(false);
+    const postLikeMutation = usePostLike();
+
+    const handleClickMore = (e: React.MouseEvent<SVGElement>) => {
+      e.stopPropagation();
+      setIsMoreClicked(true);
+    };
+
+    const handleClickHeart = (e: React.MouseEvent<SVGElement>) => {
+      e.stopPropagation();
+      postLikeMutation.mutate(data.postId);
+    };
+
     return (
-      <InfoContainer isExpanded={isExpanded} onClick={() => setIsExpanded((prev) => !prev)}>
-        <UserInfo>
-          <span className="user-name">{data.name}</span>
-          <span className="user-type">{data.type}</span>
-          {isExpanded && <IconBox data={data} isExpanded={isExpanded} />}
+      <InfoContainer id={data.postId.toString()}>
+        <UserInfo isExpanded={isExpanded} onClick={() => setIsExpanded((prev) => !prev)}>
+          <div className="user">
+            <span className="user-name" id={`${data.writerId}`}>
+              {data.writerNickname}
+            </span>
+            <span className="user-type">{data.bodyType} 타입</span>
+          </div>
+          <p className={`description ${isExpanded ? 'expanded' : ''}`}>{data.content}</p>
         </UserInfo>
         <DescriptionContainer>
-          <p className={`description ${isExpanded ? 'expanded' : ''}`}>{data.description}</p>
-          {!isExpanded && <IconBox data={data} isExpanded={isExpanded} />}
+          <div className="heart">
+            {data.isLiked ? (
+              <FullHeart width={24} height={24} id="heart-liked" onClick={handleClickHeart} />
+            ) : (
+              <Heart width={24} height={24} id="heart-unliked" onClick={handleClickHeart} />
+            )}
+            <span>{data.likeCount}</span>
+          </div>
+          <div className="more-vertical">
+            <MoreVertical onClick={handleClickMore} />
+          </div>
+          {type === 'my' && (
+            <EditBottomSheet
+              isOpen={isMoreClicked}
+              onClose={() => setIsMoreClicked(false)}
+              data={data}
+            />
+          )}
+          {type === 'post' && isMoreClicked && <Report postId={data.postId} />}
         </DescriptionContainer>
       </InfoContainer>
     );
   },
-  (prevProps, nextProps) => {
-    return (
-      prevProps.isExpanded === nextProps.isExpanded &&
-      prevProps.data === nextProps.data &&
-      prevProps.setIsExpanded === nextProps.setIsExpanded
-    );
-  },
 );
 
-const InfoContainer = styled.div<{ isExpanded: boolean }>`
+const InfoContainer = styled.div`
   width: 100%;
-  padding: 0px 15px 24px 30px;
+  height: 20%;
   background-color: transparent;
-  position: absolute;
-  bottom: 0;
+  padding: 50px 10px 0px 10px;
+  position: relative;
   left: 0;
   display: flex;
-  flex-direction: column;
   gap: 20px;
-  height: ${({ isExpanded }) => (isExpanded ? '40%' : '20%')};
   transition: height 0.5s ease;
 `;
 
-const UserInfo = styled.div`
+const UserInfo = styled.div<{ isExpanded: boolean }>`
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: 20px;
   position: relative;
   width: 100%;
-  & > .user-name {
-    font-size: ${({ theme }) => theme.fonts.heading_bold_24px};
-  }
-  & > .user-type {
-    font-size: ${({ theme }) => theme.fonts.heading_medium_18px};
-  }
-`;
+  height: ${({ isExpanded }) => (isExpanded ? '40vh' : '15vh')};
+  transition:
+    transform 0.7s ease,
+    height 0.7s ease;
+  transform: ${({ isExpanded }) => (isExpanded ? 'translateY(-25vh)' : 'translateY(0)')};
 
-const DescriptionContainer = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
+  .user {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    & > .user-name {
+      font-size: ${({ theme }) => theme.fonts.heading_bold_24px};
+    }
+    & > .user-type {
+      font-size: ${({ theme }) => theme.fonts.heading_medium_18px};
+    }
+  }
+
   .description {
     position: relative;
     height: 4vh;
-    width: 70%;
+    width: 90%;
     line-height: 110%;
-
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -128,79 +150,30 @@ const DescriptionContainer = styled.div`
 
     &.expanded {
       margin-top: 1vh;
-      height: auto; /* 확장 시 높이 자동 */
-      -webkit-line-clamp: unset; /* 줄 수 제한 해제 */
+      height: auto;
+      -webkit-line-clamp: unset;
       width: 90%;
-    }
-
-    .more-btn {
-      position: absolute;
-      white-space: nowrap;
-      text-align: center;
-      margin-bottom: auto;
-      bottom: -3px;
-      right: 0;
-      font-size: ${({ theme }) => theme.fonts.detail_medium_12px};
     }
   }
 `;
 
-const IconBox = ({ data, isExpanded }: { data: PostPropsType; isExpanded: boolean }) => {
-  const handleClickHeart = (e: React.MouseEvent<SVGElement>) => {
-    e.stopPropagation();
-    console.log('Heart clicked', e);
-  };
-
-  const handleClickMore = (e: React.MouseEvent<SVGElement>) => {
-    e.stopPropagation();
-    console.log('More clicked', e);
-  };
-
-  return (
-    <IconContainer isExpanded={isExpanded}>
-      <div className="heart">
-        {/* onClick event 설정 */}
-        {data.isLiked ? (
-          <FullHeart width={24} height={24} id="heart-liked" onClick={handleClickHeart} />
-        ) : (
-          <Heart width={24} height={24} id="heart-unliked" onClick={handleClickHeart} />
-        )}
-        <span>{data.likeCount}</span>
-      </div>
-      <div className="more-vertical">
-        {/* onClick event 설정 */}
-        <MoreVertical onClick={handleClickMore} />
-      </div>
-    </IconContainer>
-  );
-};
-
-const IconContainer = styled.div<{ isExpanded: boolean }>`
-  width: 20%;
-  height: 100%;
+const DescriptionContainer = styled.div`
+  width: 10%;
   display: flex;
+  flex-direction: column;
+  position: absolute;
+  right: 0;
+  gap: 15px;
 
-  position: ${({ isExpanded }) => isExpanded && 'absolute'};
-  right: ${({ isExpanded }) => isExpanded && '0'};
-  bottom: ${({ isExpanded }) => isExpanded && '-5px'};
-
-  div {
-    width: 50%;
-    height: 200%;
+  .more-vertical {
+    display: flex;
+    align-items: center;
   }
   .heart {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 3px;
-
-    span {
-      font-size: ${({ theme }) => theme.fonts.detail_medium_12px};
-    }
-  }
-
-  .more-vertical {
-    text-align: center;
+    margin-right: 15px;
   }
 `;
 

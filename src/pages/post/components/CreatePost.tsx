@@ -2,31 +2,37 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ModalProps } from '@shared/types/my/modalProps';
+import { useNavigate } from 'react-router';
 import { IcLeftArrow } from '@shared/assets/icon/ic-left-arrow';
 import { CreateNewPostModal } from '@pages/post/components/modal/CreateNewPostModal';
-import { useNavigate } from 'react-router';
 import { SelectPhotoBottomSheetModal } from '@pages/post/components/modal/SelectPhotoBottomSheetModal';
+import { createPresignedUrl } from '@pages/post/apis/createPresignedUrl';
+import { presignedUrlProps } from '@pages/post/apis/createPresignedUrl';
 
 export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
   const [modalState, setModalState] = useState<boolean>(false);
   const [opened, setIsOpened] = useState<boolean>(isOpened);
-  const [selectedImages, setSelectedImages] = useState<string[]>([]);
+  const [selectedImages, setSelectedImages] = useState<(string | undefined)[]>([]);
   const [selectedId, setSelectedIds] = useState<number[]>([]);
+  const [imgZoom, setImgZoom] = useState<boolean>(false);
   const navigate = useNavigate();
-  const openModal = () => {
+  const [presignedUrls, setPresignedUrls] = useState<presignedUrlProps[]>();
+
+  const openModal = async (data: (string | undefined)[]) => {
+    const urls = await createPresignedUrl(data);
+    setPresignedUrls(urls);
     setModalState(true);
   };
+
   const closeModal = () => {
     setModalState(false);
+    setImgZoom(false);
   };
   const closePage = () => {
     setIsOpened(false);
-    setTimeout(() => {
-      navigate(-1);
-    }, 500);
+    navigate(-1);
   };
-  console.log(modalState);
+
   return ReactDOM.createPortal(
     <AnimatePresence>
       {opened && (
@@ -34,28 +40,31 @@ export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
           initial={{ x: '100%' }}
           animate={{ x: '0%' }}
           exit={{ x: '100%' }}
-          transition={{ duration: 0.5, ease: 'easeOut' }}
+          transition={{ duration: 0.3, ease: 'easeOut' }}
         >
           <TopBox>
             <button onClick={closePage}>
               <IcLeftArrow />
             </button>
-            <button onClick={openModal}>다음</button>
+            {selectedImages && (
+              <NextButton
+                onClick={() => openModal(selectedImages)}
+                selectedImages={selectedImages}
+                disabled={selectedImages.length === 0}
+              >
+                다음
+              </NextButton>
+            )}
             <CreateNewPostModal
               isOpened={modalState}
               onClose={closeModal}
               selectedImages={selectedImages}
+              imgZoom={imgZoom}
+              setImgZoom={setImgZoom}
+              presignedUrls={presignedUrls}
             />
           </TopBox>
-          <BottomBox isOpened={isOpened}>
-            <ChooseImg
-              initial={{ width: '100%', height: '100%' }}
-              animate={{ width: '99.744vw', height: '98.35vw' }}
-              transition={{ duration: 0.4, ease: 'linear' }}
-              src={selectedImages.slice(-1)[0]}
-              alt="이미지를 넣어주세요"
-            />
-          </BottomBox>
+          <BottomBox>{selectedImages && <ChooseImg src={selectedImages.slice(-1)[0]} />}</BottomBox>
           <SelectPhotoBottomSheetModal
             isOpened={isOpened}
             onClose={closePage}
@@ -91,27 +100,28 @@ const TopBox = styled.div`
   & > button:nth-child(1) {
     height: 100%;
   }
-
-  & > button:nth-child(2) {
-    height: 100%;
-    color: white;
-    font-size: ${({ theme }) => theme.fonts.heading_medium_18px};
+`;
+const NextButton = styled.button<{ selectedImages: (string | undefined)[] }>`
+  height: 100%;
+  font-size: ${({ theme }) => theme.fonts.heading_medium_18px};
+  color: ${({ selectedImages }) => (selectedImages.length > 0 ? 'white' : 'black')};
+  &:hover {
+    color: ${({ theme, selectedImages }) =>
+      selectedImages.length > 0 ? `${theme.colors.green500}` : 'none'};
   }
 `;
 
-type StyledProps = Pick<ModalProps, 'isOpened'>;
-
-const BottomBox = styled.div<StyledProps>`
+const BottomBox = styled.div`
   max-width: 440px;
   width: 100%;
   height: 92.417vh;
   background: ${({ theme }) => theme.colors.gray900};
   display: flex;
+  padding: 1.1vh 0.9vw 0 0.9vw;
 `;
 
 const ChooseImg = styled(motion.img)`
   width: 100%;
-  height: 100%;
+  height: 46vh;
   background-color: ${({ theme }) => theme.colors.gray800};
-  margin-top: 1.4vh;
 `;
