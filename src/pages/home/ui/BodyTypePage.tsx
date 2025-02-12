@@ -11,7 +11,7 @@ export const BodyTypePage = () => {
   const { result } = useLocation().state as { result: BodyAnalysisResponse };
 
   const handleNavigate = () => {
-    const url = activeIndex === ActiveIndex.HOME ? '/' : '/my';
+    const url = activeIndex === ActiveIndex.HOME ? '/home' : '/my';
     navigate(url, { replace: true });
   };
 
