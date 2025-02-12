@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 import Icon from '@shared/assets/icon/ic-fourth-page.svg?react';
+import { useNavigate } from 'react-router';
 
 const FourthPage = () => {
+  const navigate = useNavigate();
   return (
     <>
       <Text>
@@ -11,7 +13,7 @@ const FourthPage = () => {
         <Icon width={95} height={213} />
       </ImageContainer>
       {/* link */}
-      <LinkSpan>분석 없이 써볼래요</LinkSpan>
+      <LinkSpan onClick={() => navigate('home', { replace: true })}>분석 없이 써볼래요</LinkSpan>
     </>
   );
 };
