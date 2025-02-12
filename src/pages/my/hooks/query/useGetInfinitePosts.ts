@@ -2,15 +2,17 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { getLikedPosts, getMyPosts } from '@shared/apis/my';
 import { BaseResponse } from '@shared/types';
 import { PostResponse } from '@shared/types/my/my';
-const useGetInfinitePosts = ({ activeTab }: { activeTab: string }) => {
-  const size = 6;
+import { ActiveIndex } from '@pages/my/features/store/useTabBarStore';
+const useGetInfinitePosts = (activeIndex: number) => {
+  const size = 12;
   const fetchPosts: (params: {
     cursor: number | null;
     size: number;
-  }) => Promise<BaseResponse<PostResponse>> = activeTab === 'like' ? getLikedPosts : getMyPosts;
+  }) => Promise<BaseResponse<PostResponse>> =
+    activeIndex === ActiveIndex.LIKE ? getLikedPosts : getMyPosts;
 
   return useInfiniteQuery({
-    queryKey: ['posts', activeTab, size],
+    queryKey: ['posts', activeIndex, size],
     queryFn: ({ pageParam }) => fetchPosts({ cursor: pageParam, size }),
     initialPageParam: null, // 첫 요청은 cursor 없이
     getNextPageParam: (lastPage) => {

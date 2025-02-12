@@ -9,10 +9,12 @@ import { RecommendationLoading } from '@home/components/RecommendationLoading.ts
 import IcHeart from '@icon/ic-heart.svg';
 import IcHeartFill from '@icon/ic-heart-fill.svg';
 import { usePostLikeEvent } from '@home/feature/hooks/mutate/usePostLikeEvent.ts';
+import { ActiveIndex, useBottomNavigationStore } from '@shared/store/useBottomNavigationStore.ts';
 
 export const RecommendationResultPage: React.FC = () => {
   const { type, result } = useLocation().state as { type: RecommendationType, result: RecommendationResponse };
   const navigate = useNavigate();
+  const { activeIndex } = useBottomNavigationStore();
   const { mutate } = usePostLikeEvent();
   const leftHeaderAction: HeaderAction = {
     icon: IcLeftArrow, onClick: () => navigate(-1),
@@ -53,7 +55,7 @@ export const RecommendationResultPage: React.FC = () => {
           <Description>{description}</Description>
           <ButtonContainer>
             <CustomButton
-              label="완료" onClick={() => navigate('/', { replace: true })}
+              label="완료" onClick={() => navigate( activeIndex === ActiveIndex.HOME ?'/home' : '/my', { replace: true })}
               active={true}
               paddingTop="19px"
               paddingBottom="19px"
@@ -76,6 +78,8 @@ const Wrapper = styled.div`
 `;
 
 const Container = styled.div`
+  display: flex;
+  flex-direction: column;
   padding: 0 20px;
   overflow-y: scroll;
   height: 100%;
@@ -84,10 +88,9 @@ const Container = styled.div`
 const Image = styled.img`
   border-radius: 10px;
   width: 100%;
-  height: 33vh;
   margin-top: 32px;
-  object-fit: cover;
-  object-position: top;
+  object-fit: fill;
+  object-position: center;
 `;
 
 const BoldText = styled.p`

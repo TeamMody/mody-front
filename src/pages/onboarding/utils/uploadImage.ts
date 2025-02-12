@@ -18,7 +18,6 @@ export const uploadImageToS3 = async (image: File): Promise<string> => {
 
     return presignedUrl.split('?')[0]; // 성공 시 업로드된 이미지 URL 반환
   } catch (error) {
-    console.error('❌ 이미지 업로드 실패:', error);
     return ''; // 실패 시 빈 문자열 반환
   }
 };
