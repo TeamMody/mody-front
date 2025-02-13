@@ -16,7 +16,7 @@ const EditPostPage = () => {
   const { mutate } = usePatchPost();
   const [imgIdx, setImgIdx] = useState<number>(0);
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
-  const [buttonState, setButtonState] = useState<boolean>(data.isPublic);
+  const [buttonState, setButtonState] = useState<boolean>(!data.isPublic);
 
   const leftHeaderAction: HeaderAction = { icon: IcLeftArrow, onClick: () => navigate(-1) };
 
@@ -24,7 +24,7 @@ const EditPostPage = () => {
   const images = data.files;
 
   const handleClose = () => {
-    mutate({ content: textStateRef.current, postId: data.postId, isPublic: buttonState });
+    mutate({ content: textStateRef.current, postId: data.postId, isPublic: !buttonState });
   };
 
   return (
@@ -44,6 +44,7 @@ const EditPostPage = () => {
           setImgZoom={setImgZoom}
           handleClose={handleClose}
           textStateRef={textStateRef}
+          buttonState={buttonState}
           setButtonState={setButtonState}
         />
       </Container>

@@ -8,6 +8,7 @@ interface PostBottomProps {
   setImgZoom: React.Dispatch<React.SetStateAction<boolean>>;
   handleClose: () => void;
   textStateRef: React.MutableRefObject<string | undefined>;
+  buttonState: boolean;
   setButtonState: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -16,6 +17,7 @@ const PostBottom = ({
   setImgZoom,
   handleClose,
   textStateRef,
+  buttonState,
   setButtonState,
 }: PostBottomProps) => {
   const handleImgZoom = () => {
@@ -41,7 +43,7 @@ const PostBottom = ({
       ></TextArea>
       <CustomDivider width="100%" border="1px" />
       <BottomDiv>
-        <ToggleButton setButtonState={setButtonState} />
+        <ToggleButton buttonState={buttonState} setButtonState={setButtonState} />
         <SaveStyleButton
           onClick={handleClose}
           disabled={textStateRef === undefined}

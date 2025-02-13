@@ -9,14 +9,21 @@ import { PostData } from '@shared/types/my/my';
 interface BottomSheetItemProps {
   content: '수정하기' | '삭제하기' | '나만보기';
   icon?: string;
+  buttonState?: boolean;
   setButtonState?: React.Dispatch<React.SetStateAction<boolean>>;
   data?: PostData;
 }
 
-const BottomSheetItem = ({ content, icon, setButtonState, data }: BottomSheetItemProps) => {
+const BottomSheetItem = ({
+  content,
+  icon,
+  buttonState,
+  setButtonState,
+  data,
+}: BottomSheetItemProps) => {
   const navigate = useNavigate();
   // 토글 상태 관리
-  const [isOn, setIsOn] = useState<boolean>(false);
+  const [isOn, setIsOn] = useState<boolean>(() => buttonState ?? false);
 
   // 버튼 클릭 시 상태 토글
   const toggleState = () => {
@@ -28,7 +35,6 @@ const BottomSheetItem = ({ content, icon, setButtonState, data }: BottomSheetIte
 
   const handleOnClick = () => {
     if (content === '수정하기') {
-      console.log('수정하기');
       navigate('/post/editpost', { state: { data } });
     } else if (content === '삭제하기') {
       openModal();

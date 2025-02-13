@@ -21,7 +21,7 @@ const EditBottomSheet = ({ isOpen, onClose, data }: EditBottomSheetProps) => {
         <SheetContent>
           <BottomSheetItem content="수정하기" icon={IcPen} data={data} />
           <BottomSheetItem content="삭제하기" icon={IcTrashCan} />
-          <BottomSheetItem content="나만보기" />
+          <BottomSheetItem content="나만보기" buttonState={!data.isPublic} />
         </SheetContent>
       </SheetContainer>
     </Sheet>
