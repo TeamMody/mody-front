@@ -17,6 +17,7 @@ const EditBottomSheet = ({ isOpen, onClose, data }: EditBottomSheetProps) => {
 
   return (
     <Sheet isOpen={isOpen} onClose={onClose} ref={ref}>
+      <Sheet.Backdrop onTap={onClose} />
       <SheetContainer>
         <SheetContent>
           <BottomSheetItem content="수정하기" icon={IcPen} data={data} />
