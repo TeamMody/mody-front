@@ -38,7 +38,6 @@ export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
 
   const setImges = async (e: ChangeEvent<HTMLInputElement>) => {
     const img = e.target.files?.[0];
-    console.log(img?.name.split('.')[0]);
 
     if (img) {
       if (img.type === 'image/heic' || img.name.endsWith('.heic')) {
