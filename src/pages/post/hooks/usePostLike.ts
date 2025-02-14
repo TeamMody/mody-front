@@ -46,11 +46,11 @@ const usePostLike = () => {
 
       return { previousPosts, postId };
     },
-    onError: (_error, _variables, context) => {
-      if (context?.previousPosts) {
-        queryClient.setQueryData(['posts'], context.previousPosts);
-      }
-    },
+    // onError: (_error, _variables, context) => {
+    //   if (context?.previousPosts) {
+    //     queryClient.setQueryData(['posts'], context.previousPosts);
+    //   }
+    // },
     onSuccess: (_data, _error) => {
       queryClient.refetchQueries(['posts']); // ✅ 최신 데이터를 다시 패칭
     },
