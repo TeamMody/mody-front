@@ -31,28 +31,20 @@ export const MyPageContentLayout = () => {
     </>
   );
 };
+
 const StyledCarousel = styled(Carousel)`
   flex: 1;
   height: 100%;
-  overflow-x: auto; // 가로 스크롤만 허용
+  overflow-y: auto;
 
   .slider-wrapper {
-    overflow-x: auto;
     height: 100%;
   }
 
   .carousel-slider {
-    overflow-x: auto;
     height: 100%;
   }
-
   .slider {
     height: 100%;
-    display: flex;
-  }
-
-  .slide {
-    height: 100%;
-    overflow-y: auto; // 각 슬라이드에서 세로 스크롤 허용
   }
 `;
