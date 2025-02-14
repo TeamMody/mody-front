@@ -38,7 +38,6 @@ export const CreateNewPostModal = ({
     try {
       if (presignedUrls) {
         const S3Urls = await createS3url({ selectedImages, presignedUrls });
-        console.log(S3Urls);
         mutate({
           content: textState,
           isPublic: buttonState,
@@ -47,6 +46,7 @@ export const CreateNewPostModal = ({
       }
       setTextState(undefined);
       navigate(-1);
+      alert('게시글이 생성되었습니다.');
     } catch (error) {
       console.error('게시물 생성 실패:', error);
     }
