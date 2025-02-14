@@ -17,23 +17,20 @@ interface BottomSheetItemProps {
 const BottomSheetItem = ({
   content,
   icon,
-  buttonState,
+  buttonState = false,
   setButtonState,
   data,
 }: BottomSheetItemProps) => {
   const navigate = useNavigate();
-  // 토글 상태 관리
-  const [isOn, setIsOn] = useState<boolean>(() => buttonState ?? false);
 
   // 버튼 클릭 시 상태 토글
   const toggleState = () => {
-    setIsOn((prevState) => !prevState);
-    if (setButtonState) setButtonState(!isOn);
+    if (setButtonState) setButtonState(!buttonState);
   };
 
   const { modalState, closeModal, openModal } = useModalStore();
 
-  const handleOnClick = () => {
+  const handleOnClickItem = () => {
     if (content === '수정하기') {
       navigate('/post/editpost', { state: { data } });
     } else if (content === '삭제하기') {
@@ -44,10 +41,10 @@ const BottomSheetItem = ({
   };
 
   return (
-    <SheetContentItem onClick={handleOnClick}>
+    <SheetContentItem onClick={handleOnClickItem}>
       <Content>{content}</Content>
       {content === '나만보기' ? (
-        <ToggleButton $isOn={isOn} onSetToggle={toggleState} />
+        <ToggleButton $isOn={buttonState} onSetToggle={toggleState} />
       ) : (
         <img src={icon}></img>
       )}
