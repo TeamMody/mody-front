@@ -9,7 +9,6 @@ import { createPresignedUrl } from '@pages/post/apis/createPresignedUrl';
 import { presignedUrlProps } from '@pages/post/apis/createPresignedUrl';
 import IcCamera from '@shared/assets/icon/ic-camera.svg?react';
 import IcGallery from '@shared/assets/icon/ic-gallery.svg?react';
-import { ConvertWebP2 } from '@pages/post/hooks/useConvertWebP';
 import heic2any from 'heic2any';
 import { ConvertWebP } from '@pages/post/components/ConvertWebP';
 export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
