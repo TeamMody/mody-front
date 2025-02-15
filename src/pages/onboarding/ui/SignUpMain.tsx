@@ -37,7 +37,7 @@ const SignUpMain = () => {
 
   // 인디케이터 표시 여부를 결정하는 함수
   const shouldShowIndicator = slideIndex < 2; // 두 번째 슬라이드까지만 인디케이터 표시
-  const buttonLabel = ['다음', '완료', '기본 정보 입력하러 가기'];
+  const buttonLabel = ['다음', '완료', '회원가입 완료'];
 
   return (
     <Wrapper>
