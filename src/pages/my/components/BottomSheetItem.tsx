@@ -9,26 +9,29 @@ import { PostData } from '@shared/types/my/my';
 interface BottomSheetItemProps {
   content: '수정하기' | '삭제하기' | '나만보기';
   icon?: string;
+  buttonState?: boolean;
   setButtonState?: React.Dispatch<React.SetStateAction<boolean>>;
   data?: PostData;
 }
 
-const BottomSheetItem = ({ content, icon, setButtonState, data }: BottomSheetItemProps) => {
+const BottomSheetItem = ({
+  content,
+  icon,
+  buttonState = false,
+  setButtonState,
+  data,
+}: BottomSheetItemProps) => {
   const navigate = useNavigate();
-  // 토글 상태 관리
-  const [isOn, setIsOn] = useState<boolean>(false);
 
   // 버튼 클릭 시 상태 토글
   const toggleState = () => {
-    setIsOn((prevState) => !prevState);
-    if (setButtonState) setButtonState(!isOn);
+    if (setButtonState) setButtonState(!buttonState);
   };
 
   const { modalState, closeModal, openModal } = useModalStore();
 
-  const handleOnClick = () => {
+  const handleOnClickItem = () => {
     if (content === '수정하기') {
-      console.log('수정하기');
       navigate('/post/editpost', { state: { data } });
     } else if (content === '삭제하기') {
       openModal();
@@ -38,10 +41,10 @@ const BottomSheetItem = ({ content, icon, setButtonState, data }: BottomSheetIte
   };
 
   return (
-    <SheetContentItem onClick={handleOnClick}>
+    <SheetContentItem onClick={handleOnClickItem}>
       <Content>{content}</Content>
       {content === '나만보기' ? (
-        <ToggleButton $isOn={isOn} onSetToggle={toggleState} />
+        <ToggleButton $isOn={buttonState} onSetToggle={toggleState} />
       ) : (
         <img src={icon}></img>
       )}

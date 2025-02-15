@@ -15,6 +15,7 @@ const EditPostPage = () => {
   const textStateRef = useRef<string | undefined>(data.content); // 리렌더링을 방지하기 위해 useRef 사용
   const { mutate } = usePatchPost();
   const [imgIdx, setImgIdx] = useState<number>(0);
+
   const [isExpanded] = useState<boolean>(false);
   const [buttonState, setButtonState] = useState<boolean>(data.isPublic);
 
@@ -24,7 +25,7 @@ const EditPostPage = () => {
   const images = data.files;
 
   const handleClose = () => {
-    mutate({ content: textStateRef.current, postId: data.postId, isPublic: buttonState });
+    mutate({ content: textStateRef.current, postId: data.postId, isPublic: !buttonState });
   };
 
   return (
@@ -44,6 +45,7 @@ const EditPostPage = () => {
           setImgZoom={setImgZoom}
           handleClose={handleClose}
           textStateRef={textStateRef}
+          buttonState={buttonState}
           setButtonState={setButtonState}
         />
       </Container>

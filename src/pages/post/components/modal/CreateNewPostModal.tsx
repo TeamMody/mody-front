@@ -106,7 +106,7 @@ export const CreateNewPostModal = ({
             ></TextArea>
             <CustomDivider width="100%" border="1px" />
             <BottomDiv>
-              <ToggleButton setButtonState={setButtonState} />
+              <ToggleButton buttonState={buttonState} setButtonState={setButtonState} />
               <SaveStyleButton
                 onClick={handleClose}
                 disabled={textState === undefined}
