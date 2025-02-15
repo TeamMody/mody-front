@@ -10,5 +10,5 @@ export const useControlModal = () => {
     setModalState(false);
   };
 
-  return { modalState, openModal, closeModal };
-}
+  return { modalState, openModal, closeModal, setModalState };
+};
