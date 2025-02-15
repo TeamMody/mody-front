@@ -36,7 +36,7 @@ export const InputUser = () => {
 
   const handleButtonClick = () => {
     if (curIdx < 3) setCurIdx((prev) => ++prev);
-    if (curIdx === 3) navigate('body-survey', { state: { type: RecommendationType.BODY_TYPE } });
+    if (curIdx === 3) navigate('/body-survey', { state: { type: RecommendationType.BODY_TYPE } });
   };
 
   const handleIsValid = (curIdx: number): boolean => {
