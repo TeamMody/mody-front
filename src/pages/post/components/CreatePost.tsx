@@ -8,11 +8,11 @@ import { CreateNewPostModal } from '@pages/post/components/modal/CreateNewPostMo
 import { SelectPhotoBottomSheetModal } from '@pages/post/components/modal/SelectPhotoBottomSheetModal';
 import { createPresignedUrl } from '@pages/post/apis/createPresignedUrl';
 import { presignedUrlProps } from '@pages/post/apis/createPresignedUrl';
-
+import { useControlModal } from '@pages/my/hooks/useControlModal';
 export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
-  const [modalState, setModalState] = useState<boolean>(false);
+  const { modalState, setModalState } = useControlModal();
   const [opened, setIsOpened] = useState<boolean>(isOpened);
-  const [selectedImages, setSelectedImages] = useState<(string | undefined)[]>([]);
+  const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const [selectedId, setSelectedIds] = useState<number[]>([]);
   const [imgZoom, setImgZoom] = useState<boolean>(false);
   const navigate = useNavigate();

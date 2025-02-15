@@ -16,7 +16,7 @@ const RecommendResults = () => {
     fetchNextPage,
     isFetchingNextPage,
   } = useGetInfiniteRecommendations();
-  const { ref, inView } = useInView({ threshold: 0 });
+  const { ref } = useInView({ threshold: 0 });
 
   const { containerRef } = useInfiniteScroll({ hasNextPage, isFetchingNextPage, fetchNextPage }); // 스크롤 감지
 

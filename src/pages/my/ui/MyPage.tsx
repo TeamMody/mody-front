@@ -27,12 +27,18 @@ export const MyPage = () => {
   return (
     <Wrapper>
       <AppBar leftHeaderAction={leftHeaderAction} rightHeaderActionArr={rightHeaderActionArr} />
-      {isLoading ? <Loading /> :
+      {isLoading ? (
+        <Loading />
+      ) : (
         <>
-          <Profile modalState={modalState} closeModal={closeModal} fetchedInfo={fetchedInfo?.result!} />
+          <Profile
+            modalState={modalState}
+            closeModal={closeModal}
+            fetchedInfo={fetchedInfo?.result!}
+          />
           <MyPageContentLayout />
         </>
-      }
+      )}
     </Wrapper>
   );
 };

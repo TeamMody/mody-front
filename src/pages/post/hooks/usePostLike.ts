@@ -16,14 +16,18 @@ const usePostLike = () => {
       await apiInstance.post(`/posts/${postId}/like`);
       return postId;
     },
-    onMutate: (postId: number) => {
+    onMutate: (
+      postId: number,
+    ): {
+      previousPosts: { pages: { postResponses: PostData[] }[] } | undefined;
+      postId: number;
+    } => {
       const previousPosts = queryClient.getQueryData<{ pages: { postResponses: PostData[] }[] }>([
         'posts',
       ]);
 
       if (!previousPosts) return { previousPosts, postId };
 
-      // ✅ 무한 스크롤 데이터 구조 유지하며 업데이트
       const updatedPosts = {
         ...previousPosts,
         pages: previousPosts.pages.map((page) => ({
@@ -41,18 +45,18 @@ const usePostLike = () => {
         })),
       };
 
-      // ✅ UI를 즉시 업데이트
       queryClient.setQueryData(['posts'], updatedPosts);
 
       return { previousPosts, postId };
     },
+
     // onError: (_error, _variables, context) => {
     //   if (context?.previousPosts) {
     //     queryClient.setQueryData(['posts'], context.previousPosts);
     //   }
     // },
     onSuccess: (_data, _error) => {
-      queryClient.refetchQueries(['posts']); // ✅ 최신 데이터를 다시 패칭
+      queryClient.refetchQueries({ queryKey: ['posts'] }); // ✅ 최신 데이터를 다시 패칭
     },
   });
 

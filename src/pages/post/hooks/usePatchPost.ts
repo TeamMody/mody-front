@@ -1,4 +1,4 @@
-import patchPost from '@shared/apis/post/post';
+import { patchPost } from '@shared/apis/post/post';
 import { PatchPostProps } from '@shared/types';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
