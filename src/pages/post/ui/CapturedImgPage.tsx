@@ -7,7 +7,7 @@ export const CapturedImgPage = () => {
   const { capturedImg } = location.state;
   const navigate = useNavigate();
   const saveImg = () => {
-    const blob = fetch(capturedImg)
+    fetch(capturedImg)
       .then((res) => res.blob())
       .then((blob) => saveAs(blob, '정휘준'));
     navigate('/post/createPost');

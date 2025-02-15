@@ -30,9 +30,7 @@ export const OnboardingPage = () => {
         계속 진행됨에 따라 <span className="link">이용약관</span>과 개인정보{' '}
         <span className="link">처리방침</span>에 동의합니다.
       </Policy>
-      <MockButton onClick={() => navigate('inputuser')}>
-        input user 가기 버튼
-      </MockButton>
+      <MockButton onClick={() => navigate('inputuser')}>input user 가기 버튼</MockButton>
     </Wrapper>
   );
 };

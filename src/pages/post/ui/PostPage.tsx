@@ -13,7 +13,7 @@ export const PostPage = () => {
   const rightHeaderActionArr = [{ icon: plus, onClick: () => navigate('createPost') }];
 
   const bottomRef = useRef<HTMLDivElement | null>(null);
-  const { data: postData, isLoading, error, fetchNextPage, hasNextPage } = useGetPostData();
+  const { data: postData, isLoading, fetchNextPage } = useGetPostData();
   useIntersectionObserver(bottomRef, fetchNextPage);
 
   if (isLoading) return <Loading />;
@@ -37,30 +37,6 @@ export const PostPage = () => {
   );
 };
 
-// const ScrollTop = () => {
-//   return (
-//     <ScrollTopContainer>
-//       <span>처음으로 돌아가기</span>
-//       <BottomArrow width={'20px'} height={17} />
-//     </ScrollTopContainer>
-//   );
-// };
-
-const ScrollTopContainer = styled.div`
-  width: 100%;
-  border: 1px solid red;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 6vh;
-  gap: 16px;
-  position: absolute;
-
-  span {
-    font-size: ${({ theme }) => theme.fonts.caption_bold_14px};
-  }
-`;
-
 const Container = styled.div`
   width: 100%;
   height: calc(100vh - 9vh - 64px);
@@ -69,8 +45,4 @@ const Container = styled.div`
   position: relative;
 `;
 
-const BottomRef = styled.div`
-  width: 100%;
-  // height: 5vh;
-`;
 export default PostPage;

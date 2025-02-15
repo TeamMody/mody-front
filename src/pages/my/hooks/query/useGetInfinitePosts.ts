@@ -12,7 +12,7 @@ const useGetInfinitePosts = (activeIndex: number) => {
     activeIndex === ActiveIndex.LIKE ? getLikedPosts : getMyPosts;
 
   return useInfiniteQuery({
-    queryKey: ['posts', activeIndex, size],
+    queryKey: ['posts', activeIndex],
     queryFn: ({ pageParam }) => fetchPosts({ cursor: pageParam, size }),
     initialPageParam: null, // 첫 요청은 cursor 없이
     getNextPageParam: (lastPage) => {

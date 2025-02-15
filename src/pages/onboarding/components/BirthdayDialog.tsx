@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { years, months, getDays } from '@onboarding/utils/getData';
-import React, { useRef, useState, useEffect, useMemo } from 'react';
+import React, { useRef, useMemo } from 'react';
 import { UseFormSetValue } from 'react-hook-form';
 import { UserInfoSchemaType } from '@onboarding/schema';
 import Option from './BirthdayOption';

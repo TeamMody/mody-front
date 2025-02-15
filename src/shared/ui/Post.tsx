@@ -4,7 +4,7 @@ import Heart from '@shared/assets/icon/ic-heart.svg?react';
 import MoreVertical from '@shared/assets/icon/ic-more-vertical.svg?react';
 import FullHeart from '@shared/assets/icon/ic-full-heart.svg?react';
 import ImageCarousel from '@shared/ui/ImageCarousel';
-import EditBottomSheet from './EditBottomSheetModal';
+import EditBottomSheet from '../../pages/post/components/modal/EditBottomSheetModal';
 import Report from '@pages/post/components/Report';
 import usePostLike from '@pages/post/hooks/usePostLike';
 import { PostData } from '@shared/types/my/my';

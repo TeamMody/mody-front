@@ -13,7 +13,7 @@ import useSignupStore from '@onboarding/store/signup.ts';
 
 interface CheckCodeProps extends StateProps<boolean> {}
 
-const CheckCode = ({ value: buttonActive, setValue: setButtonActive }: CheckCodeProps) => {
+const CheckCode = ({ setValue: setButtonActive }: CheckCodeProps) => {
   const [message, setMessage] = useState<string>('');
   const { email } = useSignupStore();
   // 인증코드 유효성 체크

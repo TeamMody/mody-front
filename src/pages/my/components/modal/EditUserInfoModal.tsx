@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import styled from 'styled-components';
 import ReactDOM from 'react-dom';
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { IcLeftArrow } from '@shared/assets/icon/ic-left-arrow';
 import { ModalProps } from '@shared/types/my/modalProps';
@@ -10,10 +10,6 @@ import Edit from '@onboarding/icons/ic-edit.svg?react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UserInfoSchema } from '@pages/my/features/schema/MyUserInfoSchema';
 import { UserDataInput } from '@my/components/UserDataInput';
-import BirthdayModal from '@onboarding/components/BirthdayModal';
-
-import ButtonBox from '@pages/onboarding/components/ButtonBox';
-import HeightBox from '@pages/onboarding/components/HeightModal';
 interface EditUserInfoModalProps extends ModalProps {
   profileImg?: string | undefined;
   name: string;
@@ -43,7 +39,7 @@ export const EditUserInfoModal = ({
     resolver: zodResolver(UserInfoSchema),
     mode: 'onChange',
   });
-  const rootRef = useRef<HTMLDivElement>(null);
+
   const [isVisible, setIsVisible] = useState(isOpened);
   const [img, setImg] = useState<string | undefined>(profileImg);
   const [selectedSex, setSelectedSex] = useState<string | null>(null);

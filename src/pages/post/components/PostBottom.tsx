@@ -2,12 +2,14 @@ import CustomDivider from '@shared/ui/CustomDivider';
 import { ToggleButton } from './toggleButton';
 import styled from 'styled-components';
 import IcZoomIn from '@shared/assets/icon/ic-zoom-in.svg?react';
+import { useEffect, useRef } from 'react';
 
 interface PostBottomProps {
   imgZoom: boolean;
   setImgZoom: React.Dispatch<React.SetStateAction<boolean>>;
   handleClose: () => void;
   textStateRef: React.MutableRefObject<string | undefined>;
+  buttonState: boolean;
   setButtonState: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -16,6 +18,7 @@ const PostBottom = ({
   setImgZoom,
   handleClose,
   textStateRef,
+  buttonState,
   setButtonState,
 }: PostBottomProps) => {
   const handleImgZoom = () => {
@@ -26,6 +29,16 @@ const PostBottom = ({
     }
   };
 
+  const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  useEffect(() => {
+    if (textAreaRef.current) {
+      const length = textStateRef.current?.length || 0;
+      textAreaRef.current.setSelectionRange(length, length); // 커서를 마지막으로 이동
+      textAreaRef.current.focus(); // textarea 포커스 설정
+    }
+  }, []);
+
   const changeTextArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     textStateRef.current = e.target.value;
   };
@@ -35,13 +48,14 @@ const PostBottom = ({
         <IcZoomStyle />
       </ZoomButton>
       <TextArea
+        ref={textAreaRef}
         defaultValue={textStateRef.current}
         placeholder="게시글을 작성해주세요."
         onChange={(e) => changeTextArea(e)}
       ></TextArea>
       <CustomDivider width="100%" border="1px" />
       <BottomDiv>
-        <ToggleButton setButtonState={setButtonState} />
+        <ToggleButton buttonState={buttonState} setButtonState={setButtonState} />
         <SaveStyleButton
           onClick={handleClose}
           disabled={textStateRef === undefined}

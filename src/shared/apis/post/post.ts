@@ -14,7 +14,6 @@ const patchPost = async ({
         isPublic,
       },
     );
-    console.log('Success to patch post:', response);
     return response.data;
   } catch (err) {
     console.error('Failed to get detail post:', err);
@@ -22,4 +21,16 @@ const patchPost = async ({
   }
 };
 
-export default patchPost;
+const patchIsPublic = async (postId: number): Promise<Omit<BaseResponse<String>, 'result'>> => {
+  try {
+    const response = await apiInstance.patch<Omit<BaseResponse<String>, 'result'>>(
+      `/posts/${postId}/public`,
+    );
+    return response.data;
+  } catch (err) {
+    console.error('Failed to patch isPublic:', err);
+    throw err;
+  }
+};
+
+export { patchPost, patchIsPublic };

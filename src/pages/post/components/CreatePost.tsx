@@ -11,8 +11,9 @@ import IcCamera from '@shared/assets/icon/ic-camera.svg?react';
 import IcGallery from '@shared/assets/icon/ic-gallery.svg?react';
 import heic2any from 'heic2any';
 import { ConvertWebP } from '@pages/post/components/ConvertWebP';
+import { useControlModal } from '@pages/my/hooks/useControlModal';
 export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
-  const [modalState, setModalState] = useState<boolean>(false);
+  const { modalState, setModalState } = useControlModal();
   const [opened, setIsOpened] = useState<boolean>(isOpened);
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const [imgZoom, setImgZoom] = useState<boolean>(false);
