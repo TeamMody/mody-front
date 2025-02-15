@@ -1,12 +1,12 @@
 import Logo from '@shared/assets/icon/ic-inputuser-logo.svg?react';
 import InputField from '@onboarding/components/InputField';
 import Message from '@onboarding/components/Message';
-import { LoginSchema, LoginSchemaType } from 'pages/onboarding/feature/schema';
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import TypeLetter from '@onboarding/components/TypeLetter';
 import useLoginMutation from '@onboarding/feature/hooks/useLoginMutation';
+import { LoginSchema, LoginSchemaType } from '@onboarding/feature/schema';
 
 const SignIn = () => {
   const {
