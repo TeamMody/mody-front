@@ -22,10 +22,12 @@ export const OnboardingPage = () => {
         setIsFirstMount(false);
         setIsLoggedIn(true);
         navigate('/home');
+        alert('로그인 되어있는 상태입니다.');
       }
     };
     if (isFirstMount) {
       getIsLoggedIn();
+      alert('첫 마운트 어플리케이션 시작');
     }
   }, []);
 

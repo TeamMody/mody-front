@@ -46,10 +46,12 @@ export const ConfirmationModal = ({ isOpened, content, onClose, index }: ModalPr
         try {
           const res = await apiInstance.post('/auth/logout');
           if (res.status === 200) {
+            alert(res.status);
             setIsLoggedIn(false);
             navigate('/', { replace: true });
           }
-        } catch (error) {
+        } catch ( error ) {
+          alert(`로그아웃에 실패했습니다. ${error}`);
           console.error(error);
         }
       } else if (index === 2) {
