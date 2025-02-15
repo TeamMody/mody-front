@@ -1,5 +1,6 @@
 import axios from 'axios';
 import useAuthStore from '@shared/store/token';
+import useIsLoggedInStore from '@shared/store/useIsLoggedIn';
 
 export const apiInstance = axios.create({
   baseURL: `${import.meta.env.VITE_SERVER_ADDRESS}`,
@@ -14,6 +15,7 @@ const nonToken = [
   '/auth/email/verify/send',
   '/auth/reissue',
   '/auth/login',
+  '/auth/logout',
 ];
 
 apiInstance.interceptors.request.use((config) => {
@@ -32,15 +34,21 @@ apiInstance.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
     const statusCode = error.response.data.code;
+    const { isFirstMount, setIsFirstMount } = useIsLoggedInStore.getState();
 
+    // refresh token이 만료됐을 때
     if (
       statusCode === 'REFRESH_TOKEN404' ||
       (error.response.config.url === '/auth/reissue' && error.status === 400)
     ) {
-      return (window.location.href = `${import.meta.env.VITE_LOCAL_ADDRESS}/onboarding`);
+      // onboarding page로 이동할 때마다 reissue를 날림
+      if (isFirstMount) {
+        return setIsFirstMount(false);
+      }
+      return (window.location.href = `${import.meta.env.VITE_LOCAL_ADDRESS}`);
     }
 
-    if (error.response?.status === 401) {
+    if (error.response?.status === 401 && error.response.config.url !== '/auth/login') {
       const res = await apiInstance.post('/auth/reissue');
       const newAccessToken = res.data.result.accessToken;
 

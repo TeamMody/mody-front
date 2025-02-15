@@ -14,10 +14,12 @@ import SignInPage from '@pages/onboarding/pages/SignInPage';
 import { PostPage, CreatePost, CameraPage, CapturedImgPage } from '@pages/post';
 import PostDetailPage from '@pages/my/ui/PostDetailPage';
 import EditPostPage from '@pages/post/ui/EditPostPage';
+import ProtectedRouter from '@app/routes/ProtectedRouter';
 
 export const router = createBrowserRouter([
   {
     path: '/',
+    element: <ProtectedRouter />,
     children: [
       {
         index: true,
@@ -74,7 +76,8 @@ export const router = createBrowserRouter([
     element: <RootLayout />,
     children: [
       {
-        index: true, element: <MyPage />,
+        index: true,
+        element: <MyPage />,
       },
       {
         path: 'createpost',

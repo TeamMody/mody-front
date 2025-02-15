@@ -2,13 +2,33 @@ import styled from 'styled-components';
 import Logo from '@shared/assets/icon/ic-onboarding-logo.svg?react';
 import KakaoLogo from '@pages/onboarding/icons/ic-kakao-logo.svg?react';
 import { useNavigate } from 'react-router';
+import { useEffect } from 'react';
+import { apiInstance } from '@shared/apis/instance';
+import useIsLoggedInStore from '@shared/store/useIsLoggedIn';
 
 export const OnboardingPage = () => {
   const navigate = useNavigate();
 
+  const { isFirstMount, setIsFirstMount, setIsLoggedIn } = useIsLoggedInStore.getState();
+
   const handleKakaoLogin = () => {
     window.location.href = `${import.meta.env.VITE_SERVER_ADDRESS}/oauth2/authorization/kakao`;
   };
+
+  useEffect(() => {
+    const getIsLoggedIn = async () => {
+      const res = await apiInstance.post('/auth/reissue');
+      if (res.status === 200) {
+        setIsFirstMount(false);
+        setIsLoggedIn(true);
+        navigate('/home');
+      }
+    };
+    if (isFirstMount) {
+      getIsLoggedIn();
+    }
+  }, []);
+
   return (
     <Wrapper>
       <CustomLogo />
