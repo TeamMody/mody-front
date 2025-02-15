@@ -79,5 +79,4 @@ const StyledCarousel = styled(Carousel)<{
     }
   }
 `;
-
 export default ImageCarousel2;

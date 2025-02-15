@@ -18,8 +18,6 @@ export const SelectPhotoBottomSheetModal = ({
   isOpened,
   onClose,
   setSelectedImages,
-  selectedId,
-  setSelectedIds,
 }: SelectPhotoBottomModalProps) => {
   const ref = useRef<SheetRef>(null);
   // const mockImages = mockData.map((data) => data.images)[0];

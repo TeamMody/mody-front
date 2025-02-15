@@ -11,12 +11,11 @@ import useSignupStore from '@onboarding/store/signup';
 
 interface PasswordPageProps extends StateProps<boolean> {}
 
-const PasswordPage = ({ value: buttonActive, setValue: setButtonActive }: PasswordPageProps) => {
+const PasswordPage = ({ setValue: setButtonActive }: PasswordPageProps) => {
   const schema = PasswordSchema;
 
   const {
     register,
-    handleSubmit,
     formState: { errors, touchedFields },
     watch,
     setValue,

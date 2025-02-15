@@ -18,7 +18,7 @@ const MyAndLikePosts = ({ activeIndex }: { activeIndex: ActiveIndex }) => {
     isFetchingNextPage,
   } = useGetInfinitePosts(activeIndex);
 
-  const { ref, inView } = useInView({ threshold: 0 });
+  const { ref } = useInView({ threshold: 0 });
 
   const { containerRef } = useInfiniteScroll({ hasNextPage, isFetchingNextPage, fetchNextPage }); // 스크롤 감지
 

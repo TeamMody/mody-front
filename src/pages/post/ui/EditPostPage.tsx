@@ -15,7 +15,7 @@ const EditPostPage = () => {
   const textStateRef = useRef<string | undefined>(data.content); // 리렌더링을 방지하기 위해 useRef 사용
   const { mutate } = usePatchPost();
   const [imgIdx, setImgIdx] = useState<number>(0);
-  const [isExpanded, setIsExpanded] = useState<boolean>(false);
+  const [isExpanded] = useState<boolean>(false);
   const [buttonState, setButtonState] = useState<boolean>(data.isPublic);
 
   const leftHeaderAction: HeaderAction = { icon: IcLeftArrow, onClick: () => navigate(-1) };
