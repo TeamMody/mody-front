@@ -4,10 +4,10 @@ import ProgressBar from '@shared/ui/ProgressBar';
 import Logo from '@shared/assets/icon/ic-inputuser-logo.svg?react';
 import { useForm } from 'react-hook-form';
 import InputUserMain from '@onboarding/ui/InputUserMain';
-import { UserInfoSchema, UserInfoSchemaType } from 'pages/onboarding/feature/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from 'react-router';
 import { handleOnSubmit } from '@onboarding/feature/utils/handleOnSubmit';
+import { UserInfoSchema, UserInfoSchemaType } from '@onboarding/feature/schema';
 export const InputUser = () => {
   const [curIdx, setCurIdx] = useState<number>(0);
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);

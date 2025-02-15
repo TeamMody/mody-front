@@ -5,11 +5,11 @@ import InputField from './InputField';
 import Message from './Message';
 import SubmitButton from './SubmitButton';
 import { useForm } from 'react-hook-form';
-import { CodeSchema, CodeSchemaType } from 'pages/onboarding/feature/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { StateProps } from '@shared/types';
 import { useVerifyEmail } from '@onboarding/feature/hooks/useVerifyEmail.ts';
 import useSignupStore from '@onboarding/feature/store/signup.ts';
+import { CodeSchema, CodeSchemaType } from '@onboarding/feature/schema';
 
 interface CheckCodeProps extends StateProps<boolean> {}
 
