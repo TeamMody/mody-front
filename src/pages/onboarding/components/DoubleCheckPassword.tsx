@@ -2,7 +2,7 @@ import InputField from './InputField';
 import TypeLetter from './TypeLetter';
 import Message from './Message';
 import styled from 'styled-components';
-import { PasswordSchemaType } from '../schema';
+import { PasswordSchemaType } from '../feature/schema';
 import { FieldProps } from '@shared/types';
 import { UseFormSetValue, UseFormWatch } from 'react-hook-form';
 import { useEffect } from 'react';

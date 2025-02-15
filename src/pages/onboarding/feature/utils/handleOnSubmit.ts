@@ -1,5 +1,5 @@
-import { uploadImageToS3 } from './uploadImage';
-import { submitSignup } from './signup';
+import { uploadImageToS3 } from './uploadImage.ts';
+import { submitSignup } from './signup.ts';
 
 /**
  * 회원가입 폼 제출 핸들러

@@ -3,7 +3,7 @@ import { RecommendationModal } from '@pages/my/components/modal/RecommendationMo
 import styled from 'styled-components';
 import { useNavigate } from 'react-router';
 import { BodyAnalysisResponse } from '@shared/types';
-import { useControlModal } from '@my/hooks/useControlModal';
+import { useControlModal } from '@my/features/hooks/useControlModal';
 interface MyBodyTypeCardProps {
   img?: string;
   bodyType?: string;

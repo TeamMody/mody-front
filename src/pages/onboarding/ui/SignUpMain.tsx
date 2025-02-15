@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import FinishedSignUpPage from './FinishedSignUpPage';
 import PasswordPage from './PasswordPage';
-import useSignupMutation from '@onboarding/hooks/useSignupMutation';
+import useSignupMutation from '@onboarding/feature/hooks/useSignupMutation';
 const SignUpMain = () => {
   const [buttonActive, setButtonActive] = useState<boolean>(false);
   const [slideIndex, setSlideIndex] = useState<number>(0);

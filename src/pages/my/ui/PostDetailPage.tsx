@@ -4,7 +4,7 @@ import IcLeftArrow from '@shared/assets/icon/ic-left-arrow.svg';
 import Post from '@shared/ui/Post.tsx';
 import { useLocation, useNavigate } from 'react-router';
 import { HeaderAction } from '@shared/types';
-import useGetDetailPost from '../hooks/query/useGetDetailPost';
+import useGetDetailPost from '@my/features/hooks/query/useGetDetailPost';
 import { Loading } from '@shared/ui/Loading';
 import { usePostIdStore } from '../features/store/usePostIdStore';
 import { useEffect } from 'react';

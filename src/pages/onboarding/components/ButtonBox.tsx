@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { UseFormRegister, UseFormSetValue, UseFormGetValues } from 'react-hook-form';
-import { UserInfoSchemaType } from '@onboarding/schema';
+import { UserInfoSchemaType } from 'pages/onboarding/feature/schema';
 
 const ButtonBox = ({
   title,

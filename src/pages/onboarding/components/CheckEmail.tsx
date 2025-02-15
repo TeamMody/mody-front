@@ -4,12 +4,12 @@ import InputField from '@onboarding/components/InputField';
 import Message from '@onboarding/components/Message';
 import SubmitButton from '@onboarding/components/SubmitButton';
 import { useEffect, useState } from 'react';
-import { EmailSchema, EmailSchemaType } from '../schema';
+import { EmailSchema, EmailSchemaType } from '../feature/schema';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { StateProps } from '@shared/types';
-import useSignupStore from '../store/signup';
-import { useSendMail } from '@onboarding/hooks/useSendMail.ts';
+import useSignupStore from '@onboarding/feature/store/signup';
+import { useSendMail } from '@onboarding/feature/hooks/useSendMail.ts';
 
 interface CheckEmailProps extends StateProps<boolean> {}
 

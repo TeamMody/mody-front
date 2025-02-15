@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import Logo from '@shared/assets/icon/ic-onboarding-logo.svg?react';
-import KakaoLogo from '@pages/onboarding/icons/ic-kakao-logo.svg?react';
+import KakaoLogo from '@icon/ic-kakao-logo.svg?react';
 import { useNavigate } from 'react-router';
 import { useEffect } from 'react';
 import { apiInstance } from '@shared/apis/instance';
