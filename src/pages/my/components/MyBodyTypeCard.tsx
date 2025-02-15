@@ -1,7 +1,6 @@
 import { IcRightArrow } from '@shared/assets/icon/ic-right-arrow';
 import { RecommendationModal } from '@pages/my/components/modal/RecommendationModal';
 import styled from 'styled-components';
-import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { BodyAnalysisResponse } from '@shared/types';
 import { useControlModal } from '@my/hooks/useControlModal';
