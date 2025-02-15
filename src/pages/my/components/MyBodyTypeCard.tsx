@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { BodyAnalysisResponse } from '@shared/types';
-
+import { useControlModal } from '@my/hooks/useControlModal';
 interface MyBodyTypeCardProps {
   img?: string;
   bodyType?: string;
@@ -13,19 +13,23 @@ interface MyBodyTypeCardProps {
 
 export const MyBodyTypeCard = ({ img, bodyType, data }: MyBodyTypeCardProps) => {
   const navigate = useNavigate();
-  const [modalState, setModalState] = useState<boolean>(false);
+  const { modalState, setModalState } = useControlModal();
   const handleNavigate = () => {
     navigate('/body-type', { state: { result: data } });
   };
 
   return (
     <>
-      <Container onClick={() => bodyType ? handleNavigate() : setModalState(true)}>
+      <Container onClick={() => (bodyType ? handleNavigate() : setModalState(true))}>
         <MyBodyType>
           <span>{bodyType ? bodyType + ' 타입' : '나의 체형 타입은?'}</span>
-          <span>{bodyType ? data?.bodyTypeAnalysis.description.slice(0, 16) + '...' : '나의 체형 진단 받으러 가기'}</span>
+          <span>
+            {bodyType
+              ? data?.bodyTypeAnalysis.description.slice(0, 16) + '...'
+              : '나의 체형 진단 받으러 가기'}
+          </span>
         </MyBodyType>
-        <button onClick={() => bodyType ? handleNavigate() : setModalState(true)}>
+        <button onClick={() => (bodyType ? handleNavigate() : setModalState(true))}>
           <IcRightArrow />
         </button>
       </Container>

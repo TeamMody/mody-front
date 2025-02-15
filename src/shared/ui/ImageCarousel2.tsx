@@ -12,7 +12,7 @@ const ImageCarousel2 = ({
   marginTop,
   imgZoomed,
 }: {
-  images: (string | undefined)[];
+  images?: string[];
   height?: string;
   isExpanded?: boolean;
   imgIdx: number;
@@ -35,7 +35,7 @@ const ImageCarousel2 = ({
         height={height}
         imgZoomed={imgZoomed}
       >
-        {images.map((img, idx) => {
+        {images?.map((img, idx) => {
           return (
             <div key={idx}>
               <img src={img} />;
@@ -43,13 +43,18 @@ const ImageCarousel2 = ({
           );
         })}
       </StyledCarousel>
-      <ProgressBar
-        length={images.length}
-        curIdx={imgIdx}
-        size={7}
-        marginTop={marginTop}
-        imgZoom={imgZoomed}
-      ></ProgressBar>
+      `
+      {images ? (
+        <ProgressBar
+          length={images?.length}
+          curIdx={imgIdx}
+          size={7}
+          marginTop={marginTop}
+          imgZoom={imgZoomed}
+        ></ProgressBar>
+      ) : (
+        <></>
+      )}
     </>
   );
 };
@@ -74,5 +79,4 @@ const StyledCarousel = styled(Carousel)<{
     }
   }
 `;
-
 export default ImageCarousel2;

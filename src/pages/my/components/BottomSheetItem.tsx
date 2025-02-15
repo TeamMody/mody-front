@@ -68,6 +68,7 @@ const SheetContentItem = styled.div`
   align-items: center;
   margin-bottom: 2.8vh;
 `;
+
 const Content = styled.div`
   color: white;
   font: ${({ theme }) => theme.fonts.body_bold_16px};

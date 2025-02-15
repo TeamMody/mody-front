@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router';
 interface SelectPhotoBottomModalProps {
   isOpened: boolean;
   onClose: () => void | undefined;
-  setSelectedImages: React.Dispatch<React.SetStateAction<(string | undefined)[]>>;
+  setSelectedImages: React.Dispatch<React.SetStateAction<string[]>>;
   selectedId: number[];
   setSelectedIds: React.Dispatch<React.SetStateAction<number[]>>;
 }
@@ -18,8 +18,6 @@ export const SelectPhotoBottomSheetModal = ({
   isOpened,
   onClose,
   setSelectedImages,
-  selectedId,
-  setSelectedIds,
 }: SelectPhotoBottomModalProps) => {
   const ref = useRef<SheetRef>(null);
   // const mockImages = mockData.map((data) => data.images)[0];
