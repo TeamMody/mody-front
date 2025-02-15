@@ -9,8 +9,7 @@ import useIsLoggedInStore from '@shared/store/useIsLoggedIn';
 export const OnboardingPage = () => {
   const navigate = useNavigate();
 
-  const { isFirstMount, setIsFirstMount, isLoggedIn, setIsLoggedIn } =
-    useIsLoggedInStore.getState();
+  const { isFirstMount, setIsFirstMount, setIsLoggedIn } = useIsLoggedInStore.getState();
 
   const handleKakaoLogin = () => {
     window.location.href = `${import.meta.env.VITE_SERVER_ADDRESS}/oauth2/authorization/kakao`;
