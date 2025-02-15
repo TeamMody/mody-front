@@ -17,12 +17,17 @@ export const OnboardingPage = () => {
 
   useEffect(() => {
     const getIsLoggedIn = async () => {
-      const res = await apiInstance.post('/auth/reissue');
-      if (res.status === 200) {
-        setIsFirstMount(false);
-        setIsLoggedIn(true);
-        navigate('/home');
-        alert('로그인 되어있는 상태입니다.');
+      try {
+        const res = await apiInstance.post('/auth/reissue');
+        if (res.status === 200) {
+          setIsFirstMount(false);
+          setIsLoggedIn(true);
+          navigate('/home');
+          alert('로그인 되어있는 상태입니다.');
+        }
+      } catch ( error ) {
+        alert(`로그아웃에 실패했습니다. ${error}`);
+        console.error(error);
       }
     };
     if (isFirstMount) {
