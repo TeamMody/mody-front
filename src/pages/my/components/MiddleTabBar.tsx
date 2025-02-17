@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import SlideIndicator from '@pages/my/components/SlideIndicator';
-import { ActiveIndex, useTabBarStore } from '../features/store/useTabBarStore';
+import { ActiveIndex, useTabBarStore } from '@my/features/store/useTabBarStore';
 import IcHexagon from '@shared/assets/icon/ic-hexagon';
 import IcGrid from '@shared/assets/icon/ic-grid';
 import IcHeart from '@shared/assets/icon/ic-heart';

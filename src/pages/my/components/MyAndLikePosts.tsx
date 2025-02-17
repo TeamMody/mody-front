@@ -6,13 +6,12 @@ import { useInView } from 'react-intersection-observer';
 import { SmallLoading } from '@shared/ui/SmallLoading';
 import { PostData } from '@shared/types/my/my';
 import useInfiniteScroll from '@my/features/hooks/useInfiniteScroll';
-import { ActiveIndex } from '../features/store/useTabBarStore';
+import { ActiveIndex } from '@my/features/store/useTabBarStore';
 
 const MyAndLikePosts = ({ activeIndex }: { activeIndex: ActiveIndex }) => {
   const {
     data: posts,
     isLoading,
-    isFetching,
     isError,
     hasNextPage,
     fetchNextPage,

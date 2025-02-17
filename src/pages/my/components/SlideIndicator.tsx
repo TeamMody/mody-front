@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useTabBarStore } from '../features/store/useTabBarStore';
+import { useTabBarStore } from '@my/features/store/useTabBarStore';
 
 const SlideIndicator = () => {
   const { activeIndex } = useTabBarStore();

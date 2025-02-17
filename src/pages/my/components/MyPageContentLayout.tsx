@@ -1,10 +1,10 @@
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import styled from 'styled-components';
-import MyAndLikePosts from './MyAndLikePosts';
+import MyAndLikePosts from '@my/components/MyAndLikePosts';
 import RecommendResults from './RecommendResults';
-import { ActiveIndex, useTabBarStore } from '../features/store/useTabBarStore';
-import MiddleTabBar from './MiddleTabBar';
+import { ActiveIndex, useTabBarStore } from '@my/features/store/useTabBarStore';
+import MiddleTabBar from '@my/components/MiddleTabBar';
 export const MyPageContentLayout = () => {
   const { activeIndex, setActiveIndex } = useTabBarStore();
 
