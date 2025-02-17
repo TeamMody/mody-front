@@ -2,12 +2,11 @@ import styled from 'styled-components';
 import { RecommendationModal } from './modal/RecommendationModal';
 import { useState } from 'react';
 import { useMyInfoStore } from '@shared/store/useMyInfoStore';
-import { ActiveIndex, useTabBarStore } from '../features/store/useTabBarStore';
+import { ActiveIndex } from '../features/store/useTabBarStore';
 
-const NoPosts = () => {
+const NoPosts = ({ activeIndex }: { activeIndex: number }) => {
   const [modalState, setModalState] = useState<boolean>(false);
   const { myInfo } = useMyInfoStore();
-  const { activeIndex } = useTabBarStore();
 
   return (
     <Wrapper>

@@ -40,7 +40,7 @@ const MyAndLikePosts = ({ activeIndex }: { activeIndex: ActiveIndex }) => {
       {hasNextPage && <Bottom ref={ref}>{isFetchingNextPage && <SmallLoading />}</Bottom>}
     </MyAndLikePostsWrapper>
   ) : (
-    <NoPosts />
+    <NoPosts activeIndex={activeIndex} />
   );
 };
 
