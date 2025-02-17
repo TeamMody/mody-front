@@ -2,6 +2,7 @@ import { useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import ReactDOM from 'react-dom';
 import { apiInstance } from '@shared/apis/instance';
+import { AxiosError } from 'axios';
 
 export const ReportModal = ({
   isOpened,
@@ -40,9 +41,15 @@ export const ReportModal = ({
         if (res.status === 200) {
           alert('해당 게시글을 신고하였습니다.');
         }
-      } catch (err: any) {
-        if (err.status === 400) {
-          alert('게시물 신고하기에 실패했습니다.');
+      } catch (err) {
+        if (err instanceof AxiosError) {
+          if (err.response?.status === 400) {
+            alert('게시물 신고하기에 실패했습니다.');
+          } else {
+            alert(`오류 발생: ${err.response?.status}`);
+          }
+        } else {
+          alert('알 수 없는 오류가 발생했습니다.');
         }
       }
     }
