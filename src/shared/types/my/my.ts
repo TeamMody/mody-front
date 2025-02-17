@@ -9,6 +9,7 @@ export interface PostData {
   content: string;
   likeCount: number;
   isLiked: boolean;
+  isMine: boolean;
   bodyType: string;
   isPublic: boolean;
   files: FileData[];

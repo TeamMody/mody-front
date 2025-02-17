@@ -10,7 +10,7 @@ import usePostLike from '@pages/post/hooks/usePostLike';
 import { PostData } from '@shared/types/my/my';
 
 const Post = memo(
-  forwardRef<HTMLDivElement, { data: PostData; type: string }>(({ data, type }, ref) => {
+  forwardRef<HTMLDivElement, { data: PostData }>(({ data }, ref) => {
     const [imgIdx, setImgIdx] = useState<number>(0);
     const [isExpanded, setIsExpanded] = useState<boolean>(false);
     const images = data.files;
@@ -23,7 +23,7 @@ const Post = memo(
           imgIdx={imgIdx}
           setImgIdx={setImgIdx}
         />
-        <Info isExpanded={isExpanded} data={data} setIsExpanded={setIsExpanded} type={type} />
+        <Info isExpanded={isExpanded} data={data} setIsExpanded={setIsExpanded} />
       </Container>
     );
   }),
@@ -43,12 +43,10 @@ const Info = memo(
     isExpanded,
     data,
     setIsExpanded,
-    type,
   }: {
     isExpanded: boolean;
     data: PostData;
     setIsExpanded: React.Dispatch<React.SetStateAction<boolean>>;
-    type: string;
   }) => {
     const [isMoreClicked, setIsMoreClicked] = useState<boolean>(false);
     const postLikeMutation = usePostLike();
@@ -86,14 +84,15 @@ const Info = memo(
           <div className="more-vertical">
             <MoreVertical onClick={handleClickMore} />
           </div>
-          {type === 'my' && (
+          {data.isMine ? (
             <EditBottomSheet
               isOpen={isMoreClicked}
               onClose={() => setIsMoreClicked(false)}
               data={data}
             />
+          ) : (
+            isMoreClicked && <Report postId={data.postId} />
           )}
-          {type === 'post' && isMoreClicked && <Report postId={data.postId} />}
         </DescriptionContainer>
       </InfoContainer>
     );
