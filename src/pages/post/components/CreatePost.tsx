@@ -39,21 +39,25 @@ export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
   const setImges = async (e: ChangeEvent<HTMLInputElement>) => {
     const img = e.target.files?.[0];
 
-    if (img) {
-      if (img.type === 'image/heic' || img.name.endsWith('.heic')) {
-        const heicBlobArray = await heic2any({
-          blob: img,
-          toType: 'image/jpeg',
-          quality: 0.8,
-        });
-        const heicBlob = Array.isArray(heicBlobArray) ? heicBlobArray[0] : heicBlobArray;
-        const file = new File([heicBlob], `${img?.name.split('.')[0]}.jpeg`, {
-          type: heicBlob.type,
-        });
-        ConvertWebP({ img: file, setSelectedImages });
-      } else {
-        ConvertWebP({ img: img, setSelectedImages });
-      }
+    if (img && (img.type === 'image/heic' || img.name.endsWith('.heic'))) {
+      const heicBlobArray = await heic2any({
+        blob: img,
+        toType: 'image/jpeg',
+        quality: 0.8,
+      });
+      const heicBlob = Array.isArray(heicBlobArray) ? heicBlobArray[0] : heicBlobArray;
+      const file = new File([heicBlob], `${img?.name.split('.')[0]}.jpeg`, {
+        type: heicBlob.type,
+      });
+      const a = await ConvertWebP({ img: file });
+      console.log(a);
+    } else {
+      const a = await ConvertWebP({ img: img });
+
+      setSelectedImages((prev) => {
+        return;
+        [...prev, a];
+      });
     }
   };
   return ReactDOM.createPortal(
