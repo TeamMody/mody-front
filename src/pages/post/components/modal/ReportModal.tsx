@@ -43,13 +43,7 @@ export const ReportModal = ({
         }
       } catch (err) {
         if (err instanceof AxiosError) {
-          if (err.response?.status === 400) {
-            alert('게시물 신고하기에 실패했습니다.');
-          } else {
-            alert(`오류 발생: ${err.response?.status}`);
-          }
-        } else {
-          alert('알 수 없는 오류가 발생했습니다.');
+          alert(err.response?.data.message);
         }
       }
     }
