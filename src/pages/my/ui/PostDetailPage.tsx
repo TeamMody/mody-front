@@ -34,7 +34,7 @@ export const PostDetailPage = () => {
     <>
       <AppBar leftHeaderAction={leftHeaderAction} title={title} />
       <Container>
-        <Post data={data.result} type={type} />
+        <Post data={data.result} type={type} queryKey={['detailPost', id]} />
       </Container>
     </>
   );

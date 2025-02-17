@@ -8,25 +8,33 @@ import EditBottomSheet from '../../pages/post/components/modal/EditBottomSheetMo
 import Report from '@pages/post/components/Report';
 import usePostLike from '@pages/post/hooks/usePostLike';
 import { PostData } from '@shared/types/my/my';
-
+import { QueryKey } from '@shared/types/post/post';
 const Post = memo(
-  forwardRef<HTMLDivElement, { data: PostData; type: string }>(({ data, type }, ref) => {
-    const [imgIdx, setImgIdx] = useState<number>(0);
-    const [isExpanded, setIsExpanded] = useState<boolean>(false);
-    const images = data.files;
+  forwardRef<HTMLDivElement, { data: PostData; type: string; queryKey?: QueryKey }>(
+    ({ data, type, queryKey = ['posts'] }, ref) => {
+      const [imgIdx, setImgIdx] = useState<number>(0);
+      const [isExpanded, setIsExpanded] = useState<boolean>(false);
+      const images = data.files;
 
-    return (
-      <Container ref={ref}>
-        <ImageCarousel
-          images={images}
-          isExpanded={isExpanded}
-          imgIdx={imgIdx}
-          setImgIdx={setImgIdx}
-        />
-        <Info isExpanded={isExpanded} data={data} setIsExpanded={setIsExpanded} type={type} />
-      </Container>
-    );
-  }),
+      return (
+        <Container ref={ref}>
+          <ImageCarousel
+            images={images}
+            isExpanded={isExpanded}
+            imgIdx={imgIdx}
+            setImgIdx={setImgIdx}
+          />
+          <Info
+            isExpanded={isExpanded}
+            data={data}
+            setIsExpanded={setIsExpanded}
+            type={type}
+            queryKey={queryKey}
+          />
+        </Container>
+      );
+    },
+  ),
 );
 
 const Container = styled.main`
@@ -44,14 +52,16 @@ const Info = memo(
     data,
     setIsExpanded,
     type,
+    queryKey,
   }: {
     isExpanded: boolean;
     data: PostData;
     setIsExpanded: React.Dispatch<React.SetStateAction<boolean>>;
     type: string;
+    queryKey: QueryKey;
   }) => {
     const [isMoreClicked, setIsMoreClicked] = useState<boolean>(false);
-    const postLikeMutation = usePostLike();
+    const postLikeMutation = usePostLike(queryKey);
 
     const handleClickMore = (e: React.MouseEvent<SVGElement>) => {
       e.stopPropagation();
