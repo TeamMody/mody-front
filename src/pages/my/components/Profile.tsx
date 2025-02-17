@@ -1,7 +1,7 @@
 import { SettingModal } from '@my/components/modal/SettingModal.tsx';
 import { ProfileHeader } from '@my/components/ProfileHeader.tsx';
 import { MyBodyTypeCard } from '@my/components/MyBodyTypeCard.tsx';
-import { useGetBodyTypeResult } from '@my/hooks/mutate/useGetBodyTypeResult.ts';
+import { useGetBodyTypeResult } from '@my/features/hooks/mutate/useGetBodyTypeResult.ts';
 import { MemberInfo } from '@shared/types';
 
 interface ProfileProps {

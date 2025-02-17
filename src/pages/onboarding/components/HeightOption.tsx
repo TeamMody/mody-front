@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import React, { useEffect, useRef } from 'react';
 import { UseFormSetValue } from 'react-hook-form';
-import { UserInfoSchemaType } from '@onboarding/schema';
+import { UserInfoSchemaType } from 'pages/onboarding/feature/schema';
 
 // onScroll 시 값이 변하게
 const Option = React.memo(

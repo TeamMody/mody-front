@@ -1,7 +1,7 @@
 import { apiInstance } from '@shared/apis/instance';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import useSignupStore from '@onboarding/store/signup';
+import useSignupStore from '@onboarding/feature/store/signup.ts';
 
 interface ErrorResponse {
   message: string;

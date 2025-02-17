@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import FinishedSignUpPage from './FinishedSignUpPage';
 import PasswordPage from './PasswordPage';
-import useSignupMutation from '@onboarding/hooks/useSignupMutation';
+import useSignupMutation from '@onboarding/feature/hooks/useSignupMutation';
 const SignUpMain = () => {
   const [buttonActive, setButtonActive] = useState<boolean>(false);
   const [slideIndex, setSlideIndex] = useState<number>(0);
@@ -37,7 +37,7 @@ const SignUpMain = () => {
 
   // 인디케이터 표시 여부를 결정하는 함수
   const shouldShowIndicator = slideIndex < 2; // 두 번째 슬라이드까지만 인디케이터 표시
-  const buttonLabel = ['다음', '완료', '기본 정보 입력하러 가기'];
+  const buttonLabel = ['다음', '완료', '회원가입 완료'];
 
   return (
     <Wrapper>

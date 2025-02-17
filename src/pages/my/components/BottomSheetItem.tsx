@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { ToggleButton } from '@shared/ui/ToggleButton';
-import React, { useState } from 'react';
+import React from 'react';
 import { ConfirmationModal } from './modal/ConfirmationModal';
 import { useModalStore } from '@my/features/store/useModalState.ts';
 import { useNavigate } from 'react-router';

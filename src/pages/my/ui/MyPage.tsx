@@ -8,7 +8,7 @@ import { MyPageContentLayout } from '@pages/my/components/MyPageContentLayout';
 import { useNavigate } from 'react-router';
 import { Loading } from '@shared/ui/Loading.tsx';
 import Profile from '@my/components/Profile.tsx';
-import { useControlModal } from '@my/hooks/useControlModal.ts';
+import { useControlModal } from '@my/features/hooks/useControlModal.ts';
 import { useGetMyInfo } from '@shared/hooks/useGetMyInfo.ts';
 
 export const MyPage = () => {

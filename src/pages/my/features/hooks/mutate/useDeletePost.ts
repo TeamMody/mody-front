@@ -1,6 +1,6 @@
-import { queryClient } from '@app/providers/QueryProvider';
-import { ActiveIndex } from '@pages/my/features/store/useTabBarStore';
-import { deletePost } from '@shared/apis/my';
+import { queryClient } from '@app/providers/QueryProvider.tsx';
+import { ActiveIndex } from '@my/features/store/useTabBarStore.ts';
+import { deletePost } from '@shared/apis/my.ts';
 import { useMutation } from '@tanstack/react-query';
 
 export const deletePostMutation = () => {
