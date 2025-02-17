@@ -10,6 +10,9 @@ const useRefreshMutation = () => {
     onSuccess: (data) => {
       return data.result.accessToken;
     },
+    onError: (error) => {
+      alert(`토큰 갱신에 실패했습니다. ${error}`);
+    },
   });
   return refreshMutation;
 };

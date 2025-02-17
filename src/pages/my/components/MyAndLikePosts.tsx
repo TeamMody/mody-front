@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import Post from '@pages/my/components/Post';
 import NoPosts from '@pages/my/components/NoPosts';
-import useGetInfinitePosts from '../hooks/query/useGetInfinitePosts';
+import useGetInfinitePosts from '@my/features/hooks/query/useGetInfinitePosts';
 import { useInView } from 'react-intersection-observer';
 import { SmallLoading } from '@shared/ui/SmallLoading';
 import { PostData } from '@shared/types/my/my';
-import useInfiniteScroll from '../hooks/useInfiniteScroll';
+import useInfiniteScroll from '@my/features/hooks/useInfiniteScroll';
 import { ActiveIndex } from '../features/store/useTabBarStore';
 
 const MyAndLikePosts = ({ activeIndex }: { activeIndex: ActiveIndex }) => {

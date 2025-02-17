@@ -2,7 +2,7 @@ import { LoginSchemaType } from '../schema';
 import { apiInstance } from '@shared/apis/instance';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import useAuthStore from '@shared/store/token';
+import useAuthStore from '@shared/store/token.ts';
 import { useNavigate } from 'react-router';
 
 interface ErrorResponse {

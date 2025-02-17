@@ -4,10 +4,12 @@ import ProgressBar from '@shared/ui/ProgressBar';
 import Logo from '@shared/assets/icon/ic-inputuser-logo.svg?react';
 import { useForm } from 'react-hook-form';
 import InputUserMain from '@onboarding/ui/InputUserMain';
-import { UserInfoSchema, UserInfoSchemaType } from '@onboarding/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from 'react-router';
-import { handleOnSubmit } from '@onboarding/utils/handleOnSubmit';
+import { handleOnSubmit } from '@onboarding/feature/utils/handleOnSubmit';
+import { UserInfoSchema, UserInfoSchemaType } from '@onboarding/feature/schema';
+import { RecommendationType } from '@shared/types';
+
 export const InputUser = () => {
   const [curIdx, setCurIdx] = useState<number>(0);
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
@@ -34,7 +36,7 @@ export const InputUser = () => {
 
   const handleButtonClick = () => {
     if (curIdx < 3) setCurIdx((prev) => ++prev);
-    if (curIdx === 3) navigate('/home/body-survey');
+    if (curIdx === 3) navigate('/body-survey', { state: { type: RecommendationType.BODY_TYPE } });
   };
 
   const handleIsValid = (curIdx: number): boolean => {

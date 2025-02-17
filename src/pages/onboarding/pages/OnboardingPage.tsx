@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import Logo from '@shared/assets/icon/ic-onboarding-logo.svg?react';
-import KakaoLogo from '@pages/onboarding/icons/ic-kakao-logo.svg?react';
+import KakaoLogo from '@icon/ic-kakao-logo.svg?react';
 import { useNavigate } from 'react-router';
 import { useEffect } from 'react';
 import { apiInstance } from '@shared/apis/instance';
@@ -17,11 +17,17 @@ export const OnboardingPage = () => {
 
   useEffect(() => {
     const getIsLoggedIn = async () => {
-      const res = await apiInstance.post('/auth/reissue');
-      if (res.status === 200) {
-        setIsFirstMount(false);
-        setIsLoggedIn(true);
-        navigate('/home');
+      try {
+        const res = await apiInstance.post('/auth/reissue');
+        if (res.status === 200) {
+          setIsFirstMount(false);
+          setIsLoggedIn(true);
+          navigate('/home');
+          alert('로그인 되어있는 상태입니다.');
+        }
+      } catch ( error ) {
+        alert(`로그아웃에 실패했습니다. ${error}`);
+        console.error(error);
       }
     };
     if (isFirstMount) {

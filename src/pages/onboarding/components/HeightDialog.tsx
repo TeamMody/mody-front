@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import { heights } from '@onboarding/utils/getData';
+import { heights } from '@onboarding/feature/utils/getData';
 import React, { useRef } from 'react';
 import { UseFormSetValue } from 'react-hook-form';
-import { UserInfoSchemaType } from '@onboarding/schema';
+import { UserInfoSchemaType } from 'pages/onboarding/feature/schema';
 import Option from './HeightOption';
 
 const Dialog = React.memo(
