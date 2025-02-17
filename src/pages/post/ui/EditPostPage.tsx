@@ -54,7 +54,7 @@ const EditPostPage = () => {
 };
 
 const Container = styled.main`
-  width: 100%;
+  width: 440px;
   position: relative;
   height: calc(100vh - 64px);
   overflow-y: scroll;
