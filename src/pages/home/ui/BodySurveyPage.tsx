@@ -17,7 +17,7 @@ export const BodySurveyPage = () => {
   const leftHeaderAction = { icon: IcLeftArrow, onClick: () => navigate(-1) };
   const { myAnswers } = useAnswersStore();
   const questionRefs = useRef<HTMLDivElement[]>([]);
-  const { mutate, isSuccess, data, isPending } = usePostBodyAnalysis();
+  const { mutate, isSuccess, data, isPending, isError } = usePostBodyAnalysis();
 
   const focusNextQuestion = () => {
     const nextUnansweredIndex = myAnswers.findIndex((answer) => answer === '');
@@ -53,6 +53,11 @@ export const BodySurveyPage = () => {
 
   if (isPending) {
     return <RecommendationLoading type={RecommendationType.BODY_TYPE} />;
+  }
+
+  if (isError) {
+    alert('체형 타입 분석 중 에러가 발생했습니다.');
+    navigate("/home", { replace: true });
   }
 
   return (

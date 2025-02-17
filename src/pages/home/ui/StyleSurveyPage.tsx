@@ -7,7 +7,6 @@ import StyleSurvey from '@home/components/StyleSurvey.tsx';
 import CustomButton from '@shared/ui/CustomButton.tsx';
 import { useStyleSurveyStore } from '@home/feature/store/useStyleSurveyStore.ts';
 import { useCallback, useEffect } from 'react';
-import { useMyInfoStore } from '@shared/store/useMyInfoStore.ts';
 import { RecommendationLoading } from '@home/components/RecommendationLoading.tsx';
 import { Loading } from '@shared/ui/Loading.tsx';
 import debounce from 'lodash/debounce';
@@ -15,11 +14,10 @@ import { usePostRecommendations } from '@home/feature/hooks/mutate/usePostRecomm
 import { useGetStyleCategories } from '@home/feature/hooks/query/useGetStyleCategories.ts';
 
 export const StyleSurveyPage = () => {
-  const { myInfo } = useMyInfoStore();
   const { resetKeywords } = useStyleSurveyStore();
   const { type } = useLocation().state as { type: RecommendationType };
   const navigate = useNavigate();
-  const { mutate, isSuccess, data, isPending } = usePostRecommendations();
+  const { mutate, isSuccess, data, isPending, isError } = usePostRecommendations();
   const { data: categories, isPending: isCategoriesPending, isError: isCategoriesError } = useGetStyleCategories();
 
   useEffect(() => {
@@ -37,23 +35,22 @@ export const StyleSurveyPage = () => {
   const debouncedApiRequest = useCallback(debounce(handleClick, 500), [handleClick]);
 
   useEffect(() => {
-    if (myInfo && myInfo.bodyType === null) {
-      navigate(-1);
-    }
-  }, []);
-
-  useEffect(() => {
     if (isSuccess) {
       navigate('/recommendation-result', { state: { type: type, result: data?.result } });
     }
   }, [isSuccess]);
 
-  if (isPending) {
-    return <RecommendationLoading type={type} />;
+  if (isError) {
+    alert("스타일 추천 중 에러가 발생했습니다.");
+    navigate("/home", { replace: true });
   }
 
   if (isCategoriesError) {
-    return <div>에러가 발생했습니다.</div>;
+    alert("카테고리 정보를 불러오는 중 에러가 발생했습니다.");
+  }
+
+  if (isPending) {
+    return <RecommendationLoading type={type} />;
   }
 
   return (
