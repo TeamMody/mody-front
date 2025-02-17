@@ -23,7 +23,7 @@ const MyAndLikePosts = ({ activeIndex }: { activeIndex: ActiveIndex }) => {
 
   const { containerRef } = useInfiniteScroll({ hasNextPage, isFetchingNextPage, fetchNextPage }); // 스크롤 감지
 
-  if (isLoading || isFetching) {
+  if (isLoading) {
     return (
       <LoadingWrapper>
         <SmallLoading />
