@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import { years, months, getDays } from '@onboarding/utils/getData';
+import { years, months, getDays } from '@onboarding/feature/utils/getData';
 import React, { useRef, useMemo } from 'react';
 import { UseFormSetValue } from 'react-hook-form';
-import { UserInfoSchemaType } from '@onboarding/schema';
+import { UserInfoSchemaType } from 'pages/onboarding/feature/schema';
 import Option from './BirthdayOption';
 
 const Dialog = ({

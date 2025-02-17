@@ -33,7 +33,7 @@ const ImageContainer = styled.div`
 `;
 
 const LinkSpan = styled.span`
-  margin-top: 20vh;
+  margin-top: 15vh;
   font-size: ${({ theme }) => theme.fonts.caption_medium_14px};
   text-decoration: underline;
   color: white;

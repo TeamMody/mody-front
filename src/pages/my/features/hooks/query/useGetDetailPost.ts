@@ -1,4 +1,4 @@
-import { getDetailPost } from '@shared/apis/my';
+import { getDetailPost } from '@shared/apis/my.ts';
 import { useQuery } from '@tanstack/react-query';
 
 const useGetDetailPost = (postId: number) => {

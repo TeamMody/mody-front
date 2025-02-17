@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 import CheckPassword from '../components/CheckPassword';
 import { useEffect } from 'react';
-import { PasswordSchema, PasswordSchemaType } from '../schema';
+import { PasswordSchema, PasswordSchemaType } from '../feature/schema';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import DoubleChekPassword from '../components/DoubleCheckPassword';
 import Message from '../components/Message';
 import { StateProps } from '@shared/types';
-import useSignupStore from '@onboarding/store/signup';
+import useSignupStore from '@onboarding/feature/store/signup';
 
 interface PasswordPageProps extends StateProps<boolean> {}
 

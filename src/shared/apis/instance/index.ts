@@ -49,14 +49,19 @@ apiInstance.interceptors.response.use(
     }
 
     if (error.response?.status === 401 && error.response.config.url !== '/auth/login') {
-      const res = await apiInstance.post('/auth/reissue');
-      const newAccessToken = res.data.result.accessToken;
+      alert('auth reissue 실행됨');
+      try {
+        const res = await apiInstance.post('/auth/reissue');
+        const newAccessToken = res.data.result.accessToken;
 
-      const { setAccessToken } = useAuthStore.getState();
-      setAccessToken(newAccessToken);
-      originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+        const { setAccessToken } = useAuthStore.getState();
+        setAccessToken(newAccessToken);
+        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 
-      return apiInstance(originalRequest); // 원래 요청 재시도
+        return apiInstance(originalRequest); // 원래 요청 재시도
+      } catch ( error ) {
+        alert(`auth reissue 실패. ${error}`);
+      }
     }
 
     return Promise.reject(error); // 다른 에러는 그대로 전달

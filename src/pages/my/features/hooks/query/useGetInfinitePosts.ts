@@ -1,8 +1,8 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { getLikedPosts, getMyPosts } from '@shared/apis/my';
+import { getLikedPosts, getMyPosts } from '@shared/apis/my.ts';
 import { BaseResponse } from '@shared/types';
-import { PostResponse } from '@shared/types/my/my';
-import { ActiveIndex } from '@pages/my/features/store/useTabBarStore';
+import { PostResponse } from '@shared/types/my/my.ts';
+import { ActiveIndex } from '@my/features/store/useTabBarStore.ts';
 const useGetInfinitePosts = (activeIndex: number) => {
   const size = 12;
   const fetchPosts: (params: {

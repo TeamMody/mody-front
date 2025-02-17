@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import NoPosts from '@pages/my/components/NoPosts';
-import useGetInfiniteRecommendations from '../hooks/query/useGetInfiniteRecommendations';
+import useGetInfiniteRecommendations from '@my/features/hooks/query/useGetInfiniteRecommendations';
 import { useInView } from 'react-intersection-observer';
-import useInfiniteScroll from '../hooks/useInfiniteScroll';
+import useInfiniteScroll from '@my/features/hooks/useInfiniteScroll';
 import { SmallLoading } from '@shared/ui/SmallLoading';
 import { RecommendationResponse, RecommendationType } from '@shared/types';
 import Post from './Post';

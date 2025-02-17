@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import { useState, useRef } from 'react';
 import { UseFormWatch, UseFormSetValue } from 'react-hook-form';
-import { UserInfoSchemaType } from '@onboarding/schema';
+import { UserInfoSchemaType } from 'pages/onboarding/feature/schema';
 import BirthdayDialog from '@pages/onboarding/components/BirthdayDialog';
-import usePositionedDialog from '@onboarding/hooks/usePositionedDialog';
-import useOutsideClick from '@onboarding/hooks/useOutsideClick';
+import usePositionedDialog from '@onboarding/feature/hooks/usePositionedDialog';
+import useOutsideClick from '@onboarding/feature/hooks/useOutsideClick';
 
 const BirthdayModal = ({
   watch,

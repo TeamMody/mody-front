@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import Human from '@onboarding/icons/ic-human.svg?react';
-import Edit from '@onboarding/icons/ic-edit.svg?react';
+import Human from '@icon/ic-human.svg?react';
+import Edit from '@icon/ic-edit.svg?react';
 import { FirstPageProps } from '@onboarding/types';
 import { useEffect, useState } from 'react';
 
