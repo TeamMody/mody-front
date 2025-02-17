@@ -24,7 +24,12 @@ const Post = memo(
             imgIdx={imgIdx}
             setImgIdx={setImgIdx}
           />
-          <Info isExpanded={isExpanded} data={data} setIsExpanded={setIsExpanded} />
+          <Info
+            isExpanded={isExpanded}
+            data={data}
+            setIsExpanded={setIsExpanded}
+            queryKey={queryKey}
+          />
         </Container>
       );
     },
@@ -50,7 +55,6 @@ const Info = memo(
     isExpanded: boolean;
     data: PostData;
     setIsExpanded: React.Dispatch<React.SetStateAction<boolean>>;
-    type: string;
     queryKey: QueryKey;
   }) => {
     const [isMoreClicked, setIsMoreClicked] = useState<boolean>(false);
