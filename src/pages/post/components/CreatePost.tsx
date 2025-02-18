@@ -9,7 +9,10 @@ import { createPresignedUrl } from '@pages/post/apis/createPresignedUrl';
 import { presignedUrlProps } from '@pages/post/apis/createPresignedUrl';
 import IcCamera from '@shared/assets/icon/ic-camera.svg?react';
 import IcGallery from '@shared/assets/icon/ic-gallery.svg?react';
-import { ConvertWebP } from '@pages/post/components/ConvertToWebP';
+import {
+  ConvertMultipleImgToWebP,
+  ConvertSingleImgToWebP,
+} from '@pages/post/components/ConvertToWebP';
 import { useControlModal } from '@pages/my/features/hooks/useControlModal';
 import CreatePostImageCarousel from '@shared/ui/CreatePostImageCarousel';
 
@@ -41,15 +44,9 @@ export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
   const setImges = async (e: ChangeEvent<HTMLInputElement>) => {
     const img = e.target.files;
     if (!img) return;
+    console.log(img);
 
-    const fileEntries = Object.values(img);
-
-    const convertedFiles = await Promise.all(
-      fileEntries.map(async (file) => {
-        return await ConvertWebP({ img: file });
-      }),
-    );
-
+    const convertedFiles = await ConvertMultipleImgToWebP({ img });
     if (convertedFiles) {
       setSelectedImages((prev) => {
         return [...prev, ...convertedFiles.filter((file): file is string => Boolean(file))];

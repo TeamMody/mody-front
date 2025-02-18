@@ -5,10 +5,13 @@ export const options = {
   useWebWorker: true,
   fileType: 'image/webp',
 };
-export interface ImgType {
+interface SingleImgType {
   img: File;
 }
-export const ConvertWebP = async ({ img }: ImgType) => {
+interface MultipleImgType {
+  img: FileList;
+}
+const ConvertSingleImgToWebP = async ({ img }: SingleImgType) => {
   if (img) {
     // 이미지 최적화를 위해 이미지 압축 및 webP 확장자로 변경
     const webpBlob = await imageCompression(img, options);
@@ -16,3 +19,15 @@ export const ConvertWebP = async ({ img }: ImgType) => {
     return blobUrl;
   }
 };
+
+const ConvertMultipleImgToWebP = async ({ img }: MultipleImgType) => {
+  const fileEntries = Object.values(img);
+  const convertedFiles = await Promise.all(
+    fileEntries.map(async (file) => {
+      return await ConvertSingleImgToWebP({ img: file });
+    }),
+  );
+  return convertedFiles;
+};
+
+export { ConvertSingleImgToWebP, ConvertMultipleImgToWebP };
