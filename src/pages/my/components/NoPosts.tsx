@@ -8,17 +8,15 @@ const NoPosts = ({ activeIndex }: { activeIndex: number }) => {
   const [modalState, setModalState] = useState<boolean>(false);
   const { myInfo } = useMyInfoStore();
 
+  const messages: { [key: number]: string } = {
+    [ActiveIndex.RECOMMEND]: '결과물이 없어요',
+    [ActiveIndex.MY]: '게시물이 없어요',
+    [ActiveIndex.LIKE]: '좋아요한 게시글이 없어요',
+  };
+
   return (
     <Wrapper>
-      <NoPostsWrapper>
-        {activeIndex === ActiveIndex.RECOMMEND
-          ? '결과물이 없어요'
-          : activeIndex === ActiveIndex.MY
-            ? '게시물이 없어요'
-            : activeIndex === ActiveIndex.LIKE
-              ? '좋아요한 게시글이 없어요'
-              : null}
-      </NoPostsWrapper>
+      <NoPostsWrapper>{messages[activeIndex]}</NoPostsWrapper>
       {activeIndex === ActiveIndex.RECOMMEND ? (
         <GetRecommendWrapper onClick={() => setModalState(true)}>
           추천 받으러 가기
