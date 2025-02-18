@@ -11,7 +11,7 @@ import { MyPage } from '@pages/my';
 import { OnboardingPage, InputUser } from '@pages/onboarding';
 import SignUpPage from '@pages/onboarding/ui/SignUpMain';
 import SignInPage from '@pages/onboarding/pages/SignInPage';
-import { PostPage, CreatePost, CameraPage, CapturedImgPage } from '@pages/post';
+import { PostPage, CreatePost } from '@pages/post';
 import PostDetailPage from '@pages/my/ui/PostDetailPage';
 import EditPostPage from '@pages/post/ui/EditPostPage';
 
@@ -59,14 +59,6 @@ export const router = createBrowserRouter([
         path: 'createpost',
         element: <CreatePost isOpened={true} />,
       },
-      {
-        path: 'camerapage',
-        element: <CameraPage />,
-      },
-      {
-        path: 'capturedimgpage',
-        element: <CapturedImgPage />,
-      },
     ],
   },
   {
@@ -74,7 +66,8 @@ export const router = createBrowserRouter([
     element: <RootLayout />,
     children: [
       {
-        index: true, element: <MyPage />,
+        index: true,
+        element: <MyPage />,
       },
       {
         path: 'createpost',

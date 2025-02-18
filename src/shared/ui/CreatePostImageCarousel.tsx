@@ -3,7 +3,7 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a lo
 import ProgressBar from '@shared/ui/ProgressBar';
 import { Carousel } from 'react-responsive-carousel';
 
-const ImageCarousel2 = ({
+const CreatePostImageCarousel = ({
   images,
   height = '60vh',
   isExpanded = undefined,
@@ -43,7 +43,7 @@ const ImageCarousel2 = ({
           );
         })}
       </StyledCarousel>
-      `
+
       {images ? (
         <ProgressBar
           length={images?.length}
@@ -80,4 +80,4 @@ const StyledCarousel = styled(Carousel)<{
     }
   }
 `;
-export default ImageCarousel2;
+export default CreatePostImageCarousel;

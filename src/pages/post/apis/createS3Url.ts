@@ -6,28 +6,27 @@ export const createS3url = async ({
 }: {
   selectedImages?: string[];
   presignedUrls: presignedUrlProps[];
-}): Promise<(string | undefined)[] | undefined> => {
+}): Promise<string[] | undefined> => {
   try {
     if (presignedUrls && selectedImages) {
       const uploadPromises = selectedImages.map(async (file, index) => {
         const presignedUrl = presignedUrls[index];
-        if (file) {
-          const uploadFile = await fetch(file);
-          const blob = await uploadFile.blob();
 
-          const response = await fetch(presignedUrl.presignedUrl, {
-            method: 'PUT',
-            headers: {
-              'Content-Type': blob.type,
-            },
-            body: blob,
-          });
+        const uploadFile = await fetch(file);
+        const blob = await uploadFile.blob();
 
-          if (!response.ok) {
-            throw new Error(`업로드 실패: ${response.statusText}`);
-          }
-          return presignedUrl.presignedUrl.split('?')[0];
+        const response = await fetch(presignedUrl.presignedUrl, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': blob.type,
+          },
+          body: blob,
+        });
+
+        if (!response.ok) {
+          throw new Error(`업로드 실패: ${response.statusText}`);
         }
+        return presignedUrl.presignedUrl.split('?')[0];
       });
       const results = await Promise.all(uploadPromises);
 

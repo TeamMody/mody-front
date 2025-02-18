@@ -9,9 +9,10 @@ import { createPresignedUrl } from '@pages/post/apis/createPresignedUrl';
 import { presignedUrlProps } from '@pages/post/apis/createPresignedUrl';
 import IcCamera from '@shared/assets/icon/ic-camera.svg?react';
 import IcGallery from '@shared/assets/icon/ic-gallery.svg?react';
-import heic2any from 'heic2any';
-import { ConvertWebP } from '@pages/post/components/ConvertWebP';
+import { ConvertWebP } from '@pages/post/components/ConvertToWebP';
 import { useControlModal } from '@pages/my/hooks/useControlModal';
+import CreatePostImageCarousel from '@shared/ui/CreatePostImageCarousel';
+
 export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
   const { modalState, setModalState } = useControlModal();
   const [opened, setIsOpened] = useState<boolean>(isOpened);
@@ -19,8 +20,8 @@ export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
   const [imgZoom, setImgZoom] = useState<boolean>(false);
   const navigate = useNavigate();
   const [presignedUrls, setPresignedUrls] = useState<presignedUrlProps[]>();
-
-  const openModal = async (data: (string | undefined)[]) => {
+  const [imgIdx, setImgIdx] = useState<number>(0);
+  const openModal = async (data: string[]) => {
     const urls = await createPresignedUrl(data);
     setPresignedUrls(urls);
     setModalState(true);
@@ -33,30 +34,25 @@ export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
 
   const closePage = () => {
     setIsOpened(false);
+    setSelectedImages([]);
     navigate(-1);
   };
 
   const setImges = async (e: ChangeEvent<HTMLInputElement>) => {
-    const img = e.target.files?.[0];
+    const img = e.target.files;
+    if (!img) return;
 
-    if (img && (img.type === 'image/heic' || img.name.endsWith('.heic'))) {
-      const heicBlobArray = await heic2any({
-        blob: img,
-        toType: 'image/jpeg',
-        quality: 0.8,
-      });
-      const heicBlob = Array.isArray(heicBlobArray) ? heicBlobArray[0] : heicBlobArray;
-      const file = new File([heicBlob], `${img?.name.split('.')[0]}.jpeg`, {
-        type: heicBlob.type,
-      });
-      const a = await ConvertWebP({ img: file });
-      console.log(a);
-    } else {
-      const a = await ConvertWebP({ img: img });
+    const fileEntries = Object.values(img);
 
+    const convertedFiles = await Promise.all(
+      fileEntries.map(async (file) => {
+        return await ConvertWebP({ img: file });
+      }),
+    );
+
+    if (convertedFiles) {
       setSelectedImages((prev) => {
-        return;
-        [...prev, a];
+        return [...prev, ...convertedFiles.filter((file): file is string => Boolean(file))];
       });
     }
   };
@@ -76,7 +72,7 @@ export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
             {selectedImages && (
               <NextButton
                 onClick={() => openModal(selectedImages)}
-                selectedImages={selectedImages}
+                $selectedImages={selectedImages}
                 disabled={selectedImages.length === 0}
               >
                 다음
@@ -84,20 +80,29 @@ export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
             )}
           </TopBox>
           <BottomBox>
-            {selectedImages && <ChooseImg src={selectedImages.slice(-1)[0]} />}
+            {selectedImages.length > 0 ? (
+              <CreatePostImageCarousel
+                height="46vh"
+                images={selectedImages}
+                imgIdx={imgIdx}
+                setImgIdx={setImgIdx}
+              />
+            ) : (
+              <ChooseImg />
+            )}
 
-            <div>
+            <BottomBoxBar>
               <div>갤러리에서 선택하기</div>
-              <input type="file" id="Gallary" onChange={setImges} />
+              <input type="file" id="Gallary" onChange={setImges} multiple />
               <label htmlFor="Gallary">
                 <GalleryIcon />
               </label>
 
-              <input type="file" id="Camera" onChange={setImges} />
+              <input type="file" id="Camera" onChange={setImges} multiple />
               <label htmlFor="Camera">
                 <CameraIcon />
               </label>
-            </div>
+            </BottomBoxBar>
           </BottomBox>
 
           <CreateNewPostModal
@@ -137,13 +142,13 @@ const TopBox = styled.div`
     height: 100%;
   }
 `;
-const NextButton = styled.button<{ selectedImages: (string | undefined)[] }>`
+const NextButton = styled.button<{ $selectedImages: (string | undefined)[] }>`
   height: 100%;
   font-size: ${({ theme }) => theme.fonts.heading_medium_18px};
-  color: ${({ selectedImages }) => (selectedImages.length > 0 ? 'white' : 'black')};
+  color: ${({ $selectedImages }) => ($selectedImages.length > 0 ? 'white' : 'black')};
   &:hover {
-    color: ${({ theme, selectedImages }) =>
-      selectedImages.length > 0 ? `${theme.colors.green500}` : 'none'};
+    color: ${({ theme, $selectedImages }) =>
+      $selectedImages.length > 0 ? `${theme.colors.green500}` : 'none'};
   }
 `;
 
@@ -156,51 +161,13 @@ const BottomBox = styled.div`
   padding: 1.1vh 0.9vw 0 0.9vw;
   flex-direction: column;
   gap: 5px;
-  & > div:nth-child(2) {
-    width: 100%;
-    height: 8.333vh;
-    padding: 1.333vh 5.128vw 1.444vh 5.128vw;
-    background-color: ${({ theme }) => theme.colors.gray700};
-    color: white;
-    display: flex;
-  }
-
-  & > div:nth-child(2) > div:nth-child(1) {
-    font-size: ${({ theme }) => theme.fonts.body_bold_16px};
-    flex-grow: 1;
-    align-content: center;
-  }
-  & > div:nth-child(2) > input:nth-child(2) {
-    display: none;
-  }
-  & > div:nth-child(2) > label:nth-child(3) {
-    aspect-ratio: 1/1;
-    height: 100%;
-    background-color: ${({ theme }) => theme.colors.gray800};
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-content: center;
-  }
-  & > div:nth-child(2) > input:nth-child(4) {
-    display: none;
-  }
-  & > div:nth-child(2) > label:nth-child(5) {
-    aspect-ratio: 1/1;
-    height: 100%;
-    background-color: ${({ theme }) => theme.colors.gray800};
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    margin-left: 4.103vw;
-  }
 `;
 
-const ChooseImg = styled.img`
+const ChooseImg = styled.div`
   width: 100%;
   height: 46vh;
   background-color: ${({ theme }) => theme.colors.gray800};
+  margin-bottom: 3.5vh;
 `;
 
 const GalleryIcon = styled(IcGallery)`
@@ -220,5 +187,45 @@ const CameraIcon = styled(IcCamera)`
     path {
       stroke: ${({ theme }) => theme.colors.green500}; /* 원하는 색상 */
     }
+  }
+`;
+
+const BottomBoxBar = styled.div`
+  width: 100%;
+  height: 8.333vh;
+  padding: 1.333vh 5.128vw 1.444vh 5.128vw;
+  background-color: ${({ theme }) => theme.colors.gray700};
+  color: white;
+  display: flex;
+
+  & > div:nth-child(1) {
+    font-size: ${({ theme }) => theme.fonts.body_bold_16px};
+    flex-grow: 1;
+    align-content: center;
+  }
+  & > input:nth-child(2) {
+    display: none;
+  }
+  & > label:nth-child(3) {
+    aspect-ratio: 1/1;
+    height: 100%;
+    background-color: ${({ theme }) => theme.colors.gray800};
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+  }
+  & > input:nth-child(4) {
+    display: none;
+  }
+  & > label:nth-child(5) {
+    aspect-ratio: 1/1;
+    height: 100%;
+    background-color: ${({ theme }) => theme.colors.gray800};
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    margin-left: 4.103vw;
   }
 `;
