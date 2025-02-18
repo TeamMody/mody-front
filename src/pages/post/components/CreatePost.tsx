@@ -44,7 +44,6 @@ export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
   const setImges = async (e: ChangeEvent<HTMLInputElement>) => {
     const img = e.target.files;
     if (!img) return;
-    console.log(img);
 
     const convertedFiles = await ConvertMultipleImgToWebP({ img });
     if (convertedFiles) {

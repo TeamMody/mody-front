@@ -12,12 +12,10 @@ interface MultipleImgType {
   img: FileList;
 }
 const ConvertSingleImgToWebP = async ({ img }: SingleImgType) => {
-  if (img) {
-    // 이미지 최적화를 위해 이미지 압축 및 webP 확장자로 변경
-    const webpBlob = await imageCompression(img, options);
-    const blobUrl = URL.createObjectURL(webpBlob);
-    return blobUrl;
-  }
+  // 이미지 최적화를 위해 이미지 압축 및 webP 확장자로 변경
+  const webpBlob = await imageCompression(img, options);
+  const blobUrl = URL.createObjectURL(webpBlob);
+  return blobUrl;
 };
 
 const ConvertMultipleImgToWebP = async ({ img }: MultipleImgType) => {
