@@ -2,7 +2,7 @@ import { LoginSchemaType } from '../schema';
 import { apiInstance } from '@shared/apis/instance';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import useAuthStore from '@shared/store/token';
+import useAuthStore from '@shared/store/token.ts';
 import { useNavigate } from 'react-router';
 
 interface ErrorResponse {
@@ -22,6 +22,12 @@ const useLoginMutation = () => {
       const registrationCompleted = data.result.registrationCompleted;
 
       const { setAccessToken } = useAuthStore.getState();
+      if (window.ReactNativeWebView?.postMessage) {
+        alert('✅ React Native WebView 감지됨!');
+        window.ReactNativeWebView.postMessage(JSON.stringify({ event: 'login_success' }));
+      } else {
+        alert('❌ React Native WebView를 찾을 수 없음!');
+      }
       setAccessToken(accessToken);
       setTimeout(() => {
         if (registrationCompleted) {

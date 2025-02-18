@@ -16,7 +16,8 @@ export const BodyTypePage = () => {
   };
 
   if (!result) {
-    return <div>에러 발생</div>;
+    alert('체형 타입 분석 결과가 없습니다.');
+    navigate('/home', { replace: true });
   }
 
   return (

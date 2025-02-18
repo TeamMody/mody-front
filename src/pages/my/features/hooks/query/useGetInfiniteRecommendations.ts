@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { getRecommendationResults } from '@shared/apis/my';
-import { ActiveIndex } from '@pages/my/features/store/useTabBarStore';
+import { getRecommendationResults } from '@shared/apis/my.ts';
+import { ActiveIndex } from '@my/features/store/useTabBarStore.ts';
 
 const useGetInfiniteRecommendations = () => {
   const size = 12;

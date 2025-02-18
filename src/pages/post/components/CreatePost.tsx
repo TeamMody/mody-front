@@ -10,7 +10,7 @@ import { presignedUrlProps } from '@pages/post/apis/createPresignedUrl';
 import IcCamera from '@shared/assets/icon/ic-camera.svg?react';
 import IcGallery from '@shared/assets/icon/ic-gallery.svg?react';
 import { ConvertWebP } from '@pages/post/components/ConvertToWebP';
-import { useControlModal } from '@pages/my/hooks/useControlModal';
+import { useControlModal } from '@pages/my/features/hooks/useControlModal';
 import CreatePostImageCarousel from '@shared/ui/CreatePostImageCarousel';
 
 export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {

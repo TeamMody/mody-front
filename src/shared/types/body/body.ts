@@ -1,6 +1,6 @@
 import IcBodyTypeSt from '@shared/assets/icon/ic-body-type-st.svg';
-import IcBodyTypeWave from '@shared/assets/icon/ic-body-type-wave.svg';
-import IcBodyTypeNatural from '@shared/assets/icon/ic-body-type-natural.svg';
+import IcBodyTypeWave from '@icon/ic-body-type-wave.svg';
+import IcBodyTypeNatural from '@icon/ic-body-type-natural.svg';
 
 export interface BodyAnalysisRequest {
   answer: string;

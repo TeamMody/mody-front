@@ -2,9 +2,10 @@ import { useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import ReactDOM from 'react-dom';
-import { deletePostMutation } from '@pages/my/hooks/mutate/useDeletePost';
+import { deletePostMutation } from '@my/features/hooks/mutate/useDeletePost';
 import { usePostIdStore } from '@pages/my/features/store/usePostIdStore';
-import { useLogOut } from '@pages/my/hooks/query/useLogOut';
+import useIsLoggedInStore from '@shared/store/useIsLoggedIn';
+import { apiInstance } from '@shared/apis/instance';
 
 interface ModalProps {
   isOpened: boolean;
@@ -37,12 +38,22 @@ export const ConfirmationModal = ({ isOpened, content, onClose, index }: ModalPr
     }
   }, [isOpened]);
 
-  const handleClose = (index: number = 0) => {
+  const handleClose = async (index: number = 0) => {
     if (onClose) {
       if (index === 1) {
-        useLogOut();
         onClose();
-        navigate('/', { replace: true });
+        const { setIsLoggedIn } = useIsLoggedInStore.getState();
+        try {
+          const res = await apiInstance.post('/auth/logout');
+          if (res.status === 200) {
+            alert(res.status);
+            setIsLoggedIn(false);
+            navigate('/', { replace: true });
+          }
+        } catch ( error ) {
+          alert(`로그아웃에 실패했습니다. ${error}`);
+          console.error(error);
+        }
       } else if (index === 2) {
         onClose();
         navigate('/my', { replace: true }); // 삭제하기 모달에서 예를 눌렀을 때 라우팅 설정

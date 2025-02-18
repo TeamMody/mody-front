@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import TypeLetter from './TypeLetter';
 import InputField from './InputField';
-import { PasswordSchemaType } from '../schema';
+import { PasswordSchemaType } from '../feature/schema';
 import { FieldProps } from '@shared/types';
 
 interface CheckPasswordProps extends FieldProps<PasswordSchemaType> {}
