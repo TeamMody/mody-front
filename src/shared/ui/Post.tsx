@@ -8,6 +8,7 @@ import EditBottomSheet from '../../pages/post/components/modal/EditBottomSheetMo
 import Report from '@pages/post/components/Report';
 import usePostLike from '@pages/post/hooks/usePostLike';
 import { PostData } from '@shared/types/my/my';
+import ReportModal from '@pages/post/components/modal/ReportModal';
 import { QueryKey } from '@shared/types/post/post';
 const Post = memo(
   forwardRef<HTMLDivElement, { data: PostData; queryKey?: QueryKey }>(
@@ -91,16 +92,24 @@ const Info = memo(
             <span>{data.likeCount}</span>
           </div>
           <div className="more-vertical">
-            <MoreVertical onClick={handleClickMore} />
+            {data.isMine ? (
+              <Report onClick={() => setIsMoreClicked(true)} />
+            ) : (
+              <MoreVertical onClick={handleClickMore} />
+            )}
           </div>
           {data.isMine ? (
+            <ReportModal
+              isOpened={isMoreClicked}
+              setIsMoreClicked={setIsMoreClicked}
+              id={data.postId}
+            />
+          ) : (
             <EditBottomSheet
               isOpen={isMoreClicked}
               onClose={() => setIsMoreClicked(false)}
               data={data}
             />
-          ) : (
-            isMoreClicked && <Report postId={data.postId} />
           )}
         </DescriptionContainer>
       </InfoContainer>

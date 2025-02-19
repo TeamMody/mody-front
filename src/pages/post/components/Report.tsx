@@ -1,13 +1,8 @@
 import ReportIcon from '@shared/assets/icon/ic-report.svg?react';
 import styled from 'styled-components';
-import { usePostReport } from '@post/hooks/usePostReport';
-const Report = ({ postId }: { postId: number }) => {
-  const handleReport = async () => {
-    usePostReport({ postId });
-  };
-
+const Report = ({ onClick }: { onClick: () => void }) => {
   return (
-    <Container onClick={handleReport}>
+    <Container onClick={onClick}>
       <ReportIcon />
       <span>신고하기</span>
     </Container>
