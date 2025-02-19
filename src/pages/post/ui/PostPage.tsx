@@ -16,9 +16,10 @@ export const PostPage = () => {
   const { data: postData, isLoading, fetchNextPage } = useGetPostData();
   useIntersectionObserver(bottomRef, fetchNextPage);
 
+  console.log(postData);
+
   if (isLoading) return <Loading />;
 
-  console.log(postData);
   return (
     <>
       <AppBar title={'김모디'} rightHeaderActionArr={rightHeaderActionArr} />
