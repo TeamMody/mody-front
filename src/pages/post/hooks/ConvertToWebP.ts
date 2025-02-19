@@ -11,6 +11,7 @@ interface SingleImgType {
 interface MultipleImgType {
   img: FileList;
 }
+
 const ConvertSingleImgToWebP = async ({ img }: SingleImgType) => {
   // 이미지 최적화를 위해 이미지 압축 및 webP 확장자로 변경
   const webpBlob = await imageCompression(img, options);
