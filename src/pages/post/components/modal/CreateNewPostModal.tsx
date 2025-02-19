@@ -6,7 +6,7 @@ import { ModalProps } from '@shared/types/my/modalProps';
 import { IcLeftArrow } from '@shared/assets/icon/ic-left-arrow';
 import CustomDivider from '@shared/ui/CustomDivider';
 import { ToggleButton } from '@pages/post/components/toggleButton';
-import ImageCarousel2 from '@shared/ui/ImageCarousel2';
+import CreatePostImageCarousel from '@shared/ui/CreatePostImageCarousel';
 import IcZoomIn from '@shared/assets/icon/ic-zoom-in.svg?react';
 import IcZoomOut from '@shared/assets/icon/ic-zoom-out.svg?react';
 import { createS3url } from '@pages/post/apis/createS3Url';
@@ -18,7 +18,7 @@ interface ImgModalProps extends ModalProps {
   selectedImages?: string[];
   imgZoom: boolean;
   setImgZoom: React.Dispatch<React.SetStateAction<boolean>>;
-  presignedUrls: presignedUrlProps[] | undefined;
+  presignedUrls?: presignedUrlProps[];
 }
 
 export const CreateNewPostModal = ({
@@ -37,17 +37,19 @@ export const CreateNewPostModal = ({
   const handleClose = async () => {
     try {
       if (presignedUrls) {
-        const S3Urls = await createS3url({ selectedImages, presignedUrls });
+        const S3Urls: string[] | undefined = await createS3url({ selectedImages, presignedUrls });
         mutate({
           content: textState,
-          isPublic: buttonState,
+          isPublic: !buttonState,
           s3Urls: S3Urls,
         });
       }
       setTextState(undefined);
       navigate(-1);
+      alert('게시글이 생성되었습니다.');
     } catch (error) {
-      console.error('게시물 생성 실패:', error);
+      alert('게시물 생성 실패하였습니다');
+      navigate('/post');
     }
   };
 
@@ -67,7 +69,7 @@ export const CreateNewPostModal = ({
   const changeTextArea = (e: React.ChangeEvent<HTMLTextAreaElement | null>) => {
     setTimeout(() => {
       setTextState(e.target.value);
-    }, 500);
+    }, 100);
   };
 
   return ReactDOM.createPortal(
@@ -86,8 +88,8 @@ export const CreateNewPostModal = ({
             <div>새로운 게시물</div>
           </TopBox>
           <BottomBox>
-            <BottomImgContainer imgZoom={imgZoom}>
-              <ImageCarousel2
+            <BottomImgContainer $imgZoom={imgZoom}>
+              <CreatePostImageCarousel
                 images={selectedImages}
                 isExpanded={undefined}
                 imgIdx={imgIdx}
@@ -96,7 +98,7 @@ export const CreateNewPostModal = ({
                 imgZoomed={imgZoom}
               />
             </BottomImgContainer>
-            <ZoomButton onClick={handleImgZoom} imgZoom={imgZoom}>
+            <ZoomButton onClick={handleImgZoom} $imgZoom={imgZoom}>
               {imgZoom ? <IcZoomOutStyle /> : <IcZoomInStyle />}
             </ZoomButton>
 
@@ -110,7 +112,7 @@ export const CreateNewPostModal = ({
               <SaveStyleButton
                 onClick={handleClose}
                 disabled={textState === undefined}
-                textState={!!textState}
+                $textState={!!textState}
               >
                 스타일 저장하기
               </SaveStyleButton>
@@ -167,18 +169,18 @@ const BottomBox = styled.div`
   position: absolute;
 `;
 
-const BottomImgContainer = styled.div<{ imgZoom: boolean }>`
+const BottomImgContainer = styled.div<{ $imgZoom: boolean }>`
   width: 100%;
   height: 56.398vh;
-  padding-top: ${({ imgZoom }) => (imgZoom ? '0px' : '3.791vh')};
+  padding-top: ${({ $imgZoom }) => ($imgZoom ? '0px' : '3.791vh')};
   margin-bottom: 3vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: ${({ imgZoom }) => (imgZoom ? '0px' : '5.79vh')};
+  gap: ${({ $imgZoom }) => ($imgZoom ? '0px' : '5.79vh')};
 `;
 
-const ZoomButton = styled.button<{ imgZoom: boolean }>`
+const ZoomButton = styled.button<{ $imgZoom: boolean }>`
   width: 5.924vh;
   height: 5.924vh;
   margin-left: 1.5vw;
@@ -189,7 +191,7 @@ const ZoomButton = styled.button<{ imgZoom: boolean }>`
   z-index: 10001;
   border-radius: 50%;
   background-color: ${({ theme }) => theme.colors.gray800};
-  top: ${({ imgZoom }) => (imgZoom === false ? '46vh' : '50.5vh')};
+  top: ${({ $imgZoom }) => ($imgZoom === false ? '46vh' : '50.5vh')};
 `;
 
 const TextArea = styled.textarea`
@@ -207,12 +209,12 @@ const BottomDiv = styled.div`
   padding: 0px 5.128vw 0px 5.128vw;
   margin-top: 1.896vh;
 `;
-const SaveStyleButton = styled.button<{ textState: boolean | undefined }>`
+const SaveStyleButton = styled.button<{ $textState: boolean | undefined }>`
   width: 100%;
   height: 6.635vh;
   font-size: ${({ theme }) => theme.fonts.body_medium_16px};
-  background-color: ${({ theme, textState }) =>
-    textState === false ? theme.colors.gray500 : theme.colors.green500};
+  background-color: ${({ theme, $textState }) =>
+    $textState === false ? theme.colors.gray500 : theme.colors.green500};
   border-radius: 10px;
   color: black;
 `;
