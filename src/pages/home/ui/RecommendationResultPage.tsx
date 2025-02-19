@@ -10,6 +10,7 @@ import IcHeart from '@icon/ic-heart.svg';
 import IcHeartFill from '@icon/ic-heart-fill.svg';
 import { usePostLikeEvent } from '@home/feature/hooks/mutate/usePostLikeEvent.ts';
 import { ActiveIndex, useBottomNavigationStore } from '@shared/store/useBottomNavigationStore.ts';
+import { motion } from 'framer-motion';
 
 export const RecommendationResultPage: React.FC = () => {
   const { type, result } = useLocation().state as { type: RecommendationType, result: RecommendationResponse };
@@ -27,13 +28,9 @@ export const RecommendationResultPage: React.FC = () => {
   ];
 
   const onCLickLike = () => {
-    if (liked) {
-      setLiked(false);
-    } else {
-      setLiked(true);
-    }
+    setLiked((prev) => !prev);
     mutate(result.recommendationId);
-  }
+  };
 
   const title = type === RecommendationType.STYLE ? '스타일 추천 결과' : '패션 추천 결과';
   const isLoading = false;
@@ -43,19 +40,38 @@ export const RecommendationResultPage: React.FC = () => {
   }
 
   const content = type === RecommendationType.STYLE ? JSON.parse(result.content) : result.content;
-
   const description = type === RecommendationType.STYLE ? `${content.introduction}\n\n${content.practicalStylingTips}\n\n${content.styleDirection}` : content;
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.3,
+      },
+    },
+  };
+
+  const childVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  };
+
+  const imageVariant = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: { opacity: 1, scale: 1, transition: { duration: 0.7 } },
+  };
 
   return (
     <Wrapper>
       <AppBar leftHeaderAction={leftHeaderAction} title={title} rightHeaderActionArr={rightHeaderActions} />
-      {isSuccess ? <Container>
-          <Image src={result.imageUrl} />
-          <BoldText>{result.title}</BoldText>
-          <Description>{description}</Description>
-          <ButtonContainer>
+      {isSuccess ? <Container initial="hidden" animate="visible" variants={containerVariants}>
+          <Image src={result.imageUrl} variants={imageVariant} />
+          <BoldText variants={childVariants}>{result.title}</BoldText>
+          <Description variants={childVariants}>{description}</Description>
+          <ButtonContainer variants={childVariants}>
             <CustomButton
-              label="완료" onClick={() => navigate( activeIndex === ActiveIndex.HOME ?'/home' : '/my', { replace: true })}
+              label="완료" onClick={() => navigate(activeIndex === ActiveIndex.HOME ? '/home' : '/my', { replace: true })}
               active={true}
               paddingTop="19px"
               paddingBottom="19px"
@@ -77,7 +93,7 @@ const Wrapper = styled.div`
   background-color: ${({ theme }) => theme.colors.gray900};
 `;
 
-const Container = styled.div`
+const Container = styled(motion.div)`
   display: flex;
   flex-direction: column;
   padding: 0 20px;
@@ -85,7 +101,7 @@ const Container = styled.div`
   height: 100%;
 `;
 
-const Image = styled.img`
+const Image = styled(motion.img)`
   border-radius: 10px;
   width: 100%;
   margin-top: 32px;
@@ -93,12 +109,12 @@ const Image = styled.img`
   object-position: center;
 `;
 
-const BoldText = styled.p`
+const BoldText = styled(motion.p)`
   font: ${({ theme }) => theme.fonts.heading_bold_24px};
   margin-top: 16px;
 `;
 
-const Description = styled.p`
+const Description = styled(motion.p)`
   font: ${({ theme }) => theme.fonts.body_medium_16px};
   width: 100%;
   white-space: pre-wrap;
@@ -106,7 +122,7 @@ const Description = styled.p`
   margin-bottom: 40px;
 `;
 
-const ButtonContainer = styled.div`
+const ButtonContainer = styled(motion.div)`
   display: flex;
   flex-direction: column;
   margin-top: auto;

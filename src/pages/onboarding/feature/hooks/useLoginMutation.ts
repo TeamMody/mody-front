@@ -23,10 +23,7 @@ const useLoginMutation = () => {
 
       const { setAccessToken } = useAuthStore.getState();
       if (window.ReactNativeWebView?.postMessage) {
-        alert('✅ React Native WebView 감지됨!');
         window.ReactNativeWebView.postMessage(JSON.stringify({ event: 'login_success' }));
-      } else {
-        alert('❌ React Native WebView를 찾을 수 없음!');
       }
       setAccessToken(accessToken);
       setTimeout(() => {
