@@ -5,10 +5,10 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useNavigate } from 'react-router';
 import { IcLeftArrow } from '@shared/assets/icon/ic-left-arrow';
 import { CreateNewPostModal } from '@pages/post/components/modal/CreateNewPostModal';
-import { createPresignedUrl, presignedUrlProps } from '@pages/post/apis/createPresignedUrl';
+import { createPresignedUrl, presignedUrlProps } from '@pages/post/feature/apis/createPresignedUrl';
 import IcCamera from '@shared/assets/icon/ic-camera.svg?react';
 import IcGallery from '@shared/assets/icon/ic-gallery.svg?react';
-import { ConvertMultipleImgToWebP } from '@pages/post/hooks/ConvertToWebP';
+import { ConvertMultipleImgToWebP } from '@pages/post/feature/utils/convertToWebP';
 import { useControlModal } from '@pages/my/features/hooks/useControlModal';
 import CreatePostImageCarousel from '@shared/ui/CreatePostImageCarousel';
 

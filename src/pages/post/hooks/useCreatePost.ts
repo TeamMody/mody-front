@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { createPost } from '@pages/post/apis/createPost';
+import { createPost } from '@pages/post/feature/apis/createPost';
 import { queryClient } from '@app/providers/QueryProvider';
 import { ActiveIndex } from '@my/features/store/useTabBarStore.ts';
 export const useCreatePost = () => {
