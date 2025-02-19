@@ -11,7 +11,6 @@ import IcCamera from '@shared/assets/icon/ic-camera.svg?react';
 import IcGallery from '@shared/assets/icon/ic-gallery.svg?react';
 import {
   ConvertMultipleImgToWebP,
-  ConvertSingleImgToWebP,
 } from '@pages/post/components/ConvertToWebP';
 import { useControlModal } from '@pages/my/features/hooks/useControlModal';
 import CreatePostImageCarousel from '@shared/ui/CreatePostImageCarousel';
