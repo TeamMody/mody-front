@@ -9,10 +9,7 @@ import { createPresignedUrl } from '@pages/post/apis/createPresignedUrl';
 import { presignedUrlProps } from '@pages/post/apis/createPresignedUrl';
 import IcCamera from '@shared/assets/icon/ic-camera.svg?react';
 import IcGallery from '@shared/assets/icon/ic-gallery.svg?react';
-import {
-  ConvertMultipleImgToWebP,
-  ConvertSingleImgToWebP,
-} from '@pages/post/components/ConvertToWebP';
+import { ConvertMultipleImgToWebP } from '@pages/post/components/ConvertToWebP';
 import { useControlModal } from '@pages/my/features/hooks/useControlModal';
 import CreatePostImageCarousel from '@shared/ui/CreatePostImageCarousel';
 
@@ -20,7 +17,6 @@ export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
   const { modalState, setModalState } = useControlModal();
   const [opened, setIsOpened] = useState<boolean>(isOpened);
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
-  const [imgZoom, setImgZoom] = useState<boolean>(false);
   const navigate = useNavigate();
   const [presignedUrls, setPresignedUrls] = useState<presignedUrlProps[]>();
   const [imgIdx, setImgIdx] = useState<number>(0);
@@ -32,7 +28,6 @@ export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
 
   const closeModal = () => {
     setModalState(false);
-    setImgZoom(false);
   };
 
   const closePage = () => {
@@ -105,8 +100,6 @@ export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
             isOpened={modalState}
             onClose={closeModal}
             selectedImages={selectedImages}
-            imgZoom={imgZoom}
-            setImgZoom={setImgZoom}
             presignedUrls={presignedUrls}
           />
         </Container>

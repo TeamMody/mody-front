@@ -16,8 +16,6 @@ import { useNavigate } from 'react-router';
 
 interface ImgModalProps extends ModalProps {
   selectedImages?: string[];
-  imgZoom: boolean;
-  setImgZoom: React.Dispatch<React.SetStateAction<boolean>>;
   presignedUrls?: presignedUrlProps[];
 }
 
@@ -25,13 +23,12 @@ export const CreateNewPostModal = ({
   isOpened,
   onClose,
   selectedImages,
-  imgZoom,
-  setImgZoom,
   presignedUrls,
 }: ImgModalProps) => {
   const [imgIdx, setImgIdx] = useState<number>(0);
   const [textState, setTextState] = useState<string | undefined>(undefined);
   const [buttonState, setButtonState] = useState<boolean>(false);
+  const [imgZoom, setImgZoom] = useState<boolean>(false);
   const { mutate } = useCreatePost();
   const navigate = useNavigate();
   const handleClose = async () => {
@@ -55,6 +52,7 @@ export const CreateNewPostModal = ({
 
   const moveBeforePage = () => {
     setTextState(undefined);
+    setImgZoom(false);
     onClose();
   };
 
