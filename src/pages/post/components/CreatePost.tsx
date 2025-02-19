@@ -47,6 +47,7 @@ export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
       });
     }
   };
+  console.log(selectedImages);
   return ReactDOM.createPortal(
     <AnimatePresence>
       {opened && (

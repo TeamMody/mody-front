@@ -11,6 +11,7 @@ export const createS3url = async ({
     if (presignedUrls && selectedImages) {
       const uploadPromises = selectedImages.map(async (file, index) => {
         const presignedUrl = presignedUrls[index];
+        console.log(file);
 
         const uploadFile = await fetch(file);
         const blob = await uploadFile.blob();
