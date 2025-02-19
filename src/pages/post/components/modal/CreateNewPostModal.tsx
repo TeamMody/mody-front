@@ -34,7 +34,7 @@ export const CreateNewPostModal = ({
   const handleClose = async () => {
     try {
       if (presignedUrls) {
-        const S3Urls: string[] | undefined = await createS3url({ selectedImages, presignedUrls });
+        const S3Urls = await createS3url({ selectedImages, presignedUrls });
         mutate({
           content: textState,
           isPublic: !buttonState,
