@@ -7,6 +7,7 @@ import { useRef } from 'react';
 import useGetPostData from '@post/hooks/useGetPostData';
 import useIntersectionObserver from '@post/hooks/useIntersectionObserver';
 import { Loading } from '@shared/ui/Loading';
+import { useMyInfoStore } from '@shared/store/useMyInfoStore';
 
 export const PostPage = () => {
   const navigate = useNavigate();
@@ -16,13 +17,13 @@ export const PostPage = () => {
   const { data: postData, isLoading, fetchNextPage } = useGetPostData();
   useIntersectionObserver(bottomRef, fetchNextPage);
 
-  console.log(postData);
+  const { myInfo } = useMyInfoStore.getState();
 
   if (isLoading) return <Loading />;
 
   return (
     <>
-      <AppBar title={'김모디'} rightHeaderActionArr={rightHeaderActionArr} />
+      <AppBar title={myInfo?.nickname} rightHeaderActionArr={rightHeaderActionArr} />
 
       <Container>
         {postData &&

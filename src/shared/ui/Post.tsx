@@ -62,12 +62,14 @@ const Info = memo(
       postLikeMutation.mutate(data.postId);
     };
 
+    console.log(data);
+
     return (
       <InfoContainer id={data.postId.toString()}>
         <UserInfo isExpanded={isExpanded} onClick={() => setIsExpanded((prev) => !prev)}>
           <div className="user">
             <span className="user-name" id={`${data.writerId}`}>
-              {data.writerNickname}
+              {data.writerNickName}
             </span>
             <span className="user-type">{data.bodyType} 타입</span>
           </div>
