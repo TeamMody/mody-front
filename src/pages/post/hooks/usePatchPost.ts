@@ -8,7 +8,7 @@ const usePatchPost = () => {
   return useMutation({
     mutationFn: (data: PatchPostProps) => patchPost(data),
     onSuccess: () => {
-      navigate('/my');
+      navigate('/my', { replace: true });
     },
     onError: (error) => {
       console.error('게시물 수정 실패:', error);
