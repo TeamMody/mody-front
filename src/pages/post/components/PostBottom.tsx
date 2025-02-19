@@ -44,7 +44,7 @@ const PostBottom = ({
   };
   return (
     <>
-      <ZoomButton imgZoom={imgZoom} onClick={handleImgZoom}>
+      <ZoomButton $imgZoom={imgZoom} onClick={handleImgZoom}>
         <IcZoomStyle />
       </ZoomButton>
       <TextArea
@@ -59,7 +59,7 @@ const PostBottom = ({
         <SaveStyleButton
           onClick={handleClose}
           disabled={textStateRef === undefined}
-          textState={!!textStateRef}
+          $textState={!!textStateRef}
         >
           스타일 저장하기
         </SaveStyleButton>
@@ -68,13 +68,13 @@ const PostBottom = ({
   );
 };
 
-const ZoomButton = styled.button<{ imgZoom: boolean }>`
+const ZoomButton = styled.button<{ $imgZoom: boolean }>`
   width: 5.924vh;
   height: 5.924vh;
   margin-left: 1.5vw;
   position: absolute;
   z-index: 10001;
-  top: ${({ imgZoom }) => (imgZoom === false ? '46vh' : '50.5vh')};
+  top: ${({ $imgZoom }) => ($imgZoom === false ? '46vh' : '50.5vh')};
 `;
 
 const TextArea = styled.textarea`
@@ -92,12 +92,12 @@ const BottomDiv = styled.div`
   padding: 0px 5.128vw 0px 5.128vw;
   margin-top: 1.896vh;
 `;
-const SaveStyleButton = styled.button<{ textState: boolean | undefined }>`
+const SaveStyleButton = styled.button<{ $textState: boolean | undefined }>`
   width: 100%;
   height: 6.635vh;
   font-size: ${({ theme }) => theme.fonts.body_medium_16px};
-  background-color: ${({ theme, textState }) =>
-    textState === false ? theme.colors.gray500 : theme.colors.green500};
+  background-color: ${({ theme, $textState }) =>
+    $textState === false ? theme.colors.gray500 : theme.colors.green500};
   border-radius: 10px;
   color: black;
 `;

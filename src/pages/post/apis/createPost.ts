@@ -1,8 +1,8 @@
 import { apiInstance } from '@shared/apis/instance';
 interface PostData {
-  content: string | undefined;
+  content?: string;
   isPublic: boolean;
-  s3Urls: (string | undefined)[] | undefined;
+  s3Urls?: string[];
 }
 export const createPost = async ({ content, isPublic, s3Urls }: PostData) => {
   const res = await apiInstance.post('/posts', {
