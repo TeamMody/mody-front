@@ -62,8 +62,6 @@ const Info = memo(
       postLikeMutation.mutate(data.postId);
     };
 
-    console.log(data);
-
     return (
       <InfoContainer id={data.postId.toString()}>
         <UserInfo isExpanded={isExpanded} onClick={() => setIsExpanded((prev) => !prev)}>
@@ -85,13 +83,13 @@ const Info = memo(
             <span>{data.likeCount}</span>
           </div>
           <div className="more-vertical">
-            {data.isMine ? (
+            {!data.isMine ? (
               <Report onClick={() => setIsMoreClicked(true)} />
             ) : (
               <MoreVertical onClick={handleClickMore} />
             )}
           </div>
-          {data.isMine ? (
+          {!data.isMine ? (
             <ReportModal
               isOpened={isMoreClicked}
               setIsMoreClicked={setIsMoreClicked}
