@@ -11,21 +11,21 @@ interface SingleImgType {
 interface MultipleImgType {
   img: FileList;
 }
-const ConvertSingleImgToWebP = async ({ img }: SingleImgType) => {
+const convertSingleImgToWebP = async ({ img }: SingleImgType) => {
   // 이미지 최적화를 위해 이미지 압축 및 webP 확장자로 변경
   const webpBlob = await imageCompression(img, options);
   const blobUrl = URL.createObjectURL(webpBlob);
   return blobUrl;
 };
 
-const ConvertMultipleImgToWebP = async ({ img }: MultipleImgType) => {
+const convertMultipleImgToWebP = async ({ img }: MultipleImgType) => {
   const fileEntries = Object.values(img);
   const convertedFiles = await Promise.all(
     fileEntries.map(async (file) => {
-      return await ConvertSingleImgToWebP({ img: file });
+      return await convertSingleImgToWebP({ img: file });
     }),
   );
   return convertedFiles;
 };
 
-export { ConvertSingleImgToWebP, ConvertMultipleImgToWebP };
+export { convertSingleImgToWebP, convertMultipleImgToWebP };

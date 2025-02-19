@@ -1,6 +1,6 @@
 import { apiInstance } from '@shared/apis/instance';
 
-export const uploadImageToS3 = async (image: File): Promise<string> => {
+export const uploadImageToS3 = async (blobURL: string, image: File): Promise<string> => {
   try {
     const { data } = await apiInstance.post('/image/upload/profiles', {
       filename: image.name,
