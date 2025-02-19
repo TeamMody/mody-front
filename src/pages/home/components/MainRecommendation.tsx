@@ -2,6 +2,8 @@ import { topBanner } from '@shared/apis/home/mocks.ts';
 import Banner from '@home/components/Banner.tsx';
 import styled from 'styled-components';
 import { useEffect, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
+
 
 const MainRecommendation = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -40,15 +42,23 @@ const MainRecommendation = () => {
 
   return (
     <MainBannersContainer ref={containerRef}>
-      {topBanner.map((banner) => (
-        <Banner
+      {topBanner.map((banner, index) => (
+        <MotionDiv
           key={banner.id}
-          isFocused={focusedId === banner.id}
-          {...banner} />
+          initial={{ opacity: 0, y: 20 }} // 초기 상태: 살짝 아래에 있고 투명함
+          animate={{ opacity: 1, y: 0 }}   // 애니메이트 상태: 제자리에서 나타남
+          transition={{ duration: 0.5, delay: index * 0.1 }} // 순차적 딜레이 효과
+          style={{ scrollSnapAlign: 'center' }} // scroll-snap이 정상 작동하도록 설정
+        >
+          <Banner
+            key={banner.id}
+            isFocused={focusedId === banner.id}
+            {...banner} />
+        </MotionDiv>
       ))}
     </MainBannersContainer>
   );
-}
+};
 
 export default MainRecommendation;
 
@@ -61,4 +71,9 @@ const MainBannersContainer = styled.div`
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   padding: 0 54px;
+`;
+
+const MotionDiv = styled(motion.div)`
+  flex: 0 0 auto;
+  display: flex;
 `;
