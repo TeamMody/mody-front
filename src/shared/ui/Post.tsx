@@ -93,22 +93,22 @@ const Info = memo(
           </div>
           <div className="more-vertical">
             {data.isMine ? (
-              <Report onClick={() => setIsMoreClicked(true)} />
-            ) : (
               <MoreVertical onClick={handleClickMore} />
+            ) : (
+              <Report onClick={() => setIsMoreClicked(true)} />
             )}
           </div>
           {data.isMine ? (
-            <ReportModal
-              isOpened={isMoreClicked}
-              setIsMoreClicked={setIsMoreClicked}
-              id={data.postId}
-            />
-          ) : (
             <EditBottomSheet
               isOpen={isMoreClicked}
               onClose={() => setIsMoreClicked(false)}
               data={data}
+            />
+          ) : (
+            <ReportModal
+              isOpened={isMoreClicked}
+              setIsMoreClicked={setIsMoreClicked}
+              id={data.postId}
             />
           )}
         </DescriptionContainer>
@@ -121,7 +121,7 @@ const InfoContainer = styled.div`
   width: 100%;
   height: 20%;
   background-color: transparent;
-  padding: 50px 10px 0px 10px;
+  padding: 6vh 10px 0px 10px;
   position: relative;
   left: 0;
   display: flex;
