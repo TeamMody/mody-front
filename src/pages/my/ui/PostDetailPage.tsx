@@ -25,7 +25,7 @@ export const PostDetailPage = () => {
 
   if (isPending) return <Loading />;
   if (isError) return <div>에러</div>;
-
+    
   return (
     <>
       <AppBar leftHeaderAction={leftHeaderAction} title={title} />

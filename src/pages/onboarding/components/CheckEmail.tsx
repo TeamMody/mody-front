@@ -9,7 +9,6 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { StateProps } from '@shared/types';
 import useSignupStore from '@onboarding/feature/store/signup';
-import { useSendMail } from '@onboarding/feature/hooks/useSendMail.ts';
 import { apiInstance } from '@shared/apis/instance';
 import { AxiosError } from 'axios';
 
