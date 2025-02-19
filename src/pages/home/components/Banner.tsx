@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router';
 import { RecommendationType } from '@shared/types';
+import { useMyInfoStore } from '@shared/store/useMyInfoStore.ts';
 
 interface BannerProps {
   type: RecommendationType;
@@ -11,6 +12,7 @@ interface BannerProps {
 
 const Banner = ({ type, title, imageUrl, isFocused }: BannerProps) => {
   const navigate = useNavigate();
+  const { myInfo } = useMyInfoStore();
 
   const handleNavigate = () => {
     switch (type) {
@@ -18,14 +20,18 @@ const Banner = ({ type, title, imageUrl, isFocused }: BannerProps) => {
         navigate('/body-survey', { state: { type: RecommendationType.BODY_TYPE } });
         break;
       case RecommendationType.STYLE:
-        navigate('/recommendations-survey', { state: { type: RecommendationType.STYLE } });
+        hasBodyType() ? navigate('/recommendations-survey', { state: { type: RecommendationType.STYLE } }) : alert('추천을 위해선 체형 타입 정보가 필요해요!\n체형 타입 분석을 먼저 해주세요!');
         break;
       case RecommendationType.FASHION_ITEM:
-        navigate('/recommendations-survey', { state: { type: RecommendationType.FASHION_ITEM } });
+        hasBodyType() ? navigate('/recommendations-survey', { state: { type: RecommendationType.FASHION_ITEM } }) : alert('추천을 위해선 체형 타입 정보가 필요해요!\n체형 타입 분석을 먼저 해주세요!');
         break;
       default:
         break;
     }
+  };
+
+  const hasBodyType = (): boolean => {
+    return myInfo?.bodyType !== null;
   };
 
   return (
