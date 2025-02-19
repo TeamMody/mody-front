@@ -23,10 +23,8 @@ export const OnboardingPage = () => {
           setIsFirstMount(false);
           setIsLoggedIn(true);
           navigate('/home');
-          alert('로그인 되어있는 상태입니다.');
         }
-      } catch ( error ) {
-        alert(`로그아웃에 실패했습니다. ${error}`);
+      } catch (error) {
         console.error(error);
       }
     };

@@ -9,7 +9,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { StateProps } from '@shared/types';
 import useSignupStore from '@onboarding/feature/store/signup';
-import { useSendMail } from '@onboarding/feature/hooks/useSendMail.ts';
+import { apiInstance } from '@shared/apis/instance';
+import { AxiosError } from 'axios';
 
 interface CheckEmailProps extends StateProps<boolean> {}
 
@@ -24,16 +25,26 @@ const CheckEmail = ({ value: codeSent, setValue: setCodeSent }: CheckEmailProps)
     resolver: zodResolver(schema),
     mode: 'onChange',
   });
-  const { mutate } = useSendMail();
 
   const [message, setMessage] = useState<string>('');
   const { setEmail } = useSignupStore();
 
-  const onSubmit = (data: EmailSchemaType) => {
-    mutate(data.email);
-    setMessage('인증 코드가 전송되었어요.');
-    setEmail(data.email);
-    setCodeSent(true);
+  const onSubmit = async (data: EmailSchemaType) => {
+    try {
+      const res = await apiInstance.post('/auth/email/verify/send', { email: data.email });
+      if (res.status === 200) {
+        setMessage('인증 코드가 전송되었어요.');
+        setEmail(data.email);
+        setCodeSent(true);
+      }
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        const errData = err.response?.data;
+        if (errData.code === 'COMMON402') {
+          alert(errData.result.email);
+        }
+      }
+    }
   };
   const email = watch('email'); // 이메일 값을 실시간으로 추적
 
