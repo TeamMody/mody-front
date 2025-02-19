@@ -27,8 +27,7 @@ export const handleOnSubmit = async (
     let profileImageUrl = '';
     if (image.length > 0) {
       const convertedImage = await convertSingleImgToWebP({ img: image[0] });
-      console.log('zz', convertedImage);
-      profileImageUrl = await uploadImageToS3(convertedImage);
+      profileImageUrl = await uploadImageToS3(convertedImage, image);
     }
 
     const body = { nickname, birthDate, gender: sex, height, profileImageUrl };

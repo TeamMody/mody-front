@@ -60,12 +60,12 @@ export const InputUser = () => {
   return (
     <Wrapper onSubmit={(e) => handleOnSubmit(e, curIdx, getValues)}>
       <ProgressBar length={4} curIdx={curIdx} />
-      <CustomLogo />
-      <LeftArrowContainer>
+      <IconContainer>
         {curIdx !== 0 && curIdx !== 3 && (
-          <IcLeftArrow onClick={() => setCurIdx((prev) => prev - 1)}></IcLeftArrow>
+          <CustomLeftArrow onClick={() => setCurIdx((prev) => prev - 1)}></CustomLeftArrow>
         )}
-      </LeftArrowContainer>
+        <CustomLogo />
+      </IconContainer>
       <InputUserMain
         curIdx={curIdx}
         register={register}
@@ -99,7 +99,6 @@ const Wrapper = styled.form`
 `;
 
 const CustomLogo = styled(Logo)`
-  margin-top: 16px;
   width: 104px;
   height: 33px;
 `;
@@ -120,11 +119,18 @@ const Button = styled.button<{ disabled: boolean }>`
     disabled ? theme.colors.gray800 : theme.colors.green500};
   color: black;
 `;
-const LeftArrowContainer = styled.div`
+const IconContainer = styled.div`
   width: 100%;
   height: 30px;
-  padding-left: 20px;
   padding-top: 20px;
   display: flex;
   align-items: center;
+  justify-content: center;
+  poisition: relative;
+  margin-top: 3vh;
+`;
+
+const CustomLeftArrow = styled(IcLeftArrow)`
+  position: absolute;
+  left: 20px;
 `;
