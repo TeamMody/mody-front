@@ -26,18 +26,21 @@ const EditPostPage = () => {
 
   const handleClose = () => {
     mutate({ content: textStateRef.current, postId: data.postId, isPublic: !buttonState });
+    setImgZoom(false);
   };
 
   return (
     <>
       <AppBar leftHeaderAction={leftHeaderAction} title={title} />
       <Container>
-        <ImageWrapper>
+        <ImageWrapper $imgZoom={imgZoom}>
           <ImageCarousel
             images={images}
             isExpanded={isExpanded}
             imgIdx={imgIdx}
             setImgIdx={setImgIdx}
+            height="45.735vh"
+            imgZoomed={imgZoom}
           />
         </ImageWrapper>
         <PostBottom
@@ -63,9 +66,15 @@ const Container = styled.main`
   background-color: ${({ theme }) => theme.colors.gray900};
 `;
 
-const ImageWrapper = styled.div`
+const ImageWrapper = styled.div<{ $imgZoom: boolean }>`
   width: 100%;
-  padding: 16px 20px;
+  height: 56.398vh;
+  padding-top: ${({ $imgZoom }) => ($imgZoom ? '0px' : '3.791vh')};
+  margin-bottom: 3vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: ${({ $imgZoom }) => ($imgZoom ? '0px' : '5.79vh')};
 `;
 
 export default EditPostPage;

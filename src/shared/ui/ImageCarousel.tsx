@@ -74,6 +74,7 @@ const StyledCarousel = styled(Carousel)<{
 
     img {
       max-width: 100%;
+      height: ${({ imgZoomed, height }) => (imgZoomed ? '53.791vh' : height)};
     }
   }
 `;

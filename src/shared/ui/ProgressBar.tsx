@@ -26,7 +26,7 @@ const ProgressBar = ({
 };
 
 const Container = styled.div<{ marginTop: string; imgZoom?: boolean | undefined }>`
-  margin-top: ${({ marginTop, imgZoom }) => (imgZoom ? '2.725vh' : `${marginTop}`)};
+  margin-top: ${({ marginTop, imgZoom }) => (imgZoom ? '2.425vh' : `${marginTop}`)};
   width: 100%;
   display: flex;
   justify-content: center;
