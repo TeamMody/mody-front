@@ -31,7 +31,7 @@ const CheckCode = ({ setValue: setButtonActive }: CheckCodeProps) => {
     mode: 'onChange',
   });
 
-  const { mutate, isSuccess } = useVerifyEmail(email)
+  const { mutate, isSuccess } = useVerifyEmail(email);
 
   const code = watch('code'); // 인증코드 값을 실시간으로 추적
 
