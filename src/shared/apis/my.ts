@@ -1,5 +1,5 @@
 import { BaseResponse, PaginationProps, RecommendationsResponse } from '@shared/types';
-import { apiInstance } from './instance';
+import { apiInstance } from '@shared/apis/instance';
 import { PostData, PostResponse } from '@shared/types/my/my';
 
 const getMyPosts = async ({

@@ -16,11 +16,6 @@ export const BodyTypePage = () => {
     navigate(url, { replace: true });
   };
 
-  if (!result) {
-    alert('체형 타입 분석 결과가 없습니다.');
-    navigate('/home', { replace: true });
-  }
-
   return (
     <Wrapper
       initial={{ opacity: 0, scale: 0.95 }}

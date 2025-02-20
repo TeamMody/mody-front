@@ -6,13 +6,12 @@ import { useInView } from 'react-intersection-observer';
 import { SmallLoading } from '@shared/ui/SmallLoading';
 import { PostData } from '@shared/types/my/my';
 import useInfiniteScroll from '@my/features/hooks/useInfiniteScroll';
-import { ActiveIndex } from '../features/store/useTabBarStore';
+import { ActiveIndex } from '@my/features/store/useTabBarStore';
 
 const MyAndLikePosts = ({ activeIndex }: { activeIndex: ActiveIndex }) => {
   const {
     data: posts,
     isLoading,
-    isFetching,
     isError,
     hasNextPage,
     fetchNextPage,
@@ -23,7 +22,7 @@ const MyAndLikePosts = ({ activeIndex }: { activeIndex: ActiveIndex }) => {
 
   const { containerRef } = useInfiniteScroll({ hasNextPage, isFetchingNextPage, fetchNextPage }); // 스크롤 감지
 
-  if (isLoading || isFetching) {
+  if (isLoading) {
     return (
       <LoadingWrapper>
         <SmallLoading />
@@ -40,7 +39,7 @@ const MyAndLikePosts = ({ activeIndex }: { activeIndex: ActiveIndex }) => {
       {hasNextPage && <Bottom ref={ref}>{isFetchingNextPage && <SmallLoading />}</Bottom>}
     </MyAndLikePostsWrapper>
   ) : (
-    <NoPosts />
+    <NoPosts activeIndex={activeIndex} />
   );
 };
 

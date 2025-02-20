@@ -35,28 +35,38 @@ const EditBottomSheet = ({ isOpen, onClose, data }: EditBottomSheetProps) => {
   }, [isOpen, data.isPublic]);
 
   return (
-    <Sheet isOpen={isOpen} onClose={onClose} ref={ref}>
-      <Sheet.Backdrop onTap={onClose} />
-      <SheetContainer>
-        <SheetContent>
-          <BottomSheetItem content="수정하기" icon={IcPen} data={data} />
-          <BottomSheetItem content="삭제하기" icon={IcTrashCan} />
-          <BottomSheetItem
-            content="나만보기"
-            buttonState={buttonState}
-            setButtonState={setButtonState}
-          />
-        </SheetContent>
-      </SheetContainer>
-    </Sheet>
+    <Wrapper>
+      <Sheet isOpen={isOpen} onClose={onClose} ref={ref}>
+        <Sheet.Backdrop onTap={onClose} />
+        <SheetContainer>
+          <SheetContent>
+            <BottomSheetItem content="수정하기" icon={IcPen} data={data} />
+            <BottomSheetItem content="삭제하기" icon={IcTrashCan} />
+            <BottomSheetItem
+              content="나만보기"
+              buttonState={buttonState}
+              setButtonState={setButtonState}
+            />
+          </SheetContent>
+        </SheetContainer>
+      </Sheet>
+    </Wrapper>
   );
 };
 
+const Wrapper = styled.div`
+  width: 440px;
+`;
+
 const SheetContainer = styled(Sheet.Container)`
   height: 22.3vh !important;
-  width: 100vw !important;
+  width: 100% !important;
+  max-width: 440px !important;
+  margin: auto !important;
   border-radius: 30px 30px 0 0 !important;
   background-color: ${({ theme }) => theme.colors.gray800} !important;
+  left: 0;
+  right: 0;
 `;
 
 const SheetContent = styled(Sheet.Content)`

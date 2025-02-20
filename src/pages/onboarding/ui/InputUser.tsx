@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router';
 import { handleOnSubmit } from '@onboarding/feature/utils/handleOnSubmit';
 import { UserInfoSchema, UserInfoSchemaType } from '@onboarding/feature/schema';
 import { RecommendationType } from '@shared/types';
+import IcLeftArrow from '@shared/assets/icon/ic-left-arrow.svg?react';
 
 export const InputUser = () => {
   const [curIdx, setCurIdx] = useState<number>(0);
@@ -60,6 +61,11 @@ export const InputUser = () => {
     <Wrapper onSubmit={(e) => handleOnSubmit(e, curIdx, getValues)}>
       <ProgressBar length={4} curIdx={curIdx} />
       <CustomLogo />
+      <LeftArrowContainer>
+        {curIdx !== 0 && curIdx !== 3 && (
+          <IcLeftArrow onClick={() => setCurIdx((prev) => prev - 1)}></IcLeftArrow>
+        )}
+      </LeftArrowContainer>
       <InputUserMain
         curIdx={curIdx}
         register={register}
@@ -113,4 +119,12 @@ const Button = styled.button<{ disabled: boolean }>`
   background-color: ${({ disabled, theme }) =>
     disabled ? theme.colors.gray800 : theme.colors.green500};
   color: black;
+`;
+const LeftArrowContainer = styled.div`
+  width: 100%;
+  height: 30px;
+  padding-left: 20px;
+  padding-top: 20px;
+  display: flex;
+  align-items: center;
 `;

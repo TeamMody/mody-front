@@ -18,7 +18,6 @@ export const PostPage = () => {
 
   if (isLoading) return <Loading />;
 
-  console.log(postData);
   return (
     <>
       <AppBar title={'김모디'} rightHeaderActionArr={rightHeaderActionArr} />

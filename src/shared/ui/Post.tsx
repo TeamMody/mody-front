@@ -8,25 +8,33 @@ import EditBottomSheet from '../../pages/post/components/modal/EditBottomSheetMo
 import Report from '@pages/post/components/Report';
 import usePostLike from '@pages/post/hooks/usePostLike';
 import { PostData } from '@shared/types/my/my';
-
+import ReportModal from '@pages/post/components/modal/ReportModal';
+import { QueryKey } from '@shared/types/post/post';
 const Post = memo(
-  forwardRef<HTMLDivElement, { data: PostData }>(({ data }, ref) => {
-    const [imgIdx, setImgIdx] = useState<number>(0);
-    const [isExpanded, setIsExpanded] = useState<boolean>(false);
-    const images = data.files;
+  forwardRef<HTMLDivElement, { data: PostData; queryKey?: QueryKey }>(
+    ({ data, queryKey = ['posts'] }, ref) => {
+      const [imgIdx, setImgIdx] = useState<number>(0);
+      const [isExpanded, setIsExpanded] = useState<boolean>(false);
+      const images = data.files;
 
-    return (
-      <Container ref={ref}>
-        <ImageCarousel
-          images={images}
-          isExpanded={isExpanded}
-          imgIdx={imgIdx}
-          setImgIdx={setImgIdx}
-        />
-        <Info isExpanded={isExpanded} data={data} setIsExpanded={setIsExpanded} />
-      </Container>
-    );
-  }),
+      return (
+        <Container ref={ref}>
+          <ImageCarousel
+            images={images}
+            isExpanded={isExpanded}
+            imgIdx={imgIdx}
+            setImgIdx={setImgIdx}
+          />
+          <Info
+            isExpanded={isExpanded}
+            data={data}
+            setIsExpanded={setIsExpanded}
+            queryKey={queryKey}
+          />
+        </Container>
+      );
+    },
+  ),
 );
 
 const Container = styled.main`
@@ -43,13 +51,15 @@ const Info = memo(
     isExpanded,
     data,
     setIsExpanded,
+    queryKey,
   }: {
     isExpanded: boolean;
     data: PostData;
     setIsExpanded: React.Dispatch<React.SetStateAction<boolean>>;
+    queryKey: QueryKey;
   }) => {
     const [isMoreClicked, setIsMoreClicked] = useState<boolean>(false);
-    const postLikeMutation = usePostLike();
+    const postLikeMutation = usePostLike(queryKey);
 
     const handleClickMore = (e: React.MouseEvent<SVGElement>) => {
       e.stopPropagation();
@@ -82,7 +92,11 @@ const Info = memo(
             <span>{data.likeCount}</span>
           </div>
           <div className="more-vertical">
-            <MoreVertical onClick={handleClickMore} />
+            {data.isMine ? (
+              <MoreVertical onClick={handleClickMore} />
+            ) : (
+              <Report onClick={() => setIsMoreClicked(true)} />
+            )}
           </div>
           {data.isMine ? (
             <EditBottomSheet
@@ -91,7 +105,11 @@ const Info = memo(
               data={data}
             />
           ) : (
-            isMoreClicked && <Report postId={data.postId} />
+            <ReportModal
+              isOpened={isMoreClicked}
+              setIsMoreClicked={setIsMoreClicked}
+              id={data.postId}
+            />
           )}
         </DescriptionContainer>
       </InfoContainer>
@@ -103,7 +121,7 @@ const InfoContainer = styled.div`
   width: 100%;
   height: 20%;
   background-color: transparent;
-  padding: 50px 10px 0px 10px;
+  padding: 6vh 10px 0px 10px;
   position: relative;
   left: 0;
   display: flex;
