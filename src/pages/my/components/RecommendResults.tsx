@@ -5,8 +5,8 @@ import { useInView } from 'react-intersection-observer';
 import useInfiniteScroll from '@my/features/hooks/useInfiniteScroll';
 import { SmallLoading } from '@shared/ui/SmallLoading';
 import { RecommendationResponse, RecommendationType } from '@shared/types';
-import Post from './Post';
-import { ActiveIndex } from '../features/store/useTabBarStore';
+import Post from '@my/components/Post';
+import { ActiveIndex } from '@my/features/store/useTabBarStore';
 
 const RecommendResults = () => {
   const {
