@@ -1,23 +1,18 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ModalProps } from '@shared/types/my/modalProps';
 import { IcLeftArrow } from '@shared/assets/icon/ic-left-arrow';
-import CustomDivider from '@shared/ui/CustomDivider';
-import { ToggleButton } from '@pages/post/components/toggleButton';
 import CreatePostImageCarousel from '@shared/ui/CreatePostImageCarousel';
-import IcZoomIn from '@shared/assets/icon/ic-zoom-in.svg?react';
-import IcZoomOut from '@shared/assets/icon/ic-zoom-out.svg?react';
-import { createS3url } from '@pages/post/apis/createS3Url';
-import { presignedUrlProps } from '@pages/post/apis/createPresignedUrl';
+import { createS3url } from '@pages/post/feature/utils/createS3Url';
+import { presignedUrlProps } from '@pages/post/feature/apis/createPresignedUrl';
 import { useCreatePost } from '@pages/post/hooks/useCreatePost';
 import { useNavigate } from 'react-router';
+import PostBottom from '@pages/post/components/PostBottom';
 
 interface ImgModalProps extends ModalProps {
   selectedImages?: string[];
-  imgZoom: boolean;
-  setImgZoom: React.Dispatch<React.SetStateAction<boolean>>;
   presignedUrls?: presignedUrlProps[];
 }
 
@@ -25,51 +20,37 @@ export const CreateNewPostModal = ({
   isOpened,
   onClose,
   selectedImages,
-  imgZoom,
-  setImgZoom,
   presignedUrls,
 }: ImgModalProps) => {
   const [imgIdx, setImgIdx] = useState<number>(0);
-  const [textState, setTextState] = useState<string | undefined>(undefined);
   const [buttonState, setButtonState] = useState<boolean>(false);
+  const [imgZoom, setImgZoom] = useState<boolean>(false);
   const { mutate } = useCreatePost();
   const navigate = useNavigate();
+  const textStateRef = useRef<string | undefined>(); // 리렌더링을 방지하기 위해 useRef 사용
+
   const handleClose = async () => {
     try {
       if (presignedUrls) {
-        const S3Urls: string[] | undefined = await createS3url({ selectedImages, presignedUrls });
+        const S3Urls = await createS3url({ selectedImages, presignedUrls });
         mutate({
-          content: textState,
+          content: textStateRef.current,
           isPublic: !buttonState,
           s3Urls: S3Urls,
         });
       }
-      setTextState(undefined);
       navigate(-1);
       alert('게시글이 생성되었습니다.');
     } catch (error) {
-      alert('게시물 생성 실패하였습니다');
+      alert('게시물 생성에 실패하였습니다');
       navigate('/post');
     }
   };
 
   const moveBeforePage = () => {
-    setTextState(undefined);
+    setImgZoom(false);
+    textStateRef.current = undefined; // textStateRef 초기화
     onClose();
-  };
-
-  const handleImgZoom = () => {
-    if (imgZoom) {
-      setImgZoom(false);
-    } else {
-      setImgZoom(true);
-    }
-  };
-
-  const changeTextArea = (e: React.ChangeEvent<HTMLTextAreaElement | null>) => {
-    setTimeout(() => {
-      setTextState(e.target.value);
-    }, 100);
   };
 
   return ReactDOM.createPortal(
@@ -98,25 +79,15 @@ export const CreateNewPostModal = ({
                 imgZoomed={imgZoom}
               />
             </BottomImgContainer>
-            <ZoomButton onClick={handleImgZoom} $imgZoom={imgZoom}>
-              {imgZoom ? <IcZoomOutStyle /> : <IcZoomInStyle />}
-            </ZoomButton>
 
-            <TextArea
-              placeholder="게시글을 작성해주세요."
-              onChange={(e) => changeTextArea(e)}
-            ></TextArea>
-            <CustomDivider width="100%" border="1px" />
-            <BottomDiv>
-              <ToggleButton buttonState={buttonState} setButtonState={setButtonState} />
-              <SaveStyleButton
-                onClick={handleClose}
-                disabled={textState === undefined}
-                $textState={!!textState}
-              >
-                스타일 저장하기
-              </SaveStyleButton>
-            </BottomDiv>
+            <PostBottom
+              imgZoom={imgZoom}
+              setImgZoom={setImgZoom}
+              handleClose={handleClose}
+              textStateRef={textStateRef}
+              buttonState={buttonState}
+              setButtonState={setButtonState}
+            />
           </BottomBox>
         </Container>
       )}
@@ -178,58 +149,4 @@ const BottomImgContainer = styled.div<{ $imgZoom: boolean }>`
   flex-direction: column;
   justify-content: space-between;
   gap: ${({ $imgZoom }) => ($imgZoom ? '0px' : '5.79vh')};
-`;
-
-const ZoomButton = styled.button<{ $imgZoom: boolean }>`
-  width: 5.924vh;
-  height: 5.924vh;
-  margin-left: 1.5vw;
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 10001;
-  border-radius: 50%;
-  background-color: ${({ theme }) => theme.colors.gray800};
-  top: ${({ $imgZoom }) => ($imgZoom === false ? '46vh' : '50.5vh')};
-`;
-
-const TextArea = styled.textarea`
-  width: 100%;
-  background-color: transparent;
-  border: none;
-  outline: none;
-  font-size: ${({ theme }) => theme.fonts.body_medium_16px};
-  color: white;
-  margin: 5.806vh 0px 1.844vh 0px;
-  padding: 0px 5.128vw 0px 5.128vw;
-`;
-
-const BottomDiv = styled.div`
-  padding: 0px 5.128vw 0px 5.128vw;
-  margin-top: 1.896vh;
-`;
-const SaveStyleButton = styled.button<{ $textState: boolean | undefined }>`
-  width: 100%;
-  height: 6.635vh;
-  font-size: ${({ theme }) => theme.fonts.body_medium_16px};
-  background-color: ${({ theme, $textState }) =>
-    $textState === false ? theme.colors.gray500 : theme.colors.green500};
-  border-radius: 10px;
-  color: black;
-`;
-
-const IcZoomInStyle = styled(IcZoomIn)`
-  &:hover {
-    path {
-      stroke: ${({ theme }) => theme.colors.green500};
-    }
-  }
-`;
-const IcZoomOutStyle = styled(IcZoomOut)`
-  &:hover {
-    path {
-      stroke: ${({ theme }) => theme.colors.green500};
-    }
-  }
 `;

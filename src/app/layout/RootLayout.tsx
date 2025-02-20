@@ -3,6 +3,12 @@ import BottomNavigation from '@shared/ui/BottomNavigation';
 import styled from 'styled-components';
 
 export default function RootLayout() {
+  /*const { isLoggedIn } = useIsLoggedInStore();
+  const navigate = useNavigate();
+  if (!isLoggedIn) {
+    navigate('/');
+  }*/
+
   return (
     <Wrapper>
       <Outlet />

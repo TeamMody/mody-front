@@ -46,7 +46,6 @@ export const ConfirmationModal = ({ isOpened, content, onClose, index }: ModalPr
         try {
           const res = await apiInstance.post('/auth/logout');
           if (res.status === 200) {
-            alert(res.status);
             setIsLoggedIn(false);
             navigate('/', { replace: true });
           }

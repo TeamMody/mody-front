@@ -1,4 +1,4 @@
-import { presignedUrlProps } from '@pages/post/apis/createPresignedUrl';
+import { presignedUrlProps } from '@pages/post/feature/apis/createPresignedUrl';
 
 export const createS3url = async ({
   selectedImages,
@@ -29,8 +29,6 @@ export const createS3url = async ({
         return presignedUrl.presignedUrl.split('?')[0];
       });
       const results = await Promise.all(uploadPromises);
-
-      console.log('upload 완료');
 
       return results;
     }
