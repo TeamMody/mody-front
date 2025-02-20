@@ -45,11 +45,10 @@ apiInstance.interceptors.response.use(
       if (isFirstMount) {
         return setIsFirstMount(false);
       }
-      return (window.location.href = `${import.meta.env.VITE_LOCAL_ADDRESS}`);
+      /*return (window.location.href = `${import.meta.env.VITE_LOCAL_ADDRESS}`);*/
     }
 
     if (error.response?.status === 401 && error.response.config.url !== '/auth/login') {
-      alert('auth reissue 실행됨');
       try {
         const res = await apiInstance.post('/auth/reissue');
         const newAccessToken = res.data.result.accessToken;
@@ -60,7 +59,7 @@ apiInstance.interceptors.response.use(
 
         return apiInstance(originalRequest); // 원래 요청 재시도
       } catch ( error ) {
-        alert(`auth reissue 실패. ${error}`);
+        console.error(error);
       }
     }
 
