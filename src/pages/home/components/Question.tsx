@@ -13,8 +13,18 @@ interface QuestionProps {
 }
 
 const containerVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0 },
+  hidden: {
+    x: '150',    // 화면 오른쪽 밖에서 시작
+    opacity: 0,
+  },
+  visible: {
+    x: 0,         // 원위치
+    opacity: 1,
+    transition: {
+      duration: 1,
+      ease: 'easeOut',
+    },
+  },
 };
 
 const answerVariants = {
@@ -30,22 +40,21 @@ const Question = forwardRef<HTMLDivElement, QuestionProps>(
   ({ question, answers, index }, ref) => {
     const { myAnswers, setMyAnswer } = useAnswersStore();
     const [activeAnswers, setActiveAnswers] = useState(Array(answers.length).fill(false));
-    const [selected, setSelected] = useState(false);
+    const [showAnswers, setShowAnswers] = useState(true);
 
     const handleAnswerClick = (answerIndex: number, answer: string) => {
       const newActiveAnswers = Array(answers.length).fill(false);
       newActiveAnswers[answerIndex] = true;
       setActiveAnswers(newActiveAnswers);
       setMyAnswer(index, answer);
-      setSelected(true);
+      setTimeout(() => {
+        setShowAnswers(false);
+      }, 1000);
     };
 
     if (index !== 0 && myAnswers[index - 1] === '') {
       return null;
     }
-
-    // 동적으로 key 부여: activeAnswers 상태 변화 시 AnswersContainer 재마운트
-    const answersKey = `answers-${activeAnswers.join('-')}`;
 
     return (
       <Container
@@ -53,27 +62,16 @@ const Question = forwardRef<HTMLDivElement, QuestionProps>(
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 1 }}
       >
         <QuestionText>{question}</QuestionText>
         <AnimatePresence mode="wait">
-          {selected ? (
-            <SelectedAnswer
-              key="selected"
-              onClick={() => setSelected(false)}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0, transition: { duration: 0.2 } }}
-              transition={{ duration: 0.2 }}
-            >
-              {myAnswers[index]}
-            </SelectedAnswer>
-          ) : (
+          {showAnswers ? (
             <AnswersContainer
-              key={answersKey}
+              key="answers"
               initial={{ opacity: 1 }}
               animate={{ opacity: 1 }}
-              exit={{ opacity: 0, transition: { duration: 0.2 } }}
+              exit={{ opacity: 0, transition: { duration: 0.5 } }}
             >
               {answers.map((answer, answerIndex) => (
                 <motion.div
@@ -82,8 +80,7 @@ const Question = forwardRef<HTMLDivElement, QuestionProps>(
                   variants={answerVariants}
                   initial="hidden"
                   animate="visible"
-                  exit={{ opacity: 0, transition: { duration: 0.2 } }}
-                  layout
+                  exit={{ opacity: 0, transition: { duration: 0.5 } }}
                 >
                   <Answer
                     answer={answer.answer}
@@ -94,11 +91,22 @@ const Question = forwardRef<HTMLDivElement, QuestionProps>(
                 </motion.div>
               ))}
             </AnswersContainer>
+          ) : (
+            <SelectedAnswer
+              key="selected"
+              onClick={() => setShowAnswers(true)}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.4 }}
+            >
+              {myAnswers[index]}
+            </SelectedAnswer>
           )}
         </AnimatePresence>
       </Container>
     );
-  }
+  },
 );
 
 export default Question;
