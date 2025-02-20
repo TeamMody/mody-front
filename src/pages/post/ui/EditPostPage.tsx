@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import PostBottom from '../components/PostBottom';
+import PostBottom from '@pages/post/components/PostBottom';
 import styled from 'styled-components';
 import ImageCarousel from '@shared/ui/ImageCarousel';
 import { useLocation, useNavigate } from 'react-router';
@@ -55,6 +55,7 @@ const EditPostPage = () => {
 
 const Container = styled.main`
   width: 100%;
+  max-width: 440px;
   position: relative;
   height: calc(100vh - 64px);
   overflow-y: scroll;

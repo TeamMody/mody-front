@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router';
 import { RecommendationType } from '@shared/types';
 import { useMyInfoStore } from '@shared/store/useMyInfoStore.ts';
+import { motion } from 'framer-motion';
 
 interface BannerProps {
   type: RecommendationType;
@@ -40,8 +41,20 @@ const Banner = ({ type, title, imageUrl, isFocused }: BannerProps) => {
       onClick={handleNavigate}
       style={{ transform: `scale(${isFocused ? 1 : 0.95})` }}
     >
-      <Type>{type}</Type>
-      <Title>{title}</Title>
+      <MotionType
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.2 }}
+      >
+        {type}
+      </MotionType>
+      <MotionTitle
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.3 }}
+      >
+        {title}
+      </MotionTitle>
     </BannerContainer>
   );
 };
@@ -49,16 +62,15 @@ const Banner = ({ type, title, imageUrl, isFocused }: BannerProps) => {
 export default Banner;
 
 const BannerContainer = styled.div<{ $imageUrl: string }>`
-  flex: 0 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   height: 40vh;
-  width: 100%;
   border: none;
   border-radius: 15px;
   padding: 14px 17px;
-  background-image: url(${({ $imageUrl }) => $imageUrl});
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.0) 30%, rgba(0, 0, 0)),
+  url(${({ $imageUrl }) => $imageUrl});
   background-repeat: no-repeat;
   background-size: cover;
   gap: 8px;
@@ -66,10 +78,10 @@ const BannerContainer = styled.div<{ $imageUrl: string }>`
   transition: transform 0.3s ease;
 `;
 
-const Type = styled.p`
+const MotionType = styled(motion.p)`
   font: ${({ theme }) => theme.fonts.body_bold_16px};
 `;
 
-const Title = styled.p`
+const MotionTitle = styled(motion.p)`
   font: ${({ theme }) => theme.fonts.heading_bold_22px};
 `;

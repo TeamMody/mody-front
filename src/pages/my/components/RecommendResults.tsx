@@ -5,7 +5,8 @@ import { useInView } from 'react-intersection-observer';
 import useInfiniteScroll from '@my/features/hooks/useInfiniteScroll';
 import { SmallLoading } from '@shared/ui/SmallLoading';
 import { RecommendationResponse, RecommendationType } from '@shared/types';
-import Post from './Post';
+import Post from '@my/components/Post';
+import { ActiveIndex } from '@my/features/store/useTabBarStore';
 
 const RecommendResults = () => {
   const {
@@ -27,7 +28,7 @@ const RecommendResults = () => {
       </LoadingWrapper>
     );
   }
-  if (isError) return <NoPosts />;
+  if (isError) return <p>에러</p>;
 
   return results?.pages[0] ? (
     <RecommendResultsWrapper ref={containerRef}>
@@ -43,7 +44,7 @@ const RecommendResults = () => {
       {hasNextPage && <Bottom ref={ref}>{isFetchingNextPage && <SmallLoading />}</Bottom>}
     </RecommendResultsWrapper>
   ) : (
-    <NoPosts />
+    <NoPosts activeIndex={ActiveIndex.RECOMMEND} />
   );
 };
 

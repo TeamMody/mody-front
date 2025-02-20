@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
 
 interface SubBannerProps {
   imageUrl?: string;
@@ -6,18 +7,24 @@ interface SubBannerProps {
   title: string;
 }
 
-const SubBanner = ({imageUrl, title}: SubBannerProps) => {
+const SubBanner = ({ imageUrl, title }: SubBannerProps) => {
   return (
-    <Container>
+    <Container
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+    >
       <SubBannerImage src={imageUrl} />
       <Title>{title}</Title>
     </Container>
-  )
-}
+  );
+};
 
 export default SubBanner;
 
-const Container = styled.div`
+const Container = styled(motion.div)`
   display: flex;
   flex: 0 0 auto;
   flex-direction: column;
@@ -28,14 +35,14 @@ const Container = styled.div`
   scroll-snap-align: center;
 `;
 
-const SubBannerImage = styled.img`
+const SubBannerImage = styled(motion.img)`
   width: 100%;
   height: 68%;
   border-radius: 10px;
   border: none;
 `;
 
-const Title = styled.p`
+const Title = styled(motion.p)`
   font: ${({ theme }) => theme.fonts.body_bold_16px};
   white-space: pre-wrap;
 `;

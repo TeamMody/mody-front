@@ -6,9 +6,8 @@ import { useLocation, useNavigate } from 'react-router';
 import { HeaderAction } from '@shared/types';
 import useGetDetailPost from '@my/features/hooks/query/useGetDetailPost';
 import { Loading } from '@shared/ui/Loading';
-import { usePostIdStore } from '../features/store/usePostIdStore';
+import { usePostIdStore } from '@my/features/store/usePostIdStore';
 import { useEffect } from 'react';
-import { useMyInfoStore } from '@shared/store/useMyInfoStore';
 
 export const PostDetailPage = () => {
   const navigate = useNavigate();
@@ -19,7 +18,6 @@ export const PostDetailPage = () => {
 
   // postId 상태 관리
   const { setPostId } = usePostIdStore();
-  const { myInfo } = useMyInfoStore();
 
   useEffect(() => {
     if (id) setPostId(id);
@@ -27,14 +25,12 @@ export const PostDetailPage = () => {
 
   if (isPending) return <Loading />;
   if (isError) return <div>에러</div>;
-
-  const type = data.result.writerId === myInfo?.id ? 'my' : 'post';
-
+    
   return (
     <>
       <AppBar leftHeaderAction={leftHeaderAction} title={title} />
       <Container>
-        <Post data={data.result} type={type} />
+        <Post data={data.result} queryKey={['detailPost', id]} />
       </Container>
     </>
   );

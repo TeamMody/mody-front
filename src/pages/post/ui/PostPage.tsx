@@ -19,6 +19,7 @@ export const PostPage = () => {
 
   const { myInfo } = useMyInfoStore.getState();
 
+
   if (isLoading) return <Loading />;
 
   return (

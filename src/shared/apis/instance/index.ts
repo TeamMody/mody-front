@@ -45,7 +45,7 @@ apiInstance.interceptors.response.use(
       if (isFirstMount) {
         return setIsFirstMount(false);
       }
-      return (window.location.href = `${import.meta.env.VITE_LOCAL_ADDRESS}`);
+      /*return (window.location.href = `${import.meta.env.VITE_LOCAL_ADDRESS}`);*/
     }
 
     if (error.response?.status === 401 && error.response.config.url !== '/auth/login') {
@@ -58,9 +58,10 @@ apiInstance.interceptors.response.use(
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 
         return apiInstance(originalRequest); // 원래 요청 재시도
-      } catch (error) {}
+      } catch ( error ) {
+        console.error(error);
+      }
     }
-
     return Promise.reject(error); // 다른 에러는 그대로 전달
   },
 );
