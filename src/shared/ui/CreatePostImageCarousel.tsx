@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 import ProgressBar from '@shared/ui/ProgressBar';
 import { Carousel } from 'react-responsive-carousel';
-import { useState } from 'react';
 const CreatePostImageCarousel = ({
   images,
   height = '60vh',
@@ -38,7 +37,7 @@ const CreatePostImageCarousel = ({
         {images?.map((img, idx) => {
           return (
             <div key={idx}>
-              <img src={img} />;
+              <img src={img} />
             </div>
           );
         })}
