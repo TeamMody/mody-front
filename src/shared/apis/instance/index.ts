@@ -45,7 +45,7 @@ apiInstance.interceptors.response.use(
       if (isFirstMount) {
         return setIsFirstMount(false);
       }
-      /*return (window.location.href = `${import.meta.env.VITE_LOCAL_ADDRESS}`);*/
+      return (window.location.href = `${import.meta.env.VITE_LOCAL_ADDRESS}`);
     }
 
     if (error.response?.status === 401 && error.response.config.url !== '/auth/login') {
