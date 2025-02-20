@@ -26,6 +26,7 @@ const EditPostPage = () => {
 
   const handleClose = () => {
     mutate({ content: textStateRef.current, postId: data.postId, isPublic: !buttonState });
+    setImgZoom(false);
   };
 
   return (
