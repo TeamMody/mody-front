@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useNavigate } from 'react-router';
 import ReactDOM from 'react-dom';
+import { useMyInfoStore } from '@shared/store/useMyInfoStore';
+import { RecommendationType } from '@shared/types';
 interface ModalProps {
   isOpened: boolean;
   onClose: () => void;
@@ -13,10 +15,19 @@ interface ModalProps {
 
 export const RecommendationModal = ({ isOpened, img, content, btnText, onClose }: ModalProps) => {
   const navigate = useNavigate();
+  const { myInfo } = useMyInfoStore();
+
   const handleClose = () => {
     if (onClose) {
       onClose();
     }
+  };
+  const handleClickStyleRecommend = () => {
+    myInfo?.bodyType !== null
+      ? navigate('/recommendations-survey', {
+          state: { type: RecommendationType.STYLE },
+        })
+      : alert('추천을 위해선 체형 타입 정보가 필요해요!\n체형 타입 분석을 먼저 해주세요!');
   };
 
   return ReactDOM.createPortal(
@@ -38,7 +49,7 @@ export const RecommendationModal = ({ isOpened, img, content, btnText, onClose }
               {btnText === '체형 분석하기' ? (
                 <button onClick={() => navigate('/body-survey')}>{btnText}</button>
               ) : (
-                <button>{btnText}</button>
+                <button onClick={handleClickStyleRecommend}>{btnText}</button>
               )}
             </div>
           </Container>
