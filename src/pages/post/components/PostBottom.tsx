@@ -121,5 +121,5 @@ const ZoomButton = styled.button<{ $imgZoom: boolean }>`
   z-index: 10001;
   border-radius: 50%;
   background-color: ${({ theme }) => theme.colors.gray800};
-  top: ${({ $imgZoom }) => ($imgZoom === false ? '46vh' : '50.5vh')};
+  top: 50.5vh;
 `;
