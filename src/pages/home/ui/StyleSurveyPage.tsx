@@ -14,7 +14,7 @@ import { usePostRecommendations } from '@home/feature/hooks/mutate/usePostRecomm
 import { useGetStyleCategories } from '@home/feature/hooks/query/useGetStyleCategories.ts';
 
 export const StyleSurveyPage = () => {
-  const { resetKeywords } = useStyleSurveyStore();
+  const { resetKeywords, selectedKeywords } = useStyleSurveyStore();
   const { type } = useLocation().state as { type: RecommendationType };
   const navigate = useNavigate();
   const { mutate, isSuccess, data, isPending, isError } = usePostRecommendations();
@@ -41,12 +41,12 @@ export const StyleSurveyPage = () => {
   }, [isSuccess]);
 
   if (isError) {
-    alert("스타일 추천 중 에러가 발생했습니다.");
-    navigate("/home", { replace: true });
+    alert('스타일 추천 중 에러가 발생했습니다.');
+    navigate('/home', { replace: true });
   }
 
   if (isCategoriesError) {
-    alert("카테고리 정보를 불러오는 중 에러가 발생했습니다.");
+    alert('카테고리 정보를 불러오는 중 에러가 발생했습니다.');
   }
 
   if (isPending) {
@@ -61,8 +61,12 @@ export const StyleSurveyPage = () => {
           <StyleSurvey category="disliked" keywords={categories?.result.styleCategories!} />
           <StyleSurvey category="image" keywords={categories?.result.appealCategories!} />
           <ButtonContainer>
-            <CustomButton label="스타일 추천 받기" onClick={debouncedApiRequest} active={true} paddingTop="19px"
-                          paddingBottom="19px" />
+            <CustomButton
+              label="스타일 추천 받기"
+              onClick={debouncedApiRequest}
+              active={selectedKeywords.liked.length > 0 && selectedKeywords.disliked.length > 0 && selectedKeywords.image.length > 0}
+              paddingTop="19px"
+              paddingBottom="19px" />
           </ButtonContainer>
         </KeywordsContainer>
         : <Loading />
