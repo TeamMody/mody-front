@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import PostBottom from '../components/PostBottom';
+import PostBottom from '@pages/post/components/PostBottom';
 import styled from 'styled-components';
 import ImageCarousel from '@shared/ui/ImageCarousel';
 import { useLocation, useNavigate } from 'react-router';

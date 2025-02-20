@@ -5,33 +5,25 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useNavigate } from 'react-router';
 import { IcLeftArrow } from '@shared/assets/icon/ic-left-arrow';
 import { CreateNewPostModal } from '@pages/post/components/modal/CreateNewPostModal';
-import { createPresignedUrl } from '@pages/post/apis/createPresignedUrl';
-import { presignedUrlProps } from '@pages/post/apis/createPresignedUrl';
+import { createPresignedUrl, presignedUrlProps } from '@pages/post/feature/apis/createPresignedUrl';
 import IcCamera from '@shared/assets/icon/ic-camera.svg?react';
 import IcGallery from '@shared/assets/icon/ic-gallery.svg?react';
-import {
-  ConvertMultipleImgToWebP,
-} from '@pages/post/components/ConvertToWebP';
+import { ConvertMultipleImgToWebP } from '@pages/post/feature/utils/convertToWebP';
 import { useControlModal } from '@pages/my/features/hooks/useControlModal';
 import CreatePostImageCarousel from '@shared/ui/CreatePostImageCarousel';
 
 export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
-  const { modalState, setModalState } = useControlModal();
+  const { modalState, setModalState, closeModal } = useControlModal();
   const [opened, setIsOpened] = useState<boolean>(isOpened);
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
-  const [imgZoom, setImgZoom] = useState<boolean>(false);
   const navigate = useNavigate();
   const [presignedUrls, setPresignedUrls] = useState<presignedUrlProps[]>();
   const [imgIdx, setImgIdx] = useState<number>(0);
+
   const openModal = async (data: string[]) => {
     const urls = await createPresignedUrl(data);
     setPresignedUrls(urls);
     setModalState(true);
-  };
-
-  const closeModal = () => {
-    setModalState(false);
-    setImgZoom(false);
   };
 
   const closePage = () => {
@@ -51,6 +43,7 @@ export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
       });
     }
   };
+
   return ReactDOM.createPortal(
     <AnimatePresence>
       {opened && (
@@ -104,8 +97,6 @@ export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
             isOpened={modalState}
             onClose={closeModal}
             selectedImages={selectedImages}
-            imgZoom={imgZoom}
-            setImgZoom={setImgZoom}
             presignedUrls={presignedUrls}
           />
         </Container>
