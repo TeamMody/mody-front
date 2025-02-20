@@ -2,7 +2,7 @@ import IcHeart from '@shared/assets/icon/ic-full-heart.svg';
 import { PostProps } from '@shared/types';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
-import { ActiveIndex, useTabBarStore } from '../features/store/useTabBarStore';
+import { ActiveIndex, useTabBarStore } from '@my/features/store/useTabBarStore';
 
 const Post = ({ id, imageUrl, recommendType, result }: PostProps) => {
   const navigate = useNavigate();

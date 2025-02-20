@@ -1,5 +1,5 @@
 import { BaseResponse, PatchPostProps } from '@shared/types';
-import { apiInstance } from '../instance';
+import { apiInstance } from '@shared/apis/instance';
 
 const patchPost = async ({
   postId,

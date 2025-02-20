@@ -1,5 +1,5 @@
 import CustomDivider from '@shared/ui/CustomDivider';
-import { ToggleButton } from './toggleButton';
+import { ToggleButton } from '@post/components/toggleButton';
 import styled from 'styled-components';
 import IcZoomIn from '@shared/assets/icon/ic-zoom-in.svg?react';
 import { useEffect, useRef } from 'react';

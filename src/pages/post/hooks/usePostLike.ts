@@ -1,14 +1,17 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiInstance } from '@shared/apis/instance';
+import { QueryKey } from '@shared/types/post/post';
+import { PostData } from '@shared/types/my/my';
 
-interface PostData {
-  postId: number;
-  isLiked: boolean;
-  likeCount: number;
-  files: string[]; // ✅ images 배열 유지
+interface PostsData {
+  pages: { postResponses: PostData[] }[];
 }
 
-const usePostLike = () => {
+interface SinglePostData {
+  result: PostData;
+}
+
+const usePostLike = (queryKey: QueryKey) => {
   const queryClient = useQueryClient();
 
   const postLikeMutation = useMutation<number, Error, number>({
@@ -16,47 +19,53 @@ const usePostLike = () => {
       await apiInstance.post(`/posts/${postId}/like`);
       return postId;
     },
-    onMutate: (
-      postId: number,
-    ): {
-      previousPosts: { pages: { postResponses: PostData[] }[] } | undefined;
-      postId: number;
-    } => {
-      const previousPosts = queryClient.getQueryData<{ pages: { postResponses: PostData[] }[] }>([
-        'posts',
-      ]);
+    onMutate: (postId: number) => {
+      // 기존 데이터 가져오기
+      const previousData = queryClient.getQueryData<PostsData | SinglePostData>(queryKey);
 
-      if (!previousPosts) return { previousPosts, postId };
+      if (!previousData) return { previousData, postId };
 
-      const updatedPosts = {
-        ...previousPosts,
-        pages: previousPosts.pages.map((page) => ({
-          ...page,
-          postResponses: page.postResponses.map((post) =>
-            post.postId === postId
-              ? {
-                  ...post,
-                  isLiked: !post.isLiked,
-                  likeCount: post.isLiked ? post.likeCount - 1 : post.likeCount + 1,
-                  files: [...post.files],
-                }
-              : post,
-          ),
-        })),
-      };
+      if ('pages' in previousData) {
+        // posts인 경우 (pages가 존재하는 경우)
+        const updatedPosts = {
+          ...previousData,
+          pages: (previousData as PostsData).pages.map((page) => ({
+            ...page,
+            postResponses: page.postResponses.map((post) =>
+              post.postId === postId
+                ? {
+                    ...post,
+                    isLiked: !post.isLiked,
+                    likeCount: post.isLiked ? post.likeCount - 1 : post.likeCount + 1,
+                    files: [...post.files],
+                  }
+                : post,
+            ),
+          })),
+        };
 
-      queryClient.setQueryData(['posts'], updatedPosts);
+        queryClient.setQueryData(queryKey, updatedPosts);
+        return { previousData, postId };
+      } else {
+        // posts가 아닌 경우 (단일 데이터)
+        const updatedData = {
+          ...previousData,
+          result: {
+            ...previousData.result,
+            isLiked: !previousData.result.isLiked,
+            likeCount: previousData.result.isLiked
+              ? previousData.result.likeCount - 1
+              : previousData.result.likeCount + 1,
+          },
+        };
 
-      return { previousPosts, postId };
+        queryClient.setQueryData(queryKey, updatedData);
+        return { previousData, postId };
+      }
     },
 
-    // onError: (_error, _variables, context) => {
-    //   if (context?.previousPosts) {
-    //     queryClient.setQueryData(['posts'], context.previousPosts);
-    //   }
-    // },
-    onSuccess: (_data, _error) => {
-      queryClient.refetchQueries({ queryKey: ['posts'] }); // ✅ 최신 데이터를 다시 패칭
+    onSuccess: () => {
+      queryClient.refetchQueries({ queryKey });
     },
   });
 
