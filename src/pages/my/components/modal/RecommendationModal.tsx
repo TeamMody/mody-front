@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useNavigate } from 'react-router';
 import ReactDOM from 'react-dom';
+import IcSignupComplete from '@icon/ic-signup-complete.svg';
+
 import { useMyInfoStore } from '@shared/store/useMyInfoStore';
 import { RecommendationType } from '@shared/types';
 interface ModalProps {
@@ -13,7 +15,7 @@ interface ModalProps {
   btnText: '체형 분석하기' | '스타일 추천 받기';
 }
 
-export const RecommendationModal = ({ isOpened, img, content, btnText, onClose }: ModalProps) => {
+export const RecommendationModal = ({ isOpened, content, btnText, onClose }: ModalProps) => {
   const navigate = useNavigate();
   const { myInfo } = useMyInfoStore();
 
@@ -44,7 +46,7 @@ export const RecommendationModal = ({ isOpened, img, content, btnText, onClose }
               <IcCancel />
             </CancelButton>
             <div>
-              <img src={img} alt="이미지 없음" />
+              <img src={IcSignupComplete} alt="" />
               <div>{content}</div>
               {btnText === '체형 분석하기' ? (
                 <button onClick={() => navigate('/body-survey')}>{btnText}</button>
@@ -90,14 +92,14 @@ const Container = styled(motion.div)`
   & > div:nth-child(2) > img:nth-child(1) {
     aspect-ratio: 1 / 1;
     width: 35.641vw;
-    border: 2px solid black;
-    border-radius: 50%;
   }
+
   & > div:nth-child(2) > div:nth-child(2) {
     font-size: ${({ theme }) => theme.fonts.heading_bold_24px};
     margin-top: 2.956vh;
     height: 3.889vh;
   }
+
   & > div:nth-child(2) > button:nth-child(3) {
     width: 100%;
     height: 6.222vh;
