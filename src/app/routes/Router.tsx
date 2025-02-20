@@ -19,7 +19,7 @@ import ProtectedRouter from '@app/routes/ProtectedRouter';
 export const router = createBrowserRouter([
   {
     path: '/',
-    // element: <ProtectedRouter />,
+    element: <ProtectedRouter />,
     children: [
       {
         index: true,

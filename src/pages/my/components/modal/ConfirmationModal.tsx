@@ -50,9 +50,8 @@ export const ConfirmationModal = ({ isOpened, content, onClose, index }: ModalPr
             setIsLoggedIn(false);
             navigate('/', { replace: true });
           }
-        } catch ( error ) {
+        } catch (error) {
           alert(`로그아웃에 실패했습니다. ${error}`);
-          console.error(error);
         }
       } else if (index === 2) {
         onClose();
