@@ -94,6 +94,8 @@ const Info = memo(
           <div className="more-vertical">
             {!data.isMine ? (
               <Report onClick={() => setIsMoreClicked(true)} />
+            ) : (
+              <MoreVertical onClick={handleClickMore} />
             )}
           </div>
           {!data.isMine ? (
@@ -101,6 +103,12 @@ const Info = memo(
               isOpened={isMoreClicked}
               setIsMoreClicked={setIsMoreClicked}
               id={data.postId}
+            />
+          ) : (
+            <EditBottomSheet
+              isOpen={isMoreClicked}
+              onClose={() => setIsMoreClicked(false)}
+              data={data}
             />
           )}
         </DescriptionContainer>
