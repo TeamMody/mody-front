@@ -63,7 +63,7 @@ const StyledCarousel = styled(Carousel)<{
   imgZoomed?: boolean;
 }>`
   width: 100%;
-  height: ${({ imgZoomed, height }) => (imgZoomed ? '53.791vh' : height)};
+  height: ${({ imgZoomed, height }) => (imgZoomed ? '70.791vh' : height)};
   background-color: ${({ theme }) => theme.colors.gray500};
   filter: ${({ isExpanded }) => (isExpanded ? 'brightness(0.5)' : '')};
   div {
@@ -74,6 +74,7 @@ const StyledCarousel = styled(Carousel)<{
 
     img {
       max-width: 100%;
+      height: ${({ imgZoomed, height }) => (imgZoomed ? '53.791vh' : height)};
     }
   }
 `;
