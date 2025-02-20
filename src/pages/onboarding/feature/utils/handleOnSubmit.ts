@@ -1,5 +1,6 @@
 import { uploadImageToS3 } from './uploadImage.ts';
 import { submitSignup } from './signup.ts';
+import { convertSingleImgToWebP } from '@shared/utils/convertToWebP.ts';
 
 /**
  * 회원가입 폼 제출 핸들러
@@ -22,7 +23,12 @@ export const handleOnSubmit = async (
     ).padStart(2, '0')}`;
 
     // 이미지 업로드 실행 (이미지가 있을 경우)
-    const profileImageUrl = image.length > 0 ? await uploadImageToS3(image[0]) : '';
+    // const profileImageUrl = image.length > 0 ? await uploadImageToS3(image[0]) : '';
+    let profileImageUrl = '';
+    if (image.length > 0) {
+      const convertedImage = await convertSingleImgToWebP({ img: image[0] });
+      profileImageUrl = await uploadImageToS3(convertedImage, image);
+    }
 
     const body = { nickname, birthDate, gender: sex, height, profileImageUrl };
 

@@ -11,7 +11,6 @@ const ThirdPage = () => {
       <ImageContainer>
         <Icon width={245} height={184} />
       </ImageContainer>
-      {/* <Image src={previewImage} alt="" /> */}
     </>
   );
 };

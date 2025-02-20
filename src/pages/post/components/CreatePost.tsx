@@ -8,7 +8,7 @@ import { CreateNewPostModal } from '@pages/post/components/modal/CreateNewPostMo
 import { createPresignedUrl, presignedUrlProps } from '@pages/post/feature/apis/createPresignedUrl';
 import IcCamera from '@shared/assets/icon/ic-camera.svg?react';
 import IcGallery from '@shared/assets/icon/ic-gallery.svg?react';
-import { ConvertMultipleImgToWebP } from '@pages/post/feature/utils/convertToWebP';
+import { convertMultipleImgToWebP } from '@shared/utils/convertToWebP';
 import { useControlModal } from '@pages/my/features/hooks/useControlModal';
 import CreatePostImageCarousel from '@shared/ui/CreatePostImageCarousel';
 
@@ -36,7 +36,7 @@ export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
     const img = e.target.files;
     if (!img) return;
 
-    const convertedFiles = await ConvertMultipleImgToWebP({ img });
+    const convertedFiles = await convertMultipleImgToWebP({ img });
     if (convertedFiles) {
       setSelectedImages((prev) => {
         return [...prev, ...convertedFiles.filter((file): file is string => Boolean(file))];
