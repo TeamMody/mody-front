@@ -1,14 +1,13 @@
-import { Outlet, useNavigate } from 'react-router';
+import { Outlet } from 'react-router';
 import BottomNavigation from '@shared/ui/BottomNavigation';
 import styled from 'styled-components';
-import useIsLoggedInStore from '@shared/store/useIsLoggedIn.ts';
 
 export default function RootLayout() {
-  const { isLoggedIn } = useIsLoggedInStore();
+  /*const { isLoggedIn } = useIsLoggedInStore();
   const navigate = useNavigate();
   if (!isLoggedIn) {
     navigate('/');
-  }
+  }*/
 
   return (
     <Wrapper>
