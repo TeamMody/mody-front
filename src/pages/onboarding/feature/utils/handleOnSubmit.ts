@@ -23,7 +23,6 @@ export const handleOnSubmit = async (
     ).padStart(2, '0')}`;
 
     // 이미지 업로드 실행 (이미지가 있을 경우)
-    // const profileImageUrl = image.length > 0 ? await uploadImageToS3(image[0]) : '';
     let profileImageUrl = '';
     if (image.length > 0) {
       const convertedImage = await convertSingleImgToWebP({ img: image[0] });
