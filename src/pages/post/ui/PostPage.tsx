@@ -11,13 +11,13 @@ import { useMyInfoStore } from '@shared/store/useMyInfoStore';
 
 export const PostPage = () => {
   const navigate = useNavigate();
-  const rightHeaderActionArr = [{ icon: plus, onClick: () => navigate('createPost') }];
+  const { myInfo } = useMyInfoStore();
+
+  const rightHeaderActionArr = [{ icon: plus, onClick: () => myInfo?.bodyType ? navigate('createPost') : alert('체형 분석 이후 게시글 업로드가 가능합니다!') }];
 
   const bottomRef = useRef<HTMLDivElement | null>(null);
   const { data: postData, isLoading, fetchNextPage } = useGetPostData();
   useIntersectionObserver(bottomRef, fetchNextPage);
-
-  const { myInfo } = useMyInfoStore.getState();
 
   if (isLoading) return <Loading />;
 
