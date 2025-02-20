@@ -106,7 +106,7 @@ const Button = styled.button<{ fontColor: string; bgColor: string }>`
 `;
 
 const Policy = styled.span`
-  margin-top: 15vh;
+  margin-top: auto;
   color: #e0e0e0;
   font-size: ${({ theme }) => theme.fonts.detail_medium_12px};
 
