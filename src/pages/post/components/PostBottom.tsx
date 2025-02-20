@@ -31,7 +31,7 @@ const PostBottom = ({
   };
 
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
-  const [, forceUpdate] = useState({});
+  const [textState, setTextState] = useState(textStateRef.current || '');
 
   useEffect(() => {
     if (textAreaRef.current) {
@@ -42,8 +42,8 @@ const PostBottom = ({
   }, []);
 
   const changeTextArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setTextState(e.target.value);
     textStateRef.current = e.target.value;
-    forceUpdate({});
   };
 
   return (
@@ -53,18 +53,14 @@ const PostBottom = ({
       </ZoomButton>
       <TextArea
         ref={textAreaRef}
-        defaultValue={textStateRef.current}
+        value={textState}
         placeholder="게시글을 작성해주세요."
-        onChange={(e) => changeTextArea(e)}
+        onChange={changeTextArea}
       ></TextArea>
       <CustomDivider width="100%" border="1px" />
       <BottomDiv>
         <ToggleButton buttonState={buttonState} setButtonState={setButtonState} />
-        <SaveStyleButton
-          onClick={handleClose}
-          disabled={textStateRef.current === undefined}
-          $textState={!!textStateRef.current}
-        >
+        <SaveStyleButton onClick={handleClose} disabled={!textState} $textState={!!textState}>
           스타일 저장하기
         </SaveStyleButton>
       </BottomDiv>

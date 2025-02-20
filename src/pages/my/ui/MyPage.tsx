@@ -17,7 +17,7 @@ export const MyPage = () => {
   const { data: fetchedInfo, isLoading } = useGetMyInfo();
   const leftHeaderAction: HeaderAction = { icon: logo, onClick: () => navigate('/home') };
   const rightHeaderActionArr: HeaderAction[] = [
-    { icon: plus, onClick: () => navigate('createPost') },
+    { icon: plus, onClick: () => fetchedInfo?.result.bodyType ? navigate('createPost') : alert('체형 분석 이후 게시글 업로드가 가능합니다!') },
     {
       icon: hamburger,
       onClick: openModal,
