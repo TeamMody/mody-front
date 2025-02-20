@@ -4,17 +4,19 @@ import IcLoadingStyle from '@icon/ic-loading-style.svg';
 import IcBgLoading from '@icon/ic-bg-loading.svg';
 import React from 'react';
 import { RecommendationType } from '@shared/types';
-import { useMyInfoStore } from '@shared/store/useMyInfoStore.ts';
+import { useGetMyInfo } from '@shared/hooks/useGetMyInfo.ts';
 
 interface LoadingProps {
   type: RecommendationType;
 }
 
 export const RecommendationLoading: React.FC<LoadingProps> = ({ type }) => {
-  const { myInfo } = useMyInfoStore();
-  const name = myInfo?.nickname;
+  const { data, isLoading } = useGetMyInfo();
   const image = type === RecommendationType.STYLE ? IcLoadingStyle : IcLoading;
 
+  if (isLoading) return null;
+
+  const name = data?.result.nickname;
   const text = type === RecommendationType.BODY_TYPE
     ? `모디가 ${name} 님의\n체형을 분석 중이에요!`
     : `모디가 ${name} 님의\n스타일을 추천중이에요!`;
