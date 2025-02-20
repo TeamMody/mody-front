@@ -42,6 +42,7 @@ import IcBodyFleshTwo from '@icon/body/ic-body-flesh-two.svg?react';
 import IcBodyFleshThree from '@icon/body/ic-body-flesh-three.svg?react';
 import IcBodyCharacteristicsOne from '@icon/body/ic-body-characteristics-one.svg?react';
 import IcBodyCharacteristicsTwo from '@icon/body/ic-body-characteristics-two.svg?react';
+import ImgSubBannerDaily from '@shared/assets/img/img-sub-banner-daily.jpg';
 
 export const topBanner = [
   {
@@ -78,6 +79,7 @@ export const subBanner = [
   {
     id: 2,
     title: '일상에 꼭 맞는\n패션 추천',
+    imageUrl: ImgSubBannerDaily,
   },
 ];
 
