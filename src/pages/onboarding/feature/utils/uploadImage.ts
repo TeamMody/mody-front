@@ -1,7 +1,10 @@
 import { apiInstance } from '@shared/apis/instance';
 
-export const uploadImageToS3 = async (image: File): Promise<string> => {
+export const uploadImageToS3 = async (blobURL: string, image: File): Promise<string> => {
   try {
+    const response = await fetch(blobURL);
+    const blob = await response.blob();
+
     const { data } = await apiInstance.post('/image/upload/profiles', {
       filename: image.name,
     });
@@ -10,8 +13,8 @@ export const uploadImageToS3 = async (image: File): Promise<string> => {
 
     const uploadResponse = await fetch(presignedUrl, {
       method: 'PUT',
-      headers: { 'Content-Type': image.type },
-      body: image,
+      headers: { 'Content-Type': blob.type },
+      body: blob,
     });
 
     if (!uploadResponse.ok) throw new Error(`업로드 실패: ${uploadResponse.statusText}`);

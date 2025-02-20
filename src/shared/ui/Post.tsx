@@ -76,7 +76,7 @@ const Info = memo(
         <UserInfo isExpanded={isExpanded} onClick={() => setIsExpanded((prev) => !prev)}>
           <div className="user">
             <span className="user-name" id={`${data.writerId}`}>
-              {data.writerNickname}
+              {data.writerNickName}
             </span>
             <span className="user-type">{data.bodyType} 타입</span>
           </div>
@@ -92,23 +92,23 @@ const Info = memo(
             <span>{data.likeCount}</span>
           </div>
           <div className="more-vertical">
-            {data.isMine ? (
-              <MoreVertical onClick={handleClickMore} />
-            ) : (
+            {!data.isMine ? (
               <Report onClick={() => setIsMoreClicked(true)} />
+            ) : (
+              <MoreVertical onClick={handleClickMore} />
             )}
           </div>
-          {data.isMine ? (
-            <EditBottomSheet
-              isOpen={isMoreClicked}
-              onClose={() => setIsMoreClicked(false)}
-              data={data}
-            />
-          ) : (
+          {!data.isMine ? (
             <ReportModal
               isOpened={isMoreClicked}
               setIsMoreClicked={setIsMoreClicked}
               id={data.postId}
+            />
+          ) : (
+            <EditBottomSheet
+              isOpen={isMoreClicked}
+              onClose={() => setIsMoreClicked(false)}
+              data={data}
             />
           )}
         </DescriptionContainer>

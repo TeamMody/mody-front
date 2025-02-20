@@ -1,6 +1,6 @@
 // import heic2any from 'heic2any';
 // import { ImgType } from '@pages/post/components/ConvertToWebP';
-// // 만약 이 코드가 필요가 없으면 추후에 삭제하겠습니다.
+// 만약 이 코드가 필요가 없으면 추후에 삭제하겠습니다.
 // export const HeicToJpeg = async ({ img }: ImgType) => {
 //   const heicBlobArray = await heic2any({
 //     blob: img,

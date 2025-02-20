@@ -5,7 +5,7 @@ export interface FileData {
 export interface PostData {
   postId: number;
   writerId: number;
-  writerNickname: string;
+  writerNickName: string;
   content: string;
   likeCount: number;
   isLiked: boolean;
