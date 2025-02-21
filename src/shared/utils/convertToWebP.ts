@@ -1,11 +1,12 @@
 import imageCompression from 'browser-image-compression';
+import { HeicToJpeg } from './heicToJpeg';
 export const options = {
   maxSizeMB: 1,
   maxWidthOrHeight: 1024,
   useWebWorker: true,
   fileType: 'image/webp',
 };
-interface SingleImgType {
+export interface SingleImgType {
   img: File;
 }
 interface MultipleImgType {
@@ -13,9 +14,15 @@ interface MultipleImgType {
 }
 const convertSingleImgToWebP = async ({ img }: SingleImgType) => {
   // 이미지 최적화를 위해 이미지 압축 및 webP 확장자로 변경
-  const webpBlob = await imageCompression(img, options);
-  const blobUrl = URL.createObjectURL(webpBlob);
-  return blobUrl;
+  let heicToJpegImg;
+  if (img.name.toLowerCase().endsWith('.heic')) {
+    heicToJpegImg = await HeicToJpeg({ img });
+  }
+  if (heicToJpegImg) {
+    const webpBlob = await imageCompression(heicToJpegImg, options);
+    const blobUrl = URL.createObjectURL(webpBlob);
+    return blobUrl;
+  }
 };
 
 const convertMultipleImgToWebP = async ({ img }: MultipleImgType) => {
