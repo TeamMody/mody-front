@@ -8,12 +8,20 @@ import useGetPostData from '@post/hooks/useGetPostData';
 import useIntersectionObserver from '@post/hooks/useIntersectionObserver';
 import { Loading } from '@shared/ui/Loading';
 import { useMyInfoStore } from '@shared/store/useMyInfoStore';
-
+import { motion } from 'framer-motion';
 export const PostPage = () => {
   const navigate = useNavigate();
   const { myInfo } = useMyInfoStore();
 
-  const rightHeaderActionArr = [{ icon: plus, onClick: () => myInfo?.bodyType ? navigate('createPost') : alert('체형 분석 이후 게시글 업로드가 가능합니다!') }];
+  const rightHeaderActionArr = [
+    {
+      icon: plus,
+      onClick: () =>
+        myInfo?.bodyType
+          ? navigate('createPost')
+          : alert('체형 분석 이후 게시글 업로드가 가능합니다!'),
+    },
+  ];
 
   const bottomRef = useRef<HTMLDivElement | null>(null);
   const { data: postData, isLoading, fetchNextPage } = useGetPostData();
@@ -25,7 +33,11 @@ export const PostPage = () => {
     <>
       <AppBar title={myInfo?.nickname} rightHeaderActionArr={rightHeaderActionArr} />
 
-      <Container>
+      <Container
+        initial={{ opacity: 0, y: 20 }} // 초기 상태: 살짝 아래에 있고 투명함
+        animate={{ opacity: 1, y: 0 }} // 애니메이트 상태: 제자리에서 나타남
+        transition={{ duration: 0.4 }}
+      >
         {postData &&
           postData.map((data, index) => (
             <Post
@@ -39,7 +51,7 @@ export const PostPage = () => {
   );
 };
 
-const Container = styled.div`
+const Container = styled(motion.div)`
   width: 100%;
   height: calc(100vh - 9vh - 64px);
   overflow-y: scroll;
