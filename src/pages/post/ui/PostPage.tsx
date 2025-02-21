@@ -36,7 +36,7 @@ export const PostPage = () => {
       <Container
         initial={{ opacity: 0, y: 20 }} // 초기 상태: 살짝 아래에 있고 투명함
         animate={{ opacity: 1, y: 0 }} // 애니메이트 상태: 제자리에서 나타남
-        transition={{ duration: 0.4 }}
+        transition={{ duration: 0.3 }}
       >
         {postData &&
           postData.map((data, index) => (
