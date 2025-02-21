@@ -27,7 +27,7 @@ const BirthdayModal = ({
 
   return (
     <Container>
-      <span className="title">생년월일 8자리</span>
+      <span className="title">키</span>
       <div className="input-box">
         <StyledInput
           type="text"
