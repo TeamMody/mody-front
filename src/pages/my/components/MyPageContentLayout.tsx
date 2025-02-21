@@ -1,6 +1,7 @@
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
 import MyAndLikePosts from '@my/components/MyAndLikePosts';
 import RecommendResults from './RecommendResults';
 import { ActiveIndex, useTabBarStore } from '@my/features/store/useTabBarStore';
@@ -9,7 +10,11 @@ export const MyPageContentLayout = () => {
   const { activeIndex, setActiveIndex } = useTabBarStore();
 
   return (
-    <>
+    <ContentContainer
+      initial={{ opacity: 0, y: 20 }} // 초기 상태: 살짝 아래에 있고 투명함
+      animate={{ opacity: 1, y: 0 }} // 애니메이트 상태: 제자리에서 나타남
+      transition={{ duration: 0.5 }}
+    >
       <MiddleTabBar />
       <StyledCarousel
         selectedItem={activeIndex - 1} // 현재 슬라이드 인덱스
@@ -28,10 +33,11 @@ export const MyPageContentLayout = () => {
         <MyAndLikePosts activeIndex={ActiveIndex.MY} />
         <MyAndLikePosts activeIndex={ActiveIndex.LIKE} />
       </StyledCarousel>
-    </>
+    </ContentContainer>
   );
 };
 
+const ContentContainer = styled(motion.div)``;
 const StyledCarousel = styled(Carousel)`
   flex: 1;
   height: 100%;

@@ -43,7 +43,7 @@ export const SettingModal = ({ isOpened, onClose, profileImg }: SettingModalProp
             </TopBox>
             <BottomBox>
               <div>
-                {profileImg !== undefined ? (
+                {profileImg ? (
                   <img src={profileImg}></img>
                 ) : (
                   <IcEmptyProfile width="10.256vw" height="4.739vh" />
