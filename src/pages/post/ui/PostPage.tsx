@@ -33,7 +33,11 @@ export const PostPage = () => {
     <>
       <AppBar title={myInfo?.nickname} rightHeaderActionArr={rightHeaderActionArr} />
 
-      <Container>
+      <Container
+        initial={{ opacity: 0, y: 20 }} // 초기 상태: 살짝 아래에 있고 투명함
+        animate={{ opacity: 1, y: 0 }} // 애니메이트 상태: 제자리에서 나타남
+        transition={{ duration: 0.4 }}
+      >
         {postData &&
           postData.map((data, index) => (
             <Post
@@ -46,8 +50,8 @@ export const PostPage = () => {
     </>
   );
 };
-// const PostDiv = styled(motion.div)``;
-const Container = styled.div`
+
+const Container = styled(motion.div)`
   width: 100%;
   height: calc(100vh - 9vh - 64px);
   overflow-y: scroll;
