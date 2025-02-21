@@ -1,7 +1,6 @@
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
 import MyAndLikePosts from '@my/components/MyAndLikePosts';
 import RecommendResults from './RecommendResults';
 import { ActiveIndex, useTabBarStore } from '@my/features/store/useTabBarStore';
@@ -34,7 +33,6 @@ export const MyPageContentLayout = () => {
   );
 };
 
-const ContentContainer = styled(motion.div)``;
 const StyledCarousel = styled(Carousel)`
   flex: 1;
   height: 100%;
