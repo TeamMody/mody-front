@@ -7,8 +7,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import TypeLetter from '@onboarding/components/TypeLetter';
 import useLoginMutation from '@onboarding/feature/hooks/useLoginMutation';
 import { LoginSchema, LoginSchemaType } from '@onboarding/feature/schema';
+import IcLeftArrow from '@shared/assets/icon/ic-left-arrow.svg?react';
+import { useNavigate } from 'react-router';
 
 const SignIn = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -21,7 +24,14 @@ const SignIn = () => {
 
   return (
     <Wrapper>
-      <CustomLogo topMargin={'6.4vh'} />
+      <IconContainer>
+        <CustomLeftArrow
+          onClick={() => {
+            navigate(-1);
+          }}
+        />
+        <CustomLogo />
+      </IconContainer>
       <Form
         onSubmit={handleSubmit((data: LoginSchemaType) => {
           loginMutation.mutate(data);
@@ -59,6 +69,23 @@ const SignIn = () => {
 
 export default SignIn;
 
+const IconContainer = styled.div`
+  width: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2vh 0.5vw;
+  margin-top: 8vh;
+`;
+
+const CustomLeftArrow = styled(IcLeftArrow)`
+  position: absolute;
+  left: 15px;
+  width: 20px;
+  height: 20px;
+`;
+
 const Wrapper = styled.div`
   position: relative;
   display: flex;
@@ -71,11 +98,7 @@ const Wrapper = styled.div`
   position: relative;
 `;
 
-const CustomLogo = styled(Logo)<{ topMargin: string }>`
-  margin-top: ${(props) => `calc(4.5vh + ${props.topMargin})`};
-  position: absolute;
-  z-index: 1;
-`;
+const CustomLogo = styled(Logo)``;
 
 const Form = styled.form`
   position: relative;
@@ -83,7 +106,7 @@ const Form = styled.form`
   flex-direction: column;
   align-items: center;
   width: 90%;
-  margin-top: 40vh;
+  margin-top: 25vh;
   gap: 2vh;
 `;
 
