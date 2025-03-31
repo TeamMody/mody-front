@@ -6,7 +6,7 @@ import Dialog from '@pages/onboarding/components/HeightDialog';
 import usePositionedDialog from '@onboarding/feature/hooks/usePositionedDialog';
 import useOutsideClick from '@onboarding/feature/hooks/useOutsideClick';
 
-const BirthdayModal = ({
+const HeightModal = ({
   watch,
   rootRef,
   setValue,
@@ -27,7 +27,7 @@ const BirthdayModal = ({
 
   return (
     <Container>
-      <span className="title">생년월일 8자리</span>
+      <span className="title">키</span>
       <div className="input-box">
         <StyledInput
           type="text"
@@ -83,4 +83,4 @@ const StyledInput = styled.input<{ open: boolean }>`
     line-height: 5vh;
   }
 `;
-export default BirthdayModal;
+export default HeightModal;
