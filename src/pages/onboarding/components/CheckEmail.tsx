@@ -12,7 +12,8 @@ import useSignupStore from '@onboarding/feature/store/signup';
 import { apiInstance } from '@shared/apis/instance';
 import { AxiosError } from 'axios';
 
-interface CheckEmailProps extends StateProps<boolean> {}
+interface CheckEmailProps extends StateProps<boolean> {
+}
 
 const CheckEmail = ({ value: codeSent, setValue: setCodeSent }: CheckEmailProps) => {
   const schema = EmailSchema;
@@ -28,16 +29,19 @@ const CheckEmail = ({ value: codeSent, setValue: setCodeSent }: CheckEmailProps)
 
   const [message, setMessage] = useState<string>('');
   const { setEmail } = useSignupStore();
+  const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (data: EmailSchemaType) => {
     try {
+      setIsLoading(prev => !prev);
       const res = await apiInstance.post('/auth/email/verify/send', { email: data.email });
       if (res.status === 200) {
         setMessage('인증 코드가 전송되었어요.');
         setEmail(data.email);
         setCodeSent(true);
       }
-    } catch (err) {
+      setIsLoading(prev => !prev);
+    } catch ( err ) {
       if (err instanceof AxiosError) {
         const errData = err.response?.data;
         if (errData.code === 'COMMON402') {
@@ -72,9 +76,9 @@ const CheckEmail = ({ value: codeSent, setValue: setCodeSent }: CheckEmailProps)
       )}
       {/* 인증번호 전송 여부에 따라 버튼 내용 변경 */}
       {codeSent ? (
-        <SubmitButton content="인증 코드 재전송" isvalid={isValid} />
+        <SubmitButton content={'인증 코드 재전송'} isvalid={isValid} isLoading={isLoading} />
       ) : (
-        <SubmitButton content="인증 코드 전송" isvalid={isValid} />
+        <SubmitButton content="인증 코드 전송" isvalid={isValid} isLoading={isLoading} />
       )}
     </Form>
   );
