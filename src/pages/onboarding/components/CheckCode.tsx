@@ -31,7 +31,8 @@ const CheckCode = ({ setValue: setButtonActive }: CheckCodeProps) => {
     mode: 'onChange',
   });
 
-  const { mutate, isSuccess } = useVerifyEmail(email);
+  const { mutate, isSuccess, data } = useVerifyEmail(email);
+  console.log(data)
 
   const code = watch('code'); // 인증코드 값을 실시간으로 추적
 
@@ -52,7 +53,7 @@ const CheckCode = ({ setValue: setButtonActive }: CheckCodeProps) => {
   };
 
   useEffect(() => {
-    if (isSuccess) {
+    if (isSuccess && data?.code === 'COMMON200') {
       setCodeConfirmed(true);
       setButtonActive(true);
       setMessage('인증 코드가 확인 됐어요.');
