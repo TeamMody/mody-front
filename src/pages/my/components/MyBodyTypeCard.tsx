@@ -52,7 +52,8 @@ const Container = styled.div`
   align-items: center;
   padding: 1.244vh 4.359vw 1.244vh 4.103vw;
   border-radius: 10px;
-  background-color: ${({ theme }) => theme.colors.gray700};
+  background-color: ${({ theme }) => theme.colors.gray700 + '50'};
+  border: 1px solid ${({ theme }) => theme.colors.gray500 + '70'};
 `;
 
 const MyBodyType = styled.div`
