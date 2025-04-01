@@ -35,8 +35,8 @@ const ImageCarousel = ({
         onChange={(index) => setImgIdx(index)}
         centerSlidePercentage={95}
         {...(isExpanded !== undefined && { isExpanded })}
-        height={height}
-        imgZoomed={imgZoomed}
+        $height={height}
+        $imgZoomed={imgZoomed}
       >
         {images.map((img, idx) => {
           return (
@@ -58,14 +58,14 @@ const ImageCarousel = ({
 };
 
 const StyledCarousel = styled(Carousel)<{
-  isExpanded: boolean;
-  height: string;
-  imgZoomed?: boolean;
+  $isExpanded: boolean;
+  $height: string;
+  $imgZoomed?: boolean;
 }>`
   width: 100%;
-  height: ${({ imgZoomed, height }) => (imgZoomed ? '53.791vh' : height)};
+  height: ${({ $imgZoomed, $height }) => ($imgZoomed ? '53.791vh' : $height)};
   background-color: ${({ theme }) => theme.colors.gray500};
-  filter: ${({ isExpanded }) => (isExpanded ? 'brightness(0.5)' : '')};
+  filter: ${({ $isExpanded }) => ($isExpanded ? 'brightness(0.5)' : '')};
   div {
     width: 100%;
     height: 100%;
@@ -74,7 +74,7 @@ const StyledCarousel = styled(Carousel)<{
 
     img {
       max-width: 100%;
-      height: ${({ imgZoomed, height }) => (imgZoomed ? '53.791vh' : height)};
+      height: ${({ $imgZoomed, $height }) => ($imgZoomed ? '53.791vh' : $height)};
     }
   }
 `;

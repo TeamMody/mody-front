@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router';
 import { IcLeftArrow } from '@shared/assets/icon/ic-left-arrow';
 import { CreateNewPostModal } from '@pages/post/components/modal/CreateNewPostModal';
 import { createPresignedUrl, presignedUrlProps } from '@pages/post/feature/apis/createPresignedUrl';
-import IcCamera from '@shared/assets/icon/ic-camera.svg?react';
 import IcGallery from '@shared/assets/icon/ic-gallery.svg?react';
 import { convertMultipleImgToWebP } from '@shared/utils/convertToWebP';
 import { useControlModal } from '@pages/my/features/hooks/useControlModal';
@@ -32,12 +31,13 @@ export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
     navigate(-1);
   };
 
-  const setImges = async (e: ChangeEvent<HTMLInputElement>) => {
+  const setImages = async (e: ChangeEvent<HTMLInputElement>) => {
     const img = e.target.files;
     if (!img) return;
 
     const convertedFiles = await convertMultipleImgToWebP({ img });
     if (convertedFiles) {
+      console.log(convertedFiles)
       setSelectedImages((prev) => {
         return [...prev, ...convertedFiles.filter((file): file is string => Boolean(file))];
       });
@@ -81,14 +81,9 @@ export const CreatePost = ({ isOpened }: { isOpened: boolean }) => {
 
             <BottomBoxBar>
               <div>갤러리에서 선택하기</div>
-              <input type="file" id="Gallary" onChange={setImges} multiple />
+              <input type="file" id="Gallary" onChange={setImages} multiple />
               <label htmlFor="Gallary">
                 <GalleryIcon />
-              </label>
-
-              <input type="file" id="Camera" onChange={setImges} multiple />
-              <label htmlFor="Camera">
-                <CameraIcon />
               </label>
             </BottomBoxBar>
           </BottomBox>
@@ -157,16 +152,6 @@ const ChooseImg = styled.div`
 `;
 
 const GalleryIcon = styled(IcGallery)`
-  height: 100%;
-  align-content: center;
-  &:hover {
-    path {
-      stroke: ${({ theme }) => theme.colors.green500}; /* 원하는 색상 */
-    }
-  }
-`;
-
-const CameraIcon = styled(IcCamera)`
   height: 100%;
   align-content: center;
   &:hover {

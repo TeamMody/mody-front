@@ -17,16 +17,16 @@ const ProgressBar = ({
 }: ProgressBarPropsType) => {
   const circleArr = Array.from({ length });
   return (
-    <Container marginTop={marginTop} imgZoom={imgZoom}>
+    <Container $marginTop={marginTop} $imgZoom={imgZoom}>
       {circleArr.map((_, idx) => (
-        <Circle key={idx} isActive={idx === curIdx} size={size} />
+        <Circle key={idx} $isActive={idx === curIdx} $size={size} />
       ))}
     </Container>
   );
 };
 
-const Container = styled.div<{ marginTop: string; imgZoom?: boolean | undefined }>`
-  margin-top: ${({ marginTop, imgZoom }) => (imgZoom ? '2.425vh' : `${marginTop}`)};
+const Container = styled.div<{ $marginTop: string; $imgZoom?: boolean | undefined }>`
+  margin-top: ${({ $marginTop, $imgZoom }) => ($imgZoom ? '2.425vh' : `${$marginTop}`)};
   width: 100%;
   display: flex;
   justify-content: center;
@@ -36,11 +36,11 @@ const Container = styled.div<{ marginTop: string; imgZoom?: boolean | undefined 
   background: linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 100%);
 `;
 
-const Circle = styled.div<{ isActive: boolean; size: number }>`
-  width: ${({ size }) => `${size}px`};
-  height: ${({ size }) => `${size}px`};
+const Circle = styled.div<{ $isActive: boolean; $size: number }>`
+  width: ${({ $size }) => `${$size}px`};
+  height: ${({ $size }) => `${$size}px`};
   border-radius: 100%;
-  background-color: ${({ theme, isActive }) => (isActive ? '#00ff99' : theme.colors.gray500)};
+  background-color: ${({ theme, $isActive }) => ($isActive ? '#00ff99' : theme.colors.gray500)};
 `;
 
 export default ProgressBar;

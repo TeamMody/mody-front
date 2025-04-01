@@ -26,7 +26,7 @@ const Post = memo(
             setImgIdx={setImgIdx}
           />
           <Info
-            isExpanded={isExpanded}
+            $isExpanded={isExpanded}
             data={data}
             setIsExpanded={setIsExpanded}
             queryKey={queryKey}
@@ -48,12 +48,12 @@ const Container = styled.main`
 
 const Info = memo(
   ({
-    isExpanded,
+    $isExpanded,
     data,
     setIsExpanded,
     queryKey,
   }: {
-    isExpanded: boolean;
+    $isExpanded: boolean;
     data: PostData;
     setIsExpanded: React.Dispatch<React.SetStateAction<boolean>>;
     queryKey: QueryKey;
@@ -73,14 +73,14 @@ const Info = memo(
 
     return (
       <InfoContainer id={data.postId.toString()}>
-        <UserInfo isExpanded={isExpanded} onClick={() => setIsExpanded((prev) => !prev)}>
+        <UserInfo $isExpanded={$isExpanded} onClick={() => setIsExpanded((prev) => !prev)}>
           <div className="user">
             <span className="user-name" id={`${data.writerId}`}>
               {data.writerNickName}
             </span>
             <span className="user-type">{data.bodyType} 타입</span>
           </div>
-          <p className={`description ${isExpanded ? 'expanded' : ''}`}>{data.content}</p>
+          <p className={`description ${$isExpanded ? 'expanded' : ''}`}>{data.content}</p>
         </UserInfo>
         <DescriptionContainer>
           <div className="heart">
@@ -121,7 +121,7 @@ const InfoContainer = styled.div`
   width: 100%;
   height: 20%;
   background-color: transparent;
-  padding: 6vh 10px 0px 10px;
+  padding: 6vh 10px 0 10px;
   position: relative;
   left: 0;
   display: flex;
@@ -129,17 +129,17 @@ const InfoContainer = styled.div`
   transition: height 0.5s ease;
 `;
 
-const UserInfo = styled.div<{ isExpanded: boolean }>`
+const UserInfo = styled.div<{ $isExpanded: boolean }>`
   display: flex;
   flex-direction: column;
   gap: 20px;
   position: relative;
   width: 100%;
-  height: ${({ isExpanded }) => (isExpanded ? '40vh' : '15vh')};
+  height: ${({ $isExpanded }) => ($isExpanded ? '40vh' : '15vh')};
   transition:
     transform 0.7s ease,
     height 0.7s ease;
-  transform: ${({ isExpanded }) => (isExpanded ? 'translateY(-25vh)' : 'translateY(0)')};
+  transform: ${({ $isExpanded }) => ($isExpanded ? 'translateY(-25vh)' : 'translateY(0)')};
 
   .user {
     display: flex;
