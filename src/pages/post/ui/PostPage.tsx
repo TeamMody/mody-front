@@ -9,6 +9,7 @@ import useIntersectionObserver from '@post/hooks/useIntersectionObserver';
 import { Loading } from '@shared/ui/Loading';
 import { useMyInfoStore } from '@shared/store/useMyInfoStore';
 import { motion } from 'framer-motion';
+
 export const PostPage = () => {
   const navigate = useNavigate();
   const { myInfo } = useMyInfoStore();
