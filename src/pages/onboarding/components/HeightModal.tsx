@@ -6,7 +6,7 @@ import Dialog from '@pages/onboarding/components/HeightDialog';
 import usePositionedDialog from '@onboarding/feature/hooks/usePositionedDialog';
 import useOutsideClick from '@onboarding/feature/hooks/useOutsideClick';
 
-const BirthdayModal = ({
+const HeightModal = ({
   watch,
   rootRef,
   setValue,
@@ -83,4 +83,4 @@ const StyledInput = styled.input<{ open: boolean }>`
     line-height: 5vh;
   }
 `;
-export default BirthdayModal;
+export default HeightModal;

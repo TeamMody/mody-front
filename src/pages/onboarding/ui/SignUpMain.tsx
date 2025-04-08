@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router';
 import FinishedSignUpPage from './FinishedSignUpPage';
 import PasswordPage from './PasswordPage';
 import useSignupMutation from '@onboarding/feature/hooks/useSignupMutation';
+import IcLeftArrow from '@shared/assets/icon/ic-left-arrow.svg?react';
+
 const SignUpMain = () => {
   const [buttonActive, setButtonActive] = useState<boolean>(false);
   const [slideIndex, setSlideIndex] = useState<number>(0);
@@ -41,7 +43,15 @@ const SignUpMain = () => {
 
   return (
     <Wrapper>
-      <CustomLogo topMargin={topMargin} />
+      <IconContainer>
+        <CustomLeftArrow
+          onClick={() => {
+            console.log('클릭됨');
+            navigate(-1);
+          }}
+        />
+        <CustomLogo />
+      </IconContainer>
       <ButtonWrapper>
         <CustomButton
           active={buttonActive}
@@ -100,11 +110,25 @@ const ButtonWrapper = styled.div`
   z-index: 1;
 `;
 
-const CustomLogo = styled(Logo)<{ topMargin: string }>`
-  margin-top: ${(props) => `calc(4.5vh + ${props.topMargin})`};
+const IconContainer = styled.div`
+  width: 100%;
   position: absolute;
-  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2vh 0.5vw;
+  margin-top: 8vh;
 `;
+
+const CustomLeftArrow = styled(IcLeftArrow)`
+  position: absolute;
+  left: 15px;
+  width: 20px;
+  height: 20px;
+  z-index: 11;
+`;
+
+const CustomLogo = styled(Logo)``;
 
 const StyledCarousel = styled(Carousel)<{ topMargin: string }>`
   width: 100%;

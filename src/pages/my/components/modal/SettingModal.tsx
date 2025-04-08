@@ -33,7 +33,7 @@ export const SettingModal = ({ isOpened, onClose, profileImg }: SettingModalProp
             initial={{ x: '100%' }}
             animate={{ x: '31.5%' }}
             exit={{ x: '100%' }}
-            transition={{ duration: 0.4, ease: 'easeOut' }}
+            transition={{ duration: 0.2, ease: 'easeOut' }}
           >
             <TopBox>
               <button onClick={handleClose}>
@@ -71,14 +71,7 @@ export const SettingModal = ({ isOpened, onClose, profileImg }: SettingModalProp
               />
             )}
             {modalState === 'editUserInfo' && (
-              <EditUserInfoModal
-                isOpened={true}
-                onClose={closeModal}
-                name="김모디"
-                birth="2020"
-                gender="남자"
-                height="160cm"
-              />
+              <EditUserInfoModal isOpened={true} onClose={closeModal} />
             )}
           </Container>
         </DivStyle>

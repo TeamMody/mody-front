@@ -1,61 +1,99 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import styled from 'styled-components';
 import ReactDOM from 'react-dom';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { IcLeftArrow } from '@shared/assets/icon/ic-left-arrow';
 import { ModalProps } from '@shared/types/my/modalProps';
 import Human from '@icon/ic-human.svg?react';
 import Edit from '@icon/ic-edit.svg?react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { UserInfoSchema } from '@pages/my/features/schema/MyUserInfoSchema';
+import { UserInfoSchema, MyUserInfoSchemaType } from '@pages/my/features/schema/MyUserInfoSchema';
 import { UserDataInput } from '@my/components/UserDataInput';
-interface EditUserInfoModalProps extends ModalProps {
-  profileImg?: string | undefined;
-  name: string;
-  birth: string;
-  gender: '남자' | '여자';
-  height: string;
-}
+import { apiInstance } from '@shared/apis/instance';
+import { useEffect } from 'react';
+import BirthdayModal from '@pages/onboarding/components/BirthdayModal';
+import HeightModal from '@pages/onboarding/components/HeightModal';
+import { convertSingleImgToWebP } from '@shared/utils/convertToWebP.ts';
+import { uploadImageToS3 } from '@pages/onboarding/feature/utils/uploadImage.ts';
 
-type UserInfoProps = Pick<
-  EditUserInfoModalProps,
-  'profileImg' | 'name' | 'birth' | 'gender' | 'height'
->;
-
-export const EditUserInfoModal = ({
-  isOpened,
-  onClose,
-  profileImg,
-  name,
-  birth,
-  height,
-}: EditUserInfoModalProps) => {
+export const EditUserInfoModal = ({ isOpened, onClose }: ModalProps) => {
   const {
     register,
     handleSubmit,
+    setValue,
+    getValues,
+    watch,
     formState: { errors },
-  } = useForm<UserInfoProps>({
+  } = useForm<MyUserInfoSchemaType>({
     resolver: zodResolver(UserInfoSchema),
     mode: 'onChange',
+    defaultValues: async () => {
+      const res = await apiInstance.get('/members/me');
+      const profile = res.data.result;
+
+      const [year, month, day] = profile.birthDate.split('-').map(Number);
+
+      return {
+        image: profile.profileImageUrl,
+        nickname: profile.nickname,
+        birthday: {
+          year,
+          month,
+          day,
+        },
+        sex: profile.gender,
+        height: profile.height,
+      };
+    },
   });
 
+  useEffect(() => {
+    const image = watch('image');
+    if (image) {
+      setImage(image);
+    }
+  }, [watch('image')]);
+
+  const rootRef = useRef<HTMLDivElement>(null);
+  const [image, setImage] = useState<string>();
+  const [imgFile, setImgFile] = useState<File[] | null>(null);
+
   const [isVisible, setIsVisible] = useState(isOpened);
-  const [img, setImg] = useState<string | undefined>(profileImg);
-  const [selectedSex, setSelectedSex] = useState<string | null>(null);
-  const handleSexClick = (sex: string) => {
-    setSelectedSex(sex); // 상태 업데이트
-  };
+
   const ModalClose = () => {
     setIsVisible(false);
     setTimeout(() => {
       if (onClose) onClose();
-    }, 400);
+    }, 100);
   };
 
-  const onSubmit = (data: UserInfoProps) => {
-    console.log(data);
-    ModalClose();
+  const onSubmit = async (data: any) => {
+    const { birthday, height, sex: gender, image: prev, nickname } = getValues();
+    const birthDate = `${birthday.year}-${String(birthday.month).padStart(2, '0')}-${String(
+      birthday.day,
+    ).padStart(2, '0')}`;
+    try {
+      let profileImageUrl = image;
+      if (prev !== profileImageUrl && profileImageUrl !== null && imgFile) {
+        const convertedImage = await convertSingleImgToWebP({ img: imgFile[0] });
+        profileImageUrl = await uploadImageToS3(convertedImage, imgFile);
+      }
+      console.log(profileImageUrl);
+      const res = await apiInstance.patch('/members/edit', {
+        nickname,
+        birthDate,
+        gender,
+        height,
+        profileImageUrl,
+      });
+
+      if (res.status === 200) {
+        ModalClose();
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const onError = () => {
@@ -64,21 +102,25 @@ export const EditUserInfoModal = ({
 
   const handelFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
+
     if (files) {
       const uploadFile = files?.[0];
       const previewUrl = window.URL.createObjectURL(uploadFile);
-      setImg(previewUrl);
+
+      setImgFile(Array.from(files));
+      setImage(previewUrl);
     }
   };
 
   return ReactDOM.createPortal(
     <AnimatePresence>
-      {isVisible && (
+      {isVisible && watch('birthday') && (
         <Container
           initial={{ x: '100%' }}
           animate={{ x: '0%' }}
           exit={{ x: '100%' }}
           transition={{ duration: 0.4, ease: 'easeOut' }}
+          ref={rootRef}
         >
           <form onSubmit={handleSubmit(onSubmit, onError)}>
             <Top>
@@ -96,9 +138,9 @@ export const EditUserInfoModal = ({
                   accept="image/*"
                   onChange={handelFileUpload}
                 />
-                {img !== undefined ? (
+                {image !== undefined ? (
                   <>
-                    <ProfilImg src={img} alt="이미지가 없습니다." />
+                    <ProfilImg src={image} alt="이미지가 없습니다." />
                     <EditLabel htmlFor="image-upload">
                       <Edit />
                     </EditLabel>
@@ -119,48 +161,35 @@ export const EditUserInfoModal = ({
                 <UserDataInput
                   inputTitle="이름"
                   type="text"
-                  inputValue={name}
-                  inputKind="name"
+                  inputValue={watch('nickname')}
+                  inputKind="nickname"
                   errors={errors}
                   register={register}
                   maxLength={12}
                 />
 
-                <UserDataInput
-                  inputTitle="생년월일 (8자리)"
-                  type="date"
-                  inputValue={birth}
-                  inputKind="birth"
-                  errors={errors}
-                  register={register}
-                />
-
-                <div>성별</div>
+                <BirthdayModal watch={watch} rootRef={rootRef} setValue={setValue} />
+                <div className="gender-title">성별</div>
                 <Gender>
                   <button
-                    onClick={() => handleSexClick('male')}
-                    className={selectedSex === 'male' ? 'selected' : ''}
-                    {...register('gender', { required: true })}
+                    onClick={() => setValue('sex', 'MALE')}
+                    className={watch('sex') === 'MALE' ? 'selected' : ''}
+                    {...register('sex', { required: true })}
+                    type="button"
                   >
                     남자
                   </button>
                   <button
-                    onClick={() => handleSexClick('female')}
-                    className={selectedSex === 'female' ? 'selected' : ''}
-                    {...register('gender', { required: true })}
+                    onClick={() => setValue('sex', 'FEMALE')}
+                    className={watch('sex') === 'FEMALE' ? 'selected' : ''}
+                    {...register('sex', { required: true })}
+                    type="button"
                   >
                     여자
                   </button>
                 </Gender>
 
-                <UserDataInput
-                  inputTitle="키"
-                  type="text"
-                  inputValue={height}
-                  inputKind="height"
-                  errors={errors}
-                  register={register}
-                />
+                <HeightModal watch={watch} rootRef={rootRef} setValue={setValue} />
               </Bottom>
               <CompleteButton type="submit">완료</CompleteButton>
             </Middle>
@@ -222,12 +251,13 @@ const CompleteButton = styled.button`
   height: 6.635vh;
   background-color: ${({ theme }) => theme.colors.green500};
   color: black;
+  flex-shrink: 0;
 `;
 const ProfilImg = styled.img`
   width: 43.846vw;
   height: 43.846vw;
-  border: 1px solid blue;
   border-radius: 50%;
+  border: 1px solid ${({ theme }) => theme.colors.gray600};
 `;
 const ImageInput = styled.input`
   display: none;
@@ -285,7 +315,8 @@ const Bottom = styled.div`
     display: flex;
     align-items: center;
   }
-  & div {
+  & .gender-title {
+    margin-top: 10px;
   }
 `;
 
