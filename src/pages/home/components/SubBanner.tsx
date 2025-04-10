@@ -1,15 +1,33 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router';
+import { SubRecommendationType } from '@shared/types';
 
 interface SubBannerProps {
   imageUrl?: string;
+  type: SubRecommendationType;
   id: number;
   title: string;
 }
 
-const SubBanner = ({ imageUrl, title }: SubBannerProps) => {
+const SubBanner = ({ type, imageUrl, title }: SubBannerProps) => {
+  const navigate = useNavigate();
+  const handleNavigate = () => {
+    switch (type) {
+      case SubRecommendationType.WEATHER: {
+        navigate('/weather-survey', { state: { type: SubRecommendationType.WEATHER } });
+        break;
+      }
+      case SubRecommendationType.SITUATION: {
+        navigate('/situation-survey', { state: { type: SubRecommendationType.SITUATION } });
+        break;
+      }
+    }
+  };
+
   return (
     <Container
+      onClick={handleNavigate}
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
