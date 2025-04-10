@@ -5,7 +5,7 @@ import {
   BodySurveyPage,
   BodyTypePage,
   StyleSurveyPage,
-  RecommendationResultPage,
+  RecommendationResultPage, WeatherStyleSurveyPage, SituationStyleSurveyPage,
 } from '@pages/home';
 import { MyPage } from '@pages/my';
 import { OnboardingPage, InputUser } from '@pages/onboarding';
@@ -104,5 +104,13 @@ export const router = createBrowserRouter([
   {
     path: 'post/editpost',
     element: <EditPostPage />,
+  },
+  {
+    path: 'weather-survey',
+    element: <WeatherStyleSurveyPage />,
+  },
+  {
+    path: 'situation-survey',
+    element: <SituationStyleSurveyPage />,
   },
 ]);
