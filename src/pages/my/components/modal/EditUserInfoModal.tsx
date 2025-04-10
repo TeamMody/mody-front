@@ -68,7 +68,7 @@ export const EditUserInfoModal = ({ isOpened, onClose }: ModalProps) => {
     }, 100);
   };
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async () => {
     const { birthday, height, sex: gender, image: prev, nickname } = getValues();
     const birthDate = `${birthday.year}-${String(birthday.month).padStart(2, '0')}-${String(
       birthday.day,
@@ -77,7 +77,7 @@ export const EditUserInfoModal = ({ isOpened, onClose }: ModalProps) => {
       let profileImageUrl = image;
       if (prev !== profileImageUrl && profileImageUrl !== null && imgFile) {
         const convertedImage = await convertSingleImgToWebP({ img: imgFile[0] });
-        profileImageUrl = await uploadImageToS3(convertedImage, imgFile);
+        profileImageUrl = await uploadImageToS3(convertedImage!, imgFile);
       }
       console.log(profileImageUrl);
       const res = await apiInstance.patch('/members/edit', {

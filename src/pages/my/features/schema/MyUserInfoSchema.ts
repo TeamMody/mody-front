@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const ACCEPTED_IMAGE_MIME_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+/*const ACCEPTED_IMAGE_MIME_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];*/
 
 export const UserInfoSchema = z.object({
   image: z
