@@ -8,7 +8,7 @@ import {
   BodyTypeQuestion,
   ImageKeyword,
   RecommendationType,
-  StyleKeywordType,
+  StyleKeywordType, SubRecommendationType,
 } from '@shared/types';
 import IcBodyNeckOne from '@icon/body/ic-body-neck-one.svg?react';
 import IcBodyNeckTwo from '@icon/body/ic-body-neck-two.svg?react';
@@ -42,7 +42,6 @@ import IcBodyFleshTwo from '@icon/body/ic-body-flesh-two.svg?react';
 import IcBodyFleshThree from '@icon/body/ic-body-flesh-three.svg?react';
 import IcBodyCharacteristicsOne from '@icon/body/ic-body-characteristics-one.svg?react';
 import IcBodyCharacteristicsTwo from '@icon/body/ic-body-characteristics-two.svg?react';
-import ImgSubBannerDaily from '@shared/assets/img/img-sub-banner-daily.jpg';
 
 export const topBanner = [
   {
@@ -68,18 +67,15 @@ export const topBanner = [
 export const subBanner = [
   {
     id: 0,
+    type: SubRecommendationType.WEATHER,
     title: '오늘 날씨에 맞는\n패션 추천',
     imageUrl: ImgSubBannerWeather,
   },
   {
     id: 1,
+    type: SubRecommendationType.SITUATION,
     title: '특정 상황에 어울리는\n패션 추천',
     imageUrl: ImgSubBannerSituation,
-  },
-  {
-    id: 2,
-    title: '일상에 꼭 맞는\n패션 추천',
-    imageUrl: ImgSubBannerDaily,
   },
 ];
 
