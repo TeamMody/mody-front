@@ -28,3 +28,8 @@ export enum RecommendationType {
   STYLE = '스타일 추천',
   FASHION_ITEM = '패션 아이템 추천',
 }
+
+export enum SubRecommendationType {
+  WEATHER = '날씨',
+  SITUATION = '상황',
+}
